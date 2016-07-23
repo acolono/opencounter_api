@@ -1,20 +1,24 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "name": "acolono/slim-opencounter",
+    "description": "A Slim Framework implementation of opencounter",
     "keywords": ["microframework","rest","router", "psr7"],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "homepage": "http://github.com/acolono/slim-opencounter",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        }
-    ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
         "slim/slim": "^3.1",
         "slim/php-view": "^2.0",
-        "monolog/monolog": "^1.17"
+        "monolog/monolog": "^1.17",
+        "chadicus/slim-oauth2-middleware": "~3.0"
+
+    },
+    "require-dev": {
+        "behat/behat": "dev-master",
+        "behat/web-api-extension": "dev-master",
+        "pavlakis/slim-behat-extension": "dev-master",
+        "phpspec/phpspec": "3",
+        "phpunit/phpunit": "^5.4"
     }
+
 }

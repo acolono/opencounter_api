@@ -1,0 +1,16 @@
+# behat.yml
+default:
+  autoload: [ %paths.base%/features/bootstrap ]
+  extensions:
+    Pavlakis\Slim\Behat:
+      config_file: ../../src/settings.php
+      dependencies_file: ../../src/dependencies.php
+  #      middleware_file: src/middleware.php
+      routes_file: ../../src/routes.php
+    Behat\WebApiExtension: ~
+  suites:
+    default:
+      paths: [ %paths.base%/features/ ]
+      base_url: http://api.opencounter.docker
+      contexts:
+        - FeatureContext
