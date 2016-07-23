@@ -1,5 +1,6 @@
 <?php
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -20,5 +21,29 @@ class FeatureContext extends WebApiContext implements Context, SnippetAcceptingC
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @Given a counter with ID :arg1 and a value of :arg2 was added to the collection
+     */
+    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I get the value of the counter with ID :arg1
+     */
+    public function iGetTheValueOfTheCounterWithId($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then the value returned should be :arg1
+     */
+    public function theValueReturnedShouldBe($arg1)
+    {
+        throw new PendingException();
     }
 }

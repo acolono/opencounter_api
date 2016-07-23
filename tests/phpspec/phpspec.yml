@@ -1,5 +1,5 @@
 suites:
   opencounter_suite:
     namespace: OpenCounter
-    src_path: %paths.config%/../../classes
+    src_path: %paths.config%/../../src
     spec_path: %paths.config%/
