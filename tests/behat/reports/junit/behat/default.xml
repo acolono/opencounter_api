@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="default"></testsuites>
+<testsuites name="default">
+  <testsuite name="edit one counter" tests="2" skipped="0" failures="1" errors="0">
+    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
+    <testcase name="lock a single counter in the collection and try to increment it" status="failed">
+      <error message="When I lock the counter with ID 1: TODO: write pending definition" type="pending"></error>
+      <failure message="And the value of the counter with ID 1 should be 1: Ambiguous match of &quot;the value of the counter with ID 1 should be 1&quot;:&#10;to `the value of the counter with ID :arg1 should be :arg2` from FeatureContext::theValueOfTheCounterWithIdShouldBe()&#10;to `the value of the counter with id :arg1 should be :arg2` from FeatureContext::theValueOfTheCounterWithIdShouldBe2()"></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="1">
+    <testcase name="Getting the value for a single counter in the collection" status="pending">
+      <error message="When I get the value of the counter with ID 1: TODO: write pending definition" type="pending"></error>
+    </testcase>
+  </testsuite>
+  <testsuite name="reset one counter" tests="1" skipped="0" failures="1" errors="0">
+    <testcase name="Resetting the first counter" status="failed">
+      <error message="When I reset the counter with ID 1: TODO: write pending definition" type="pending"></error>
+      <failure message="Then the value of the counter with id &quot;1&quot; should be &quot;0&quot;: Ambiguous match of &quot;the value of the counter with id &quot;1&quot; should be &quot;0&quot;&quot;:&#10;to `the value of the counter with ID :arg1 should be :arg2` from FeatureContext::theValueOfTheCounterWithIdShouldBe()&#10;to `the value of the counter with id :arg1 should be :arg2` from FeatureContext::theValueOfTheCounterWithIdShouldBe2()"></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

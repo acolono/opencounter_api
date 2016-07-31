@@ -67,4 +67,68 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PHPUnit_Framework_Error_Notice;
       }
     }
+
+    /**
+     * @When I increment the value of the counter with ID :arg1
+     */
+    public function iIncrementTheValueOfTheCounterWithId($arg1)
+    {
+      $this->counter->increment();
+    }
+
+    /**
+     * @When I lock the counter with ID :arg1
+     */
+    public function iLockTheCounterWithId($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should see an error about the locked counter
+     */
+    public function iShouldSeeAnErrorAboutTheLockedCounter()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then the value of the counter with ID :arg1 should be :arg2
+     */
+    public function theValueOfTheCounterWithIdShouldBe($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I get the value of the counter with ID :arg1
+     */
+    public function iGetTheValueOfTheCounterWithId($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I reset the counter with ID :arg1
+     */
+    public function iResetTheCounterWithId($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I read the Counter with ID :arg1
+     */
+    public function iReadTheCounterWithId($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then the value of the counter with id :arg1 should be :arg2
+     */
+    public function theValueOfTheCounterWithIdShouldBe2($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
 }
