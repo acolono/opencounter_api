@@ -14,7 +14,8 @@ default:
       dependencies_file: ../../src/dependencies.php
   #      middleware_file: src/middleware.php
       routes_file: ../../src/routes.php
-    Behat\WebApiExtension: ~
+    Behat\WebApiExtension:
+      base_url: http://web
   formatters:
       pretty: true
       progress: true
@@ -23,14 +24,20 @@ default:
       junit:
         output_path: %paths.base%/reports/junit/behat
   suites:
-    default:
-      paths: [ %paths.base%/features/ ]
-      base_url: http://api.opencounter.docker
-      contexts:
-        - FeatureContext
+#    default:
+#      paths: [ %paths.base%/features/ ]
+#      base_url: http://api.opencounter.docker
+#      contexts:
+#        - FeatureContext
     domain:
-      contexts: [ ApiContext ]
+      paths: [ %paths.base%/features/Counters ]
+      contexts: [ DomainContext ]
+      filters:
+        tags: "@domain"
+#        role: "developer"
     webapi:
-      contexts: [ WebApiContext ]
-      filters:  { tags: '@critical' }
-
+      paths: [ %paths.base%/features/Counters ]
+      contexts: [ OpenCounterWebApiContext ]
+      filters:
+        tags: "@web"
+#        role: "apiuser"
