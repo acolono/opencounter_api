@@ -92,20 +92,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-    /**
-     * @Then the value of the counter with ID :arg1 should be :arg2
-     */
-    public function theValueOfTheCounterWithIdShouldBe($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
+
 
     /**
      * @When I get the value of the counter with ID :arg1
      */
     public function iGetTheValueOfTheCounterWithId($arg1)
     {
-        throw new PendingException();
+      $this->counter->getValue();
     }
 
     /**
@@ -124,11 +118,5 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-    /**
-     * @Then the value of the counter with id :arg1 should be :arg2
-     */
-    public function theValueOfTheCounterWithIdShouldBe2($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
+
 }

@@ -133,4 +133,106 @@ class SqlCounterRepository implements CounterRepositoryInterface
   {
     return new Counter(new CounterId($row['id']), new CounterValue($row['name']), $row['password']);
   }
+
+  /**
+   * Get a list of all counters
+   *
+   * @return array
+   */
+  public function getCounters() {
+    $sql = 'SELECT c.id, c.name, c.password, c.value
+            from counters c';
+    $stmt = $this->db->query($sql);
+
+    $results = [];
+    while($row = $stmt->fetch()){
+      $results[] = new CounterEntity($row);
+    }
+
+    return $results;
+  }
+
+  /**
+   * get a specific counter by name.
+   *
+   * @param $name
+   * @return \CounterEntity
+   */
+  public function getCounterByName($name) {
+    $sql = 'SELECT c.id, c.name, c.password, c.value
+            from counters c
+            where c.name = :name';
+    $stmt = $this->db->prepare($sql);
+    $result = $stmt->execute(['name' => $name]);
+
+    if($result && $data = $stmt->fetch()){
+      return new CounterEntity($data);
+    }
+  }
+
+  /**
+   * Get single counter by Credentials
+   *
+   * @param $name
+   * @param $password
+   * @return \CounterEntity
+   */
+  public function getCounterByCredentials($name, $password) {
+    $sql = 'SELECT c.id, c.name, c.password, c.value
+            from counters c
+            where c.name = :name and c.password = :password';
+    $stmt = $this->db->prepare($sql);
+    $result = $stmt->execute(
+      [
+        'name' => $name,
+        'password' => $password
+      ]
+    );
+
+    if($result && $data = $stmt->fetch()){
+      return new CounterEntity($data);
+    }
+  }
+  public function addCounter(CounterEntity $counterEntity)
+  {
+    $this->counters->add($counterEntity);
+  }
+  /**
+   * Create new counter
+   *
+   * @param \CounterEntity $counterEntity
+   * @throws \Exception
+   */
+  public function insert(CounterEntity $counterEntity) {
+    $sql = 'INSERT into counters (name, password, value)
+            values (:name, :password, :value)';
+    $stmt = $this->db->prepare($sql);
+    $result = $stmt->execute([
+      'name' => $counterEntity->getName(),
+      'password' => $counterEntity->getPassword(),
+      'value' => $counterEntity->getValue(),
+    ]);
+
+    if(!$result) {
+      throw new Exception("could not save record");
+    }
+  }
+
+  /**
+   * Reset Single Counter
+   * @param \CounterEntity $counterEntity
+   */
+  public function update(CounterEntity $counterEntity) {
+    $sql = 'UPDATE counters c
+            set c.name = :name, c.password = :password, c.value = :value
+            where c.id = :id';
+
+    $stmt = $this->db->prepare($sql);
+    $result = $stmt->execute([
+      'id' => $counterEntity->getId(),
+      'name' => $counterEntity->getName(),
+      'password' => $counterEntity->getPassword(),
+      'value' => $counterEntity->getValue(),
+    ]);
+  }
 }

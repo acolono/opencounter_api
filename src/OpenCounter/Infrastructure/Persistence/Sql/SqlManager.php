@@ -3,7 +3,9 @@
 namespace OpenCounter\Infrastructure\Persistence\Sql;
 
 
-class SqlManager
+use OpenCounter\Infrastructure\Persistence\Storage;
+
+class SqlManager implements Storage
 {
   const SQL_DATE_FORMAT = 'Y-m-d H:i:s';
   /**
@@ -69,4 +71,26 @@ class SqlManager
       throw $exception;
     }
   }
+
+  /**
+   * @inheritDoc
+   */
+  public function persist($data) {
+    // TODO: Implement persist() method.
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function retrieve($id) {
+    // TODO: Implement retrieve() method.
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function delete($id) {
+    // TODO: Implement delete() method.
+  }
+
 }
