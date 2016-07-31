@@ -2,15 +2,35 @@
 default:
   autoload: [ %paths.base%/features/bootstrap ]
   extensions:
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+      name: html
+      renderer: Twig,Behat2
+      file_name: index
+      print_args: true
+      print_outp: true
+      loop_break: true
     Pavlakis\Slim\Behat:
       config_file: ../../src/settings.php
       dependencies_file: ../../src/dependencies.php
   #      middleware_file: src/middleware.php
       routes_file: ../../src/routes.php
     Behat\WebApiExtension: ~
+  formatters:
+      pretty: true
+      progress: true
+      html:
+        output_path: %paths.base%/reports/html/behat
+      junit:
+        output_path: %paths.base%/reports/junit/behat
   suites:
     default:
       paths: [ %paths.base%/features/ ]
       base_url: http://api.opencounter.docker
       contexts:
         - FeatureContext
+    domain:
+      contexts: [ ApiContext ]
+    webapi:
+      contexts: [ WebApiContext ]
+      filters:  { tags: '@critical' }
+
