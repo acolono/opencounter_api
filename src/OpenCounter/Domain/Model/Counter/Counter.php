@@ -27,6 +27,13 @@ class Counter
    * @SWG\Property()
    */
   public $value;
+  /**
+   * The counter entity status.
+   *
+   * @var integer
+   * @SWG\Property()
+   */
+  public $status;
 
   /**
    * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
@@ -42,6 +49,7 @@ class Counter
     if (isset($value)) {
       $this->value = $value;
     }
+    $this->status = 'locked';
 //    $this->changePassword($aPassword);
     //https://github.com/benatespina/ddd-symfony/issues/1
 //    DomainEventPublisher::instance()->publish(new UserRegistered($this->userId));
@@ -117,24 +125,29 @@ class Counter
    */
   public function incrementValue()
   {
-    $new_value = $this->value->incrementValue();
+    if (! $this->status == 'locked') {
+      $new_value = $this->value->incrementValue();
+      return $new_value;
+    }
+    else {
+      throw new \Exception("cannot increment locked counter", 1, NULL);
+    }
 
-    return $new_value;
   }
 
   public function lock()
   {
     // Set status to locked logic
-//      $this->status = 'locked';
-    $this->locked = true;
+      $this->status = 'locked';
+//    $this->locked = true;
   }
 
   public function isLocked()
   {
-//        if ($this->status == 'locked') {
-//          return TRUE;
-//        }
-    return $this->locked;
+        if ($this->status == 'locked') {
+          return TRUE;
+        }
+//    return $this->locked;
   }
 
     public function id()

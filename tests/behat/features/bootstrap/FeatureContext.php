@@ -15,7 +15,12 @@ use OpenCounter\Domain\Model\Counter\Counter;
  */
 class FeatureContext implements Context, SnippetAcceptingContext
 {
-    /**
+  /**
+   * @var bool
+   */
+  private $error;
+
+  /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -63,34 +68,41 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function theValueReturnedShouldBe($arg1)
     {
-      if (!$arg1 = $this->counterValue) {
-        throw new PHPUnit_Framework_Error_Notice;
+      if (!$arg1 == $this->counter->getValue()) {
+        throw new \Exception('value not equal');
       }
     }
 
     /**
-     * @When I increment the value of the counter with ID :arg1
+     * @When I increment the value of the counter with ID :id
      */
-    public function iIncrementTheValueOfTheCounterWithId($arg1)
+    public function iIncrementTheValueOfTheCounterWithId($id)
     {
-      $this->counter->increment();
+      try {
+        $incremented = $this->counter->incrementValue();
+      } catch (Exception $e) {
+        $this->error = true;
+      }
+
     }
 
     /**
-     * @When I lock the counter with ID :arg1
+     * @When I lock the counter with ID :id
      */
-    public function iLockTheCounterWithId($arg1)
+    public function iLockTheCounterWithId($id)
     {
-        throw new PendingException();
+      $this->counter->lock();
     }
+  /**
+   * @Then I should see an error
+   */
+  public function iShouldSeeAnError()
+  {
+    if ($this->error !== true) {
+      throw new \Exception('Error not found');
+    }
+  }
 
-    /**
-     * @Then I should see an error about the locked counter
-     */
-    public function iShouldSeeAnErrorAboutTheLockedCounter()
-    {
-        throw new PendingException();
-    }
 
 
 
@@ -107,15 +119,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iResetTheCounterWithId($arg1)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @When I read the Counter with ID :arg1
-     */
-    public function iReadTheCounterWithId($arg1)
-    {
-        throw new PendingException();
+      $this->counter->reset();
     }
 
 
