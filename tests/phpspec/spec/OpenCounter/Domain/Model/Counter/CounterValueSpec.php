@@ -18,6 +18,6 @@ class CounterValueSpec extends ObjectBehavior
   }
   function its_can_be_incremented()
   {
-    $this->incrementValue()->shouldReturn(2);
+    $this->increment()->shouldReturn(2);
   }
 }

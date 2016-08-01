@@ -19,7 +19,7 @@ class CounterNameSpec extends ObjectBehavior
   }
   function its_Name()
   {
-    $this->getName()->shouldReturn('opencounter');
+    $this->name()->shouldReturn('opencounter');
   }
 
 }

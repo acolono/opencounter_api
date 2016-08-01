@@ -2,20 +2,19 @@
 
 namespace spec\OpenCounter\Domain\Model\Counter;
 
-use OpenCounter\Domain\Model\Counter;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\CounterId;
-
+use OpenCounter\Domain\Model\Counter\CounterName;
 
 class CounterSpec extends ObjectBehavior
 {
-  function let(CounterId $counterId, CounterValue $value)
+  function let(CounterName $counterName, CounterId $counterId, CounterValue $value)
   {
-    $this->beConstructedWith($counterId, $value, 'password');
+    $this->beConstructedWith($counterName, $counterId, $value, 'password');
   }
   function it_is_initializable()
   {
@@ -31,7 +30,7 @@ class CounterSpec extends ObjectBehavior
   }
   function it_can_be_incremented(CounterValue $value) {
 
-    $value->incrementValue()->willReturn(2);
+    $value->increment()->willReturn(2);
     $this->getValue()->shouldReturn($value);
 
   }

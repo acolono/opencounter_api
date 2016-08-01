@@ -9,8 +9,17 @@ class CounterName
         $this->name = $aName;
     }
 
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
+  /**
+   * Magic method that represent the class in string format.
+   *
+   * @return string
+   */
+  public function __toString()
+  {
+    return $this->name();
+  }
 }

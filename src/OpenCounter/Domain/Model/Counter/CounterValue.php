@@ -10,16 +10,15 @@ private $value;
     {
       $this->value = $value;
     }
-    public function getValue()
+    public function value()
     {
       return $this->value;
     }
 
-    public function incrementValue()
+    public function increment()
     {
       $this->value = $this->value + 1;
       return $this->value;
     }
-
 
 }

@@ -51,17 +51,17 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 
   function it_cannot_return_counters_by_name_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
   {
-    $name->getName()->shouldBeCalled()->willReturn('onecounter');
+    $name->name()->shouldBeCalled()->willReturn('onecounter');
     $pdo->execute(
       sprintf('SELECT * FROM %s WHERE name = :name', SqlCounterRepository::TABLE_NAME),
       ['name' => 'onecounter']
     )->shouldBeCalled()->willReturn($statement);
     $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
-    $this->counterOfName($name)->shouldReturn(null);
+    $this->fetchCounterByName($name)->shouldReturn(null);
   }
   function it_can_get_counters_by_their_name(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
   {
-    $name->getName()->shouldBeCalled()->willReturn('onecounter');
+    $name->name()->shouldBeCalled()->willReturn('onecounter');
     $pdo->execute(
       sprintf('SELECT * FROM %s WHERE name = :name', SqlCounterRepository::TABLE_NAME),
       ['name' => 'onecounter']
@@ -69,7 +69,7 @@ class SqlCounterRepositorySpec extends ObjectBehavior
     $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
       ['id' => 'theid', 'name' => 'onecounter', 'password' => 'password']
     );
-    $this->counterOfName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+    $this->fetchCounterByName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
   }
 //  function it_cannot_return_counters_by_value_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterValue $counter_value)
 //  {

@@ -7,6 +7,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 
 use OpenCounter\Domain\Model\Counter\CounterId;
+use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\Counter;
 /**
@@ -33,13 +34,14 @@ class DomainContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given a counter with ID :id and a value of :value was added to the collection
+     * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
-    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($id, $value)
+    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
     {
-      $this->counterID = new CounterId($id);
+      $this->counterName = new CounterName($name);
+      $this->counterId = new CounterId($id);
       $this->counterValue = new CounterValue($value);
-      $this->counter = new Counter($this->counterID, $this->counterValue, 'passwordplaceholder');
+      $this->counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
      // $this->counter->id = $id;
 //      $this->counter->value = $value;
       //$this->catalogue->add($this->counter);

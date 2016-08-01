@@ -2,29 +2,25 @@
 
 namespace OpenCounter\Infrastructure\Persistence\Sql;
 
+use OpenCounter\Infrastructure\Persistence\StorageInterface;
 
-use OpenCounter\Infrastructure\Persistence\Storage;
-
-class SqlManager implements Storage
+class SqlManager implements StorageInterface
 {
   const SQL_DATE_FORMAT = 'Y-m-d H:i:s';
+
   /**
-   * The pdo instance.
-   *
    * @var \PDO
    */
-  private $pdo;
+  protected $db;
+
   /**
-   * Constructor.
-   *
-   * @param string $dsn      The dsn
-   * @param string $username The db user
-   * @param string $password The db password
-   * @param array  $options  Array which contains more options
+   * @param \PDO $db
    */
-  public function __construct($dsn, $username, $password, array $options = null)
+  public function __construct(\PDO $db)
   {
-    $this->pdo = new \PDO($dsn, $username, $password, $options);
+//    $this->db = new \PDO($dsn, $username, $password, $options);
+//    $this->db = $db;
+    $this->db = $db;
   }
   /**
    * Gets connection of database.
@@ -33,7 +29,7 @@ class SqlManager implements Storage
    */
   public function connection()
   {
-    return $this->pdo;
+    return $this->db;
   }
   /**
    * Executes the sql given with the parameters given.
@@ -45,7 +41,7 @@ class SqlManager implements Storage
    */
   public function execute($sql, array $parameters = null)
   {
-    $statement = $this->pdo->prepare($sql);
+    $statement = $this->db->prepare($sql);
     $statement->execute($parameters);
     return $statement;
   }
@@ -64,33 +60,14 @@ class SqlManager implements Storage
     $this->pdo->beginTransaction();
     try {
       $return = call_user_func($callable, $this);
-      $this->pdo->commit();
+      $this->db->commit();
       return $return ?: true;
     } catch (\Exception $exception) {
-      $this->pdo->rollback();
+      $this->db->rollback();
       throw $exception;
     }
   }
-
-  /**
-   * @inheritDoc
-   */
-  public function persist($data) {
-    // TODO: Implement persist() method.
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function retrieve($id) {
-    // TODO: Implement retrieve() method.
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function delete($id) {
-    // TODO: Implement delete() method.
-  }
-
+  public function persist($data){}
+  public function retrieve($id){}
+  public function delete($id){}
 }

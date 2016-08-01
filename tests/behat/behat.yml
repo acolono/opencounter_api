@@ -26,7 +26,7 @@ default:
   suites:
 #    default:
 #      paths: [ %paths.base%/features/ ]
-#      base_url: http://api.opencounter.docker
+#      base_url: api.opencounter.docker
 #      contexts:
 #        - FeatureContext
     domain:

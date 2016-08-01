@@ -35,13 +35,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
-     * @Given a counter with ID :id and a value of :value was added to the collection
+     * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
-    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($id, $value)
+    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
     {
-      $this->counterID = new CounterId($id);
-      $this->counterValue = new CounterValue($value);
-      $this->counter = new Counter($this->counterID, $this->counterValue, 'passwordplaceholder');
+
+throw new PendingException();
     }
 
 //    /**
@@ -66,7 +65,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function theValueReturnedShouldBe($arg1)
     {
-      throw new PendingException();
+//      throw new PendingException();
+      $this->theResponseShouldContain($arg1);
     }
 
     /**
@@ -102,7 +102,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iGetTheValueOfTheCounterWithId($arg1)
     {
-      $this->iSendARequest('GET', "172.17.0.5/test");
+//      $this->iSendARequest('GET', "172.17.0.5/test");
+      throw new PendingException();
     }
 
     /**

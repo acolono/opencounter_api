@@ -2,37 +2,20 @@
 
 namespace OpenCounter\Domain\Model\Counter;
 
+
 class Counter
 {
 
+
+
   protected $anId;
-  /**
-   * The counter entity name.
-   *
-   * @var string
-   * @SWG\Property()
-   */
+
   public $name;
-  /**
-   * The counter entity password.
-   *
-   * @var string
-   * @SWG\Property()
-   */
+
   protected $password;
-  /**
-   * The counter entity value.
-   *
-   * @var integer
-   * @SWG\Property()
-   */
+
   public $value;
-  /**
-   * The counter entity status.
-   *
-   * @var integer
-   * @SWG\Property()
-   */
+
   public $status;
 
   /**
@@ -41,7 +24,7 @@ class Counter
    * @param $name
    * @param $password
    */
-  public function __construct(CounterId $anId, CounterValue $value, $password) {
+  public function __construct(CounterName $aName,CounterId $anId, CounterValue $value, $password) {
     //$this->state = State::active();
     if (isset($anId)) {
       $this->counterId = $anId;
@@ -50,6 +33,7 @@ class Counter
       $this->value = $value;
     }
     $this->status = 'locked';
+    $this->name = $aName;
 //    $this->changePassword($aPassword);
     //https://github.com/benatespina/ddd-symfony/issues/1
 //    DomainEventPublisher::instance()->publish(new UserRegistered($this->userId));
