@@ -3,8 +3,11 @@ Feature: edit one counter
   in order to /display the counter value
   i need to be able to /get the counter value/ from api
 
-  GET /counters/1/value
-@domain @web
+  + PATCH
+  + increment /counters/1/value add to value of counter
+  + /counters/1/state change state (deactivated, locked/ readonly, active)
+
+  @domain @web
   Scenario: increment the value for a single counter in the collection
     Given a counter "onecounter" with id "1" and a value of "1" was added to the collection
     When I increment the value of the counter with id 1

@@ -40,7 +40,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
     {
 
-throw new PendingException();
+      throw new PendingException('TODO describe how to send POST request with counter through the counter route using existing webapi vocabulary (behat -dl) where possible and cosider https://akrabat.com/testing-slim-framework-actions/accessing although that should be covered by https://github.com/slimphp/Slim/tree/3.x/tests');
     }
 
 //    /**

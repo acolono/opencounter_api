@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites time="0.055173" tests="20" failures="0" errors="0">
-<testsuite name="OpenCounter\Domain\Model\Counter\CounterId" time="0.018289" tests="5" failures="0" errors="0" skipped="0">
-<testcase name="it is initializable" time="0.008802" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
-<testcase name="its id" time="0.000430" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
-<testcase name="it should not be equals" time="0.007081" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
-<testcase name="it should be equals" time="0.001304" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
-<testcase name="its to string" time="0.000304" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
+<testsuites time="0.444744" tests="20" failures="0" errors="0">
+<testsuite name="OpenCounter\Domain\Model\Counter\CounterId" time="0.295319" tests="5" failures="0" errors="0" skipped="0">
+<testcase name="it is initializable" time="0.189402" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
+<testcase name="its id" time="0.001654" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
+<testcase name="it should not be equals" time="0.101421" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
+<testcase name="it should be equals" time="0.001167" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
+<testcase name="its to string" time="0.000303" classname="spec\OpenCounter\Domain\Model\Counter\CounterIdSpec" status="passed" />
 </testsuite>
-<testsuite name="OpenCounter\Domain\Model\Counter\CounterName" time="0.000689" tests="2" failures="0" errors="0" skipped="0">
-<testcase name="it is initializable" time="0.000356" classname="spec\OpenCounter\Domain\Model\Counter\CounterNameSpec" status="passed" />
-<testcase name="its Name" time="0.000255" classname="spec\OpenCounter\Domain\Model\Counter\CounterNameSpec" status="passed" />
+<testsuite name="OpenCounter\Domain\Model\Counter\CounterName" time="0.000943" tests="2" failures="0" errors="0" skipped="0">
+<testcase name="it is initializable" time="0.000502" classname="spec\OpenCounter\Domain\Model\Counter\CounterNameSpec" status="passed" />
+<testcase name="its Name" time="0.000337" classname="spec\OpenCounter\Domain\Model\Counter\CounterNameSpec" status="passed" />
 </testsuite>
-<testsuite name="OpenCounter\Domain\Model\Counter\Counter" time="0.009166" tests="4" failures="0" errors="0" skipped="0">
-<testcase name="it is initializable" time="0.002350" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
-<testcase name="it stores counter id" time="0.002120" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
-<testcase name="it stores counter value" time="0.002348" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
-<testcase name="it can be incremented" time="0.002184" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
+<testsuite name="OpenCounter\Domain\Model\Counter\Counter" time="0.013279" tests="4" failures="0" errors="0" skipped="0">
+<testcase name="it is initializable" time="0.002986" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
+<testcase name="it stores counter id" time="0.003722" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
+<testcase name="it stores counter value" time="0.003696" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
+<testcase name="it can be incremented" time="0.002626" classname="spec\OpenCounter\Domain\Model\Counter\CounterSpec" status="passed" />
 </testsuite>
-<testsuite name="OpenCounter\Domain\Model\Counter\CounterValue" time="0.000583" tests="2" failures="0" errors="0" skipped="0">
-<testcase name="it is initializable" time="0.000251" classname="spec\OpenCounter\Domain\Model\Counter\CounterValueSpec" status="passed" />
-<testcase name="its can be incremented" time="0.000258" classname="spec\OpenCounter\Domain\Model\Counter\CounterValueSpec" status="passed" />
+<testsuite name="OpenCounter\Domain\Model\Counter\CounterValue" time="0.000584" tests="2" failures="0" errors="0" skipped="0">
+<testcase name="it is initializable" time="0.000253" classname="spec\OpenCounter\Domain\Model\Counter\CounterValueSpec" status="passed" />
+<testcase name="its can be incremented" time="0.000257" classname="spec\OpenCounter\Domain\Model\Counter\CounterValueSpec" status="passed" />
 </testsuite>
-<testsuite name="OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository" time="0.023830" tests="5" failures="0" errors="0" skipped="0">
-<testcase name="it removes counters by id" time="0.007323" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
-<testcase name="it returns id if counter doesnt exist" time="0.004295" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
-<testcase name="it will return counter object of id" time="0.004068" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
-<testcase name="it cannot return counters by name if none exist" time="0.004088" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
-<testcase name="it can get counters by their name" time="0.003815" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
+<testsuite name="OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository" time="0.131913" tests="5" failures="0" errors="0" skipped="0">
+<testcase name="it removes counters by id" time="0.114862" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
+<testcase name="it returns id if counter doesnt exist" time="0.005580" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
+<testcase name="it will return counter object of id" time="0.003718" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
+<testcase name="it cannot return counters by name if none exist" time="0.003717" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
+<testcase name="it can get counters by their name" time="0.003719" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepositorySpec" status="passed" />
 </testsuite>
-<testsuite name="OpenCounter\Infrastructure\Persistence\Sql\SqlManager" time="0.002497" tests="2" failures="0" errors="0" skipped="0">
-<testcase name="it initializable" time="0.001115" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\SqlManagerSpec" status="passed" />
-<testcase name="its connection" time="0.001279" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\SqlManagerSpec" status="passed" />
+<testsuite name="OpenCounter\Infrastructure\Persistence\Sql\SqlManager" time="0.002569" tests="2" failures="0" errors="0" skipped="0">
+<testcase name="it initializable" time="0.001186" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\SqlManagerSpec" status="passed" />
+<testcase name="its connection" time="0.001286" classname="spec\OpenCounter\Infrastructure\Persistence\Sql\SqlManagerSpec" status="passed" />
 </testsuite>
 </testsuites>

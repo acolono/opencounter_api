@@ -50,7 +50,7 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
   {
     $this->db->execute(
       sprintf('INSERT INTO %s (name, id, value, password) VALUES (:name, :id, :value, :password)', self::TABLE_NAME),
-      ['name' => $anCounter->getName(),'id' => $anCounter->getId(), 'value' => $anCounter->getValue(), 'password' => 'passwordplaceholder']
+      ['name' => $anCounter->getName()->name(),'id' => $anCounter->getId()->id(), 'value' => $anCounter->getValue()->value(), 'password' => 'passwordplaceholder']
     );
   }
   /**
