@@ -2,20 +2,20 @@
 <testsuites name="webapi">
   <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="2">
     <testcase name="increment the value for a single counter in the collection" status="pending">
-      <error message="Given a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection: describe what happens when sending POST with counter through the counter route" type="pending"></error>
+      <error message="When I increment the value of the counter with id 1: TODO: write pending definition" type="pending"></error>
     </testcase>
     <testcase name="lock a single counter in the collection and try to increment it" status="pending">
-      <error message="Given a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection: describe what happens when sending POST with counter through the counter route" type="pending"></error>
+      <error message="When I lock the counter with id 1: TODO: write pending definition" type="pending"></error>
     </testcase>
   </testsuite>
   <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="1">
     <testcase name="Getting the value for a single counter in the collection" status="pending">
-      <error message="Given a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection: describe what happens when sending POST with counter through the counter route" type="pending"></error>
+      <error message="When I get the value of the counter with id 1: TODO: write pending definition" type="pending"></error>
     </testcase>
   </testsuite>
   <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="1">
     <testcase name="Resetting the first counter" status="pending">
-      <error message="Given a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection: describe what happens when sending POST with counter through the counter route" type="pending"></error>
+      <error message="When I reset the counter with id 1: TODO: write pending definition" type="pending"></error>
     </testcase>
   </testsuite>
 </testsuites>

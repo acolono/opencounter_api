@@ -555,20 +555,20 @@ i need to be able to /get the counter value/ from api
                     <span class="title">increment the value for a single counter in the collection</span>
                 </h3>
                 <ol>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
                             <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">describe what happens when sending POST with counter through the counter route</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="pending">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I increment the value of the counter with id 1 </span>
                             <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithId()</span>
                         </div>
+                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
                     <li class="skipped">
                         <div class="step">
@@ -589,20 +589,20 @@ i need to be able to /get the counter value/ from api
                     <span class="title">lock a single counter in the collection and try to increment it</span>
                 </h3>
                 <ol>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
                             <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">describe what happens when sending POST with counter through the counter route</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="pending">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I lock the counter with id 1 </span>
                             <span class="path">OpenCounterWebApiContext::iLockTheCounterWithId()</span>
                         </div>
+                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
                     <li class="skipped">
                         <div class="step">
@@ -655,20 +655,20 @@ GET /counters/1/value</p>
                     <span class="title">Getting the value for a single counter in the collection</span>
                 </h3>
                 <ol>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
                             <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">describe what happens when sending POST with counter through the counter route</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="pending">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I get the value of the counter with id 1 </span>
                             <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithId()</span>
                         </div>
+                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
                     <li class="skipped">
                         <div class="step">
@@ -706,20 +706,20 @@ PUT /counters/1</p>
                     <span class="title">Resetting the first counter</span>
                 </h3>
                 <ol>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
                             <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">describe what happens when sending POST with counter through the counter route</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="pending">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I reset the counter with id 1 </span>
                             <span class="path">OpenCounterWebApiContext::iResetTheCounterWithId()</span>
                         </div>
+                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
                     <li class="skipped">
                         <div class="step">
@@ -811,7 +811,7 @@ PUT /counters/1</p>
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            4 steps failed of 19
+            4 steps failed of 23
         </div>
     </div>
     <hr>
@@ -1314,14 +1314,17 @@ i need to be able to /get the counter value/ from api<br />
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-warning">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(describe what happens when sending POST with counter through the counter route)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
+{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
                                                 <b>When</b> I increment the value of the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-info">
                                                 <b>Then</b> the value returned should be 2
                                                                                                                                                                                                                                                                                                                                                 </li>
@@ -1348,14 +1351,17 @@ i need to be able to /get the counter value/ from api<br />
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-warning">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(describe what happens when sending POST with counter through the counter route)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
+{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
                                                 <b>When</b> I lock the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-info">
                                                 <b>And</b> I increment the value of the counter with id 1
                                                                                                                                                                                                                                                                                                                                                 </li>
@@ -1422,14 +1428,17 @@ GET /counters/1/value</p>
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-warning">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(describe what happens when sending POST with counter through the counter route)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
+{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
                                                 <b>When</b> I get the value of the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-info">
                                                 <b>Then</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
@@ -1489,14 +1498,17 @@ PUT /counters/1</p>
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-warning">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(describe what happens when sending POST with counter through the counter route)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
+{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
                                                 <b>When</b> I reset the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-info">
                                                 <b>And</b> I get the value of the counter with id 1
                                                                                                                                                                                                                                                                                                                                                 </li>
@@ -1555,7 +1567,7 @@ PUT /counters/1</p>
             label: "Failed"
         },
         {
-            value: 15,
+            value: 19,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1628,10 +1640,10 @@ PUT /counters/1</p>
                     8 scenarios ( <strong class="passed">4 success</strong> <strong class="failed">4 fail</strong> )
                 </p>
                 <p class="steps">
-                    30 steps ( <strong class="passed">15 success</strong> <strong class="skipped">11 skipped</strong> <strong class="failed">4 fail</strong> )
+                    30 steps ( <strong class="passed">19 success</strong> <strong class="skipped">7 skipped</strong> <strong class="failed">4 fail</strong> )
                 </p>
                 <p class="time">
-                0m0.07s - 16.81Mb
+                0m1.09s - 18.01Mb
                 </p>
             </div>
             <div class="switchers">
