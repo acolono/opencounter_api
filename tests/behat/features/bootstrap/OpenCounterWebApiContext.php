@@ -3,19 +3,25 @@
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\WebApiExtension\Context\WebApiContext;
 
+use Pavlakis\Slim\Behat\Context\App;
+use Pavlakis\Slim\Behat\Context\KernelAwareContext;
+
 use OpenCounter\Domain\Model\Counter\CounterId;
 use OpenCounter\Domain\Model\Counter\CounterValue;
+use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\Counter;
 
 /**
  * Defines application features from the specific context.
  */
-class OpenCounterWebApiContext extends WebApiContext implements Context, SnippetAcceptingContext
+class OpenCounterWebApiContext extends WebApiContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
+use App;
   /**
    * @var bool
    */
@@ -29,33 +35,31 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct( )
+    public function __construct()
     {
-
+      $this->counter = array();
     }
-  /**
-   * @BeforeSuite
-   */
-  public static function prepare(BeforeSuiteScope $scope)
-  {
-    // prepare system for test suite
-    // before it runs
-    // this will hold counters we create during tests so we can delete them from db
-
-    $created_counters = array();
-
-  }
 
   /**
    * @AfterScenario @web
    */
-  public function cleanDB(AfterScenarioScope $scope)
+  public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
   {
-    // clean database after scenarios,
-    // tagged with @web
 
-    // TODO: foreach $created_counters as counter delete counter
+    $this->db = $this->app->getContainer()->get('db');
+    $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+
+    if (isset($this->counter) && is_array($this->counter)) {
+      echo 'removing testing counters';
+
+      // foreach $created_counters as counter delete counter
+      foreach ($this->counter as $counter) {
+        $this->counterRepository->remove($counter);
+      }
+    }
   }
+
     /**
      * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
@@ -71,15 +75,22 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
       $this->iSetHeaderWithValue('Content-Type', 'application/json');
       $this->iSetHeaderWithValue('Accept', 'application/json');
       $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
+      $this->printResponse();
 
-$this->printResponse();
+      // TODO: need a counter object we can delete after scenario duplicating domain tests here for now
+      $this->counterName = new CounterName($name);
+      $this->counterId = new CounterId($id);
+      $this->counterValue = new CounterValue($value);
+      $counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
+
+      $this->counter[] =$counter;
 
 
 
-      // since we are using this as a given step we can make sure it was added successfully within this step
+        // since we are using this as a given step we can make sure it was added successfully within this step
       $this->theResponseShouldContain('id');
 
-      $this->theResponseCodeShouldBe('200');
+      $this->theResponseCodeShouldBe('201');
 
       //make absolutely sure we added it successfully and our cleanup works
       $errormesage = array('message' => "counter with id $id already exists");

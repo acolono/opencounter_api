@@ -34,7 +34,7 @@ class SqlCounterRepository implements CounterRepositoryInterface
   public function remove(Counter $anCounter)
   {
     $this->db->execute(
-      sprintf('DELETE FROM %s WHERE id = :id', self::TABLE_NAME), ['id' => $anCounter->id()->id()]
+      sprintf('DELETE FROM %s WHERE id = :id', self::TABLE_NAME), ['id' => $anCounter->getId()->id()]
     );
   }
   /**
