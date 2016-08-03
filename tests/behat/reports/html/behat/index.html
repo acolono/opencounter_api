@@ -662,20 +662,20 @@ GET /counters/1/value</p>
                             <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I get the value of the counter with id 1 </span>
                             <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithId()</span>
                         </div>
-                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="failed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be 1 </span>
                             <span class="path">OpenCounterWebApiContext::theValueReturnedShouldBe()</span>
                         </div>
+                        <pre class="backtrace">Failed asserting that '{"message":"Not found"}' matches PCRE pattern "/1/i".</pre>
                     </li>
                 </ol>
             </div>
@@ -811,7 +811,7 @@ PUT /counters/1</p>
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            4 steps failed of 23
+            4 steps failed of 24
         </div>
     </div>
     <hr>
@@ -1434,14 +1434,14 @@ GET /counters/1/value</p>
                                                     <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
 {&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
                                                                                                                                             </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with id 1
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
-                                                <b>Then</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> the value returned should be 1
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;message&quot;:&quot;Not found&quot;}&#039; matches PCRE pattern &quot;/1/i&quot;.)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
@@ -1567,7 +1567,7 @@ PUT /counters/1</p>
             label: "Failed"
         },
         {
-            value: 19,
+            value: 20,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1640,10 +1640,10 @@ PUT /counters/1</p>
                     8 scenarios ( <strong class="passed">4 success</strong> <strong class="failed">4 fail</strong> )
                 </p>
                 <p class="steps">
-                    30 steps ( <strong class="passed">19 success</strong> <strong class="skipped">7 skipped</strong> <strong class="failed">4 fail</strong> )
+                    30 steps ( <strong class="passed">20 success</strong> <strong class="skipped">6 skipped</strong> <strong class="failed">4 fail</strong> )
                 </p>
                 <p class="time">
-                0m1.09s - 18.01Mb
+                0m1.16s - 18.24Mb
                 </p>
             </div>
             <div class="switchers">

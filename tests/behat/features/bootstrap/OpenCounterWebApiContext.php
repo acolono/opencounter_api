@@ -153,12 +153,12 @@ use App;
 
 
     /**
-     * @When I get the value of the counter with ID :arg1
+     * @When I get the value of the counter with ID :id
      */
-    public function iGetTheValueOfTheCounterWithId($arg1)
+    public function iGetTheValueOfTheCounterWithId($id)
     {
-//      $this->iSendARequest('GET', "172.17.0.5/test");
-      throw new PendingException();
+      $this->iSendARequest('GET', "api/v1/counters/$id/value");
+
     }
 
     /**

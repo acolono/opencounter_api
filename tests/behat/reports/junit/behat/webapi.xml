@@ -8,9 +8,9 @@
       <error message="When I lock the counter with id 1: TODO: write pending definition" type="pending"></error>
     </testcase>
   </testsuite>
-  <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="1">
-    <testcase name="Getting the value for a single counter in the collection" status="pending">
-      <error message="When I get the value of the counter with id 1: TODO: write pending definition" type="pending"></error>
+  <testsuite name="read one counter" tests="1" skipped="0" failures="1" errors="0">
+    <testcase name="Getting the value for a single counter in the collection" status="failed">
+      <failure message="Then the value returned should be 1: Failed asserting that '{&quot;message&quot;:&quot;Not found&quot;}' matches PCRE pattern &quot;/1/i&quot;."></failure>
     </testcase>
   </testsuite>
   <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="1">
