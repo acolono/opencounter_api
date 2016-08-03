@@ -120,7 +120,6 @@ use App;
      */
     public function theValueReturnedShouldBe($arg1)
     {
-//      throw new PendingException();
       $this->theResponseShouldContain($arg1);
     }
 
@@ -129,7 +128,14 @@ use App;
      */
     public function iIncrementTheValueOfTheCounterWithId($id)
     {
-      throw new PendingException();
+      $endpoint = '/api/v1/counters/' . $id . '/passwordplaceholder';
+
+      $CounterArray = array(
+        json_encode(array('value' => '+1'))
+      );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
 
     }
 
@@ -138,7 +144,14 @@ use App;
      */
     public function iLockTheCounterWithId($id)
     {
-      throw new PendingException();
+      $endpoint = '/api/v1/counters/' . $id;
+
+      $CounterArray = array(
+        json_encode(array('status' => 'locked'))
+      );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
     }
 
     /**
@@ -162,11 +175,18 @@ use App;
     }
 
     /**
-     * @When I reset the counter with ID :arg1
+     * @When I reset the counter with ID :id
      */
-    public function iResetTheCounterWithId($arg1)
+    public function iResetTheCounterWithId($id)
     {
-      throw new PendingException();
+      $endpoint = '/api/v1/counters/' . $id;
+
+      $CounterArray = array(
+        json_encode(array('value' => 0))
+      );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
     }
 
 

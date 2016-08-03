@@ -21,12 +21,13 @@ class SqlCounterRepositorySpec extends ObjectBehavior
   }
   function it_removes_counters_by_id(SqlManager $pdo, \PDOStatement $statement, Counter $counter, CounterId $counterId)
   {
-    $counter->id()->shouldBeCalled()->willReturn($counterId);
+    $counter->getId()->shouldBeCalled()->willReturn($counterId);
     $counterId->id()->shouldBeCalled()->willReturn('theid');
     $pdo->execute(
       sprintf('DELETE FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'theid']
     )->shouldBeCalled()->willReturn($statement);
     $this->remove($counter);
+
   }
   function it_returns_id_if_counter_doesnt_exist(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
   {

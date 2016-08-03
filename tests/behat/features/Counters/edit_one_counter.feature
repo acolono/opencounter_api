@@ -11,7 +11,9 @@ Feature: edit one counter
   Scenario: increment the value for a single counter in the collection
     Given a counter "onecounter" with id "1" and a value of "1" was added to the collection
     When I increment the value of the counter with id 1
+    And I get the value of the counter with id 1
     Then the value returned should be 2
+
   @domain @web
   Scenario: lock a single counter in the collection and try to increment it
     Given a counter "onecounter" with id "1" and a value of "1" was added to the collection

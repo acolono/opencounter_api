@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="webapi">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="1" errors="1">
-    <testcase name="increment the value for a single counter in the collection" status="failed">
-      <failure message="Then the value returned should be 2: Failed asserting that '{&quot;message&quot;:&quot;Not found&quot;}' matches PCRE pattern &quot;/2/i&quot;."></failure>
-    </testcase>
+  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="1">
+    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
     <testcase name="lock a single counter in the collection and try to increment it" status="pending">
       <error message="Then I should see an error: TODO: write pending definition" type="pending"></error>
     </testcase>
