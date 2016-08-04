@@ -96,9 +96,9 @@ class DomainContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see an error
+     * @Then I should see an error :message
      */
-    public function iShouldSeeAnError()
+    public function iShouldSeeAnError($message)
     {
       if ($this->error !== true) {
         throw new \Exception('Error not found');

@@ -100,10 +100,9 @@ $app->post('/api/v1/counters/{id}', function ($request, $response, $args) {
   $counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue($data['value']);
   $counter = new \OpenCounter\Domain\Model\Counter\Counter($counterName, $counterId, $counterValue, 'passwordplaceholder');
 
-// TODO do something to persist now ,
   if($counterRepository->getCounterById($counterId)){
     return $response->withJson(
-      ['message' => 'counter with id '.$counter->getId().' already exists'],
+      ['message' => 'counter with id '. $counter->getId() . ' already exists'],
       409
     );
   }else{
@@ -121,10 +120,20 @@ $app->put('/api/v1/counters/{id}/{password}', function ($request, $response, $ar
   //var_dump($request);
   $data = $request->getParsedBody();
   $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  // validate the array
+  $counterId = new \OpenCounter\Domain\Model\Counter\CounterId($args['id']);
+  $counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue($data['value']);  // validate the array
   if($data && isset($data['value'])){
-    $counter = $counterRepository->getCounterByCredentials($args['name'], $args['password']);
+    $counter = $counterRepository->getCounterById($counterId);
     if($counter){
+      if ($counter->isLocked()) {
+        return $response->withJson(
+            ['message' => 'counter with id '. $counter->getId() . ' is locked'],
+            409
+        );
+      }
+
+
+
       $update = false;
       if($data['value'] === '+1'){
         $counter->value++;

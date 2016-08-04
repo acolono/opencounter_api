@@ -136,6 +136,7 @@ use App;
 //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
       $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
+      $this->printResponse();
 
     }
 
@@ -155,11 +156,13 @@ use App;
     }
 
     /**
-     * @Then I should see an error
+     * @Then I should see an error :message
      */
-    public function iShouldSeeAnError()
+    public function iShouldSeeAnError($message)
     {
-      throw new PendingException();
+      $errormesage = array('message' => $message);
+      $ErrorString = new PyStringNode($errormesage, 1);
+      $this->theResponseShouldContain($ErrorString);
     }
 
 

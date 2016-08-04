@@ -417,7 +417,7 @@ i need to be able to /get the counter value/ from api
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
-                            <span class="text">I should see an error </span>
+                            <span class="text">I should see an error "counter with id 1 is locked" </span>
                             <span class="path">DomainContext::iShouldSeeAnError()</span>
                         </div>
                     </li>
@@ -623,15 +623,14 @@ i need to be able to /get the counter value/ from api
                             <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithId()</span>
                         </div>
                     </li>
-                    <li class="pending">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
-                            <span class="text">I should see an error </span>
+                            <span class="text">I should see an error "counter with id 1 is locked" </span>
                             <span class="path">OpenCounterWebApiContext::iShouldSeeAnError()</span>
                         </div>
-                        <pre class="backtrace">TODO: write pending definition</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">the value returned should be 1 </span>
@@ -640,9 +639,7 @@ i need to be able to /get the counter value/ from api
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 50%, 
-                Scenarios failed : 50%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div>
         <div class="feature">
@@ -804,21 +801,21 @@ PUT /counters/1</p>
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            1 features failed of 6
+            0 features failed of 6
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            1 scenarios failed of 8
+            0 scenarios failed of 8
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            1 steps failed of 31
+            0 steps failed of 32
         </div>
     </div>
     <hr>
@@ -934,7 +931,7 @@ PUT /counters/1</p>
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-4">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: edit one counter</h2>
                                     </div>
@@ -953,11 +950,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 50%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 50%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -1127,7 +1124,7 @@ i need to be able to /get the counter value/ from api<br />
                                                 <b>And</b> I increment the value of the counter with id 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>Then</b> I should see an error
+                                                <b>Then</b> I should see an error &quot;counter with id 1 is locked&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 1
@@ -1273,7 +1270,7 @@ PUT /counters/1</p>
                 </div>
                                                 <div class="feature" data-id="feature-4">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: edit one counter</h2>
                             </div>
@@ -1292,11 +1289,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1332,7 +1329,10 @@ i need to be able to /get the counter value/ from api<br />
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I increment the value of the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/1/passwordplaceholder =&gt; 409:
+{&quot;message&quot;:&quot;counter with id 1 is locked&quot;}</p>
+                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with id 1
                                                                                                                                                                                                                                                                                                                                                 </li>
@@ -1342,7 +1342,7 @@ i need to be able to /get the counter value/ from api<br />
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1373,13 +1373,14 @@ i need to be able to /get the counter value/ from api<br />
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I increment the value of the counter with id 1
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/1/passwordplaceholder =&gt; 409:
+{&quot;message&quot;:&quot;counter with id 1 is locked&quot;}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> I should see an error &quot;counter with id 1 is locked&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
-                                                <b>Then</b> I should see an error
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(TODO: write pending definition)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1538,13 +1539,13 @@ PUT /counters/1</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 5,
+            value: 6,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1553,13 +1554,13 @@ PUT /counters/1</p>
 
     var scenarioData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 7,
+            value: 8,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1568,13 +1569,13 @@ PUT /counters/1</p>
 
     var stepData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 30,
+            value: 32,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1638,19 +1639,19 @@ PUT /counters/1</p>
 </body>
 </html>
 
-        <div class="summary failed">
+        <div class="summary passed">
             <div class="counters">
                 <p class="features">
-                    6 features ( <strong class="passed">5 success</strong> <strong class="failed">1 fail</strong> )
+                    6 features ( <strong class="passed">6 success</strong> )
                 </p>            
                 <p class="scenarios">
-                    8 scenarios ( <strong class="passed">7 success</strong> <strong class="failed">1 fail</strong> )
+                    8 scenarios ( <strong class="passed">8 success</strong> )
                 </p>
                 <p class="steps">
-                    32 steps ( <strong class="passed">30 success</strong> <strong class="skipped">1 skipped</strong> <strong class="failed">1 fail</strong> )
+                    32 steps ( <strong class="passed">32 success</strong> )
                 </p>
                 <p class="time">
-                0m1.35s - 18.56Mb
+                0m0.67s - 18.49Mb
                 </p>
             </div>
             <div class="switchers">

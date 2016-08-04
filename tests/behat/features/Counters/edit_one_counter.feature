@@ -19,7 +19,7 @@ Feature: edit one counter
     Given a counter "onecounter" with id "1" and a value of "1" was added to the collection
     When I lock the counter with id 1
     And I increment the value of the counter with id 1
-    Then I should see an error
+    Then I should see an error "counter with id 1 is locked"
     And the value returned should be 1
 
   #Scenario: unlock a single locked counter in the collection and increment it
