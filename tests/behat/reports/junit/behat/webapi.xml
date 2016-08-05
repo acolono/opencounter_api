@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="webapi">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="0">
+  <testsuite name="edit one counter" tests="2" skipped="0" failures="1" errors="0">
     <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
-    <testcase name="lock a single counter in the collection and try to increment it" status="passed"></testcase>
+    <testcase name="lock a single counter in the collection and try to increment it" status="failed">
+      <failure message="Then I should see an error &quot;counter with name onecounter is locked&quot;: Failed asserting that '{&quot;value&quot;:2,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}' matches PCRE pattern &quot;/counter with name onecounter is locked/i&quot;."></failure>
+    </testcase>
   </testsuite>
   <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="0">
     <testcase name="Getting the value for a single counter in the collection" status="passed"></testcase>

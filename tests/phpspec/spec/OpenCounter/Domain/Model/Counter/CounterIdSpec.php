@@ -11,28 +11,29 @@ class CounterIdSpec extends ObjectBehavior
 {
   function let()
   {
-    $this->beConstructedWith('theid');
+    $this->beConstructedWith('anId');
+
+
   }
   function it_is_initializable()
   {
     $this->shouldHaveType('OpenCounter\Domain\Model\Counter\CounterId');
   }
-  function its_id()
+  function its_uuid()
   {
-    $this->id()->shouldReturn('theid');
+    $this->uuid()->shouldReturn('anId');
   }
   function it_should_not_be_equals(CounterId $counterId)
   {
-    $counterId->id()->shouldBeCalled()->willReturn('otherid');
+    $other_uuid = 'anotherId';
+
+    $counterId->uuid()->shouldBeCalled()->willReturn($other_uuid);
     $this->equals($counterId)->shouldReturn(false);
   }
   function it_should_be_equals(CounterId $counterId)
   {
-    $counterId->id()->shouldBeCalled()->willReturn('theid');
+    $counterId->uuid()->shouldBeCalled()->willReturn('anId');
     $this->equals($counterId)->shouldReturn(true);
   }
-  function its_to_string()
-  {
-    $this->__toString()->shouldReturn('theid');
-  }
+
 }

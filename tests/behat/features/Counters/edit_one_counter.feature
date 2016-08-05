@@ -9,17 +9,18 @@ Feature: edit one counter
 
   @domain @web
   Scenario: increment the value for a single counter in the collection
-    Given a counter "onecounter" with id "1" and a value of "1" was added to the collection
-    When I increment the value of the counter with id 1
-    And I get the value of the counter with id 1
+    Given a counter "onecounter" with a value of "1" was added to the collection
+    When I increment the value of the counter with name "onecounter"
+    And I get the value of the counter with name "onecounter"
     Then the value returned should be 2
 
   @domain @web
   Scenario: lock a single counter in the collection and try to increment it
-    Given a counter "onecounter" with id "1" and a value of "1" was added to the collection
-    When I lock the counter with id 1
-    And I increment the value of the counter with id 1
-    Then I should see an error "counter with id 1 is locked"
+    Given a counter "onecounter" with a value of "1" was added to the collection
+    When I lock the counter with name "onecounter"
+    And I increment the value of the counter with name "onecounter"
+    Then I should see an error "counter with name onecounter is locked"
+    When I get the value of the counter with name "onecounter"
     And the value returned should be 1
 
   #Scenario: unlock a single locked counter in the collection and increment it

@@ -14,10 +14,14 @@ class CounterValueSpec extends ObjectBehavior
     }
   function let()
   {
-    $this->beConstructedWith('1');
+    $this->beConstructedWith(1);
   }
   function its_can_be_incremented()
   {
-    $this->increment()->shouldReturn(2);
+    $this->increment('+1')->shouldReturn(2);
+  }
+  function its_value_can_be_returned()
+  {
+    $this->value()->shouldReturn(1);
   }
 }

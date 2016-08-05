@@ -21,5 +21,8 @@ class CounterNameSpec extends ObjectBehavior
   {
     $this->name()->shouldReturn('opencounter');
   }
-
+  function its_to_string()
+  {
+    $this->__toString()->shouldReturn('opencounter');
+  }
 }

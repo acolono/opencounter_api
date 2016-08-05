@@ -12,42 +12,26 @@ use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Ramsey\Uuid\Uuid;
 
 class SqlCounterRepositorySpec extends ObjectBehavior
 {
   function let(SqlManager $pdo)
   {
     $this->beConstructedWith($pdo);
+
+
   }
-  function it_removes_counters_by_id(SqlManager $pdo, \PDOStatement $statement, Counter $counter, CounterId $counterId)
+  function it_removes_the_counter_given(SqlManager $pdo, \PDOStatement $statement, Counter $counter, CounterId $counterId)
   {
-    $counter->getId()->shouldBeCalled()->willReturn($counterId);
-    $counterId->id()->shouldBeCalled()->willReturn('theid');
+    $counter->getId()->shouldBeCalled()->willReturn('testuuid');
+//    $counter->getId()->shouldBeCalled()->willReturn($counterId);
+//    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
     $pdo->execute(
-      sprintf('DELETE FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'theid']
+      sprintf('DELETE FROM %s WHERE uuid = :uuid', SqlCounterRepository::TABLE_NAME), ['uuid' => 'testuuid']
     )->shouldBeCalled()->willReturn($statement);
     $this->remove($counter);
 
-  }
-  function it_returns_id_if_counter_doesnt_exist(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
-  {
-    $counterId->id()->shouldBeCalled()->willReturn('theid');
-    $pdo->execute(
-      sprintf('SELECT * FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'theid']
-    )->shouldBeCalled()->willReturn($statement);
-    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
-    $this->counterOfId($counterId)->shouldReturn(null);
-  }
-  function it_will_return_counter_object_of_id(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
-  {
-    $counterId->id()->shouldBeCalled()->willReturn('theid');
-    $pdo->execute(
-      sprintf('SELECT * FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'theid']
-    )->shouldBeCalled()->willReturn($statement);
-    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
-      ['id' => '1', 'value' => '1', 'password' => 'password', 'status' => 'active', 'name' => 'onecounter']
-    );
-    $this->counterOfId($counterId)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
   }
 
   function it_cannot_return_counters_by_name_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
@@ -58,8 +42,9 @@ class SqlCounterRepositorySpec extends ObjectBehavior
       ['name' => 'onecounter']
     )->shouldBeCalled()->willReturn($statement);
     $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
-    $this->fetchCounterByName($name)->shouldReturn(null);
+    $this->getCounterByName($name)->shouldReturn(NULL);
   }
+
   function it_can_get_counters_by_their_name(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
   {
     $name->name()->shouldBeCalled()->willReturn('onecounter');
@@ -68,10 +53,32 @@ class SqlCounterRepositorySpec extends ObjectBehavior
       ['name' => 'onecounter']
     )->shouldBeCalled()->willReturn($statement);
     $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
-      ['id' => 'theid', 'name' => 'onecounter', 'password' => 'password']
+      ['uuid' => 'testuuid', 'name' => 'onecounter', 'password' => 'password', 'value' => 1]
     );
-    $this->fetchCounterByName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+    $this->getCounterByName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
   }
+  //  function it_returns_id_if_counter_doesnt_exist(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
+//  {
+//    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
+//    $pdo->execute(
+//      sprintf('SELECT * FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'testuuid']
+//    )->shouldBeCalled()->willReturn($statement);
+//    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
+//    $this->getCounterById($counterId)->shouldReturn(null);
+//  }
+//  function it_will_return_counter_object_of_id(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
+//  {
+////    $counter->getId()->shouldBeCalled()->willReturn($counterId);
+//    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
+//    $pdo->execute(
+//      sprintf('SELECT * FROM %s WHERE id = :uuid', SqlCounterRepository::TABLE_NAME), ['uuid' => 'testuuid']
+//    )->shouldBeCalled()->willReturn($statement);
+//    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
+//      ['uuid' => 'testuuid', 'value' => '1', 'password' => 'password', 'status' => 'active', 'name' => 'onecounter']
+//    );
+//    $this->getCounterById($counterId)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+//  }
+
 //  function it_cannot_return_counters_by_value_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterValue $counter_value)
 //  {
 //    $counter_value->getValue()->shouldBeCalled()->willReturn('1');
@@ -90,7 +97,7 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 //      ['counter_value' => '1']
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
-//      ['id' => 'theid', 'counter_value' => '1', 'password' => 'password']
+//      ['id' => 'testuuid', 'counter_value' => '1', 'password' => 'password']
 //    );
 //    $this->counterOfValue($counter_value)->shouldReturnAnInstanceOf('Domain\Model\Counter\Counter');
 //  }
@@ -108,14 +115,14 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 //      sprintf('SELECT * FROM %s WHERE %s', SqlCounterRepository::TABLE_NAME, '1 = 1'), []
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetchAll(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
-//      [['id' => 'theid', 'counter_value' => '1', 'password' => 'password']]
+//      [['id' => 'testuuid', 'counter_value' => '1', 'password' => 'password']]
 //    );
 //    $this->query($specification);
 //  }
-//  function its_next_identity()
-//  {
-//    $this->nextIdentity()->shouldReturnAnInstanceOf('Domain\Model\Counter\CounterId');
-//  }
+  function its_next_identity()
+  {
+    $this->nextIdentity()->shouldReturnAnInstanceOf('\OpenCounter\Domain\Model\Counter\CounterId');
+  }
 //  function its_size(SqlManager $pdo, \PDOStatement $statement, SqlCounterSpecification $specification)
 //  {
 //    $pdo->execute(

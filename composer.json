@@ -12,7 +12,8 @@
         "monolog/monolog": "^1.17",
         "zircote/swagger-php": "~2.0.7",
         "raveren/kint": "^1.0",
-        "chadicus/slim-oauth2-middleware": "~3.0"
+        "chadicus/slim-oauth2-middleware": "~3.0",
+        "ramsey/uuid": "^3.5"
 
     },
     "require-dev": {

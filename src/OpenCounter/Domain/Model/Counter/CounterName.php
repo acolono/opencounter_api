@@ -1,7 +1,10 @@
 <?php
 
 namespace OpenCounter\Domain\Model\Counter;
-
+/**
+ * Class CounterName
+ * @package OpenCounter\Domain\Model\Counter
+ */
 class CounterName
 {
     public function __construct($aName)

@@ -28,10 +28,11 @@ class CreateCounterTable extends AbstractMigration
     public function change()
     {
         $counts = $this->table('counters');
-        $counts->addColumn('name', 'string', ['limit' => 40])
+        $counts->addColumn('uuid', 'string', ['limit' => 40])
+               ->addColumn('name', 'string', ['limit' => 40])
                ->addColumn('password', 'string', ['limit' => 50])
                ->addColumn('value','integer')
-               ->addIndex(array('name'), array('unique' => true, 'name' => 'idx_name'))
+               ->addIndex(array('id'), array('unique' => true, 'name' => 'idx_name'))
                ->create();
     }
 }

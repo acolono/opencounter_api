@@ -47,6 +47,16 @@ class DomainContext implements Context, SnippetAcceptingContext
       //$this->catalogue->add($this->counter);
     }
 
+  /**
+   * @Given a counter :name with a value of :value was added to the collection
+   */
+  public function aCounterWithAValueOfWasAddedToTheCollection($name, $value)
+  {
+    $this->counterName = new CounterName($name);
+    $this->counterId = new CounterId();
+    $this->counterValue = new CounterValue($value);
+    $this->counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
+  }
 //    /**
 //     * @When I get the value of the counter with ID :id
 //     */
@@ -87,10 +97,31 @@ class DomainContext implements Context, SnippetAcceptingContext
 
     }
 
+  /**
+   * @When I increment the value of the counter with name :name
+   */
+  public function iIncrementTheValueOfTheCounterWithName($name)
+  {
+    try {
+      $incremented = $this->counter->incrementValue();
+    } catch (Exception $e) {
+      $this->error = true;
+    }
+
+  }
+
     /**
      * @When I lock the counter with ID :id
      */
     public function iLockTheCounterWithId($id)
+    {
+      $this->counter->lock();
+    }
+
+    /**
+     * @When I lock the counter with Name :name
+     */
+    public function iLockTheCounterWithName($name)
     {
       $this->counter->lock();
     }
@@ -116,10 +147,26 @@ class DomainContext implements Context, SnippetAcceptingContext
       $this->counter->getValue();
     }
 
+
+    /**
+     * @When I get the value of the counter with Name :name
+     */
+    public function iGetTheValueOfTheCounterWithName($name)
+    {
+      $this->counter->getValue();
+    }
+
     /**
      * @When I reset the counter with ID :arg1
      */
     public function iResetTheCounterWithId($arg1)
+    {
+      $this->counter->reset();
+    }
+    /**
+     * @When I reset the counter with Name :name
+     */
+    public function iResetTheCounterWithName($name)
     {
       $this->counter->reset();
     }

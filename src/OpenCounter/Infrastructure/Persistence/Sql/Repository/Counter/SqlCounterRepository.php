@@ -34,48 +34,11 @@ class SqlCounterRepository implements CounterRepositoryInterface
   public function remove(Counter $anCounter)
   {
     $this->db->execute(
-      sprintf('DELETE FROM %s WHERE id = :id', self::TABLE_NAME), ['id' => $anCounter->getId()->id()]
+      sprintf('DELETE FROM %s WHERE uuid = :uuid', self::TABLE_NAME), ['uuid' => $anCounter->getId()]
     );
   }
-  /**
-   * {@inheritdoc}
-   */
-  public function counterOfId(CounterId $anId)
-  {
-    $statement = $this->db->execute(
-      sprintf('SELECT * FROM %s WHERE id = :id', self::TABLE_NAME), ['id' => $anId->id()]
-    );
-    if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-      return $this->buildCounter($row);
-    }
-    return;
-  }
-  /**
-   * {@inheritdoc}
-   */
-  public function counterOfValue(CounterValue $anValue)
-  {
-    $statement = $this->db->execute(
-      sprintf('SELECT * FROM %s WHERE value = :value', self::TABLE_NAME), ['value' => $anValue->value()]
-    );
-    if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-      return $this->buildCounter($row);
-    }
-    return;
-  }
-  /**
-   * {@inheritdoc}
-   */
-  public function fetchCounterByName(CounterName $anName)
-  {
-    $statement = $this->db->execute(
-      sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME), ['name' => $anName->name()]
-    );
-    if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-      return $this->buildCounter($row);
-    }
-    return;
-  }
+
+
   /**
    * {@inheritdoc}
    */
@@ -128,7 +91,14 @@ class SqlCounterRepository implements CounterRepositoryInterface
    */
   private function buildCounter(array $row)
   {
-    return new Counter(new CounterName($row['name']), new CounterId($row['id']), new CounterValue('0'), $row['password']);
+    // debug
+//    print_r($row);
+    return new Counter(
+      new CounterName($row['name']),
+      new CounterId($row['uuid']),
+      new CounterValue($row['value']),
+      $row['password']
+    );
   }
 
   /**
@@ -137,7 +107,7 @@ class SqlCounterRepository implements CounterRepositoryInterface
    * @return array
    */
   public function getCounters() {
-    $sql = 'SELECT c.id, c.name, c.password, c.value
+    $sql = 'SELECT c.uuid, c.name, c.password, c.value
             from counters c';
     $stmt = $this->db->query($sql);
 
@@ -150,60 +120,56 @@ class SqlCounterRepository implements CounterRepositoryInterface
   }
 
   /**
-   * get a specific counter by id
+   * Get a specific counter by id.
    *
    * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
-   * @return \Domain\Model\Counter\Counter|void
+   *
+   * @return \Domain\Model\Counter\Counter
    */
+
   public function getCounterById(CounterId $anId) {
 
-
     $statement = $this->db->execute(
-      sprintf('SELECT * FROM %s WHERE id = :id', self::TABLE_NAME), ['id' => $anId->id()]
+      sprintf('SELECT * FROM %s WHERE uuid = :uuid', self::TABLE_NAME), ['uuid' => $anId->uuid()]
     );
     if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
       return $this->buildCounter($row);
     }
-    return;
 
-//    $sql = 'SELECT c.id, c.name, c.password, c.value
-//            from counters c
-//            where c.name = :name';
-//    $stmt = $this->db->prepare($sql);
-//    $result = $stmt->execute(['name' => $name]);
-//
-//    if($result && $data = $stmt->fetch()){
-//      return new CounterEntity($data);
-//    }
+  }
+  /**
+   * get a specific counter by uuid
+   *
+   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
+   * @return \Domain\Model\Counter\Counter
+   */
+  public function getCounterByUuid(CounterId $anId) {
+
+    $statement = $this->db->execute(
+      sprintf('SELECT * FROM %s WHERE uuid = :uuid', self::TABLE_NAME), ['uuid' => $anId->uuid()]
+    );
+    if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+      return $this->buildCounter($row);
+    }
+
   }
 
   /**
-   * get a specific counter by name
+   * Get a specific counter by name.
    *
-   * @param \OpenCounter\Domain\Model\Counter\CounterName $anName
-   * @return \OpenCounter\Domain\Model\Counter\Counter|void
+   * @param \OpenCounter\Domain\Model\Counter\CounterName $aName
+   *
+   * @return \Domain\Model\Counter\Counter
    */
 
-  public function getCounterByName(CounterName $anName) {
 
-
+  public function getCounterByName(CounterName $aName) {
     $statement = $this->db->execute(
-      sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME), ['name' => $anName->name()]
+      sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME), ['name' => $aName->name()]
     );
     if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
       return $this->buildCounter($row);
     }
-    return;
-
-//    $sql = 'SELECT c.id, c.name, c.password, c.value
-//            from counters c
-//            where c.name = :name';
-//    $stmt = $this->db->prepare($sql);
-//    $result = $stmt->execute(['name' => $name]);
-//
-//    if($result && $data = $stmt->fetch()){
-//      return new CounterEntity($data);
-//    }
   }
 
   /**
@@ -211,10 +177,12 @@ class SqlCounterRepository implements CounterRepositoryInterface
    *
    * @param $name
    * @param $password
-   * @return \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\CounterEntity
+   *
+   * @return \OpenCounter\Domain\Model\Counter\Counter
    */
+
   public function getCounterByCredentials($name, $password) {
-    $sql = 'SELECT c.id, c.name, c.password, c.value
+    $sql = 'SELECT c.uuid, c.name, c.password, c.value
             from counters c
             where c.name = :name and c.password = :password';
     $stmt = $this->db->prepare($sql);
@@ -226,67 +194,7 @@ class SqlCounterRepository implements CounterRepositoryInterface
     );
 
     if($result && $data = $stmt->fetch()){
-      return new CounterEntity($data);
+      return new Counter($data);
     }
-  }
-  public function addCounter(CounterEntity $counterEntity)
-  {
-    $this->counters->add($counterEntity);
-  }
-
-  /**
-   * Create new counter
-   *
-   * @param \OpenCounter\Domain\Model\Counter\Counter $counter
-   * @return \Domain\Model\Counter\Counter|void
-   */
-  private function insert(Counter $counter) {
-
-
-
-    $statement = $this->db->execute(
-      sprintf('INSERT into %s  (name, password, value) values (:name, :password, :value)', self::TABLE_NAME), [
-        'id' => $counter->getId(),
-        'name' => $counter->getName(),
-        'value' => $counter->getValue(),
-      ]
-    );
-    if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-      return $this->buildCounter($row);
-    }
-    return;
-
-
-//    $sql = 'INSERT into counters (name, password, value)
-//            values (:name, :password, :value)';
-//    $stmt = $this->db->prepare($sql);
-//    $result = $stmt->execute([
-//      'name' => $counterEntity->getName(),
-//      'password' => $counterEntity->getPassword(),
-//      'value' => $counterEntity->getValue(),
-//    ]);
-//
-//    if(!$result) {
-//      throw new Exception("could not save record");
-//    }
-  }
-
-  /**
-   * Reset Single Counter
-   *
-   * @param \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\CounterEntity $counterEntity
-   */
-  private function update(Counter $counter) {
-    $sql = 'UPDATE counters c
-            set c.name = :name, c.password = :password, c.value = :value
-            where c.id = :id';
-
-    $stmt = $this->db->prepare($sql);
-    $result = $stmt->execute([
-      'id' => $counterEntity->getId(),
-      'name' => $counterEntity->getName(),
-      'password' => $counterEntity->getPassword(),
-      'value' => $counterEntity->getValue(),
-    ]);
   }
 }

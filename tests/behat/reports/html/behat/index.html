@@ -356,22 +356,22 @@ i need to be able to /get the counter value/ from api
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">DomainContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I increment the value of the counter with id 1 </span>
-                            <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithId()</span>
+                            <span class="text">I increment the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -396,29 +396,36 @@ i need to be able to /get the counter value/ from api
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">DomainContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I lock the counter with id 1 </span>
-                            <span class="path">DomainContext::iLockTheCounterWithId()</span>
+                            <span class="text">I lock the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iLockTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I increment the value of the counter with id 1 </span>
-                            <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithId()</span>
+                            <span class="text">I increment the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
-                            <span class="text">I should see an error "counter with id 1 is locked" </span>
+                            <span class="text">I should see an error "counter with name onecounter is locked" </span>
                             <span class="path">DomainContext::iShouldSeeAnError()</span>
+                        </div>
+                    </li>
+                    <li class="passed">
+                        <div class="step">
+                            <span class="keyword">When </span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -459,15 +466,15 @@ GET /counters/1/value</p>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">DomainContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -507,22 +514,22 @@ PUT /counters/1</p>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">DomainContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I reset the counter with id 1 </span>
-                            <span class="path">DomainContext::iResetTheCounterWithId()</span>
+                            <span class="text">I reset the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iResetTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -565,22 +572,22 @@ i need to be able to /get the counter value/ from api
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">OpenCounterWebApiContext::aCounterWithValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I increment the value of the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithId()</span>
+                            <span class="text">I increment the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -605,32 +612,40 @@ i need to be able to /get the counter value/ from api
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">OpenCounterWebApiContext::aCounterWithValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I lock the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iLockTheCounterWithId()</span>
+                            <span class="text">I lock the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iLockTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I increment the value of the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithId()</span>
+                            <span class="text">I increment the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="passed">
+                    <li class="failed">
                         <div class="step">
                             <span class="keyword">Then </span>
-                            <span class="text">I should see an error "counter with id 1 is locked" </span>
+                            <span class="text">I should see an error "counter with name onecounter is locked" </span>
                             <span class="path">OpenCounterWebApiContext::iShouldSeeAnError()</span>
                         </div>
+                        <pre class="backtrace">Failed asserting that '{"value":2,"status":"active","name":"onecounter"}' matches PCRE pattern "/counter with name onecounter is locked/i".</pre>
                     </li>
-                    <li class="passed">
+                    <li class="skipped">
+                        <div class="step">
+                            <span class="keyword">When </span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
+                        </div>
+                    </li>
+                    <li class="skipped">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">the value returned should be 1 </span>
@@ -639,7 +654,9 @@ i need to be able to /get the counter value/ from api
                     </li>
                 </ol>
             </div>
-            <div class="featureResult passed">Feature has passed
+            <div class="featureResult failed">Feature has failed
+                <span>Scenarios passed : 50%, 
+                Scenarios failed : 50%</span>
             </div>
         </div>
         <div class="feature">
@@ -668,15 +685,15 @@ GET /counters/1/value</p>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">OpenCounterWebApiContext::aCounterWithValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -716,22 +733,22 @@ PUT /counters/1</p>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
-                            <span class="text">a counter "onecounter" with id "1" and a value of "1" was added to the collection </span>
-                            <span class="path">OpenCounterWebApiContext::aCounterWithIdAndAValueOfWasAddedToTheCollection()</span>
+                            <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
+                            <span class="path">OpenCounterWebApiContext::aCounterWithValueOfWasAddedToTheCollection()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
-                            <span class="text">I reset the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iResetTheCounterWithId()</span>
+                            <span class="text">I reset the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iResetTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
-                            <span class="text">I get the value of the counter with id 1 </span>
-                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithId()</span>
+                            <span class="text">I get the value of the counter with name "onecounter" </span>
+                            <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
                     <li class="passed">
@@ -801,21 +818,21 @@ PUT /counters/1</p>
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            0 features failed of 6
+            1 features failed of 6
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            0 scenarios failed of 8
+            1 scenarios failed of 8
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            0 steps failed of 32
+            1 steps failed of 32
         </div>
     </div>
     <hr>
@@ -931,7 +948,7 @@ PUT /counters/1</p>
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-4">
-                                <div class="card passed">
+                                <div class="card failed">
                                     <div class="header">
                                         <h2>Feature: edit one counter</h2>
                                     </div>
@@ -950,11 +967,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -1080,13 +1097,13 @@ i need to be able to /get the counter value/ from api<br />
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I increment the value of the counter with id 1
+                                                <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>And</b> I get the value of the counter with id 1
+                                                <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 2
@@ -1115,16 +1132,19 @@ i need to be able to /get the counter value/ from api<br />
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I lock the counter with id 1
+                                                <b>When</b> I lock the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>And</b> I increment the value of the counter with id 1
+                                                <b>And</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>Then</b> I should see an error &quot;counter with id 1 is locked&quot;
+                                                <b>Then</b> I should see an error &quot;counter with name onecounter is locked&quot;
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 1
@@ -1187,10 +1207,10 @@ GET /counters/1/value</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I get the value of the counter with id 1
+                                                <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 1
@@ -1252,13 +1272,13 @@ PUT /counters/1</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I reset the counter with id 1
+                                                <b>When</b> I reset the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>And</b> I get the value of the counter with id 1
+                                                <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
@@ -1270,7 +1290,7 @@ PUT /counters/1</p>
                 </div>
                                                 <div class="feature" data-id="feature-4">
                     <div class="col-sm-4">
-                        <div class="card passed">
+                        <div class="card failed">
                             <div class="header">
                                 <h2>Feature: edit one counter</h2>
                             </div>
@@ -1289,11 +1309,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1322,19 +1342,19 @@ i need to be able to /get the counter value/ from api<br />
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
-{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/onecounter =&gt; 201:
+{&quot;value&quot;:&quot;1&quot;,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I increment the value of the counter with id 1
+                                                <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/1/passwordplaceholder =&gt; 409:
-{&quot;message&quot;:&quot;counter with id 1 is locked&quot;}</p>
+                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/onecounter/passwordplaceholder =&gt; 200:
+{&quot;value&quot;:2,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>And</b> I get the value of the counter with id 1
+                                                <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 2
@@ -1342,7 +1362,7 @@ i need to be able to /get the counter value/ from api<br />
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
-                                                    <div class="panel panel-default passed">
+                                                    <div class="panel panel-default failed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1363,24 +1383,32 @@ i need to be able to /get the counter value/ from api<br />
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
-{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/onecounter =&gt; 201:
+{&quot;value&quot;:&quot;1&quot;,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I lock the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
-                                                <b>And</b> I increment the value of the counter with id 1
+                                                <b>When</b> I lock the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/1/passwordplaceholder =&gt; 409:
-{&quot;message&quot;:&quot;counter with id 1 is locked&quot;}</p>
+                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter =&gt; 200:
+{&quot;value&quot;:&quot;1&quot;,&quot;status&quot;:&quot;locked&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>Then</b> I should see an error &quot;counter with id 1 is locked&quot;
+                                                <b>And</b> I increment the value of the counter with name &quot;onecounter&quot;
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/onecounter/passwordplaceholder =&gt; 200:
+{&quot;value&quot;:2,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> I should see an error &quot;counter with name onecounter is locked&quot;
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;value&quot;:2,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}&#039; matches PCRE pattern &quot;/counter with name onecounter is locked/i&quot;.)</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
                                                 <b>And</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1441,13 +1469,13 @@ GET /counters/1/value</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
-{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/onecounter =&gt; 201:
+{&quot;value&quot;:&quot;1&quot;,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I get the value of the counter with id 1
+                                                <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 1
@@ -1509,16 +1537,19 @@ PUT /counters/1</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with id &quot;1&quot; and a value of &quot;1&quot; was added to the collection
+                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/1 =&gt; 201:
-{&quot;name&quot;:{&quot;name&quot;:&quot;onecounter&quot;},&quot;value&quot;:{},&quot;status&quot;:&quot;locked&quot;,&quot;counterId&quot;:{}}</p>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/onecounter =&gt; 201:
+{&quot;value&quot;:&quot;1&quot;,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I reset the counter with id 1
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                <b>When</b> I reset the counter with name &quot;onecounter&quot;
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter =&gt; 200:
+{&quot;value&quot;:0,&quot;status&quot;:&quot;active&quot;,&quot;name&quot;:&quot;onecounter&quot;}</p>
+                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>And</b> I get the value of the counter with id 1
+                                                <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
@@ -1539,13 +1570,13 @@ PUT /counters/1</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 0,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 6,
+            value: 5,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1554,13 +1585,13 @@ PUT /counters/1</p>
 
     var scenarioData = [
         {
-            value: 0,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 8,
+            value: 7,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1569,13 +1600,13 @@ PUT /counters/1</p>
 
     var stepData = [
         {
-            value: 0,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 32,
+            value: 31,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1639,19 +1670,19 @@ PUT /counters/1</p>
 </body>
 </html>
 
-        <div class="summary passed">
+        <div class="summary failed">
             <div class="counters">
                 <p class="features">
-                    6 features ( <strong class="passed">6 success</strong> )
+                    6 features ( <strong class="passed">5 success</strong> <strong class="failed">1 fail</strong> )
                 </p>            
                 <p class="scenarios">
-                    8 scenarios ( <strong class="passed">8 success</strong> )
+                    8 scenarios ( <strong class="passed">7 success</strong> <strong class="failed">1 fail</strong> )
                 </p>
                 <p class="steps">
-                    32 steps ( <strong class="passed">32 success</strong> )
+                    34 steps ( <strong class="passed">31 success</strong> <strong class="skipped">2 skipped</strong> <strong class="failed">1 fail</strong> )
                 </p>
                 <p class="time">
-                0m0.67s - 18.49Mb
+                0m1.67s - 18.37Mb
                 </p>
             </div>
             <div class="switchers">

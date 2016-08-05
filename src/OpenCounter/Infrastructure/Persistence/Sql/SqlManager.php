@@ -18,8 +18,6 @@ class SqlManager implements StorageInterface
    */
   public function __construct(\PDO $db)
   {
-//    $this->db = new \PDO($dsn, $username, $password, $options);
-//    $this->db = $db;
     $this->db = $db;
   }
   /**

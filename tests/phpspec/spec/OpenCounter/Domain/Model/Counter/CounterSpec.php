@@ -10,13 +10,21 @@ use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\CounterId;
 use OpenCounter\Domain\Model\Counter\CounterName;
 
+/**
+ * Class CounterSpec
+ * @mixin OpenCounter\Domain\Model\Counter
+ * @package spec\OpenCounter\Domain\Model\Counter
+ */
 class CounterSpec extends ObjectBehavior
 {
-  function let(CounterName $counterName, CounterId $counterId, CounterValue $value)
+  function let(CounterName $counterName, CounterId $counterId, CounterValue $counterValue)
   {
-    $this->beConstructedWith($counterName, $counterId, $value, 'password');
+    $this->beConstructedWith($counterName, $counterId, $counterValue, 'password');
   }
-  function it_is_initializable()
+
+  function it_can_instanciate_new_counters_to_be_saved_to_collection(CounterId $counterId){
+  }
+  function it_should_contain_a_name_id_and_value(CounterName $counterName, CounterId $counterId, CounterValue $counterValue)
   {
     $this->shouldHaveType('OpenCounter\Domain\Model\Counter\Counter');
   }
@@ -28,16 +36,82 @@ class CounterSpec extends ObjectBehavior
   {
     $this->getValue()->shouldReturn($value);
   }
+  function it_stores_counter_name(CounterName $counterName)
+  {
+    $this->getName()->shouldReturn($counterName);
+  }
   function it_can_be_incremented(CounterValue $value) {
 
     $value->increment()->willReturn(2);
     $this->getValue()->shouldReturn($value);
 
   }
-//  function its_password()
+//  function it_stores_counter_id(CounterId $counterId)
 //  {
-//    $this->getPassword()->shouldReturn('password');
+//    $this->getId()->shouldReturn($counterId);
 //  }
+//
+//  function it_stores_counter_name(CounterName $counterName)
+//  {
+//    $this->getName()->shouldReturn($counterName);
+//  }
+//  function it_stores_counter_value(CounterValue $counterValue)
+//  {
+//    $this->getValue()->shouldReturn($counterValue);
+//  }
+//  function it_can_be_incremented(CounterValue $counterValue) {
+//
+//    $counterValue->increment()->willReturn(2);
+//    $this->getValue()->shouldReturn($counterValue);
+//
+//  }
+  function it_can_be_locked()
+  {
+    $this->lock();
+    $this->shouldBeLocked();
+  }
+
+  function it_should_raise_exception_during_increment_if_it_is_locked()
+  {
+    $this->couldBeLocked()->willReturn(0);
+    $this->lock();
+    $this->shouldThrow('Exception')->duringLock();
+  }
+//  function it_stores_counter_id(CounterId $counterId)
+//  {
+//    $this->getId()->shouldReturn($counterId);
+//  }
+//
+//  function it_stores_counter_name(CounterName $counterName)
+//  {
+//    $this->getName()->shouldReturn($counterName);
+//  }
+//  function it_stores_counter_value(CounterValue $counterValue)
+//  {
+//    $this->getValue()->shouldReturn($counterValue);
+//  }
+//  function it_can_be_incremented(CounterValue $counterValue) {
+//
+//    $counterValue->increment()->willReturn(2);
+//    $this->getValue()->shouldReturn($counterValue);
+//
+//  }
+//  function it_can_be_locked() {
+//
+//    $this->lock()->willBeCalled();
+//    $this->isLocked()->shouldReturn('TRUE');
+//
+//  }
+//  function it_can_be_reset() {
+//
+//    $this->reset()->willBeCalled();
+//    $this->getValue()->shouldReturn('0');
+//
+//  }
+  function its_password()
+  {
+    $this->getPassword()->shouldReturn('password');
+  }
 //  function it_does_not_change_the_password_because_it_is_invalid_password()
 //  {
 //    $this->shouldThrow(new \InvalidArgumentException('password'))->during('changePassword', [' ']);

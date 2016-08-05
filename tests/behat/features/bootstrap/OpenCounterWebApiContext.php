@@ -27,18 +27,17 @@ use App;
    */
   private $error;
 
-
   /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
-    public function __construct()
-    {
-      $this->counter = array();
-    }
+   * Initializes context.
+   *
+   * Every scenario gets its own context instance.
+   * You can also pass arbitrary arguments to the
+   * context constructor through behat.yml.
+   */
+  public function __construct()
+  {
+    $this->counter = array();
+  }
 
   /**
    * @AfterScenario @web
@@ -48,7 +47,7 @@ use App;
 
     $this->db = $this->app->getContainer()->get('db');
     $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($this->sqlManager);
 
     if (isset($this->counter) && is_array($this->counter)) {
       echo 'removing testing counters';
@@ -60,60 +59,78 @@ use App;
     }
   }
 
-    /**
-     * @Given a counter :name with ID :id and a value of :value was added to the collection
-     */
-    public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
-    {
-      $endpoint = '/api/v1/counters/' . $id;
-      // send a POST request to the endpoint with the counter values in the body
-      $newCounterArray = array(
-        json_encode(array('anId' => $id, 'name' => $name, 'value' => $value))
-      );
+  /**
+   * @Given a counter :name with ID :id and a value of :value was added to the collection
+   */
+  public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
+  {
+    $endpoint = '/api/v1/counters/' . $id;
+    // send a POST request to the endpoint with the counter values in the body
+    $newCounterArray = array(
+      json_encode(array('anId' => $id, 'name' => $name, 'value' => $value))
+    );
 //      [$rowLineNumber => [$val1, $val2, $val3]]
-      $newCounterjsonString = new PyStringNode($newCounterArray, 1);
-      $this->iSetHeaderWithValue('Content-Type', 'application/json');
-      $this->iSetHeaderWithValue('Accept', 'application/json');
-      $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
-      $this->printResponse();
+    $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+    $this->iSetHeaderWithValue('Content-Type', 'application/json');
+    $this->iSetHeaderWithValue('Accept', 'application/json');
+    $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
+    $this->printResponse();
 
-      // TODO: need a counter object we can delete after scenario duplicating domain tests here for now
-      $this->counterName = new CounterName($name);
-      $this->counterId = new CounterId($id);
-      $this->counterValue = new CounterValue($value);
-      $counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
+    // get counter object from db and remember it so we can delete it later.
 
-      $this->counter[] =$counter;
+    $this->db = $this->app->getContainer()->get('db');
+    $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+    $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
+    $counter = $counterRepository->getCounterByName($name);
+    $this->counter[] = $counter;
+    // since we are using this as a given step we can make sure it was added successfully within this step
+    $this->theResponseShouldContain('id');
+    $this->theResponseCodeShouldBe('201');
 
+    //make absolutely sure we added it successfully and our cleanup works
+    $errormesage = array('message' => "counter with id $id already exists");
+    $ErrorString = new PyStringNode($newCounterArray, 1);
+    $this->theResponseShouldNotContain($ErrorString);
+  }
 
-        // since we are using this as a given step we can make sure it was added successfully within this step
-      $this->theResponseShouldContain('id');
+  /**
+   * @Given a counter :name with a value of :value was added to the collection
+   */
+  public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
+  {
+    $endpoint = '/api/v1/counters/' . $name;
+    // send a POST request to the endpoint with the counter values in the body
+    $newCounterArray = array(
+      json_encode(array('name' => $name, 'uuid' => 'demouuid', 'value' => $value))
+    );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+    $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+    $this->iSetHeaderWithValue('Content-Type', 'application/json');
+    $this->iSetHeaderWithValue('Accept', 'application/json');
+    $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
+    $response = $this->printResponse();
 
-      $this->theResponseCodeShouldBe('201');
+    // get the counter we added to db and remember it so we can delete it later
+    $this->db = $this->app->getContainer()->get('db');
+    $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+    $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
-      //make absolutely sure we added it successfully and our cleanup works
-      $errormesage = array('message' => "counter with id $id already exists");
-      $ErrorString = new PyStringNode($newCounterArray, 1);
-      $this->theResponseShouldNotContain($ErrorString);
-    }
+    $this->counterName = new CounterName($name);
+    $counter = $counterRepository->getCounterByName($this->counterName);
 
-//    /**
-//     * @When I get the value of the counter with ID :id
-//     */
-//    public function iGetTheValueOfTheCounterWithId($id)
-//    {
-//
-//
-//// Fetch the counter from the database
-////      $this->counter = $this->catalogue->findByCounterId($id);
-//$this->counterValue = $this->counter->getValue();
-//// Modify the Counter
-//     // $counter->changeProperty('value', '3');
-//
-//// Persist the changes back to the database
-//    //  $this->catalogue->update($counter);
-//    }
+    $this->counter[] =$counter;
+
+    // since we are using this as a given step we can make sure it was added successfully within this step
+    //$this->theResponseShouldContain('id');
+
+    $this->theResponseCodeShouldBe('201');
+
+    //make absolutely sure we added it successfully and our cleanup works
+    $errormesage = array('message' => "counter with name $name already exists");
+    $ErrorString = new PyStringNode($newCounterArray, 1);
+    $this->theResponseShouldNotContain($ErrorString);
+  }
 
     /**
      * @Then the value returned should be :arg1
@@ -139,6 +156,22 @@ use App;
       $this->printResponse();
 
     }
+    /**
+     * @When I increment the value of the counter with Name :name
+     */
+    public function iIncrementTheValueOfTheCounterWithName($name)
+    {
+      $endpoint = '/api/v1/counters/' . $name . '/passwordplaceholder';
+
+      $CounterArray = array(
+        json_encode(array('value' => '+1'))
+      );
+      //      [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
+      $this->printResponse();
+
+    }
 
     /**
      * @When I lock the counter with ID :id
@@ -148,11 +181,29 @@ use App;
       $endpoint = '/api/v1/counters/' . $id;
 
       $CounterArray = array(
-        json_encode(array('status' => 'locked'))
+        json_encode(array('lock' => 1))
       );
 //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
       $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+      $this->printResponse();
+    }
+
+    /**
+     * @When I lock the counter with Name :name
+     */
+    public function iLockTheCounterWithName($name)
+    {
+      $endpoint = '/api/v1/counters/' . $name;
+
+      $CounterArray = array(
+        json_encode(array('lock' => 1))
+      );
+      //      [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+      $this->printResponse();
+
     }
 
     /**
@@ -165,16 +216,20 @@ use App;
       $this->theResponseShouldContain($ErrorString);
     }
 
-
-
-
     /**
      * @When I get the value of the counter with ID :id
      */
     public function iGetTheValueOfTheCounterWithId($id)
     {
       $this->iSendARequest('GET', "api/v1/counters/$id/value");
+    }
 
+    /**
+     * @When I get the value of the counter with Name :name
+     */
+    public function iGetTheValueOfTheCounterWithName($name)
+    {
+      $this->iSendARequest('GET', "api/v1/counters/$name/value");
     }
 
     /**
@@ -185,11 +240,27 @@ use App;
       $endpoint = '/api/v1/counters/' . $id;
 
       $CounterArray = array(
-        json_encode(array('value' => 0))
+        json_encode(array('reset' => 1))
       );
 //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
       $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+    }
+
+    /**
+     * @When I reset the counter with Name :name
+     */
+    public function iResetTheCounterWithName($name)
+    {
+      $endpoint = '/api/v1/counters/' . $name;
+
+      $CounterArray = array(
+        json_encode(array('reset' => 1))
+      );
+      // [$rowLineNumber => [$val1, $val2, $val3]]
+      $CounterjsonString = new PyStringNode($CounterArray, 1);
+      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+      //$this->printResponse();
     }
 
 

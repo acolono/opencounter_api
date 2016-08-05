@@ -1,42 +1,47 @@
 <?php
 
 namespace OpenCounter\Domain\Model\Counter;
+use Ramsey\Uuid\Uuid;
 
+/**
+ * Class CounterId
+ * @package OpenCounter\Domain\Model\Counter
+ */
 
 class CounterId
 {
-  private $id;
+  private $uuid;
 
   /**
    * Constructor.
    *
-   * @param string $anId The string of id
+   * @param string $uuid The string of id
    */
-  public function __construct($anId = null)
+  public function __construct($uuid = null)
   {
-    $this->id = null === $anId ? Uuid::uuid4()->toString() : $anId;
+    $this->uuid = null === $uuid ? Uuid::uuid4()->toString() : $uuid;
   }
 
 
   /**
-   * Gets the id.
+   * Gets the uuid.
    *
    * @return string
    */
-  public function id()
+  public function uuid()
   {
-    return $this->id;
+    return $this->uuid;
   }
   /**
    * Method that checks if the counter id given is equal to the current.
    *
-   * @param OpenCounter\Domain\Model\Counter\CounterId $anId The counter id
+   * @param OpenCounter\Domain\Model\Counter\CounterId $uuid The counter id
    *
    * @return bool
    */
-  public function equals(CounterId $anId)
+  public function equals(CounterId $counterId)
   {
-    return $this->id() === $anId->id();
+    return $this->uuid() === $counterId->uuid();
   }
   /**
    * Magic method that represent the class in string format.
@@ -45,6 +50,6 @@ class CounterId
    */
   public function __toString()
   {
-    return $this->id();
+    return (string) $this->uuid();
   }
 }

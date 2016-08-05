@@ -4,10 +4,13 @@ namespace OpenCounter\Domain\Repository;
 
 
 use OpenCounter\Domain\Model\Counter\Counter;
+use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\CounterId;
+
 /**
- * Repository for class Counter
+ * Interface CounterRepositoryInterface
+ *
  * This class is between Entity layer(class Counter) and access object layer(interface Storage).
  *
  * Repository encapsulates the set of objects persisted in a data store and the operations performed over them
@@ -16,7 +19,7 @@ use OpenCounter\Domain\Model\Counter\CounterId;
  * Repository also supports the objective of achieving a clean separation and one-way dependency
  * between the domain and data mapping layers
  *
- * Class CounterRepository
+ * @package OpenCounter\Domain\Repository
  */
 interface CounterRepositoryInterface
 {
@@ -29,22 +32,28 @@ interface CounterRepositoryInterface
    * @return mixed
    */
   public function remove(Counter $anCounter);
+
   /**
-   * Gets the counter of id given.
-   *
-   * @param OpenCounter\Domain\Model\Counter\CounterId $anId The counter id
+   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
    *
    * @return mixed
    */
-  public function counterOfId(CounterId $anId);
+  public function getCounterById(CounterId $anId);
+
   /**
-   * Gets the counter of email given.
-   *
-   * @param OpenCounter\Domain\Model\Counter\CounterEmail $anEmail The counter email
+   * @param \OpenCounter\Domain\Model\Counter\CounterName $aName
    *
    * @return mixed
    */
-//  public function counterOfEmail(CounterEmail $anEmail);
+  public function getCounterByName(CounterName $aName);
+
+  /**
+   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
+   *
+   * @return mixed
+   */
+  public function getCounterByUuid(CounterId $anId);
+
   /**
    * Gets the counter/counters that match with the given criteria.
    *
@@ -53,16 +62,20 @@ interface CounterRepositoryInterface
    * @return mixed
    */
   public function query($specification);
+
   /**
    * Returns the next available id.
    *
    * @return OpenCounter\Domain\Model\Counter\CounterId
    */
   public function nextIdentity();
+
   /**
    * Counts the number of counters.
    *
    * @return mixed
    */
   public function size();
+
+    public function find($argument1);
 }

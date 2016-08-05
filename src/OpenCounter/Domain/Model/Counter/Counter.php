@@ -6,8 +6,6 @@ namespace OpenCounter\Domain\Model\Counter;
 class Counter
 {
 
-
-
   protected $anId;
 
   public $name;
@@ -20,20 +18,17 @@ class Counter
 
   /**
    * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
-   * @param \OpenCounter\CounterValue $value
-   * @param $name
+   * @param \OpenCounter\Domain\Model\Counter\CounterValue $aValue
    * @param $password
    */
-  public function __construct(CounterName $aName,CounterId $anId, CounterValue $value, $password) {
+  public function __construct(CounterName $aName, CounterId $anId, CounterValue $aValue, $password) {
     //$this->state = State::active();
-    if (isset($anId)) {
-      $this->counterId = $anId;
-    }
-    if (isset($value)) {
-      $this->value = $value;
-    }
-    $this->status = 'locked';
-    $this->name = $aName;
+    $this->id = $anId->uuid();
+    $this->name = $aName->name();
+    $this->value = $aValue->value();
+
+    $this->status = 'active';
+    $this->password = $password;
 //    $this->changePassword($aPassword);
     //https://github.com/benatespina/ddd-symfony/issues/1
 //    DomainEventPublisher::instance()->publish(new UserRegistered($this->userId));
@@ -94,29 +89,29 @@ class Counter
    * Reset Counter.
    *
    * @return string
-   *   The counter ID
+   *   The counter Value
    */
   public function reset() {
     $this->value = 0;
 
     return $this->value;
   }
+
   /**
-   * Increment Value.
+   * Increment Value
    *
-   * @return string
-   *   The counter ID
+   * @return mixed
+   * @throws \Exception
    */
   public function incrementValue()
   {
     if (! $this->status == 'locked') {
-      $new_value = $this->value->incrementValue();
+      $new_value = $this->value->increment();
       return $new_value;
     }
     else {
       throw new \Exception("cannot increment locked counter", 1, NULL);
     }
-
   }
 
   public function lock()
@@ -145,28 +140,4 @@ class Counter
     return !$this->isLocked();
   }
 
-    public function id()
-    {
-        // TODO: write logic here
-    }
-
-    public function value()
-    {
-        // TODO: write logic here
-    }
-
-    public function password()
-    {
-        // TODO: write logic here
-    }
-
-    public function changePassword($argument1)
-    {
-        // TODO: write logic here
-    }
-
-    public function increment()
-    {
-        // TODO: write logic here
-    }
 }
