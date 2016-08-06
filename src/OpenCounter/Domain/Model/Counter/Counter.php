@@ -122,16 +122,27 @@ class Counter
   public function lock()
   {
     // Set status to locked logic
-      $this->status = 'locked';
+//      $this->status = 'locked';
 //    $this->locked = true;
+
+    if (!$this->couldBeLocked()) {
+      throw new \Exception("Could not do this transition");
+    }
+
+    return $this->state = State::locked();
   }
 
   public function isLocked()
   {
-        if ($this->status == 'locked') {
-          return TRUE;
-        }
+//        if ($this->status == 'locked') {
+//          return TRUE;
+//        }
 //    return $this->locked;
+    return $this->state->isLocked();
+  }
+  private function couldBeLocked()
+  {
+    return !$this->isLocked();
   }
 
     public function id()
