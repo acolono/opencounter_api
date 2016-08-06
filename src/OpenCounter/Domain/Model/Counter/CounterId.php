@@ -4,12 +4,20 @@ namespace OpenCounter\Domain\Model\Counter;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class CounterId
- * @package OpenCounter\Domain\Model\Counter
+ * Counter id.
+ *
+ * @SWG\Definition(
+ * @SWG\ExternalDocumentation(
+ *     description="find more info here",
+ *     url="https://swagger.io/about"
+ *   )
+ * )
  */
 
 class CounterId
 {
+
+
   private $uuid;
 
   /**

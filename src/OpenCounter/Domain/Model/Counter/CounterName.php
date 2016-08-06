@@ -2,14 +2,29 @@
 
 namespace OpenCounter\Domain\Model\Counter;
 /**
+ * class CounterName
+ *
+ *
+ * @SWG\Definition(
+ *   required={"name"}
+ * )
  * Class CounterName
  * @package OpenCounter\Domain\Model\Counter
  */
 class CounterName
 {
-    public function __construct($aName)
+  /**
+   * The counter name.
+   *
+   * @var string
+   * @SWG\Property(example="onecounter")
+   */
+
+  private $name;
+
+    public function __construct($name)
     {
-        $this->name = $aName;
+        $this->name = $name;
     }
 
     public function name()

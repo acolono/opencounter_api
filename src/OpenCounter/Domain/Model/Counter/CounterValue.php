@@ -2,12 +2,25 @@
 
 namespace OpenCounter\Domain\Model\Counter;
 /**
- * Class CounterValue
+ * Class CounterValue.
  *
+ * @SWG\Definition(
+ * @SWG\ExternalDocumentation(
+ *     description="find more info here",
+ *     url="https://swagger.io/about"
+ *   )
+ * )
  * @package OpenCounter\Domain\Model\Counter
  */
 class CounterValue
 {
+
+  /**
+   * The counter value.
+   *
+   * @var string
+   * @SWG\Property(example="+1")
+   */
 private $value;
 
     public function __construct($value)

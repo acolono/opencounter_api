@@ -9,6 +9,39 @@ $app->get('/[{name}]', function ($request, $response, $args) {
 });
 
 
+
+/**
+ * https://github.com/zircote/swagger-php#usage-from-php
+ * @SWG\Swagger(
+ *     basePath="/api/v1",
+ *     host="api.opencounter.docker",
+ *     schemes={"http"},
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     @SWG\Info(
+ *         version="1.0.0",
+ *         title="Swagger Open counter",
+ *         description="A sample API that uses a counter as an example to demonstrate api principles",
+ *         termsOfService="http://acolono.com/terms/",
+ *         @SWG\Contact(name="Acolono API Team"),
+ *         @SWG\License(name="MIT")
+ *     ),
+ *     @SWG\Definition(
+ *         definition="errorModel",
+ *         required={"code", "message"},
+ *         @SWG\Property(
+ *             property="code",
+ *             type="integer",
+ *             format="int32"
+ *         ),
+ *         @SWG\Property(
+ *             property="message",
+ *             type="string"
+ *         )
+ *     )
+ * )
+ */
+
 $app->get('/api/v1/docs', function($request, $response, $args) {
   $this->logger->info('gettin swagger');
   $swagger = \Swagger\scan(['../src']);
@@ -16,168 +49,39 @@ $app->get('/api/v1/docs', function($request, $response, $args) {
   return $response->withJson($swagger);
 });
 
-$app->get('/api/v1/counters/{name}', function($request, $response, $args) {
-  $this->logger->info('getting counter with name: '. $args['name']);
-  $counter_mapper = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-  $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  $counterName = new \OpenCounter\Domain\Model\Counter\CounterName($args['name']);
-  $counter = $counterRepository->getCounterByName($counterName);
 
-  $this->logger->info(json_encode($counter));
-  if($counter){
-    $this->logger->info('found');
-    return $response->withJson($counter, 200);
-  } else {
-    $this->logger->info('not found');
-    //$response->write('resource not found');
-    return $response->withStatus(404);
-  }
-});
-
-$app->get('/api/v1/counters/{name}/value', function($request, $response, $args) {
-  $this->logger->info('getting value from counter with id: 1' . $args['id']);
-  $counter_mapper = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($th);
-  $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  $counterName = new \OpenCounter\Domain\Model\Counter\CounterName($args['name']);
-  $counter = $counterRepository->getCounterByName($counterName);
-  $this->logger->info(json_encode($counter));
-
-  if ($counter) {
-    $this->logger->info('found');
-    return $response->withJson($counter);
-  } else {
-    $this->logger->info('not found');
-    //$response->write('resource not found');
-    return $response->withStatus(404);
-  }
-});
+// Counter Routes
 
 
+/**
+ * routes that go directly to /counters with no additional path parameters
+ */
 
-$app->patch('/api/v1/counters/{name}', function ($request, $response, $args) {
-  // Patch counter property  http://docs.slimframework.com/routing/patch/
-  $this->logger->info('patching counter with name ' . $args['name']);
-
-  $counter_mapper = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-  $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  $counterName = new \OpenCounter\Domain\Model\Counter\CounterName($args['name']);
-
-  $counter = $counterRepository->getCounterByName($counterName);
-  if ($counter) {
-    $this->logger->info('found');
-
-    $data = $request->getParsedBody();
-
-    $this->logger->info(json_encode($data));
-    if(!isset($data)){
-      $data = [ 'value' => 0 ];
-    }
-    if (isset($data['lock'])){
-      $this->logger->info('locking counter with name '. $args['name']);
-      $counter->lock();
-    }
-    if (isset($data['reset'])){
-      $this->logger->info('resetting counter with name '. $args['name']);
-      $counter->reset();
-    }
-    $counterRepository->save($counter);
-    return $response->withJson($counter);
-
-  } else {
-    $this->logger->info('not found');
-    //$response->write('resource not found');
-    return $response->withStatus(404);
-  }
+$app->post('/api/v1/counters', '\OpenCounter\Api\CounterController:addCounter');
 
 
+/**
+ * Routes with additional path parameters
+ *
+ * return full counter objects in their responses if successful.
+ */
 
-});
 
-$app->post('/api/v1/counters/{name}', function ($request, $response, $args) {
-  $this->logger->info('inserting new counter with name ' . $args['name']);
+$app->get('/api/v1/counters/{name}', '\OpenCounter\Api\CounterController:getCounter');
 
-  //  $counter_mapper = new OpenCounter\CounterMapper($this->db);
-  $counter_mapper = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+$app->post('/api/v1/counters/{name}', '\OpenCounter\Api\CounterController:newCounter');
 
-  $data = $request->getParsedBody();
+$app->patch('/api/v1/counters/{name}/status', '\OpenCounter\Api\CounterController:setCounterStatus');
 
-  $this->logger->info(json_encode($data));
-  if(!isset($data)){
-    $data = [ 'value' => 0, 'name' => 'OneCounter' ];
-  }
-  // Persisting a new counter
-  // https://leanpub.com/ddd-in-php/read#leanpub-auto-persisting-value-objects
+$app->patch('/api/v1/counters/{name}/value', '\OpenCounter\Api\CounterController:incrementCounter');
 
-  $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  $counterId = $counterRepository->nextIdentity();
-  $counterName = new \OpenCounter\Domain\Model\Counter\CounterName($args['name']);
-  $counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue($data['value']);
-  $counter = new \OpenCounter\Domain\Model\Counter\Counter($counterName, $counterId, $counterValue, 'passwordplaceholder');
-  
-  // dealing with duplicates
-  if ($counterRepository->getCounterByName($counterName)) {
-    return $response->withJson(
-      ['message' => 'counter with name '. $counter->getName() . ' already exists'],
-      409
-    );
-  }
-  else {
-    $counterRepository->save($counter);
-    return $response->withJson($counter, 201);
-  }
-});
+$app->put('/api/v1/counters/{name}/{password}', '\OpenCounter\Api\CounterController:setCounter');
 
-$app->put('/api/v1/counters/{name}/{password}', function ($request, $response, $args) {
-  //we assume everything is going to fail
-  $return = ['message' => 'an error has occurred'];
-  $code = 400;
-//  $counter_mapper = new OpenCounter\CounterMapper($this->db);
-  $counter_mapper = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-  $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
-  //var_dump($request);
+/**
+ * Some routes that provide limited responses
+ */
 
-  $this->logger->info(json_encode($data));
-  $data = $request->getParsedBody();
-  $counterName = new \OpenCounter\Domain\Model\Counter\CounterName($args['name']);
-  $counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue($data['value']);
-  // validate the array
-  if($data && isset($data['value'])){
-    $counter = $counterRepository->getCounterByName($counterName);
-    if($counter){
-      if ($counter->isLocked()) {
-        return $response->withJson(
-            ['message' => 'counter with name '. $counterName->name() . ' is locked'],
-            409
-        );
-      }
-      else {
 
-        $update = false;
-        if($data['value'] === '+1'){
-          $counter->value++;
-          $update = true;
-        } else if($data['value'] === '-1'){
-          $counter->value--;
-          $update = true;
-        } else if(is_int($data['value'])){
-          $counter->value = $data['value'];
-          $update = true;
-        } else {
-          $return['message'] = 'Not a valid value, it should be either an integer or a "+1" or "-1" string';
-        }
+$app->get('/api/v1/counters/{name}/value', '\OpenCounter\Api\CounterController:getCount');
 
-        if($update){
-          $counterRepository->update($counter);
-          $return = $response->withJson($counter);
-          $code = 200;
-        }
-      }
 
-    }else{
-      $return['message'] = 'The counter was not found, possibly due to bad credentials';
-      $code = 404;
-    }
-  }
-  return $response->withJson($return, $code);
-
-});

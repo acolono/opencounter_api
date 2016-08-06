@@ -3,22 +3,78 @@
 namespace OpenCounter\Domain\Model\Counter;
 
 
+/**
+ * Counter entity.
+ *
+ * @SWG\Definition(
+ *   required={"name"},
+ *
+ * @SWG\ExternalDocumentation(
+ *     description="find more info here",
+ *     url="https://swagger.io/about"
+ *   )
+ * )
+ */
 class Counter
 {
 
-  protected $anId;
+  /**
+   * The counter entity id
+   *
+   * @var string
+   * @SWG\Property()
+   */
+
+  protected $id;
+  /**
+   * The counter entity name.
+   *
+   * @var string
+   * @SWG\Property(example="onecounter")
+   */
 
   public $name;
+  /**
+   * The counter entity password.
+   *
+   * @var string
+   * @SWG\Property(example="examplepassword")
+   */
 
   protected $password;
+  /**
+   * The counter entity value.
+   *
+   * @var integer
+   * @SWG\Property(format="int32")
+   */
 
   public $value;
+  /**
+   * The counter entity status.
+   *
+   * @var string
+   * @SWG\Property(enum={"active","locked","disabled"})
+   */
 
   public $status;
 
   /**
    * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
-   * @param \OpenCounter\Domain\Model\Counter\CounterValue $aValue
+   *
+   * @param \OpenCounter\Domain\Model\Counter\CounterName $anName
+   *
+   * @SWG\Parameter(
+   * parameter="CounterName",
+   * description="name of counter to fetch",
+   * in="path",
+   * name="name",
+   * required=true,
+   * type="string",
+   * default="onecounter"
+   * )
+   *
+* @param \OpenCounter\Domain\Model\Counter\CounterValue $aValue
    * @param $password
    */
   public function __construct(CounterName $aName, CounterId $anId, CounterValue $aValue, $password) {
@@ -41,7 +97,7 @@ class Counter
    *   The counter ID
    */
   public function getId() {
-    return $this->counterId;
+    return $this->id;
   }
 
   /**
@@ -129,11 +185,11 @@ class Counter
 
   public function isLocked()
   {
-//        if ($this->status == 'locked') {
-//          return TRUE;
-//        }
-//    return $this->locked;
-    return $this->state->isLocked();
+        if ($this->status == 'locked') {
+          return TRUE;
+        }
+////    return $this->locked;
+//    return $this->state->isLocked();
   }
   private function couldBeLocked()
   {
