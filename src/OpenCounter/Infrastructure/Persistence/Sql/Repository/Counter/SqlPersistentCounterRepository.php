@@ -12,11 +12,18 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
    *
    * @var \Infrastructure\Persistence\Sql\SqlManager
    */
-  protected $db;
+  protected $manager;
 
   public function __construct(SqlManager $manager)
   {
-    $this->db = $manager;
+    $this->manager = $manager;
+    $this->insertStmt = $this->manager->prepare(
+        sprintf("INSERT INTO %s (name, uuid, value, password) VALUES (:name, :uuid, :value, :password)", self::TABLE_NAME)
+    );
+    $this->updateStmt = $this->manager->prepare(
+        sprintf('UPDATE %s SET value = :value, password = :password WHERE uuid = :uuid', self::TABLE_NAME)
+    );
+
   }
   /**
    * {@inheritdoc}
@@ -35,7 +42,7 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
   public function exist(Counter $anCounter)
   {
 
-    return $this->db->execute(
+    return $this->manager->execute(
       sprintf('SELECT COUNT(*) FROM %s WHERE uuid = :uuid', self::TABLE_NAME),
       [':uuid' => $anCounter->getId()]
     )->fetchColumn() == 1;
@@ -47,10 +54,12 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
    */
   public function insert(Counter $anCounter)
   {
-    $this->db->execute(
-      sprintf('INSERT INTO %s (name, uuid, value, password) VALUES (:name, :uuid, :value, :password)', self::TABLE_NAME),
-      ['name' => $anCounter->getName(),'uuid' => $anCounter->getId(), 'value' => $anCounter->getValue(), 'password' => 'passwordplaceholder']
-    );
+    $insert = $this->insertStmt->execute([
+        'name' => $anCounter->getName(),
+        'uuid' => $anCounter->getId(),
+        'value' => $anCounter->getValue(),
+        'password' => 'passwordplaceholder']);
+
   }
   /**
    * Updates the counter given into database.
@@ -59,11 +68,12 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
    */
   public function update(Counter $anCounter)
   {
-    $this->db->execute(
-      sprintf('UPDATE %s SET value = :value, password = :password WHERE uuid = :uuid', self::TABLE_NAME),
-      ['uuid' => $anCounter->getId(), 'value' => $anCounter->getValue(), 'password' => $anCounter->getPassword()]
-    );
-  }
+    $update = $this->updateStmt->execute([
+        'uuid' => $anCounter->getId(),
+        'value' => $anCounter->getValue(),
+        'password' => 'passwordplaceholder'
+    ]);
 
+  }
 
 }

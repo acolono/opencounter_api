@@ -107,7 +107,7 @@ class CounterController implements ContainerInterface{
     // validate the array
     if($data && isset($data['value'])){
       $counter = $this->counter_repository->getCounterByName($counterName);
-      print_r($counter);
+    //  print_r($counter);
 
       if($counter){
         if ($counter->isLocked()) {
@@ -118,7 +118,7 @@ class CounterController implements ContainerInterface{
           $increment = new CounterValue($data['value']);
           $update = $counter->increaseCount($increment);
           if($update){
-            print_r($counter);
+            //print_r($counter);
             $this->counter_repository->update($counter);
             $return = $counter;
             $code = 201;

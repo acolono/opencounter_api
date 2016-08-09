@@ -16,62 +16,65 @@ use Ramsey\Uuid\Uuid;
 
 class SqlCounterRepositorySpec extends ObjectBehavior
 {
-  function let()
+  protected $manager;
+  const TABLE_NAME = 'counters';
+
+  function let(SqlManager $manager, Counter $anCounter)
   {
-    $this->counter_mapper = $counter_mapper;
-    $this->beConstructedWith($this->counter_mapper);
-
-
-  }
-  function it_removes_the_counter_given(SqlManager $counter_mapper, \PDOStatement $statement, Counter $counter, CounterId $counterId)
-  {
-    $counter->getId()->shouldBeCalled()->willReturn('testuuid');
-//    $counter->getId()->shouldBeCalled()->willReturn($counterId);
-//    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
-    $pdo->execute(
-      sprintf('DELETE FROM %s WHERE uuid = :uuid', SqlCounterRepository::TABLE_NAME), ['uuid' => 'testuuid']
-    )->shouldBeCalled()->willReturn($statement);
-    $this->remove($counter);
-
-  }
-
-  function it_cannot_return_counters_by_name_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
-  {
-    $name->name()->shouldBeCalled()->willReturn('onecounter');
-    $pdo->execute(
-      sprintf('SELECT * FROM %s WHERE name = :name', SqlCounterRepository::TABLE_NAME),
-      ['name' => 'onecounter']
-    )->shouldBeCalled()->willReturn($statement);
-    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
-    $this->getCounterByName($name)->shouldReturn(NULL);
-  }
-
-  function it_can_get_counters_by_their_name(SqlManager $pdo, \PDOStatement $statement, CounterName $name)
-  {
-    $name->name()->shouldBeCalled()->willReturn('onecounter');
-    $pdo->execute(
-      sprintf('SELECT * FROM %s WHERE name = :name', SqlCounterRepository::TABLE_NAME),
-      ['name' => 'onecounter']
-    )->shouldBeCalled()->willReturn($statement);
-    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
-      ['uuid' => 'testuuid', 'name' => 'onecounter', 'password' => 'password', 'value' => 1]
+    $this->removeStmt = $manager->prepare(
+      sprintf('DELETE FROM %s WHERE uuid = :uuid', self::TABLE_NAME)
     );
-    $this->getCounterByName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+    $this->getStmt = $manager->prepare(
+      sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME)
+    );
+    $this->beConstructedWith($manager);
+
   }
-  //  function it_returns_id_if_counter_doesnt_exist(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
+//  function it_removes_the_counter_given(SqlManager $manager, Counter $anCounter)
+//  {
+//    $this->remove($anCounter)->shouldBeCalled();
+//    $anCounter->getId()->shouldBeCalled()->willReturn(['uuid' => 'testuuid']);
+//    $sql = $this->removeStmt(['uuid' => 'testuuid'])->shouldBeCalled();
+//    $manager->execute($sql)->shouldBeCalled();
+//
+//  }
+//
+//  function it_cannot_return_counters_by_name_if_none_exist(SqlManager $manager, \PDOStatement $statement, CounterName $name)
+//  {
+//    $name->name()->shouldBeCalled()->willReturn('onecounter');
+//    $manager->execute(
+//      sprintf('SELECT * FROM %s WHERE name = :name', SqlCounterRepository::TABLE_NAME),
+//      ['name' => 'onecounter']
+//    )->shouldBeCalled()->willReturn($statement);
+//    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
+//    $this->getCounterByName($name)->shouldReturn(NULL);
+//  }
+//
+//  function it_can_get_counters_by_their_name(SqlManager $manager, \PDOStatement $statement, CounterName $name)
+//  {
+//    $name->name()->shouldBeCalled()->willReturn('onecounter');
+//    $manager->execute($this->getStmt(['name' => 'onecounter']))->shouldBeCalled()->willReturn($statement);
+//
+//    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
+//      ['uuid' => 'testuuid', 'name' => 'onecounter', 'password' => 'password', 'value' => 1]
+//    );
+//
+//    $this->getCounterByName($name)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+//  }
+//    function it_returns_id_if_counter_doesnt_exist(SqlManager $manager, \PDOStatement $statement, CounterId $counterId)
 //  {
 //    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
-//    $pdo->execute(
+//    $manager->execute(
 //      sprintf('SELECT * FROM %s WHERE id = :id', SqlCounterRepository::TABLE_NAME), ['id' => 'testuuid']
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
 //    $this->getCounterById($counterId)->shouldReturn(null);
 //  }
-//  function it_will_return_counter_object_of_id(SqlManager $pdo, \PDOStatement $statement, CounterId $counterId)
+//  function it_will_return_counter_object_of_id(SqlManager $manager, \PDOStatement $statement, CounterId $counterId)
 //  {
 ////    $counter->getId()->shouldBeCalled()->willReturn($counterId);
 //    $counterId->uuid()->shouldBeCalled()->willReturn('testuuid');
-//    $pdo->execute(
+//    $manager->execute(
 //      sprintf('SELECT * FROM %s WHERE id = :uuid', SqlCounterRepository::TABLE_NAME), ['uuid' => 'testuuid']
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
@@ -80,20 +83,20 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 //    $this->getCounterById($counterId)->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
 //  }
 
-//  function it_cannot_return_counters_by_value_if_none_exist(SqlManager $pdo, \PDOStatement $statement, CounterValue $counter_value)
+//  function it_cannot_return_counters_by_value_if_none_exist(SqlManager $manager, \PDOStatement $statement, CounterValue $counter_value)
 //  {
 //    $counter_value->getValue()->shouldBeCalled()->willReturn('1');
-//    $pdo->execute(
+//    $manager->execute(
 //      sprintf('SELECT * FROM %s WHERE counter_value = :counter_value', SqlCounterRepository::TABLE_NAME),
 //      ['counter_value' => '1']
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetch(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(0);
 //    $this->counterOfValue($counter_value)->shouldReturn(null);
 //  }
-//  function it_can_get_counters_by_their_value(SqlManager $pdo, \PDOStatement $statement, CounterValue $counter_value)
+//  function it_can_get_counters_by_their_value(SqlManager $manager, \PDOStatement $statement, CounterValue $counter_value)
 //  {
 //    $counter_value->getValue()->shouldBeCalled()->willReturn(1);
-//    $pdo->execute(
+//    $manager->execute(
 //      sprintf('SELECT * FROM %s WHERE counter_value = :counter_value', SqlCounterRepository::TABLE_NAME),
 //      ['counter_value' => '1']
 //    )->shouldBeCalled()->willReturn($statement);
@@ -109,10 +112,10 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 //  }
 
 //
-//  function its_queries_persistent_storage(SqlManager $pdo, \PDOStatement $statement, SqlCounterSpecification $specification)
+//  function its_queries_persistent_storage(SqlManager $manager, \PDOStatement $statement, SqlCounterSpecification $specification)
 //  {
 //    $specification->toSqlClauses()->shouldBeCalled()->willReturn('1 = 1');
-//    $pdo->execute(
+//    $manager->execute(
 //      sprintf('SELECT * FROM %s WHERE %s', SqlCounterRepository::TABLE_NAME, '1 = 1'), []
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetchAll(\PDO::FETCH_ASSOC)->shouldBeCalled()->willReturn(
@@ -120,13 +123,13 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 //    );
 //    $this->query($specification);
 //  }
-  function its_next_identity()
-  {
-    $this->nextIdentity()->shouldReturnAnInstanceOf('\OpenCounter\Domain\Model\Counter\CounterId');
-  }
-//  function its_size(SqlManager $pdo, \PDOStatement $statement, SqlCounterSpecification $specification)
+//  function its_next_identity()
 //  {
-//    $pdo->execute(
+//    $this->nextIdentity()->shouldReturnAnInstanceOf('\OpenCounter\Domain\Model\Counter\CounterId');
+//  }
+//  function its_size(SqlManager $manager, \PDOStatement $statement, SqlCounterSpecification $specification)
+//  {
+//    $manager->execute(
 //      sprintf('SELECT COUNT(*) FROM %s', SqlCounterRepository::TABLE_NAME)
 //    )->shouldBeCalled()->willReturn($statement);
 //    $statement->fetchColumn()->shouldBeCalled()->willReturn(2);

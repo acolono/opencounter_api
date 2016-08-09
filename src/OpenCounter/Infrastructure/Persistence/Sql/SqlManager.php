@@ -29,6 +29,15 @@ class SqlManager implements StorageInterface
   {
     return $this->db;
   }
+
+  /**
+   * @param $sql
+   * @return \PDOStatement
+   */
+  public function prepare($sql){
+    $statement = $this->db->prepare($sql);
+    return $statement;
+  }
   /**
    * Executes the sql given with the parameters given.
    *
