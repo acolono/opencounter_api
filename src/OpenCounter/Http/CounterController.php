@@ -107,28 +107,18 @@ class CounterController implements ContainerInterface{
     // validate the array
     if($data && isset($data['value'])){
       $counter = $this->counter_repository->getCounterByName($counterName);
+      print_r($counter);
+
       if($counter){
         if ($counter->isLocked()) {
           $return['message'] = 'The counter is locked and cannot be changed';
           $code = 409;
         }
         else {
-
-          $update = false;
-          if($data['value'] === '+1'){
-            $counter->value++;
-            $update = true;
-          } else if($data['value'] === '-1'){
-            $counter->value--;
-            $update = true;
-          } else if(is_int($data['value'])){
-            $counter->value = $data['value'];
-            $update = true;
-          } else {
-            $return['message'] = 'Not a valid value, it should be either an integer or a "+1" or "-1" string';
-          }
-
+          $increment = new CounterValue($data['value']);
+          $update = $counter->increaseCount($increment);
           if($update){
+            print_r($counter);
             $this->counter_repository->update($counter);
             $return = $counter;
             $code = 201;

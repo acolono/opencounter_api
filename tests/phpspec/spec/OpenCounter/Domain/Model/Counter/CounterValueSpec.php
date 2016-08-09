@@ -10,16 +10,13 @@ class CounterValueSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(CounterValue::class);
+        $this->shouldHaveType('OpenCounter\Domain\Model\Counter\CounterValue');
     }
   function let()
   {
     $this->beConstructedWith(1);
   }
-  function its_can_be_incremented()
-  {
-    $this->increment('+1')->shouldReturn(2);
-  }
+
   function its_value_can_be_returned()
   {
     $this->value()->shouldReturn(1);

@@ -18,7 +18,7 @@ class CounterValue
   /**
    * The counter value.
    *
-   * @var string
+   * @var int
    * @SWG\Property(example="+1")
    */
 private $value;
@@ -35,13 +35,7 @@ private $value;
     }
     public function value()
     {
-      return $this->value;
-    }
-
-    public function increment($increment)
-    {
-      $this->value = $this->value + $increment;
-      return $this->value;
+      return (int) $this->value;
     }
 
 }

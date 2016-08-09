@@ -1,6 +1,7 @@
 <?php
 
 namespace OpenCounter\Domain\Model\Counter;
+use OpenCounter\Domain\Exception\Counter\CounterLockedException;
 
 
 /**
@@ -60,7 +61,7 @@ class Counter
   public $status;
 
   /**
-   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
+   * @param \OpenCounter\Domain\Model\Counter\CounterId $id
    *
    * @param \OpenCounter\Domain\Model\Counter\CounterName $anName
    *
@@ -74,14 +75,14 @@ class Counter
    * default="onecounter"
    * )
    *
-* @param \OpenCounter\Domain\Model\Counter\CounterValue $aValue
+* @param \OpenCounter\Domain\Model\Counter\CounterValue $value
    * @param $password
    */
-  public function __construct(CounterId $anId, CounterName $aName, CounterValue $aValue, $password) {
+  public function __construct(CounterId $id, CounterName $name, CounterValue $value, $password) {
     //$this->state = State::active();
-    $this->id = $anId->uuid();
-    $this->name = $aName->name();
-    $this->value = $aValue->value();
+    $this->id = $id->uuid();
+    $this->name = $name->name();
+    $this->value = $value->value();
 
     $this->status = 'active';
     $this->password = $password;
@@ -147,27 +148,29 @@ class Counter
    * @return string
    *   The counter Value
    */
-  public function reset() {
-    $this->value = 0;
+  public function resetValueTo(CounterValue $counterValue) {
+    $this->value = $counterValue->value();
 
     return $this->value;
   }
 
   /**
-   * Increment Value
+   * Increase Count
    *
    * @return mixed
    * @throws \Exception
    */
-  public function incrementValue()
+  public function increaseCount($increment)
   {
-    if (! $this->status == 'locked') {
-      $new_value = $this->value->increment();
-      return $new_value;
+    if (! $this->isLocked()) {
+      $newValue = new CounterValue( $this->getValue() + $increment->value());
+      $this->value = $newValue->value();
+      return TRUE;
     }
     else {
-      throw new \Exception("cannot increment locked counter", 1, NULL);
+      throw new CounterLockedException("cannot increment locked counter", 1, NULL);
     }
+
   }
 
   public function lock()
@@ -177,17 +180,29 @@ class Counter
 //    $this->locked = true;
 
     if (!$this->couldBeLocked()) {
-      throw new \Exception("Could not do this transition");
+      throw new \Exception("Could not set status to locked");
     }
-    return$this->state = 'locked';
+    $this->status = 'locked';
+    return $this->getStatus();
+//    return $this->state = State::locked();
+  }
+  public function enable()
+  {
+    // Set status to locked logic
+//      $this->status = 'locked';
+//    $this->locked = true;
+
+    if (!$this->couldBeLocked()) {
+      throw new \Exception("Could not set active");
+    }
+    $this->status = 'active';
+    return $this->getStatus();
 //    return $this->state = State::locked();
   }
 
   public function isLocked()
   {
-        if ($this->status == 'locked') {
-          return TRUE;
-        }
+    return ($this->status == 'locked');
 ////    return $this->locked;
 //    return $this->state->isLocked();
   }
@@ -196,9 +211,9 @@ class Counter
     return !$this->isLocked();
   }
 
-    public function changeNameTo($argument1)
-    {
-        // TODO: write logic here
-    }
+  public function changeNameTo($argument1)
+  {
+      // TODO: write logic here
+  }
 
 }
