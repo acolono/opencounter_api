@@ -8,7 +8,7 @@
 
 namespace OpenCounter\Infrastructure\Factory\Counter;
 
-
+use OpenCounter\Domain\Model\Counter\Counter;
 use OpenCounter\Domain\Model\Counter\CounterId;
 use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
@@ -17,7 +17,7 @@ class CounterFactory {
   /**
    * {@inheritdoc}
    */
-  public function register(CounterId $anId, CounterName $anName, CounterValue $aValue, $aPassword)
+  public function build(CounterId $anId, CounterName $anName, CounterValue $aValue, $aPassword)
   {
     return new Counter($anId, $anName, $aValue, $aPassword);
   }

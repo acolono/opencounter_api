@@ -8,21 +8,22 @@ use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Repository\CounterRepositoryInterface;
 use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository;
-use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 
+use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
 
 class SqlCounterRepositorySpec extends ObjectBehavior
 {
-  function let(SqlManager $pdo)
+  function let()
   {
-    $this->beConstructedWith($pdo);
+    $this->counter_mapper = $counter_mapper;
+    $this->beConstructedWith($this->counter_mapper);
 
 
   }
-  function it_removes_the_counter_given(SqlManager $pdo, \PDOStatement $statement, Counter $counter, CounterId $counterId)
+  function it_removes_the_counter_given(SqlManager $counter_mapper, \PDOStatement $statement, Counter $counter, CounterId $counterId)
   {
     $counter->getId()->shouldBeCalled()->willReturn('testuuid');
 //    $counter->getId()->shouldBeCalled()->willReturn($counterId);

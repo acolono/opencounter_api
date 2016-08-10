@@ -17,9 +17,9 @@ use OpenCounter\Domain\Model\Counter\CounterName;
  */
 class CounterSpec extends ObjectBehavior
 {
-  function let(CounterName $counterName, CounterId $counterId, CounterValue $counterValue)
+  function let(CounterId $counterId, CounterName $counterName, CounterValue $counterValue)
   {
-    $this->beConstructedWith($counterName, $counterId, $counterValue, 'password');
+    $this->beConstructedWith($counterId, $counterName, $counterValue, 'password');
   }
 
   function it_can_instanciate_new_counters_to_be_saved_to_collection(CounterId $counterId){
@@ -42,8 +42,9 @@ class CounterSpec extends ObjectBehavior
   }
   function it_can_be_incremented(CounterValue $value) {
 
-    $value->increment()->willReturn(2);
-    $this->getValue()->shouldReturn($value);
+    $this->incrementValue()->willBeCalled();
+    $value->increment()->willBeCalled()->willReturn($value++);
+    $this->getValue()->shouldReturn($value++);
 
   }
 //  function it_stores_counter_id(CounterId $counterId)

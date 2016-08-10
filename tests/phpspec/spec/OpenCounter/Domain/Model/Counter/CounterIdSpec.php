@@ -17,7 +17,7 @@ class CounterIdSpec extends ObjectBehavior
   }
   function it_is_initializable()
   {
-    $this->shouldHaveType('OpenCounter\Domain\Model\Counter\CounterId');
+    $this->shouldHaveType('\OpenCounter\Domain\Model\Counter\CounterId');
   }
   function its_uuid()
   {

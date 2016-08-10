@@ -77,7 +77,7 @@ class Counter
 * @param \OpenCounter\Domain\Model\Counter\CounterValue $aValue
    * @param $password
    */
-  public function __construct(CounterName $aName, CounterId $anId, CounterValue $aValue, $password) {
+  public function __construct(CounterId $anId, CounterName $aName, CounterValue $aValue, $password) {
     //$this->state = State::active();
     $this->id = $anId->uuid();
     $this->name = $aName->name();
@@ -179,8 +179,8 @@ class Counter
     if (!$this->couldBeLocked()) {
       throw new \Exception("Could not do this transition");
     }
-
-    return $this->state = State::locked();
+    return$this->state = 'locked';
+//    return $this->state = State::locked();
   }
 
   public function isLocked()
@@ -195,5 +195,10 @@ class Counter
   {
     return !$this->isLocked();
   }
+
+    public function changeNameTo($argument1)
+    {
+        // TODO: write logic here
+    }
 
 }

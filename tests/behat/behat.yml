@@ -10,10 +10,10 @@ default:
       print_outp: true
       loop_break: true
     Pavlakis\Slim\Behat:
-      config_file: ../../src/settings.php
-      dependencies_file: ../../src/dependencies.php
-  #      middleware_file: src/middleware.php
-      routes_file: ../../src/routes.php
+      config_file: ../../configuration/settings.php
+      dependencies_file: ../../configuration/dependencies.php
+      middleware_file: ../../configuration/middleware.php
+      routes_file: ../../configuration/routes.php
     Behat\WebApiExtension:
       base_url: http://api.opencounter.docker
   formatters:

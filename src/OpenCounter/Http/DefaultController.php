@@ -1,27 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rosenstrauch
- * Date: 8/7/16
- * Time: 8:51 PM
- */
 
-namespace OpenCounter\Api;
+namespace OpenCounter\Http;
 
+use Interop\Container\ContainerInterface;
 
-
-use Monolog\Logger;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class DefaultController
 {
+  protected $ci;
+
   private $logger;
   private $renderer;
-  public function __construct(Logger $logger, $renderer)
+
+  public function __construct(ContainerInterface $ci)
   {
-    $this->logger   = $logger;
-    $this->renderer = $renderer;
+    $this->ci = $ci;
+    $this->renderer = $this->ci->get('renderer');
+    $this->logger = $this->ci->get('logger');
   }
   public function index(Request $request, Response $response, $args)
   {

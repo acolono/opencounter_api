@@ -25,9 +25,14 @@
         "robmorgan/phinx": "^0.6.4",
         "emuse/behat-html-formatter": "^0.1.0"
     },
+  "config": {
+    "preferred-install": "dist",
+    "bin-dir": "vendor/bin"
+  },
   "autoload": {
     "psr-0": {
-      "": "src/"
+      "": "src/",
+      "OpenCounter": "src/OpenCounter"
     }
   }
 }
