@@ -10,9 +10,11 @@ namespace OpenCounter\Http;
 
 
 use Interop\Container\ContainerInterface;
+
 use OpenCounter\Domain\Model\Counter\Counter;
 use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
+
 use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository;
 use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 use Slim\Exception\SlimException;
@@ -21,7 +23,7 @@ use Slim\Exception\SlimException;
  * Class CounterController
  * @package OpenCounter\Api
  */
-class CounterController implements ContainerInterface{
+class CounterController implements ContainerInterface {
   protected $ci;
 
   private $logger;
@@ -94,7 +96,7 @@ class CounterController implements ContainerInterface{
 
   public function incrementCounter($request, $response, $args) {
 
-    $this->logger->info('updating (PUT) counter with name ' . $args['name']);
+    $this->logger->info('incrementing (PUT) counter with name ' . $args['name']);
     //we assume everything is going to fail
     $return = ['message' => 'an error has occurred'];
     $code = 400;
@@ -107,7 +109,6 @@ class CounterController implements ContainerInterface{
     // validate the array
     if($data && isset($data['value'])){
       $counter = $this->counter_repository->getCounterByName($counterName);
-    //  print_r($counter);
 
       if($counter){
         if ($counter->isLocked()) {
@@ -180,15 +181,23 @@ class CounterController implements ContainerInterface{
 
     $counterName = new CounterName($args['name']);
     $counterValue = new CounterValue($data['value']);
+
     // validate the array
     if($data && isset($data['value'])){
       $counter = $this->counter_repository->getCounterByName($counterName);
+
       if($counter) {
+        $this->logger->info('found ' . $counterName);
+
         if ($counter->isLocked()) {
+          $this->logger->info('cannot save locked counter  ' . $counterName);
+
           $return['message'] = 'The counter is locked and cannot be changed';
           $code = 409;
         }
         else {
+          $counter->resetValueTo($counterValue);
+
           $this->counter_repository->save($counter);
           $this->logger->info('saved ' . $counterName);
           $return = $counter;
@@ -196,6 +205,8 @@ class CounterController implements ContainerInterface{
         }
       }
       else{
+        $this->logger->info('The counter was not found ' . $counterName);
+
         $return['message'] = 'The counter was not found, possibly due to bad credentials';
         $code = 404;
       }
@@ -306,5 +317,10 @@ class CounterController implements ContainerInterface{
   {
     return $this->offsetExists($id);
   }
+
+    public function findAction($argument1)
+    {
+        // TODO: write logic here
+    }
 
 }
