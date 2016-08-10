@@ -37,7 +37,7 @@ $container['counter_repository'] = function($container) {
 
 
 $container['counter_build_service'] = function($container) {
-  $factory = new \OpenCounter\Infrastructure\Factory\CounterFactory();
+  $factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
 
   $counter_build_service = new \OpenCounter\Http\CounterBuildService($container->get('counter_repository'), $factory, $container['logger']);
   return $counter_build_service;
