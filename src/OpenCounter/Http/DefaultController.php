@@ -11,8 +11,6 @@ class DefaultController
 {
   protected $ci;
 
-  private $logger;
-  private $renderer;
 
   public function __construct(ContainerInterface $ci)
   {

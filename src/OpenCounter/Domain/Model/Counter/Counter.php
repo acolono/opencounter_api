@@ -62,8 +62,10 @@ class Counter
 
   /**
    * @param \OpenCounter\Domain\Model\Counter\CounterId $id
-   *
-   * @param \OpenCounter\Domain\Model\Counter\CounterName $anName
+   * @param \OpenCounter\Domain\Model\Counter\CounterName $name
+   * @param \OpenCounter\Domain\Model\Counter\CounterValue $value
+   * @param $status
+   * @param $password
    *
    * @SWG\Parameter(
    * parameter="CounterName",
@@ -74,17 +76,14 @@ class Counter
    * type="string",
    * default="onecounter"
    * )
-   *
-* @param \OpenCounter\Domain\Model\Counter\CounterValue $value
-   * @param $password
    */
-  public function __construct(CounterId $id, CounterName $name, CounterValue $value, $password) {
+  public function __construct(CounterId $id, CounterName $name, CounterValue $value, $status, $password) {
     //$this->state = State::active();
     $this->id = $id->uuid();
     $this->name = $name->name();
     $this->value = $value->value();
 
-    $this->status = 'active';
+    $this->status = $status;
     $this->password = $password;
 //    $this->changePassword($aPassword);
     //https://github.com/benatespina/ddd-symfony/issues/1
@@ -160,7 +159,7 @@ class Counter
    * @return mixed
    * @throws \Exception
    */
-  public function increaseCount($increment)
+  public function increaseCount(CounterValue $increment)
   {
     if (! $this->isLocked()) {
       $newValue = new CounterValue( $this->getValue() + $increment->value());

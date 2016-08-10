@@ -25,7 +25,7 @@ class CounterSpec extends ObjectBehavior
     $counterName = new CounterName('counterone');
     $counterValue = new CounterValue(1);
 
-    $this->beConstructedWith($counterId, $counterName, $counterValue, 'password');
+    $this->beConstructedWith($counterId, $counterName, $counterValue, 'active', 'password');
 
 
   }
@@ -39,10 +39,11 @@ class CounterSpec extends ObjectBehavior
 
   function it_can_be_incremented_if_its_not_locked(CounterId $counterId, CounterName $counterName, CounterValue $counterValue) {
     $this->status = 'active';
+    $increment = new CounterValue(1);
 
     $this->shouldNotBeLocked();
 
-    $this->increaseCount(1)->shouldReturn(TRUE);
+    $this->increaseCount($increment)->shouldReturn(TRUE);
 
     $this->getValue()->shouldReturn(2);
 
@@ -64,11 +65,12 @@ class CounterSpec extends ObjectBehavior
 
   function it_can_not_be_incremented_if_its_locked() {
     $this->lock();
+    $increment = new CounterValue(1);
 
     // $increment = new CounterValue(1);
     $this->shouldBeLocked();
 
-    $this->shouldThrow('OpenCounter\Domain\Exception\Counter\CounterLockedException')->duringIncreaseCount(1);
+    $this->shouldThrow('OpenCounter\Domain\Exception\Counter\CounterLockedException')->duringIncreaseCount($increment);
 
   }
 

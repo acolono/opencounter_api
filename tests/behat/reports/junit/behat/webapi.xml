@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="webapi">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="2" errors="0">
-    <testcase name="increment the value for a single counter in the collection" status="failed">
-      <failure message="Given a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection: Failed asserting that 409 is identical to 201."></failure>
-    </testcase>
-    <testcase name="lock a single counter in the collection and try to increment it" status="failed">
-      <failure message="Then I should see an error &quot;counter with name onecounter is locked&quot;: Failed asserting that '{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:1,&quot;status&quot;:&quot;active&quot;}' matches PCRE pattern &quot;/counter with name onecounter is locked/i&quot;."></failure>
-    </testcase>
+  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="0">
+    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
+    <testcase name="lock a single counter in the collection and try to increment it" status="passed"></testcase>
   </testsuite>
   <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="0">
     <testcase name="Getting the value for a single counter in the collection" status="passed"></testcase>
   </testsuite>
-  <testsuite name="reset one counter" tests="1" skipped="0" failures="1" errors="0">
-    <testcase name="Resetting the first counter" status="failed">
-      <failure message="Then the value returned should be &quot;0&quot;: Failed asserting that '1' matches PCRE pattern &quot;/0/i&quot;."></failure>
-    </testcase>
+  <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="0">
+    <testcase name="Resetting the first counter" status="passed"></testcase>
   </testsuite>
 </testsuites>

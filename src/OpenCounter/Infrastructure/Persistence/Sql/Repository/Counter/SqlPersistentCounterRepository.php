@@ -17,11 +17,17 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
   public function __construct(SqlManager $manager)
   {
     $this->manager = $manager;
+    $this->removeStmt = $this->manager->prepare(
+      sprintf('DELETE FROM %s WHERE uuid = :uuid', self::TABLE_NAME)
+    );
+    $this->getStmt = $this->manager->prepare(
+      sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME)
+    );
     $this->insertStmt = $this->manager->prepare(
-        sprintf("INSERT INTO %s (name, uuid, value, password) VALUES (:name, :uuid, :value, :password)", self::TABLE_NAME)
+        sprintf("INSERT INTO %s (name, uuid, value, status, password) VALUES (:name, :uuid, :value, :status, :password)", self::TABLE_NAME)
     );
     $this->updateStmt = $this->manager->prepare(
-        sprintf('UPDATE %s SET value = :value, password = :password WHERE uuid = :uuid', self::TABLE_NAME)
+        sprintf('UPDATE %s SET value = :value, status = :status, password = :password WHERE uuid = :uuid', self::TABLE_NAME)
     );
 
   }
@@ -58,6 +64,7 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
         'name' => $anCounter->getName(),
         'uuid' => $anCounter->getId(),
         'value' => $anCounter->getValue(),
+        'status' => $anCounter->getStatus(),
         'password' => 'passwordplaceholder']);
 
   }
@@ -71,6 +78,7 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
     $update = $this->updateStmt->execute([
         'uuid' => $anCounter->getId(),
         'value' => $anCounter->getValue(),
+        'status' => $anCounter->getStatus(),
         'password' => 'passwordplaceholder'
     ]);
 

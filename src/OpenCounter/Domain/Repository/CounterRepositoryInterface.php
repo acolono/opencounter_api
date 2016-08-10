@@ -77,5 +77,5 @@ interface CounterRepositoryInterface
    */
   public function size();
 
-    public function find($argument1);
+//  public function find($argument1);
 }

@@ -10,11 +10,16 @@ use OpenCounter\Domain\Model\Counter\CounterId;
 use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\Counter;
+
+use Pavlakis\Slim\Behat\Context\App;
+use Pavlakis\Slim\Behat\Context\KernelAwareContext;
 /**
  * Defines application features from the specific context.
  */
-class DomainContext implements Context, SnippetAcceptingContext
+class DomainContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
+  use App;
+
   /**
    * @var bool
    */
@@ -29,6 +34,7 @@ class DomainContext implements Context, SnippetAcceptingContext
      */
     public function __construct( )
     {
+      //$this->counter_factory = $this->app->getContainer()->get('counter_factory');
 
       //$this->catalogue = new CounterRepository($pdo);
     }
@@ -41,10 +47,10 @@ class DomainContext implements Context, SnippetAcceptingContext
       $this->counterName = new CounterName($name);
       $this->counterId = new CounterId($id);
       $this->counterValue = new CounterValue($value);
+      //$this->counter = $this->counter_factory->build($this->counterId, $this->counterName, $value, $password);
+
       $this->counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
-     // $this->counter->id = $id;
-//      $this->counter->value = $value;
-      //$this->catalogue->add($this->counter);
+
     }
 
   /**
@@ -55,7 +61,9 @@ class DomainContext implements Context, SnippetAcceptingContext
     $this->counterName = new CounterName($name);
     $this->counterId = new CounterId();
     $this->counterValue = new CounterValue($value);
-    $this->counter = new Counter($this->counterName, $this->counterId, $this->counterValue, 'passwordplaceholder');
+    //$counter = $this->counter_factory->build($this->counterId, $this->counterName, $value, $password);
+
+    $this->counter = new Counter($this->counterId, $this->counterName, $this->counterValue, 'active', 'passwordplaceholder');
   }
 //    /**
 //     * @When I get the value of the counter with ID :id
@@ -103,7 +111,7 @@ class DomainContext implements Context, SnippetAcceptingContext
   public function iIncrementTheValueOfTheCounterWithName($name)
   {
     try {
-      $incremented = $this->counter->incrementValue();
+      $incremented = $this->counter->increaseCount();
     } catch (Exception $e) {
       $this->error = true;
     }
@@ -168,7 +176,8 @@ class DomainContext implements Context, SnippetAcceptingContext
      */
     public function iResetTheCounterWithName($name)
     {
-      $this->counter->reset();
+      $newValue = new CounterValue(0);
+      $this->counter->resetValueTo($newValue);
     }
 
 

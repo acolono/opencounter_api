@@ -353,29 +353,28 @@ i need to be able to /get the counter value/ from api
                     <span class="title">increment the value for a single counter in the collection</span>
                 </h3>
                 <ol>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
                             <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I increment the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be 2 </span>
@@ -394,43 +393,42 @@ i need to be able to /get the counter value/ from api
                     <span class="title">lock a single counter in the collection and try to increment it</span>
                 </h3>
                 <ol>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
                             <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I lock the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iLockTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">I increment the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">I should see an error "counter with name onecounter is locked" </span>
                             <span class="path">DomainContext::iShouldSeeAnError()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">the value returned should be 1 </span>
@@ -439,9 +437,7 @@ i need to be able to /get the counter value/ from api
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 0%, 
-                Scenarios failed : 100%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div>
         <div class="feature">
@@ -467,22 +463,21 @@ GET /counters/1/value</p>
                     <span class="title">Getting the value for a single counter in the collection</span>
                 </h3>
                 <ol>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
                             <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be 1 </span>
@@ -491,9 +486,7 @@ GET /counters/1/value</p>
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 0%, 
-                Scenarios failed : 100%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div>
         <div class="feature">
@@ -518,29 +511,28 @@ PUT /counters/1</p>
                     <span class="title">Resetting the first counter</span>
                 </h3>
                 <ol>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
                             <span class="path">DomainContext::aCounterWithAValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I reset the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iResetTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">DomainContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be "0" </span>
@@ -549,9 +541,7 @@ PUT /counters/1</p>
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 0%, 
-                Scenarios failed : 100%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div>
         <div class="suite">Suite : webapi</div>
@@ -579,29 +569,28 @@ i need to be able to /get the counter value/ from api
                     <span class="title">increment the value for a single counter in the collection</span>
                 </h3>
                 <ol>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Given </span>
                             <span class="text">a counter "onecounter" with a value of "1" was added to the collection </span>
                             <span class="path">OpenCounterWebApiContext::aCounterWithValueOfWasAddedToTheCollection()</span>
                         </div>
-                        <pre class="backtrace">Failed asserting that 409 is identical to 201.</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I increment the value of the counter with name "onecounter" </span>
                             <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be 2 </span>
@@ -641,22 +630,21 @@ i need to be able to /get the counter value/ from api
                             <span class="path">OpenCounterWebApiContext::iIncrementTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">I should see an error "counter with name onecounter is locked" </span>
                             <span class="path">OpenCounterWebApiContext::iShouldSeeAnError()</span>
                         </div>
-                        <pre class="backtrace">Failed asserting that '{"name":"onecounter","value":1,"status":"active"}' matches PCRE pattern "/counter with name onecounter is locked/i".</pre>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">When </span>
                             <span class="text">I get the value of the counter with name "onecounter" </span>
                             <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="skipped">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">And </span>
                             <span class="text">the value returned should be 1 </span>
@@ -665,9 +653,7 @@ i need to be able to /get the counter value/ from api
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 0%, 
-                Scenarios failed : 100%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div>
         <div class="feature">
@@ -762,19 +748,16 @@ PUT /counters/1</p>
                             <span class="path">OpenCounterWebApiContext::iGetTheValueOfTheCounterWithName()</span>
                         </div>
                     </li>
-                    <li class="failed">
+                    <li class="passed">
                         <div class="step">
                             <span class="keyword">Then </span>
                             <span class="text">the value returned should be "0" </span>
                             <span class="path">OpenCounterWebApiContext::theValueReturnedShouldBe()</span>
                         </div>
-                        <pre class="backtrace">Failed asserting that '1' matches PCRE pattern "/0/i".</pre>
                     </li>
                 </ol>
             </div>
-            <div class="featureResult failed">Feature has failed
-                <span>Scenarios passed : 0%, 
-                Scenarios failed : 100%</span>
+            <div class="featureResult passed">Feature has passed
             </div>
         </div><!DOCTYPE html>
 <html lang="en">
@@ -832,21 +815,21 @@ PUT /counters/1</p>
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            5 features failed of 6
+            0 features failed of 6
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            7 scenarios failed of 8
+            0 scenarios failed of 8
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            7 steps failed of 16
+            0 steps failed of 34
         </div>
     </div>
     <hr>
@@ -863,7 +846,7 @@ PUT /counters/1</p>
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-1">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: edit one counter</h2>
                                     </div>
@@ -882,11 +865,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -894,7 +877,7 @@ i need to be able to /get the counter value/ from api<br />
                                 </div>
                             </div>
                                                     <div class="col-sm-4 feature" data-id="feature-2">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: read one counter</h2>
                                     </div>
@@ -912,11 +895,11 @@ GET /counters/1/value</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -924,7 +907,7 @@ GET /counters/1/value</p>
                                 </div>
                             </div>
                                                     <div class="col-sm-4 feature" data-id="feature-3">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: reset one counter</h2>
                                     </div>
@@ -941,11 +924,11 @@ PUT /counters/1</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -962,7 +945,7 @@ PUT /counters/1</p>
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-4">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: edit one counter</h2>
                                     </div>
@@ -981,11 +964,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -1023,7 +1006,7 @@ GET /counters/1/value</p>
                                 </div>
                             </div>
                                                     <div class="col-sm-4 feature" data-id="feature-6">
-                                <div class="card failed">
+                                <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: reset one counter</h2>
                                     </div>
@@ -1040,11 +1023,11 @@ PUT /counters/1</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -1059,7 +1042,7 @@ PUT /counters/1</p>
     <div id="scenario-overview" class="row">
                                     <div class="feature" data-id="feature-1">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: edit one counter</h2>
                             </div>
@@ -1078,11 +1061,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1090,7 +1073,7 @@ i need to be able to /get the counter value/ from api<br />
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1110,24 +1093,22 @@ i need to be able to /get the counter value/ from api<br />
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-danger">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 2
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1147,24 +1128,22 @@ i need to be able to /get the counter value/ from api<br />
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-danger">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I lock the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> I should see an error &quot;counter with name onecounter is locked&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1174,7 +1153,7 @@ i need to be able to /get the counter value/ from api<br />
                 </div>
                             <div class="feature" data-id="feature-2">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: read one counter</h2>
                             </div>
@@ -1192,11 +1171,11 @@ GET /counters/1/value</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1204,7 +1183,7 @@ GET /counters/1/value</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1224,15 +1203,13 @@ GET /counters/1/value</p>
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-danger">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1242,7 +1219,7 @@ GET /counters/1/value</p>
                 </div>
                             <div class="feature" data-id="feature-3">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: reset one counter</h2>
                             </div>
@@ -1259,11 +1236,11 @@ PUT /counters/1</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1271,7 +1248,7 @@ PUT /counters/1</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1291,18 +1268,16 @@ PUT /counters/1</p>
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-danger">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in /var/www/html/opencounter/tests/behat/features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I reset the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1312,7 +1287,7 @@ PUT /counters/1</p>
                 </div>
                                                 <div class="feature" data-id="feature-4">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: edit one counter</h2>
                             </div>
@@ -1331,11 +1306,11 @@ i need to be able to /get the counter value/ from api<br />
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1343,7 +1318,7 @@ i need to be able to /get the counter value/ from api<br />
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1363,24 +1338,28 @@ i need to be able to /get the counter value/ from api<br />
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-danger">
+                                                                                    <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that 409 is identical to 201.)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST api/v1/counters/onecounter =&gt; 201:
+{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:1,&quot;status&quot;:&quot;active&quot;}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter/value =&gt; 201:
+{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:2,&quot;status&quot;:&quot;active&quot;}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 2
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1409,24 +1388,22 @@ i need to be able to /get the counter value/ from api<br />
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I lock the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter =&gt; 405:
-{&quot;message&quot;:&quot;Method not allowed. Must be one of: GET, POST&quot;}</p>
+                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter/status =&gt; 201:
+{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:1,&quot;status&quot;:&quot;locked&quot;}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/onecounter/passwordplaceholder =&gt; 201:
-{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:1,&quot;status&quot;:&quot;active&quot;}</p>
+                                                    <p style="padding-left:2em ; color:black">| PATCH api/v1/counters/onecounter/value =&gt; 409:
+{&quot;message&quot;:&quot;counter with name onecounter is locked&quot;}</p>
                                                                                                                                             </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> I should see an error &quot;counter with name onecounter is locked&quot;
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:1,&quot;status&quot;:&quot;active&quot;}&#039; matches PCRE pattern &quot;/counter with name onecounter is locked/i&quot;.)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1505,7 +1482,7 @@ GET /counters/1/value</p>
                 </div>
                             <div class="feature" data-id="feature-6">
                     <div class="col-sm-4">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: reset one counter</h2>
                             </div>
@@ -1522,11 +1499,11 @@ PUT /counters/1</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -1534,7 +1511,7 @@ PUT /counters/1</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1562,15 +1539,16 @@ PUT /counters/1</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I reset the counter with name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PUT api/v1/counters/onecounter/passwordplaceholder =&gt; 201:
+{&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:0,&quot;status&quot;:&quot;active&quot;}</p>
+                                                                                                                                            </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;1&#039; matches PCRE pattern &quot;/0/i&quot;.)</p>
-                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                                                                                                                                                </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
@@ -1587,13 +1565,13 @@ PUT /counters/1</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 5,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 1,
+            value: 6,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1602,13 +1580,13 @@ PUT /counters/1</p>
 
     var scenarioData = [
         {
-            value: 7,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 1,
+            value: 8,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1617,13 +1595,13 @@ PUT /counters/1</p>
 
     var stepData = [
         {
-            value: 7,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 9,
+            value: 34,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1687,19 +1665,19 @@ PUT /counters/1</p>
 </body>
 </html>
 
-        <div class="summary failed">
+        <div class="summary passed">
             <div class="counters">
                 <p class="features">
-                    6 features ( <strong class="passed">1 success</strong> <strong class="failed">5 fail</strong> )
+                    6 features ( <strong class="passed">6 success</strong> )
                 </p>            
                 <p class="scenarios">
-                    8 scenarios ( <strong class="passed">1 success</strong> <strong class="failed">7 fail</strong> )
+                    8 scenarios ( <strong class="passed">8 success</strong> )
                 </p>
                 <p class="steps">
-                    34 steps ( <strong class="passed">9 success</strong> <strong class="skipped">18 skipped</strong> <strong class="failed">7 fail</strong> )
+                    34 steps ( <strong class="passed">34 success</strong> )
                 </p>
                 <p class="time">
-                0m2.54s - 19.20Mb
+                0m1.72s - 18.37Mb
                 </p>
             </div>
             <div class="switchers">

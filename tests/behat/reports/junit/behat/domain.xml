@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="domain">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="2" errors="0">
-    <testcase name="increment the value for a single counter in the collection" status="failed">
-      <failure message="Given a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection: Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80"></failure>
-    </testcase>
-    <testcase name="lock a single counter in the collection and try to increment it" status="failed">
-      <failure message="Given a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection: Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80"></failure>
-    </testcase>
+  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="0">
+    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
+    <testcase name="lock a single counter in the collection and try to increment it" status="passed"></testcase>
   </testsuite>
-  <testsuite name="read one counter" tests="1" skipped="0" failures="1" errors="0">
-    <testcase name="Getting the value for a single counter in the collection" status="failed">
-      <failure message="Given a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection: Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80"></failure>
-    </testcase>
+  <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="0">
+    <testcase name="Getting the value for a single counter in the collection" status="passed"></testcase>
   </testsuite>
-  <testsuite name="reset one counter" tests="1" skipped="0" failures="1" errors="0">
-    <testcase name="Resetting the first counter" status="failed">
-      <failure message="Given a counter &quot;onecounter&quot; with a value of &quot;1&quot; was added to the collection: Catchable Fatal Error: Argument 1 passed to OpenCounter\Domain\Model\Counter\Counter::__construct() must be an instance of OpenCounter\Domain\Model\Counter\CounterId, instance of OpenCounter\Domain\Model\Counter\CounterName given, called in features/bootstrap/DomainContext.php on line 58 and defined in /var/www/html/opencounter/src/OpenCounter/Domain/Model/Counter/Counter.php line 80"></failure>
-    </testcase>
+  <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="0">
+    <testcase name="Resetting the first counter" status="passed"></testcase>
   </testsuite>
 </testsuites>

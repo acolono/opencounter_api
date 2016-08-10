@@ -39,7 +39,7 @@ class CounterBuildService {
     $this->logger->info(json_encode($data));
 
     if(!isset($data)){
-      $data = [ 'value' => 0, 'name' => 'OneCounter' ];
+      $data = [ 'value' => 0, 'name' => 'OneCounter', 'status' => 'active' ];
     }
     // https://leanpub.com/ddd-in-php/read#leanpub-auto-persisting-value-objects
 
@@ -54,7 +54,7 @@ class CounterBuildService {
     if ($counter instanceof Counter) {
       throw new CounterAlreadyExistsException();
     }
-    $counter = $this->counter_factory->build($counterId, $name, $value, $password);
+    $counter = $this->counter_factory->build($counterId, $name, $value, 'active', $password);
     $this->logger->info('passing newly created counter to controller for saving via repo ' . $name->name());
     return $counter;
   }

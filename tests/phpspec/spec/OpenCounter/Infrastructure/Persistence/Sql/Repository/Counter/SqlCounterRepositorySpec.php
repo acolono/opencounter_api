@@ -21,13 +21,14 @@ class SqlCounterRepositorySpec extends ObjectBehavior
 
   function let(SqlManager $manager, Counter $anCounter)
   {
+    $this->beConstructedWith($manager);
+
     $this->removeStmt = $manager->prepare(
       sprintf('DELETE FROM %s WHERE uuid = :uuid', self::TABLE_NAME)
     );
     $this->getStmt = $manager->prepare(
       sprintf('SELECT * FROM %s WHERE name = :name', self::TABLE_NAME)
     );
-    $this->beConstructedWith($manager);
 
   }
 //  function it_removes_the_counter_given(SqlManager $manager, Counter $anCounter)

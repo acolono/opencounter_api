@@ -27,12 +27,12 @@ class SqlManagerSpec extends ObjectBehavior
   {
     $this->connection()->shouldReturnAnInstanceOf('PDO');
   }
-  function it_executes_prepared_statements($db)
-  {
-
+//  function it_executes_prepared_statements($db)
+//  {
+//
 //    $statement = sprintf('SELECT * FROM %s', null, self::TABLE_NAME);
 //    $this->prepare($statement)->willBeCalled()
 //    $this->execute($statement)->willBeCalled()->shouldReturnAnInstanceOf('PDOStatement');
-
-  }
+//
+//  }
 }

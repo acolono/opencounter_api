@@ -66,17 +66,17 @@ class CounterControllerSpec extends ObjectBehavior
 //
 //    $this->showAction(1)->shouldReturn($response);
 //  }
-  function it_throws_an_exception_if_a_counter_doesnt_exist(CounterRepositoryInterface $repository)
-  {
-    $id = 99;
-    $repository->find($id)->willReturn(null);
-    $this
-      ->shouldThrow(new CounterNotFoundException(
-        sprintf('Counter [%s] cannot be found.', $id)
-      ))
-      ->duringFindAction(999)
-    ;
-  }
+//  function it_throws_an_exception_if_a_counter_doesnt_exist(CounterRepositoryInterface $repository)
+//  {
+//    $id = 99;
+//    $repository->find($id)->willReturn(null);
+//    $this
+//      ->shouldThrow(new CounterNotFoundException(
+//        sprintf('Counter [%s] cannot be found.', $id)
+//      ))
+//      ->duringFindAction(999)
+//    ;
+//  }
 //
 //
 //

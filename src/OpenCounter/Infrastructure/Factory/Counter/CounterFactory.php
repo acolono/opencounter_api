@@ -17,8 +17,8 @@ class CounterFactory {
   /**
    * {@inheritdoc}
    */
-  public function build(CounterId $anId, CounterName $anName, CounterValue $aValue, $aPassword)
+  public function build(CounterId $anId, CounterName $anName, CounterValue $aValue, $status, $aPassword)
   {
-    return new Counter($anId, $anName, $aValue, $aPassword);
+    return new Counter($anId, $anName, $aValue, $status, $aPassword);
   }
 }

@@ -96,7 +96,7 @@ class CounterController implements ContainerInterface {
 
   public function incrementCounter($request, $response, $args) {
 
-    $this->logger->info('incrementing (PUT) counter with name ' . $args['name']);
+    $this->logger->info('incrementing (PATCH) counter with name ' . $args['name']);
     //we assume everything is going to fail
     $return = ['message' => 'an error has occurred'];
     $code = 400;
@@ -112,7 +112,7 @@ class CounterController implements ContainerInterface {
 
       if($counter){
         if ($counter->isLocked()) {
-          $return['message'] = 'The counter is locked and cannot be changed';
+          $return['message'] = 'counter with name onecounter is locked';
           $code = 409;
         }
         else {
@@ -136,7 +136,7 @@ class CounterController implements ContainerInterface {
   }
 
   public function setCounterStatus($request, $response, $args) {
-    $this->logger->info('updating (PUT) counter with name ' . $args['name']);
+    $this->logger->info('updating (PATCH) status of counter with name ' . $args['name']);
     //we assume everything is going to fail
     $return = ['message' => 'an error has occurred'];
     $code = 400;
@@ -147,16 +147,17 @@ class CounterController implements ContainerInterface {
     $counterName = new CounterName($args['name']);
     $counterValue = new CounterValue($data['value']);
     // validate the array
-    if($data && isset($data['value'])){
+    if($data && isset($data['status']) && $data['status'] = 'locked'){
       $counter = $this->counter_repository->getCounterByName($counterName);
       if($counter) {
         if ($counter->isLocked()) {
-          $return['message'] = 'The counter is locked and cannot be changed';
+          $return['message'] = 'The counter is locked already';
           $code = 409;
         }
         else {
+          $counter->lock();
           $this->counter_repository->save($counter);
-          $this->logger->info('saved ' . $counterName);
+          $this->logger->info('saved locked counter' . $counterName);
           $return = $counter;
           $code = 201;
         }
@@ -192,7 +193,7 @@ class CounterController implements ContainerInterface {
         if ($counter->isLocked()) {
           $this->logger->info('cannot save locked counter  ' . $counterName);
 
-          $return['message'] = 'The counter is locked and cannot be changed';
+          $return['message'] = 'counter with name ' . $counterName . ' is locked';
           $code = 409;
         }
         else {

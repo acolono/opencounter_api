@@ -47,7 +47,8 @@ use App;
 
     $this->db = $this->app->getContainer()->get('db');
     $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($this->sqlManager);
+    $this->counterRepository = $this->app->getContainer()->get('counter_repository');
+//    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($this->sqlManager);
 
     if (isset($this->counter) && is_array($this->counter)) {
       echo 'removing testing counters';
@@ -161,14 +162,14 @@ use App;
      */
     public function iIncrementTheValueOfTheCounterWithName($name)
     {
-      $endpoint = '/api/v1/counters/' . $name . '/passwordplaceholder';
+      $endpoint = '/api/v1/counters/' . $name . '/value';
 
       $CounterArray = array(
-        json_encode(array('value' => '+1'))
+        json_encode(array('value' => 1))
       );
       //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
-      $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
+      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
       $this->printResponse();
 
     }
@@ -178,10 +179,10 @@ use App;
      */
     public function iLockTheCounterWithId($id)
     {
-      $endpoint = '/api/v1/counters/' . $id;
+      $endpoint = '/api/v1/counters/' . $id . '/status';
 
       $CounterArray = array(
-        json_encode(array('lock' => 1))
+        json_encode(array('value' => '1', 'status' => 'locked'))
       );
 //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
@@ -194,10 +195,13 @@ use App;
      */
     public function iLockTheCounterWithName($name)
     {
-      $endpoint = '/api/v1/counters/' . $name;
+      $endpoint = '/api/v1/counters/' . $name . '/status';
 
       $CounterArray = array(
-        json_encode(array('lock' => 1))
+        json_encode(array(
+          'status' => 'locked',
+          'value' => 0
+        ))
       );
       //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
@@ -240,7 +244,7 @@ use App;
       $endpoint = '/api/v1/counters/' . $id;
 
       $CounterArray = array(
-        json_encode(array('reset' => 1))
+        json_encode(array('value' => 0))
       );
 //      [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
@@ -252,15 +256,15 @@ use App;
      */
     public function iResetTheCounterWithName($name)
     {
-      $endpoint = '/api/v1/counters/' . $name;
+      $endpoint = '/api/v1/counters/' . $name . '/passwordplaceholder';
 
       $CounterArray = array(
-        json_encode(array('reset' => 1))
+        json_encode(array('value' => 0))
       );
       // [$rowLineNumber => [$val1, $val2, $val3]]
       $CounterjsonString = new PyStringNode($CounterArray, 1);
-      $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
-      //$this->printResponse();
+      $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
+      $this->printResponse();
     }
 
 

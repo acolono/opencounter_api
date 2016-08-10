@@ -104,6 +104,7 @@ class SqlCounterRepository implements CounterRepositoryInterface
       new CounterId($row['uuid']),
       new CounterName($row['name']),
       new CounterValue($row['value']),
+      $row['status'],
       $row['password']
     );
   }
