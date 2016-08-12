@@ -33,14 +33,58 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
 
     }
+  /**
+   * @BeforeSuite
+   */
+  public static function prepare(BeforeSuiteScope $scope)
+  {
+    // prepare system for test suite
+    // before it runs
+    // this will hold counters we create during tests so we can delete them from db
 
+    $created_counters = array();
+
+  }
+
+  /**
+   * @AfterScenario @web
+   */
+  public function cleanDB(AfterScenarioScope $scope)
+  {
+    // clean database after scenarios,
+    // tagged with @web
+
+    // TODO: foreach $created_counters as counter delete counter
+  }
     /**
      * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
     public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
     {
+      $endpoint = '/api/v1/counters/' . $id;
+      // send a POST request to the endpoint with the counter values in the body
+      $newCounterArray = array(
+        json_encode(array('anId' => $id, 'name' => $name, 'value' => $value))
+      );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+      $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+      $this->iSetHeaderWithValue('Content-Type', 'application/json');
+      $this->iSetHeaderWithValue('Accept', 'application/json');
+      $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
 
-      throw new PendingException('TODO describe how to send POST request with counter through the counter route using existing webapi vocabulary (behat -dl) where possible and cosider https://akrabat.com/testing-slim-framework-actions/accessing although that should be covered by https://github.com/slimphp/Slim/tree/3.x/tests');
+$this->printResponse();
+
+
+
+      // since we are using this as a given step we can make sure it was added successfully within this step
+      $this->theResponseShouldContain('id');
+
+      $this->theResponseCodeShouldBe('200');
+
+      //make absolutely sure we added it successfully and our cleanup works
+      $errormesage = array('message' => "counter with id $id already exists");
+      $ErrorString = new PyStringNode($newCounterArray, 1);
+      $this->theResponseShouldNotContain($ErrorString);
     }
 
 //    /**

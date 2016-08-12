@@ -15,7 +15,7 @@ default:
   #      middleware_file: src/middleware.php
       routes_file: ../../src/routes.php
     Behat\WebApiExtension:
-      base_url: http://web
+      base_url: http://api.opencounter.docker
   formatters:
       pretty: true
       progress: true
