@@ -1,0 +1,17 @@
+{
+    "name": "rosenstrauch/client-example",
+    "require": {
+        "acolono/opencounter-guzzle-client": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "rosenstrauch",
+            "email": "Rosenstrauch@2318810.no-reply.drupal.org"
+        }
+    ],
+  "repositories": [{
+    "type": "vcs",
+//    "url": "https://github.com/acolono/opencounter-guzzle-client.git"
+    "url": "/mnt/DATA/05-Start/experiments/opencounter_api/opencounter_guzzle_client"
+  }],
+}
