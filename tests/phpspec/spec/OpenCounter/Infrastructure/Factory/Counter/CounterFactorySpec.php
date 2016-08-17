@@ -11,16 +11,18 @@ use Prophecy\Argument;
 
 class CounterFactorySpec extends ObjectBehavior
 {
-  function it_is_initializable()
-  {
-    $this->shouldHaveType('OpenCounter\Infrastructure\Factory\Counter\CounterFactory');
-  }
-//  function it_implements_CounterFactory()
-//  {
-//    $this->shouldImplement('OpenCounter\Domain\Factory\Counter\CounterFactory');
-//  }
-  function it_builds(CounterId $userId, CounterName $name, CounterValue $value)
-  {
-    $this->build($userId, $name, $value, 'active', 'password')->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
-  }
+    function it_implements_counter_factory_interface()
+    {
+        $this->shouldHaveType('OpenCounter\Infrastructure\Factory\Counter\CounterFactory');
+        $this->shouldImplement('OpenCounter\Domain\Factory\Counter\CounterFactory');
+    }
+
+    function it_builds(
+      CounterId $userId,
+      CounterName $name,
+      CounterValue $value
+    ) {
+        $this->build($userId, $name, $value, 'active', 'password')
+          ->shouldReturnAnInstanceOf('OpenCounter\Domain\Model\Counter\Counter');
+    }
 }

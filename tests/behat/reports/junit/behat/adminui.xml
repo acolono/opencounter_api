@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="adminui">
+  <testsuite name="create a new counter" tests="1" skipped="0" failures="0" errors="1">
+    <testcase name="create a new counter" status="undefined">
+      <error message="Given no counter &quot;onecounter&quot; has been set" type="undefined"></error>
+      <error message="When I set a counter with name &quot;onecounter&quot;" type="undefined"></error>
+      <error message="Then I can get the value of the counter with Name &quot;onecounter&quot;" type="undefined"></error>
+      <error message="And I can get the value of the counter with Name &quot;onecounter&quot;" type="undefined"></error>
+      <error message="And the value returned should be 0" type="undefined"></error>
+    </testcase>
+  </testsuite>
+</testsuites>

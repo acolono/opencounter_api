@@ -3,7 +3,7 @@ Feature: create a new counter
   in order to know what I am counting
   I need to be able to create a new counter with a name and default value of '0'
 
-  @domain @web
+  @domain @web @adminui
   Scenario: create a new counter
     Given no counter "onecounter" has been set
     When I set a counter with name "onecounter"
@@ -13,3 +13,4 @@ Feature: create a new counter
 
     # Scenario: creating new counter if name already taken
     # Scenario: creating new counter with invalid name
+    # Scenario: creating default counter

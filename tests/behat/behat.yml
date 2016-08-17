@@ -41,3 +41,9 @@ default:
       filters:
         tags: "@web"
 #        role: "apiuser"
+    adminui:
+      paths: [ %paths.base%/features/Counters ]
+      contexts: [ AdminUiContext ]
+      filters:
+        tags: "@adminui"
+#        role: "admin"
