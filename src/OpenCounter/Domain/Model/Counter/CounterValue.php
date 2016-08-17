@@ -23,6 +23,12 @@ class CounterValue
    */
 private $value;
 
+    /**
+     * Constructor.
+     *
+     * Takes an integer and defaults to 0
+     * @param $value
+     */
     public function __construct($value)
     {
       if (isset($value)) {
@@ -33,6 +39,11 @@ private $value;
       }
 
     }
+
+    /**
+     * Return Value integer property from CounterValue Object
+     * @return int
+     */
     public function value()
     {
       return (int) $this->value;

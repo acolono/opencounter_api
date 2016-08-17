@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * The routes registry.
+ *
+ * creating named routes and mapping them to controllers.
+ */
 
 // Routes
 $app->get('/admin/counters',
@@ -12,7 +18,10 @@ $app->post('/admin/counters/{name}',
   '\OpenCounter\AdminUi\AdminUiController:addCounter')->setName('admin.counter.add');
 
 /**
- * https://github.com/zircote/swagger-php#usage-from-php
+ * Expose generated swagger.json (v2) on a route.
+ *
+ * we are using annotations to generate the documentation of our rest api
+ * @see https://github.com/zircote/swagger-php#usage-from-php
  * @SWG\Swagger(
  *     basePath="/api/v1",
  *     host="api.opencounter.docker",

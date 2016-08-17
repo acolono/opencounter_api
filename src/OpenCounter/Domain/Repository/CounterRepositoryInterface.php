@@ -24,58 +24,57 @@ use OpenCounter\Domain\Model\Counter\CounterId;
 interface CounterRepositoryInterface
 {
 
-  /**
-   * Removes the counter given.
-   *
-   * @param OpenCounter\Domain\Model\Counter\Counter $anCounter The counter
-   *
-   * @return mixed
-   */
-  public function remove(Counter $anCounter);
+    /**
+     * Removes the counter given.
+     *
+     * @param \OpenCounter\Domain\Model\Counter\Counter $anCounter
+     *
+     * @return mixed
+     */
+    public function remove(Counter $anCounter);
 
-  /**
-   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
-   *
-   * @return mixed
-   */
-  public function getCounterById(CounterId $anId);
+    /**
+     * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
+     *
+     * @return mixed
+     */
+    public function getCounterById(CounterId $anId);
 
-  /**
-   * @param \OpenCounter\Domain\Model\Counter\CounterName $aName
-   *
-   * @return mixed
-   */
-  public function getCounterByName(CounterName $aName);
+    /**
+     * @param \OpenCounter\Domain\Model\Counter\CounterName $aName
+     *
+     * @return mixed
+     */
+    public function getCounterByName(CounterName $aName);
 
-  /**
-   * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
-   *
-   * @return mixed
-   */
-  public function getCounterByUuid(CounterId $anId);
+    /**
+     * @param \OpenCounter\Domain\Model\Counter\CounterId $anId
+     *
+     * @return mixed
+     */
+    public function getCounterByUuid(CounterId $anId);
 
-  /**
-   * Gets the counter/counters that match with the given criteria.
-   *
-   * @param mixed $specification The specification criteria
-   *
-   * @return mixed
-   */
-  public function query($specification);
+    /**
+     * Gets the counter/counters that match with the given criteria.
+     *
+     * @param mixed $specification The specification criteria
+     *
+     * @return mixed
+     */
+    public function query($specification);
 
-  /**
-   * Returns the next available id.
-   *
-   * @return OpenCounter\Domain\Model\Counter\CounterId
-   */
-  public function nextIdentity();
+    /**
+     * Returns the next available id.
+     * @return mixed
+     */
+    public function nextIdentity();
 
-  /**
-   * Counts the number of counters.
-   *
-   * @return mixed
-   */
-  public function size();
+    /**
+     * Counts the number of counters.
+     *
+     * @return mixed
+     */
+    public function size();
 
 //  public function find($argument1);
 }

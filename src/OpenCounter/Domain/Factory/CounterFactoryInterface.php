@@ -6,7 +6,10 @@ use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\CounterId;
 use OpenCounter\Domain\Model\Counter\CounterName;
 
-
+/**
+ * Interface CounterFactoryInterface
+ * @package Domain\Factory\Counter
+ */
 interface CounterFactoryInterface
 {
   /**

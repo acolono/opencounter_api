@@ -17,7 +17,6 @@ interface PersistentCounterRepositoryInterface extends CounterRepositoryInterfac
    * @param \OpenCounter\Domain\Model\Counter\Counter $anCounter
    * @return mixed
    */
-
   function save(Counter $anCounter);
 
   /**
