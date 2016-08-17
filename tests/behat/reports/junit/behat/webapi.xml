@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="webapi">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="0">
-    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
-    <testcase name="lock a single counter in the collection and try to increment it" status="passed"></testcase>
-  </testsuite>
-  <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="0">
-    <testcase name="Getting the value for a single counter in the collection" status="passed"></testcase>
-  </testsuite>
-  <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="0">
-    <testcase name="Resetting the first counter" status="passed"></testcase>
+  <testsuite name="create a new counter" tests="1" skipped="0" failures="0" errors="1">
+    <testcase name="create a new counter" status="undefined">
+      <error message="Given no counter &quot;onecounter&quot; has been set" type="undefined"></error>
+      <error message="When I set a counter with name &quot;onecounter&quot;" type="undefined"></error>
+      <error message="Then I can get the value of the counter with Name &quot;onecounter&quot;" type="undefined"></error>
+      <error message="And I can get the value of the counter with Name &quot;onecounter&quot;" type="undefined"></error>
+    </testcase>
   </testsuite>
 </testsuites>

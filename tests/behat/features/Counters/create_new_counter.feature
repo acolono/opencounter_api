@@ -5,6 +5,11 @@ Feature: create a new counter
 
   @domain @web
   Scenario: create a new counter
-    Given there is no counter "onecounter"
-    When I create a counter with name "onecounter"
-    Then there is a counter "onecounter" with a value of "0"
+    Given no counter "onecounter" has been set
+    When I set a counter with name "onecounter"
+    Then I can get the value of the counter with Name "onecounter"
+    And I can get the value of the counter with Name "onecounter"
+    And the value returned should be 0
+
+    # Scenario: creating new counter if name already taken
+    # Scenario: creating new counter with invalid name

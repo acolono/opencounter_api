@@ -5,6 +5,6 @@ Feature: remove counter
 
   @domain @web
   Scenario: remove existing counter
-    Given there is a counter "onecounter"
+    Given a counter "onecounter" has been set
     When I remove the counter with name "onecounter"
-    Then there is no counter "onecounter".
+    Then no counter "onecounter" has been set

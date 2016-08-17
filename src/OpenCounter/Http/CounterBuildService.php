@@ -9,8 +9,8 @@ use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Exception\Counter\CounterAlreadyExistsException;
 use Monolog\Logger;
 
+use OpenCounter\Domain\Repository\CounterRepositoryInterface;
 use OpenCounter\Infrastructure\Factory\Counter\CounterFactory;
-use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository;
 
 class CounterBuildService {
 
@@ -20,7 +20,7 @@ class CounterBuildService {
   private $counter_factory;
   private $logger;
 
-  public function __construct(SqlPersistentCounterRepository $counter_repository, CounterFactory $counter_factory, Logger $logger)
+  public function __construct(CounterRepositoryInterface $counter_repository, CounterFactory $counter_factory, Logger $logger)
   {
 
     $this->counter_repository = $counter_repository;
@@ -41,10 +41,11 @@ class CounterBuildService {
     if(!isset($data)){
       $data = [ 'value' => 0, 'name' => 'OneCounter', 'status' => 'active' ];
     }
+
     // https://leanpub.com/ddd-in-php/read#leanpub-auto-persisting-value-objects
 
     $counterId = $this->counter_repository->nextIdentity();
-    $name = new CounterName($args['name']);
+    $name = new CounterName($data['name']);
     $value = new CounterValue($data['value']);
 
     $password = 'passwordplaceholder';

@@ -13,6 +13,7 @@ use OpenCounter\Domain\Model\Counter\Counter;
 
 use Pavlakis\Slim\Behat\Context\App;
 use Pavlakis\Slim\Behat\Context\KernelAwareContext;
+
 /**
  * Defines application features from the specific context.
  */
@@ -34,9 +35,11 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
      */
     public function __construct( )
     {
-      //$this->counter_factory = $this->app->getContainer()->get('counter_factory');
-
-      //$this->catalogue = new CounterRepository($pdo);
+      // in reality we will get the builder from container
+      $this->logger = new \Monolog\Logger('domaincontext behat');
+      $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
+      $this->counter_repository = new \OpenCounter\Infrastructure\Persistence\InMemory\Repository\Counter\InMemoryCounterRepository();
+      $this->counterBuildService = new \OpenCounter\Http\CounterBuildService($this->counter_repository, $this->counter_factory, $this->logger);
     }
 
     /**
@@ -54,7 +57,18 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
     }
 
   /**
-   * @Given a counter :name with a value of :value was added to the collection
+   * @Given a counter :name has been set
+   */
+  public function aCounterhasBeenSet($name)
+  {
+    $this->counterName = new CounterName($name);
+    $this->counterId = new CounterId();
+    $this->counterValue = new CounterValue(0);
+
+    $this->counter = new Counter($this->counterId, $this->counterName, $this->counterValue, 'active', 'passwordplaceholder');
+  }
+  /**
+   * @Given a counter :name with a value of :value has been set
    */
   public function aCounterWithAValueOfWasAddedToTheCollection($name, $value)
   {
@@ -62,6 +76,7 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
     $this->counterId = new CounterId();
     $this->counterValue = new CounterValue($value);
     //$counter = $this->counter_factory->build($this->counterId, $this->counterName, $value, $password);
+
 
     $this->counter = new Counter($this->counterId, $this->counterName, $this->counterValue, 'active', 'passwordplaceholder');
   }
@@ -148,7 +163,7 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
 
 
     /**
-     * @When I get the value of the counter with ID :arg1
+     * @When I (can )get the value of the counter with ID :arg1
      */
     public function iGetTheValueOfTheCounterWithId($arg1)
     {
@@ -157,7 +172,7 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
 
 
     /**
-     * @When I get the value of the counter with Name :name
+     * @When I (can )get the value of the counter with Name :name
      */
     public function iGetTheValueOfTheCounterWithName($name)
     {
@@ -172,13 +187,51 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
       $this->counter->reset();
     }
     /**
-     * @When I reset the counter with Name :name
+     * @When I (can )reset the counter with Name :name
      */
     public function iResetTheCounterWithName($name)
     {
       $newValue = new CounterValue(0);
       $this->counter->resetValueTo($newValue);
     }
+
+  /**
+   * @When /^I set a counter with name "([^"]*)"$/
+   */
+  public function iSetACounterWithName($arg1) {
+
+//    $uri = \Slim\Http\Uri::createFromString('https://example.com:443/foo/bar?abc=123');
+    $uri = \Slim\Http\Uri::createFromString('http://api.opencounter.docker');
+    $headers = new \Slim\Http\Headers();
+    $cookies = array();
+    $serverParams = array();
+    $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
+    $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies, $serverParams, $body);
+
+    $this->counter = $this->counterBuildService->execute($request, $arg1);
+    // cannot save in memory repository since its not persistent, so not testing this?
+    //$counter_repository->save($counter);
+  }
+
+  /**
+   * @Given no counter :name has been set
+   */
+  public function noCounterHasBeenSet($name) {
+
+
+    try {
+      $counter = $this->counter_repository->getCounterByName($name);
+    } catch (Exception $e) {
+      $this->error = true;
+    }
+  }
+
+  /**
+   * @When I remove the counter with name :name
+   */
+  public function iRemoveTheCounterWithName($arg1) {
+    throw new PendingException();
+  }
 
 
 }

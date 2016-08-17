@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="domain">
-  <testsuite name="edit one counter" tests="2" skipped="0" failures="0" errors="0">
-    <testcase name="increment the value for a single counter in the collection" status="passed"></testcase>
-    <testcase name="lock a single counter in the collection and try to increment it" status="passed"></testcase>
-  </testsuite>
-  <testsuite name="read one counter" tests="1" skipped="0" failures="0" errors="0">
-    <testcase name="Getting the value for a single counter in the collection" status="passed"></testcase>
-  </testsuite>
-  <testsuite name="reset one counter" tests="1" skipped="0" failures="0" errors="0">
-    <testcase name="Resetting the first counter" status="passed"></testcase>
+  <testsuite name="create a new counter" tests="1" skipped="0" failures="0" errors="0">
+    <testcase name="create a new counter" status="passed"></testcase>
   </testsuite>
 </testsuites>
