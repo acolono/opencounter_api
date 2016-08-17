@@ -5,8 +5,16 @@ $container = $app->getContainer();
 
 // view renderer
 $container['renderer'] = function ($container) {
-    $settings = $container->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+  $settings = $container->get('settings')['renderer'];
+  $renderer = new \Slim\Views\Twig($settings['template_path'], [
+//    'cache' => $settings['cache_path']
+  ]);
+  $renderer->addExtension(new \Slim\Views\TwigExtension(
+    $container['router'],
+    $container['request']->getUri()
+  ));
+
+  return $renderer;
 };
 
 // monolog
