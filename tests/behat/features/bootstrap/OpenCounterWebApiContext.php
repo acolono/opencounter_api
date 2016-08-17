@@ -61,7 +61,7 @@ use App;
   }
 
   /**
-   * @Given a counter :name with ID :id and a value of :value was added to the collection
+   * @Given a counter :name with ID :id and a value of :value has been set
    */
   public function aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id, $value)
   {
@@ -96,7 +96,7 @@ use App;
   }
 
   /**
-   * @Given a counter :name with a value of :value was added to the collection
+   * @Given a counter :name with a value of :value has been set
    */
   public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
   {
