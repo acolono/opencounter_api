@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "12c91f8bf27a83fcf52222741ee078a0",
-    "content-hash": "0f7cff7f94b80e6bbc9054d972c221cc",
+    "hash": "61db357d091be92f3eeb723dd64ccede",
+    "content-hash": "e6e4cc62ec97a87cb07697c13a36f3c3",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -177,6 +177,45 @@
                 "uri"
             ],
             "time": "2016-06-24 23:00:38"
+        },
+        {
+            "name": "jl6m/swagger-lite",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeremeamia/guzzle-swagger-lite.git",
+                "reference": "cd3b2174f079394572434cbac9ef795214aeb643"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jeremeamia/guzzle-swagger-lite/zipball/cd3b2174f079394572434cbac9ef795214aeb643",
+                "reference": "cd3b2174f079394572434cbac9ef795214aeb643",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JL6m\\Guzzle\\SwaggerLite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Guzzle client that can execute operations defined in Swagger",
+            "keywords": [
+                "Guzzle",
+                "api",
+                "client",
+                "http",
+                "openapi",
+                "rest",
+                "swagger"
+            ],
+            "time": "2016-07-29 17:18:42"
         },
         {
             "name": "psr/http-message",
