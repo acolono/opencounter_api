@@ -1,8 +1,15 @@
 <?php
+
 // Routes
-$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');
+$app->get('/admin/counters',
+  '\OpenCounter\AdminUi\AdminUiController:index')->setName('admin.counter.index');
+$app->get('/admin/counters/add',
+  '\OpenCounter\AdminUi\AdminUiController:newCounter')->setName('admin.counter.add');
+$app->get('/admin/counters/{name}',
+  '\OpenCounter\AdminUi\AdminUiController:viewCounter')->setName('admin.counter.view');
 
-
+$app->post('/admin/counters/{name}',
+  '\OpenCounter\AdminUi\AdminUiController:addCounter')->setName('admin.counter.add');
 
 /**
  * https://github.com/zircote/swagger-php#usage-from-php
@@ -307,3 +314,5 @@ $app->put('/api/v1/counters/{name}/{password}', '\OpenCounter\Http\CounterContro
 $app->get('/api/v1/counters/{name}/value', '\OpenCounter\Http\CounterController:getCount');
 
 
+// Routes
+$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');

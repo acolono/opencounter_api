@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>All Counters Listing</h1>
+<div><a href="{{base_url}}/counters/add" class="btn btn-info">Add New Counter</a></div>
+<div class="bs-example">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Status</th>
+      <th>Password</th>
+      <th colspan="2" align="center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if data %}
+    {% for row in data %}
+    <tr>
+      <td>{{ row.counter_id }}</td>
+      <td>{{ row.name }}</td>
+      <td>{{ row.value }}</td>
+      <td>{{ row.status }}</td>
+      <td>{{ row.email }}</td>
+      <td><a href="{{base_url}}/counters/{{row.counter_id}}" class="btn btn-info">Edit</a></td>
+      <td>
+        <form action="{{base_url}}/counters" method="POST">
+          <input class="btn btn-danger" type = "submit" value ="Delete">
+          <input type="hidden" id="delete" name="delete" value="1">
+          <input type="hidden" id="counter_id" name="counter_id" value="{{row.counter_id}}">
+        </form>
+      </td>
+    </tr>
+
+    {% endfor %}
+    {% else %}
+    <p>No records found</p>
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
