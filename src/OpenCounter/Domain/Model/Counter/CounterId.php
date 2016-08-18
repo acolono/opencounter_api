@@ -26,7 +26,7 @@ class CounterId
      */
     public function __construct($uuid = null)
     {
-        $this->uuid = null === $uuid ? Uuid::uuid4()->toString() : $uuid;
+        $this->uuid = (null === $uuid ? Uuid::uuid4()->toString() : $uuid);
     }
 
     /**

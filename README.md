@@ -53,11 +53,14 @@ Use Composer to install dependencies
         ],
 
 ## Create the Database<a id="sec-2-1" name="sec-2-1"></a>
+one table in a mysql db is where we start.
 
 installed via phinx
 
-    php vendor/bin/phinx migrate
-
+    (php vendor/bin/phinx migrate)
+    use the docker container which has the tool installed via composer.
+    docker exec -t -i opencounterdocker_web_1 php /var/www/html/opencounter/vendor/bin/phinx migrate -c /var/www/html/opencounter/phinx.yml
+    note the database table is still empty.
 # Contributing<a id="sec-3" name="sec-3"></a>
 
 To develop opencounter use the OpenCounterDocker

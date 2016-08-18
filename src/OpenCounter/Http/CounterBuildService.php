@@ -54,11 +54,13 @@ class CounterBuildService {
 //      throw new \InvalidArgumentException('The request must be SignInCounterRequest instance');
 //    }
         $data = $request->getParsedBody();
-        $this->logger->info(json_encode($data));
-
-        if(!isset($data)){
-            $data = [ 'value' => 0, 'name' => 'OneCounter', 'status' => 'active' ];
+        if (!isset($data['name']) && isset($args['name'])) {
+            $data['name'] = $args['name'];
         }
+        if (!isset($data['value']) && isset($args['value'])) {
+            $data['value'] = $args['value'];
+        }
+        $this->logger->info(json_encode($data));
 
         // https://leanpub.com/ddd-in-php/read#leanpub-auto-persisting-value-objects
 
@@ -67,14 +69,24 @@ class CounterBuildService {
         $value = new CounterValue($data['value']);
 
         $password = 'passwordplaceholder';
-        $counter = $this->counter_repository->getCounterByName($name);
-        $this->logger->info('testing during creation if counter exists ' . $name->name());
+        try {
+            $counter = $this->counter_repository->getCounterByName($name);
+        }
+        catch  (\Exception $e) {
+            $return = ['message' => $e->getMessage()];
+            $code = 409;
+        }
+
+
+        $this->logger->info('testing during creation if counter exists ');
 
         if ($counter instanceof Counter) {
             throw new CounterAlreadyExistsException();
         }
+
         $counter = $this->counter_factory->build($counterId, $name, $value, 'active', $password);
-        $this->logger->info('passing newly created counter to controller for saving via repo ' . $name->name());
+        $this->logger->info('BuildService passing newly created counter to controller for saving via repo ' .  \GuzzleHttp\json_encode($counter->toArray()));
+
         return $counter;
     }
 }

@@ -133,6 +133,7 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
      */
     public function iIncrementTheValueOfTheCounterWithName($name)
     {
+
         try {
             $incremented = $this->counter->increaseCount();
         } catch (Exception $e) {
@@ -216,8 +217,9 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
         $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
           $serverParams, $body);
+        $args = ['name' => $name, 'value' => 0];
 
-        $this->counter = $this->counterBuildService->execute($request, $name);
+        $this->counter = $this->counterBuildService->execute($request, $args);
         // cannot save in memory repository since its not persistent, so not testing this?
         //$counter_repository->save($counter);
     }
@@ -228,9 +230,8 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
     public function noCounterHasBeenSet($name)
     {
 
-
         try {
-            $this->counter = $this->counter_repository->getCounterByName($name);
+            $this->counter = $this->counter_repository->getCounterByName($this->counterName);
         } catch (Exception $e) {
             $this->error = true;
         }

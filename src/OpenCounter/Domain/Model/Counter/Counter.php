@@ -35,7 +35,7 @@ class Counter
      * @SWG\Property(example="onecounter")
      */
 
-    public $name;
+    private $name;
     /**
      * The counter entity password.
      *
@@ -51,7 +51,7 @@ class Counter
      * @SWG\Property(format="int32")
      */
 
-    public $value;
+    private $value;
     /**
      * The counter entity status.
      *
@@ -59,7 +59,7 @@ class Counter
      * @SWG\Property(enum={"active","locked","disabled"})
      */
 
-    public $status;
+    private $status;
 
     /**
      * @param \OpenCounter\Domain\Model\Counter\CounterId $id
@@ -79,22 +79,33 @@ class Counter
      * )
      */
     public function __construct(
-      CounterId $id,
-      CounterName $name,
-      CounterValue $value,
-      $status,
-      $password
+      CounterId $CounterId,
+      CounterName $CounterName,
+      CounterValue $CounterValue,
+      $aStatus,
+      $aPassword
     ) {
-        //$this->state = State::active();
-        $this->id = $id->uuid();
-        $this->name = $name->name();
-        $this->value = $value->value();
+        $this->id = $CounterId->uuid();
+        $this->name = $CounterName->name();
+        $this->value = $CounterValue->value();
 
-        $this->status = $status;
-        $this->password = $password;
+        $this->status = $aStatus;
+        $this->password = $aPassword;
 //    $this->changePassword($aPassword);
         //https://github.com/benatespina/ddd-symfony/issues/1
 //    DomainEventPublisher::instance()->publish(new UserRegistered($this->userId));
+    }
+
+    /**
+     * our equivalent of render, since properties are private we can use this method to render counter as array for display - this for now resembles the output model of a counter
+     * @return array
+     */
+    public function toArray(){
+        $counterArray = [
+            'name' => $this->name,
+            'value' => $this->value
+        ];
+        return $counterArray;
     }
 
     /**
@@ -168,9 +179,12 @@ class Counter
     /**
      * Increase Count
      *
-     * @return mixed
-     * @throws \Exception
+     * @param \OpenCounter\Domain\Model\Counter\CounterValue $increment
+     *
+     * @return bool
+     * @throws \OpenCounter\Domain\Exception\Counter\CounterLockedException
      */
+
     public function increaseCount(CounterValue $increment)
     {
         if (!$this->isLocked()) {
@@ -235,7 +249,7 @@ class Counter
         return !$this->isLocked();
     }
 
-    public function changeNameTo($argument1)
+    public function changeNameTo(CounterName $newCounterName)
     {
         // TODO: write logic here
     }

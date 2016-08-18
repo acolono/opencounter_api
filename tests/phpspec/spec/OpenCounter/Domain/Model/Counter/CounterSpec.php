@@ -19,14 +19,16 @@ class CounterSpec extends ObjectBehavior
     function let(
       CounterId $counterId,
       CounterName $counterName,
-      CounterValue $counterValue
+      CounterValue $counterValue,
+      $status
     ) {
         $counterId = new CounterId('acounteruuid');
         $counterName = new CounterName('counterone');
         $counterValue = new CounterValue(1);
+        $status = 'active';
 
         $this->beConstructedWith($counterId, $counterName, $counterValue,
-          'active', 'password');
+          $status, 'password');
 
     }
 
@@ -35,7 +37,6 @@ class CounterSpec extends ObjectBehavior
       CounterName $counterName,
       CounterValue $counterValue
     ) {
-        $this->status = 'active';
         $increment = new CounterValue(1);
 
         $this->shouldNotBeLocked();

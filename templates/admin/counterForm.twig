@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Add Counter Form</h1>
+    <div>{{ value }}</div>
+
+    <form action="{{ path_for('admin.counter.add', { 'name': name }) }}" method="post"> <!-- Used route name in action -->
+        <fieldset>
+            <input name="name" type="name" placeholder="name">
+            <input name="value" type="value" placeholder="value">
+            <input name="status" placeholder="status...">
+        </fieldset>
+        <input id="submit" type="submit" class="button">
+    </form>
+{% endblock %}

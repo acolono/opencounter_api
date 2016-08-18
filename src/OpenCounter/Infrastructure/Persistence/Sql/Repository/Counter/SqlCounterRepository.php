@@ -41,7 +41,6 @@ class SqlCounterRepository implements CounterRepositoryInterface
      */
     public function remove(Counter $anCounter)
     {
-
         $this->removeStmt->execute(['uuid' => $anCounter->getId()]);
     }
 

@@ -15,7 +15,6 @@
         "raveren/kint": "^1.0",
         "chadicus/slim-oauth2-middleware": "~3.0",
         "ramsey/uuid": "^3.5"
-
     },
     "require-dev": {
         "behat/behat": "dev-master",
@@ -24,7 +23,10 @@
         "phpspec/phpspec": "3",
         "phpunit/phpunit": "^5.4",
         "robmorgan/phinx": "^0.6.4",
-        "emuse/behat-html-formatter": "^0.1.0"
+        "emuse/behat-html-formatter": "dev-master",
+        "behat/mink": "^1.7",
+        "behat/mink-goutte-driver": "^1.2",
+        "behat/mink-extension": "^2.2"
     },
   "config": {
     "preferred-install": "dist",

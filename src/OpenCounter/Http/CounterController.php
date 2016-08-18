@@ -46,8 +46,6 @@ class CounterController implements ContainerInterface
     public function newCounter($request, $response, $args)
     {
 
-        // Some post data validation logic here
-
         $this->logger->info('inserting new counter with name ' . $args['name']);
 
         // Now we need to instantiate our Counter using a factory
@@ -56,13 +54,16 @@ class CounterController implements ContainerInterface
             $counter = $this->counterBuildService->execute($request, $args);
             $this->counter_repository->save($counter);
             $this->logger->info('saved ' . $counter->getName());
-            $return = $counter;
+            $return = $counter->toArray();
             $code = 201;
         } catch (\Exception $e) {
+
             $return = ['message' => $e->getMessage()];
             $code = 409;
-
+            $this->logger->info('exception ' . $e->getMessage());
         }
+
+
         return $response->withJson($return, $code);
 
     }
@@ -125,7 +126,7 @@ class CounterController implements ContainerInterface
                     $update = $counter->increaseCount($increment);
                     if ($update) {
                         $this->counter_repository->update($counter);
-                        $return = $counter;
+                        $return = $counter->toArray();;
                         $code = 201;
                     }
                 }
@@ -161,7 +162,7 @@ class CounterController implements ContainerInterface
                     $counter->lock();
                     $this->counter_repository->save($counter);
                     $this->logger->info('saved locked counter' . $counterName);
-                    $return = $counter;
+                    $return = $counter->toArray();;
                     $code = 201;
                 }
             } else {
@@ -203,7 +204,7 @@ class CounterController implements ContainerInterface
 
                     $this->counter_repository->save($counter);
                     $this->logger->info('saved ' . $counterName);
-                    $return = $counter;
+                    $return = $counter->toArray();
                     $code = 201;
                 }
             } else {
@@ -246,7 +247,7 @@ class CounterController implements ContainerInterface
         $this->logger->info(json_encode($counter));
         if ($counter) {
             $this->logger->info('found');
-            return $response->withJson($counter, 200);
+            return $response->withJson($counter->toArray(), 200);
         } else {
             $this->logger->info('not found');
             //$response->write('resource not found');
@@ -256,9 +257,9 @@ class CounterController implements ContainerInterface
 
     public function allAction()
     {
-        $users = $this->get('counter_repository')->findAll();
+        $counters = $this->get('counter_repository')->findAll();
 
-        return array('counter' => $counter);
+        return array('counter' => $counters);
     }
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface

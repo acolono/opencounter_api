@@ -16,13 +16,18 @@ default:
       routes_file: ../../configuration/routes.php
     Behat\WebApiExtension:
       base_url: http://api.opencounter.docker
+    Behat\MinkExtension:
+      base_url:  http://api.opencounter.docker
+      sessions:
+        default:
+          goutte: ~
   formatters:
       pretty: true
       progress: true
       html:
         output_path: %paths.base%/reports/html/behat
-      junit:
-        output_path: %paths.base%/reports/junit/behat
+#      junit:
+#        output_path: %paths.base%/reports/junit/behat
   suites:
 #    default:
 #      paths: [ %paths.base%/features/ ]
