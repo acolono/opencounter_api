@@ -296,22 +296,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     }
     /**
-     * @When I set a counter with name :arg1
+     * @When I set a counter with name :name
      */
-    public function iSetACounterWithName($arg1)
+    public function iSetACounterWithName($name)
     {
-        // we will now set a counter via rest
-        throw new PendingException();
+      $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
     }
 
-
-    /**
-     * @Given a counter :arg1 has been set
-     */
-    public function aCounterHasBeenSet($arg1)
-    {
-        throw new PendingException();
-    }
 
     /**
      * @When I remove the counter with name :arg1
@@ -321,4 +312,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         throw new PendingException();
     }
 
+
+    /**
+     * @Given a counter :name has been set
+     */
+    public function aCounterHasBeenSet($name)
+    {
+        $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
+
+    }
 }

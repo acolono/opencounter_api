@@ -64,3 +64,8 @@ installed via phinx
 # Contributing<a id="sec-3" name="sec-3"></a>
 
 To develop opencounter use the OpenCounterDocker
+
+
+### generate docs
+
+phpdoc -d ./src -t ./docs/api

@@ -23,30 +23,24 @@ class InMemoryCounterRepository implements CounterRepositoryInterface
     /**
      * @var $counters
      */
-    private $counters;
+    private $counters = [];
 
     /**
      * Constructor
      *
      * create a few counters we can use during tests
      */
-    public function __construct()
+    public function __construct(array $counters)
     {
-        $this->counters[] = new Counter(
-          new CounterId('8CE05088-ED1F-43E9-A415-3B3792655A9B'),
-          new CounterName('twocounter'), new CounterValue(2), 'active',
-          'passwordplaceholder'
-        );
-        $this->counters[] = new Counter(
-          new CounterId('62A0CEB4-0403-4AA6-A6CD-1EE808AD4D23'),
-          new CounterName('test'), new CounterValue(0), 'locked',
-          'passwordplaceholder'
-        );
-        $this->counters[] = new Counter(
-          new CounterId('62A0CEB4-4575-4AA6-FD76-1EE808AD4D23'),
-          new CounterName('onecounter'), new CounterValue(1), 'disabled',
-          'passwordplaceholder'
-        );
+        foreach ($counters as $item) {
+            $this->add($item);
+        }
+
+
+    }
+    public function exists(CounterId $counterId){
+        $id = (string) $counterId->uuid();
+        return array_key_exists($id, $this->counters);
     }
     /**
      * @inheritDoc
@@ -66,12 +60,16 @@ class InMemoryCounterRepository implements CounterRepositoryInterface
      */
     public function add(Counter $counter)
     {
+        $id = (string) $counter->getId();
+        $this->counters[$id] = clone $counter;
+        return clone $counter;
     }
     /**
      * @inheritDoc
      */
     public function remove(Counter $counter)
     {
+        unset($this->counters[$counter->getId()]);
     }
 
     /**
@@ -95,7 +93,7 @@ class InMemoryCounterRepository implements CounterRepositoryInterface
      */
     public function getCounterByUuid(CounterId $anId)
     {
-        // TODO: Implement getCounterByUuid() method.
+        unset($this->counters[$anId]);
     }
 
     /**
@@ -129,6 +127,21 @@ class InMemoryCounterRepository implements CounterRepositoryInterface
     public function counterOfId(CounterId $anId)
     {
         // TODO: Implement counterOfId() method.
+    }
+
+    public function removeCounterByName(CounterName $aName)
+    {
+print_r($this->counters);
+        unset($this->counters[$aName]);
+    }
+    public function removeCounterById(CounterId $anId)
+    {
+        if ($this->exists($anId)){
+          unset($this->counters[$anId->uuid()]);
+            // we are lazy and returning true because we tried removing,
+            // TODO: where do we deal with removal of nonexisting counters
+            return TRUE;
+         }
     }
 
 }

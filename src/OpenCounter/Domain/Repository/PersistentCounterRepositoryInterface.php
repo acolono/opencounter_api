@@ -2,6 +2,7 @@
 namespace OpenCounter\Domain\Repository;
 
 use OpenCounter\Domain\Model\Counter\Counter;
+use OpenCounter\Domain\Model\Counter\CounterName;
 
 /**
  * Persistent repository has a few more methods for saving.
@@ -32,5 +33,12 @@ interface PersistentCounterRepositoryInterface extends CounterRepositoryInterfac
    * @return mixed
    */
   function update(Counter $anCounter);
+
+  /**
+   * @param \OpenCounter\Domain\Model\Counter\CounterName $aName
+   *
+   * @return mixed
+   */
+  public function removeCounterByName(CounterName $aName);
 
 }

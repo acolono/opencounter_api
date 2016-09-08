@@ -2,6 +2,7 @@
 namespace OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter;
 
 use OpenCounter\Domain\Model\Counter\Counter;
+use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Repository\PersistentCounterRepositoryInterface;
 use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 
@@ -86,7 +87,9 @@ class SqlPersistentCounterRepository extends SqlCounterRepository implements Per
         ]);
 
     }
-
+    public function removeCounterByName(CounterName $counterName) {
+        // TODO: allow removing counters from db
+    }
     /**
      * Updates the counter given into database.
      *

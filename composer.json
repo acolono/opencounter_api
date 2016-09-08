@@ -21,6 +21,7 @@
         "behat/web-api-extension": "dev-master",
         "pavlakis/slim-behat-extension": "dev-master",
         "phpspec/phpspec": "3",
+        "phpdoc/phpdoc": "*",
         "phpunit/phpunit": "^5.4",
         "robmorgan/phinx": "^0.6.4",
         "emuse/behat-html-formatter": "dev-master",
