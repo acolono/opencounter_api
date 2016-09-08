@@ -15,9 +15,9 @@ default:
       middleware_file: ../../configuration/middleware.php
       routes_file: ../../configuration/routes.php
     Behat\WebApiExtension:
-      base_url: http://api.opencounter.docker
+      base_url: http://slimapi.opencounter.docker
     Behat\MinkExtension:
-      base_url:  http://api.opencounter.docker
+      base_url:  http://slimapi.opencounter.docker
       sessions:
         default:
           goutte: ~
@@ -31,7 +31,7 @@ default:
   suites:
 #    default:
 #      paths: [ %paths.base%/features/ ]
-#      base_url: api.opencounter.docker
+#      base_url: slimapi.opencounter.docker
 #      contexts:
 #        - FeatureContext
     domain:

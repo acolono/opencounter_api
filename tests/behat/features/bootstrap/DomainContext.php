@@ -135,7 +135,8 @@ class DomainContext implements Context, SnippetAcceptingContext, KernelAwareCont
     {
 
         try {
-            $incremented = $this->counter->increaseCount();
+            $increment = new CounterValue(1);
+            $incremented = $this->counter->increaseCount($increment);
         } catch (Exception $e) {
             $this->error = true;
         }
