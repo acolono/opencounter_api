@@ -5,6 +5,13 @@
     "homepage": "http://github.com/acolono/slim-opencounter",
     "license": "MIT",
     "minimum-stability": "dev",
+  "repositories": [
+
+    {
+      "type": "vcs",
+      "url": "https://gitlab.acolono.net/Rosenstrauch/OpenCounter_api_core.git"
+    }
+  ],
     "require": {
         "php": ">=5.5.0",
         "slim/slim": "3.x-dev",
@@ -14,7 +21,8 @@
         "zircote/swagger-php": "~2.0.7",
         "raveren/kint": "^1.0",
         "ramsey/uuid": "^3.5",
-        "tuupola/cors-middleware": "^0.5.2"
+        "tuupola/cors-middleware": "^0.5.2",
+        "rosenstrauch/opencounter_api_core": "dev-master"
     },
     "require-dev": {
         "behat/behat": "dev-master",
@@ -26,16 +34,15 @@
         "emuse/behat-html-formatter": "dev-master",
         "behat/mink": "^1.7",
         "behat/mink-goutte-driver": "^1.2",
-      "behat/mink-extension": "^2.2"
+        "behat/mink-extension": "^2.2"
     },
   "config": {
     "preferred-install": "dist",
-    "bin-dir": "vendor/bin"
+    "bin-dir": "bin"
   },
   "autoload": {
     "psr-0": {
-      "": "src/",
-      "OpenCounter": "src/OpenCounter"
+      "": "src/"
     }
   }
 }
