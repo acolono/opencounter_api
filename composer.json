@@ -7,27 +7,26 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
-        "slim/slim": "^3.1",
+        "slim/slim": "3.x-dev",
         "slim/php-view": "^2.0",
         "slim/twig-view": "*",
         "monolog/monolog": "^1.17",
         "zircote/swagger-php": "~2.0.7",
         "raveren/kint": "^1.0",
-        "chadicus/slim-oauth2-middleware": "~3.0",
-        "ramsey/uuid": "^3.5"
+        "ramsey/uuid": "^3.5",
+        "tuupola/cors-middleware": "^0.5.2"
     },
     "require-dev": {
         "behat/behat": "dev-master",
         "behat/web-api-extension": "dev-master",
         "pavlakis/slim-behat-extension": "dev-master",
         "phpspec/phpspec": "3",
-        "phpdoc/phpdoc": "*",
         "phpunit/phpunit": "^5.4",
         "robmorgan/phinx": "^0.6.4",
         "emuse/behat-html-formatter": "dev-master",
         "behat/mink": "^1.7",
         "behat/mink-goutte-driver": "^1.2",
-        "behat/mink-extension": "^2.2"
+      "behat/mink-extension": "^2.2"
     },
   "config": {
     "preferred-install": "dist",
