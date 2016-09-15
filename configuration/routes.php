@@ -8,22 +8,23 @@
 
 // Admin Routes
 
+
 $app->group('/admin', function () {
     // Get admin overview over counters
     $this->get('/counters',
-      '\OpenCounter\AdminUi\AdminUiController:index')
+      '\SlimCounter\AdminUi\AdminUiController:index')
       ->setName('admin.counter.index');
     // get new counter form
     $this->get('/content/add',
-      '\OpenCounter\AdminUi\AdminUiController:newCounterForm')
+      '\SlimCounter\AdminUi\AdminUiController:newCounterForm')
       ->setName('admin.counter.new');
     // view a specific counter
     $this->get('/counters/{name}',
-      '\OpenCounter\AdminUi\AdminUiController:viewCounter')
+      '\SlimCounter\AdminUi\AdminUiController:viewCounter')
       ->setName('admin.counter.view');
     // Add Counter Route for admins is called by submitting New Counter Form
     $this->post('/content/add/counter',
-      '\OpenCounter\AdminUi\AdminUiController:addCounter')
+      '\SlimCounter\AdminUi\AdminUiController:addCounter')
       ->setName('admin.counter.add');
 });
 
