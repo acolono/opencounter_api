@@ -16,7 +16,7 @@ var onSuccess = function(message) {
 }
 
 gulp.task('behat', function() {
-    exec('bin/behat', function(error, stdout) {
+    exec('docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat', function(error, stdout) {
         if(error !== null)
         {
             onError(stdout);
@@ -41,10 +41,10 @@ gulp.task('behat-watch', ['behat'], function (done) {
 gulp.task('serve', ['behat'], function() {
 
     browserSync.init({
-        server: "./descriptions/behat/reports/html/behat"
+        server: "./tests/behat/reports/html/behat"
     });
 
-    gulp.watch('./public/*.php',  ['behat-watch']);
+    gulp.watch('public/*.php',  ['behat-watch']);
 });
 
 

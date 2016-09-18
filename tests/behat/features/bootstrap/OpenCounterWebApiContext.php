@@ -36,7 +36,14 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function __construct()
     {
-        $this->counter = array();
+        // TODO: should we be getting them from the container here since we are kernel aware? probably
+//        $this->logger = $this->app->getContainer()->get('logger');
+//        $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
+//        $this->db = $this->app->getContainer()->get('db');
+//        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+//       // $this->counterRepository = $this->app->getContainer()->get('counter_repository');
+        $this->counters = array();
+//        $this->counterBuildService = $this->app->getContainer()->get('counterBuildService');
     }
 
     /**
@@ -46,16 +53,17 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
 
         $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+        $this->sqlManager = $this->app->getContainer()
+            ->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
 //    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($this->sqlManager);
 
-        if (isset($this->counter) && is_array($this->counter)) {
+        if (isset($this->counters) && is_array($this->counters)) {
             echo 'removing testing counters';
 
             // foreach $created_counters as counter delete counter
-            foreach ($this->counter as $counter) {
+            foreach ($this->counters as $counter) {
                 $this->counterRepository->remove($counter);
             }
         }
@@ -83,11 +91,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // get counter object from db and remember it so we can delete it later.
 
         $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+        $this->sqlManager = $this->app->getContainer()
+            ->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+            ->get('counter_repository');
 
-        $counter = $counterRepository->getCounterByName($name);
-        $this->counter[] = $counter;
+        $counter = $this->counterRepository->getCounterByName($name);
+        $this->counters[] = $counter;
         // since we are using this as a given step we can make sure it was added successfully within this step
         $this->theResponseShouldContain('id');
         $this->theResponseCodeShouldBe('201');
@@ -97,6 +107,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $ErrorString = new PyStringNode($newCounterArray, 1);
         $this->theResponseShouldNotContain($ErrorString);
     }
+
 
     /**
      * @Given a counter :name with a value of :value has been set
@@ -121,13 +132,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         // get the counter we added to db and remember it so we can delete it later
         $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
-
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()->get('counter_repository');
         $this->counterName = new CounterName($name);
-        $counter = $counterRepository->getCounterByName($this->counterName);
+        $counter = $this->counterRepository->getCounterByName($this->counterName);
 
-        $this->counter[] = $counter;
+        $this->counters[] = $counter;
 
         // since we are using this as a given step we can make sure it was added successfully within this step
         //$this->theResponseShouldContain('id');
@@ -284,10 +294,10 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         // get the counter we added to db and remember it so we can delete it later
         $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
-
-        $counter = $counterRepository->getCounterByName(new CounterName($name));
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+            ->get('counter_repository');
+        $counter = $this->counterRepository->getCounterByName(new CounterName($name));
 
         // if we get a counter something is wrong
         if ($counter) {
@@ -305,15 +315,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
 
     /**
-     * @When I remove the counter with name :arg1
-     */
-    public function iRemoveTheCounterWithName($arg1)
-    {
-        throw new PendingException();
-    }
-
-
-    /**
      * @Given a counter :name has been set
      */
     public function aCounterHasBeenSet($name)
@@ -321,4 +322,29 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
 
     }
+    /**
+     * @Given a counter with id :id has been set
+     */
+    public function aCounterWithIdHasBeenSet($id)
+    {
+        // TODO: testing the buildserver requires us to create a request object
+        $name = 'democounter';
+        $uri = \Slim\Http\Uri::createFromString('http://slimapi.opencounter.docker');
+        $headers = new \Slim\Http\Headers();
+        $cookies = [];
+        $serverParams = [];
+        $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
+        $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
+            $serverParams, $body);
+        $args = ['name' => $name, 'id' => $id, 'value' => 0];
+// now thest the build service just in case
+        // cant test build service without request
+        $this->counters[] = $this->app->getContainer()->get('counter_build_service')->execute($request, $args);
+
+
+    }
+
+
+
+
 }
