@@ -78,6 +78,11 @@ $container['counter_repository'] = function ($container) {
   $counter_repository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($counter_mapper);
   return $counter_repository;
 };
+// explicitly add controller to container so its not constructed with container as first argument cause we dont actullay want to pass the container to the controller
+$container['\OpenCounter\Http\CounterController'] = function ($container) {
+  $counter_controller = new \OpenCounter\Http\CounterController($container['logger'], $container['counter_build_service'], $container['counter_mapper'], $container['counter_repository']);
+  return $counter_controller;
+};
 
 /**
  * A service that should be used to create new Counter objects.

@@ -67,7 +67,7 @@ $app->group('/admin', function () {
 
 $app->get('/api/docs', function ($request, $response, $args) {
     $this->logger->info('gettin swagger');
-    $swagger = \Swagger\scan(['../configuration/', '../src/OpenCounter']);
+    $swagger = \Swagger\scan(['../configuration/', '../vendor/rosenstrauch/opencounter_api_core/src/']);
     header('Content-Type: application/json');
     return $response->withJson($swagger);
 });

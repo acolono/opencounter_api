@@ -14,14 +14,14 @@ return [
     // Monolog settings
     'logger' => [
       'name' => 'slim-app',
-      'path' => '/var/www/html/opencounter/logs/app.log',
+      'path' => '/var/www/opencounter-slim-codenv/logs/app.log',
     ],
     'db' =>
       [
-        'host' => 'database',
-        'user' => 'root',
-        'pass' => 'countapp',
-        'dbname' => 'countapp',
+        'host' => 'opencounter-slim-codenv-mysql',
+        'user' => 'docker',
+        'pass' => 'docker',
+        'dbname' => 'development_db',
       ],
   ],
 ];

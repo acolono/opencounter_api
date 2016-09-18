@@ -16,10 +16,10 @@ environments:
 
     development:
         adapter: mysql
-        host: database
-        name: countapp
-        user: root
-        pass: 'countapp'
+        host: opencounter-slim-codenv-mysql
+        name: development_db
+        user: docker
+        pass: 'docker'
         port: 3306
         charset: utf8
 

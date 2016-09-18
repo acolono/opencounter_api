@@ -1,0 +1,56 @@
+# behat.yml
+default:
+  autoload: [ %paths.base%/tests/behat/features/bootstrap ]
+  extensions:
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+      name: html
+      renderer: Twig
+      file_name: index
+      print_args: false
+      print_outp: false
+      loop_break: false
+    Pavlakis\Slim\Behat:
+      config_file: ./configuration/settings.php
+      dependencies_file: ./configuration/dependencies.php
+      middleware_file: ./configuration/middleware.php
+      routes_file: ./configuration/routes.php
+    Behat\WebApiExtension:
+      base_url: http://opencounter-slim-codenv-webserver
+    Behat\MinkExtension:
+      base_url:  http://opencounter-slim-codenv-webserver
+      sessions:
+        default:
+          goutte: ~
+  formatters:
+      pretty: true
+      progress: true
+      html:
+        output_path: %paths.base%/tests/behat/reports/html/behat
+#      junit:
+#        output_path: %paths.base%/reports/junit/behat
+  suites:
+#    default:
+#      paths: [ %paths.base%/features/ ]
+#      base_url: slimapi.opencounter.docker
+#      contexts:
+#        - FeatureContext
+#    domain:
+#      paths: [ %paths.base%/features/Counters ]
+#      contexts: [ DomainContext ]
+#      filters:
+#        tags: "@domain"
+##        role: "developer"
+    webapi:
+#      paths: [ %paths.base%/features/Counters ]
+      paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
+      contexts: [ OpenCounterWebApiContext ]
+      filters:
+#        tags: "@web"
+#        role: "apiuser"
+    adminui:
+      paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
+#      paths: [ %paths.base%/features/Counters ]
+      contexts: [ AdminUiContext ]
+      filters:
+#        tags: "@adminui"
+#        role: "admin"
