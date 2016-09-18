@@ -19,7 +19,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
 
 
     /**
-     * @AfterScenario @web
+     * @AfterScenario
      */
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {

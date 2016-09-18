@@ -40,7 +40,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
-     * @AfterScenario @web
+     * @AfterScenario
      */
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {
