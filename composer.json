@@ -9,7 +9,7 @@
 
     {
       "type": "vcs",
-      "url": "https://gitlab.acolono.net/Rosenstrauch/OpenCounter_api_core.git"
+      "url": "git@github.com:acolono/opencounter_core.git"
     }
   ],
     "require": {
