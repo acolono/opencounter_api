@@ -38,7 +38,6 @@ $app->group('/admin', function () {
  * @see https://github.com/zircote/swagger-php#usage-from-php
  * @SWG\Swagger(
  *     basePath="/api",
- *     host="localhost:8080",
  *     schemes={"http"},
  *     produces={"application/json"},
  *     consumes={"application/json"},
