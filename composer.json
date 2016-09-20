@@ -23,7 +23,8 @@
         "ramsey/uuid": "^3.5",
         "tuupola/cors-middleware": "^0.5.2",
         "robmorgan/phinx": "^0.6.4",
-        "rosenstrauch/opencounter_api_core": "dev-master"
+        "rosenstrauch/opencounter_api_core": "dev-master",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "behat/behat": "dev-master",
