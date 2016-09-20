@@ -345,4 +345,4 @@ $app->group('/api/counters', function () {
 });
 
 // Fallback Route
-$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');
+//$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');

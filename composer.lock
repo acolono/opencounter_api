@@ -4009,12 +4009,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "a0214ae2708761316f906778279e37e0df7dcc38"
+                "reference": "f28a2f0ee0cc3f3172a8e6f33b17928f3361c44f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/a0214ae2708761316f906778279e37e0df7dcc38",
-                "reference": "a0214ae2708761316f906778279e37e0df7dcc38",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/f28a2f0ee0cc3f3172a8e6f33b17928f3361c44f",
+                "reference": "f28a2f0ee0cc3f3172a8e6f33b17928f3361c44f",
                 "shasum": ""
             },
             "require": {
@@ -4083,7 +4083,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2016-09-17 14:23:22"
+            "time": "2016-09-20 13:18:26"
         },
         {
             "name": "symfony/process",
