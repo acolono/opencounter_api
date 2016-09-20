@@ -22,7 +22,7 @@ return [
     'db' =>
       [
         'host' =>  $production ? "localhost" : 'opencounter-slim-codenv-mysql',
-        'dbname'  => $production ? "produciton_db" : "development_db",
+        'dbname'  => $production ? "production_db" : "development_db",
         'user'  => $production ? "countapp" : "docker",
         'pass'  => $production ? "similarly-secure-password" : "docker",
       ],
