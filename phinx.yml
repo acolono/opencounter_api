@@ -9,8 +9,8 @@ environments:
         adapter: mysql
         host: localhost
         name: production_db
-        user: root
-        pass: ''
+        user: countapp
+        pass: 'similarly-secure-password'
         port: 3306
         charset: utf8
 
