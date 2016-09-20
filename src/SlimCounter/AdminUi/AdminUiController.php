@@ -99,7 +99,7 @@ class AdminUiController implements ContainerInterface
     public function addCounter(Request $request, Response $response, $args)
     {
         // logging
-        $this->logger->info('admincontroller inserting new counter from form post ' . \GuzzleHttp\json_encode($args));
+        $this->logger->info('admincontroller inserting new counter from form post ' . json_encode($args));
 
         // Now we need to instantiate our Counter using a factory
         // use another service that in turn calls the factory?
@@ -112,9 +112,9 @@ class AdminUiController implements ContainerInterface
             $this->counter_repository->save($counter);
             $this->counters[] = $counter;
             // logging
-            $this->logger->info('saved ' . \GuzzleHttp\json_encode($counter->toArray()));
+            $this->logger->info('saved ' . json_encode($counter->toArray()));
 
-            $return =  \GuzzleHttp\json_encode($counter->toArray());
+            $return =  json_encode($counter->toArray());
             $code = 201;
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
