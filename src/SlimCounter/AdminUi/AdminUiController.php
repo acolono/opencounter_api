@@ -66,6 +66,7 @@ class AdminUiController implements ContainerInterface
 
         $counterName = new CounterName($args['name']);
         $counter = $this->counter_repository->getCounterByName($counterName);
+       // was empty
         $counterDisplay = json_encode($counter->toArray());
 
         // logging
