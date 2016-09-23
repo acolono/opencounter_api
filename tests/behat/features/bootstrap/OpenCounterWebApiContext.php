@@ -347,4 +347,29 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
 
 
+
+    /**
+     * @When I remove the counter with id :arg1
+     */
+    public function iRemoveTheCounterWithId($arg1)
+    {
+        // TODO: test removal through api if we want to allow that
+        throw new PendingException('TODO: test removal through api if we want to allow that');
+    }
+
+    /**
+     * @Then no counter with id :arg1 has been set
+     */
+    public function noCounterWithIdHasBeenSet($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given a counter with name :name has been set
+     */
+    public function aCounterWithNameHasBeenSet($name)
+    {
+        $this->aCounterHasBeenSet($name);
+    }
 }

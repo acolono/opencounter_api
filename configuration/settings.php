@@ -17,7 +17,7 @@ return [
     'logger' => [
       'name' => 'slim-app',
       'level' => (int)getenv('LOG_LEVEL') ?: 400,
-      'path' => '/var/www/opencounter-slim-codenv/logs/app.log',
+      'path' => 'slimcounter.log',
     ],
     'db' =>
       [

@@ -12,19 +12,19 @@
 $app->group('/admin', function () {
     // Get admin overview over counters
     $this->get('/counters',
-      '\SlimCounter\AdminUi\AdminUiController:index')
+      '\SlimCounter\Controllers\AdminUiController:index')
       ->setName('admin.counter.index');
     // get new counter form
     $this->get('/content/add',
-      '\SlimCounter\AdminUi\AdminUiController:newCounterForm')
+      '\SlimCounter\Controllers\AdminUiController:newCounterForm')
       ->setName('admin.counter.new');
     // view a specific counter
     $this->get('/counters/{name}',
-      '\SlimCounter\AdminUi\AdminUiController:viewCounter')
+      '\SlimCounter\Controllers\AdminUiController:viewCounter')
       ->setName('admin.counter.view');
     // Add Counter Route for admins is called by submitting New Counter Form
     $this->post('/content/add/counter',
-      '\SlimCounter\AdminUi\AdminUiController:addCounter')
+      '\SlimCounter\Controllers\AdminUiController:addCounter')
       ->setName('admin.counter.add');
 });
 
@@ -38,6 +38,7 @@ $app->group('/admin', function () {
  * @see https://github.com/zircote/swagger-php#usage-from-php
  * @SWG\Swagger(
  *     basePath="/api",
+ *     host="localhost:8080",
  *     schemes={"http"},
  *     produces={"application/json"},
  *     consumes={"application/json"},
@@ -65,7 +66,7 @@ $app->group('/admin', function () {
  * )
  */
 
-$app->get('/api/docs', function ($request, $response, $args) {
+$app->get('/api', function ($request, $response, $args) {
     $this->logger->info('gettin swagger');
     $swagger = \Swagger\scan(['../configuration/', '../vendor/rosenstrauch/opencounter_api_core/src/']);
     header('Content-Type: application/json');

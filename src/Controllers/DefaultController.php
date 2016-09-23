@@ -6,7 +6,7 @@
  * Time: 11:46 AM
  */
 
-namespace SlimCounter\AdminUi;
+namespace SlimCounter\Controllers;
 
 use Interop\Container\ContainerInterface;
 
@@ -17,10 +17,9 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-class AdminUiController implements ContainerInterface
+class DefaultController implements ContainerInterface
 {
     protected $ci;
-
 
     private $logger;
     private $counter_repository;

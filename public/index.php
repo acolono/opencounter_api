@@ -20,6 +20,7 @@ $settings = require __DIR__ . '/../configuration/settings.php';
 
 $app = new \Slim\App($settings);
 
+
 // Set up dependencies
 require __DIR__ . '/../configuration/dependencies.php';
 

@@ -9,7 +9,7 @@
 
     {
       "type": "vcs",
-      "url": "git@github.com:acolono/opencounter_core.git"
+      "url": "/mnt/MODATA/05-START/experiments/OPENCOUNTER/opencounter_WORCLONES/opencounter_api_core"
     }
   ],
     "require": {
@@ -23,7 +23,7 @@
         "ramsey/uuid": "^3.5",
         "tuupola/cors-middleware": "^0.5.2",
         "robmorgan/phinx": "^0.6.4",
-        "rosenstrauch/opencounter_api_core": "dev-master",
+        "rosenstrauch/opencounter_api_core": "dev-feature/counter_controller_spec",
         "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
@@ -42,8 +42,8 @@
     "bin-dir": "bin"
   },
   "autoload": {
-    "psr-0": {
-      "": "src/"
+    "psr-4": {
+      "SlimCounter\\": "src/"
     }
   }
 }
