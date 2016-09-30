@@ -2,18 +2,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. you need a webserver and a database</a></li>
-<li><a href="#sec-2">2. Installation of dependencies</a>
-<ul>
-<li><a href="#sec-2-1">2.1. Create the Database</a></li>
-</ul>
-</li>
-<li><a href="#sec-3">3. Contributing</a></li>
+<li><a href="#orgheadline1">1. you need a webserver and a database</a></li>
+<li><a href="#orgheadline2">2. Usage</a></li>
+<li><a href="#orgheadline3">3. Contributing</a></li>
+<li><a href="#orgheadline4">4. more docs (assuming you are viewing this in the running codenv)</a></li>
 </ul>
 </div>
 </div>
 
 <img src="./img/opencounter-logo.png" alt="OpenCounter Logo" width="150">
+<img src="![img](//acolono.gitlab.net/opencounter_api/project/badges/master/build.svg)" alt="OpenCounter master Build status" width="150">
+<img src="![img](//acolono.gitlab.net/opencounter_api/project/badges/master/coverage.svg)" alt="OpenCounter master Coverage" width="150">
 
 <span class="underline">a minimal example for developers to demonstrate</span>
 
@@ -29,43 +28,61 @@
 3.  change the value by incrementing it by 1 (providing the password)
 
 a counter has a:
+
 -   name which can be changed
 -   unique id
 -   value
 -   status (locked, disabled, active)
 
-# you need a webserver and a database<a id="sec-1" name="sec-1"></a>
+# you need a webserver and a database<a id="orgheadline1"></a>
 
-point webserver to public directory
+point webserver to ./public directory
 
-# Installation of dependencies<a id="sec-2" name="sec-2"></a>
+# Usage<a id="orgheadline2"></a>
 
-Use Composer to install dependencies
+<span class="underline">Use Composer to install dependencies</span>
 
-    "require": {
-        "acolono/opencounter-api": "*"
-    },
-        "repositories": [
-            {
-                "type": "vcs",
-                "url": "https://github.com/acolono/opencounter-api"
-            }
-        ],
+if you dont have composer installed on your host but have docker then you can use
+<https://github.com/RobLoach/docker-composer>
 
-## Create the Database<a id="sec-2-1" name="sec-2-1"></a>
-one table in a mysql db is where we start.
+    composer install
 
-installed via phinx
+<span class="underline">Environment file</span>
 
-    (php vendor/bin/phinx migrate)
-    use the docker container which has the tool installed via composer.
-    docker exec -t -i opencounterdocker_web_1 php /var/www/html/opencounter/vendor/bin/phinx migrate -c /var/www/html/opencounter/phinx.yml
-    note the database table is still empty.
-# Contributing<a id="sec-3" name="sec-3"></a>
+you need to create a public/.env file containing
 
-To develop opencounter use the OpenCounterDocker
+    DISPLAY_ERRORS=1
+    LOG_LEVEL=debug
+    PRODUCTION=0
 
+<span class="underline">Create the Database</span>
+installed via [Phinx](https://phinx.org/)
 
-### generate docs
+    # using codenv to run bin/phinx migrate
+    docker exec -t -i opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
 
-phpdoc -d ./src -t ./docs/api
+<span class="underline">Run Tests</span>
+
+run tests with these commands
+
+    ```
+    $ bin/behat
+    $ bin/phpspec
+    ```
+
+probably you will want to use the continuous testing setup which automatically reruns the tests on filesave
+with immediate feedback in terminal and browser, for this you will need to run
+
+    $ npm install
+
+if you dont have node/npm on your host but have docker running then you can use
+<https://serversforhackers.com/docker-for-gulp-build-tasks>
+(sorry, did put this together into a repo but couldnt share it yet and neither did the OP, feel free to pass me a link to something like this that is ready to use)
+
+this should allow you to run
+
+    $ gulp
+
+# Contributing<a id="orgheadline3"></a>
+
+To develop opencounter use [github:acolono/opencounter<sub>slim</sub><sub>codenv</sub>](https://github.com/acolono/opencounter_slim_codenv)

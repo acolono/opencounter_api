@@ -7,7 +7,6 @@
  */
 
 // Admin Routes
-define("API_HOST", "localhost:8080");
 
 
 $app->group('/admin', function () {

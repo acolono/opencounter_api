@@ -25,9 +25,9 @@ environments:
 
     testing:
         adapter: mysql
-        host: database
-        name: testing_db_pw
-        user: root
-        pass: ''
+        host: mysql
+        name: testing_db
+        user: testing
+        pass: 'testing'
         port: 3306
         charset: utf8

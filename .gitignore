@@ -5,3 +5,4 @@ vendor
 !/logs/README.md
 node_modules
 .env
+.idea

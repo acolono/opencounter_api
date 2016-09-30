@@ -1,0 +1,147 @@
+# Select image from https://hub.docker.com/_/php/
+image: php:5.6
+# Select what we should cache
+cache:
+  paths:
+  - vendor/
+  - bin/
+
+# define different pipelines for our jobs
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+before_script:
+# Install git, zip the php image doesn't have installed
+- apt-get update -yqq
+- apt-get install zip git -yqq
+# Install mysql driver
+- docker-php-ext-install pdo_mysql
+# Install composer
+- curl -sS https://getcomposer.org/installer | php
+# Install all project dependencies
+- php composer.phar install
+services:
+  - mysql:5.7
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/) for testing environment
+  MYSQL_DATABASE: testing_db
+  MYSQL_ROOT_PASSWORD: testing
+  MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  MYSQL_USER: testing
+  MYSQL_PASSWORD: testing
+
+# make sure we can install dependencies and cache them for following jobs
+build:composer:
+  stage: build
+  cache:
+    paths:
+    - vendor/
+    - bin/
+  script:
+  # Install all project dependencies
+    - php composer.phar install
+
+# make sure our source code adheres to coding standards
+build:phpcs:
+  stage: build
+  image: denisura/phpcs
+  script:
+    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
+
+# We test PHP5.6 (the default) with MySQL
+test:mysql:
+  stage: test
+  # Select what we should cache
+  cache:
+    paths:
+    - vendor/
+    - bin/
+  services:
+    - mysql:5.5
+  only:
+    - /^(feature|hotfix)\/.*$/
+  script:
+    - cp .env.testing public/.env
+    - bin/phinx migrate --environment testing
+    #- ~/.composer/vendor/bin/phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
+    - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
+    - bin/phpspec
+    - bin/behat
+# We test PHP7 with latest MySQL, but we allow it to fail
+test:php7:mysql:
+  stage: test
+  # Select what we should cache
+  cache:
+    paths:
+    - vendor/
+    - bin/
+  image: php:latest
+  services:
+    - mysql:latest
+  only:
+    - /^(feature|hotfix)\/.*$/
+  script:
+    - cp .env.testing .env
+    - bin/phinx migrate --environment testing
+    #- ~/.composer/vendor/bin/phpcs --standard=psr2 --error-severity=1 --warning-severity=8 –-report=full src
+    - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
+    - bin/phpspec
+    - bin/behat
+  allow_failure: true
+
+
+release:changelog:
+  stage: release
+  only:
+    - master
+  image: ruby:2.3
+  script:
+    # make sure we have the gem to generate changelog (runner should already have this in its path)
+    - gem install github_changelog_generator
+    # generate changelog
+    - github_changelog_generator acolono/opencounter_api
+  artifacts:
+    name: "$CI_BUILD_NAME"
+    untracked: true
+    paths:
+    - CHANGELOG.md
+
+
+pages:
+  stage: deploy
+  only:
+    - master
+  image: php:5.6
+  script:
+    # static swagger json for swaggercodegen or swaggereditor to consume
+    - bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output ./docs/swagger.json
+    # phpdocumentor generated html documentation
+    - php composer.phar global require "phpdocumentor/phpdocumentor:2.*"
+    - ~/.composer/vendor/bin/phpdoc -d ./src -t ./docs/slimcounter
+  allow_failure: true
+  # Store resulting changelog as artifact
+  artifacts:
+    name: "$CI_BUILD_NAME"
+    untracked: true
+    paths:
+    - public/docs/
+
+
+deploy:swagger:
+  stage: deploy
+  only:
+    - master
+  image: jimschubert/swagger-codegen-cli
+  script:
+    # generate client from swagger.json
+    - generate -i ./docs/swagger.json -o ./docs/swagger/
+  artifacts:
+    name: "$CI_BUILD_NAME"
+    untracked: true
+    paths:
+    - CHANGELOG.md
+
+    # TODO: tag new version
