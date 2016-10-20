@@ -7,6 +7,7 @@
  */
 
 // Admin Routes
+define("API_HOST", "localhost:8080");
 
 
 $app->group('/admin', function () {
@@ -38,7 +39,7 @@ $app->group('/admin', function () {
  * @see https://github.com/zircote/swagger-php#usage-from-php
  * @SWG\Swagger(
  *     basePath="/api",
- *     host="localhost:8080",
+ *     host=API_HOST,
  *     schemes={"http"},
  *     produces={"application/json"},
  *     consumes={"application/json"},
@@ -345,4 +346,4 @@ $app->group('/api/counters', function () {
 });
 
 // Fallback Route
-//$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');
+$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');
