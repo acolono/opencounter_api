@@ -25,7 +25,7 @@ environments:
 
     testing:
         adapter: mysql
-        host: localhost
+        host: database
         name: testing_db_pw
         user: root
         pass: ''
