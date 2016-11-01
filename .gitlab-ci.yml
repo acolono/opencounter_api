@@ -21,8 +21,7 @@ before_script:
 - docker-php-ext-install pdo_mysql
 # Install composer
 - curl -sS https://getcomposer.org/installer | php
-# Install all project dependencies
-- php composer.phar install
+
 services:
   - mysql:5.7
 variables:
