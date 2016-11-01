@@ -1,3 +1,7 @@
+# test locally with
+#gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_NAME=localtestbuild --cache-dir=/tmp/gitlabrunner --docker-volumes /tmp/gitlabrunner:/tmp/gitlabrunner build:composer
+
+
 # Select image from https://hub.docker.com/_/php/
 image: php:5.6
 # Select what we should cache
@@ -86,7 +90,7 @@ test:php7:mysql:
   only:
     - /^(feature|hotfix)\/.*$/
   script:
-    - ls bin
+    - ls
     - cp .env.testing .env
     - bin/phinx migrate --environment testing
     - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
