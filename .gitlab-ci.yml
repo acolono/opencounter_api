@@ -148,6 +148,6 @@ deploy:swagger:
     name: "$CI_BUILD_NAME"
     untracked: true
     paths:
-    - CHANGELOG.md
+    - docs/swagger
 
     # TODO: tag new version
