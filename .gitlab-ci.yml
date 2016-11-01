@@ -32,6 +32,13 @@ variables:
   MYSQL_USER: testing
   MYSQL_PASSWORD: testing
 
+# make sure our source code adheres to coding standards
+build:phpcs:
+  stage: build
+  image: denisura/phpcs
+  script:
+    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
+
 # make sure we can install dependencies and cache them for following jobs
 build:composer:
   stage: build
@@ -43,17 +50,10 @@ build:composer:
   # Install all project dependencies
     - php composer.phar install
 
-# make sure our source code adheres to coding standards
-build:phpcs:
-  stage: build
-  image: denisura/phpcs
-  script:
-    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
 
 # We test PHP5.6 (the default) with MySQL
 test:mysql:
   stage: test
-  # Select what we should cache
   cache:
     paths:
     - vendor/
@@ -65,14 +65,12 @@ test:mysql:
   script:
     - cp .env.testing public/.env
     - bin/phinx migrate --environment testing
-    #- ~/.composer/vendor/bin/phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
     - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
     - bin/phpspec
     - bin/behat
 # We test PHP7 with latest MySQL, but we allow it to fail
 test:php7:mysql:
   stage: test
-  # Select what we should cache
   cache:
     paths:
     - vendor/
@@ -85,7 +83,6 @@ test:php7:mysql:
   script:
     - cp .env.testing .env
     - bin/phinx migrate --environment testing
-    #- ~/.composer/vendor/bin/phpcs --standard=psr2 --error-severity=1 --warning-severity=8 –-report=full src
     - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
     - bin/phpspec
     - bin/behat
