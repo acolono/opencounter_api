@@ -2,7 +2,7 @@
 image: php:5.6
 # Select what we should cache
 cache:
-  key: "$CI_BUILD_NAME"
+  key: "$CI_PROJECT_NAME"
   paths:
   - vendor/
   - bin/
@@ -44,7 +44,7 @@ build:phpcs:
 build:composer:
   stage: build
   cache:
-    key: "$CI_BUILD_NAME"
+    key: "$CI_PROJECT_NAME"
     paths:
     - vendor/
     - bin/
@@ -57,7 +57,7 @@ build:composer:
 test:mysql:
   stage: test
   cache:
-    key: "$CI_BUILD_NAME"
+    key: "$CI_PROJECT_NAME"
     paths:
     - vendor/
     - bin/
@@ -66,6 +66,7 @@ test:mysql:
   only:
     - /^(feature|hotfix)\/.*$/
   script:
+    - ls bin
     - cp .env.testing public/.env
     - bin/phinx migrate --environment testing
     - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
@@ -75,7 +76,7 @@ test:mysql:
 test:php7:mysql:
   stage: test
   cache:
-    key: "$CI_BUILD_NAME"
+    key: "$CI_PROJECT_NAME"
     paths:
     - vendor/
     - bin/
