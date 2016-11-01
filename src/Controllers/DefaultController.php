@@ -16,7 +16,6 @@ use Slim\Exception\SlimException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-
 class DefaultController implements ContainerInterface
 {
     protected $ci;
@@ -55,7 +54,6 @@ class DefaultController implements ContainerInterface
 
         // Render new counter form view
         return $this->renderer->render($response, 'admin/counterForm.twig');
-
     }
 
     public function viewCounter(Request $request, Response $response, $args)
@@ -72,19 +70,20 @@ class DefaultController implements ContainerInterface
         $this->logger->info($counterDisplay);
 
         if ($counter) {
-
             // logging
             $this->logger->info('found' . $counterDisplay);
 
-            return $this->renderer->render($response, 'admin/counter.twig',
-              $array = (array) $counter->toArray());
+            return $this->renderer->render(
+                $response,
+                'admin/counter.twig',
+                $array = (array) $counter->toArray()
+            );
         } else {
             // TODO: pretty error page
             $this->logger->info('not found');
             $response->write('resource not found');
             return $response->withStatus(404);
         }
-
     }
 
     /**
@@ -119,15 +118,12 @@ class DefaultController implements ContainerInterface
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
             $code = 409;
-
         }
         //$this->logger->error($return . $args['name'] . $code);
         // just redirect to counter list but try to redirect to newly created counter instead
 //        http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()->withPath($this->router->pathFor('admin.counter.view', ['name' => $counter->getName()]));
         return $response->withRedirect((string)$uri);
-
-
     }
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface
@@ -146,17 +142,19 @@ class DefaultController implements ContainerInterface
     public function get($id)
     {
         if (!$this->offsetExists($id)) {
-            throw new ContainerValueNotFoundException(sprintf('Identifier "%s" is not defined.',
-              $id));
+            throw new ContainerValueNotFoundException(sprintf(
+                'Identifier "%s" is not defined.',
+                $id
+            ));
         }
         try {
             return $this->offsetGet($id);
         } catch (\InvalidArgumentException $exception) {
             if ($this->exceptionThrownByContainer($exception)) {
                 throw new SlimContainerException(
-                  sprintf('Container error while retrieving "%s"', $id),
-                  null,
-                  $exception
+                    sprintf('Container error while retrieving "%s"', $id),
+                    null,
+                    $exception
                 );
             } else {
                 throw $exception;
@@ -173,7 +171,7 @@ class DefaultController implements ContainerInterface
      * @return bool
      */
     private function exceptionThrownByContainer(
-      \InvalidArgumentException $exception
+        \InvalidArgumentException $exception
     ) {
         $trace = $exception->getTrace()[0];
 
@@ -192,6 +190,4 @@ class DefaultController implements ContainerInterface
     {
         return $this->offsetExists($id);
     }
-
-
 }
