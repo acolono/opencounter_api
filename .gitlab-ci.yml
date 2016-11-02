@@ -3,7 +3,7 @@
 
 
 # Select image from https://hub.docker.com/_/php/
-image: php:5.6
+image: phpdockerio/nginx:latest
 # Select what we should cache
 cache:
   key: "$CI_PROJECT_NAME"
@@ -64,8 +64,8 @@ test:mysql:
     - bin/
   services:
     - mysql:5.5
-    # TODO: figure out if we can add nginx as service and use that so we have an url and port to run integration tests against.
-    - phpdockerio/nginx:latest
+    # TODO: figure out if we can add nginx as service and use that so we have an url and port to run integration tests against. or if we use phpfpm as a service and webserver for running tests
+    - php:5.6
   only:
     - /^(feature|hotfix)\/.*$/
   script:

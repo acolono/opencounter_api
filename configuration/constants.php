@@ -1,3 +1,3 @@
 <?php
 
-define("API_HOST", "phpdockerio__nginx");
+define("API_HOST", "runner--project-1-concurrent-0");
