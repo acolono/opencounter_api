@@ -27,6 +27,9 @@ require __DIR__ . '/../configuration/dependencies.php';
 // Register middleware
 require __DIR__ . '/../configuration/middleware.php';
 
+// load constants (TODO: is this better than .env)
+require __DIR__ . '/../configuration/constants.php';
+
 // Register routes
 require __DIR__ . '/../configuration/routes.php';
 

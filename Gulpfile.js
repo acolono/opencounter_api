@@ -16,7 +16,7 @@ var onSuccess = function(message) {
 }
 
 gulp.task('behat', function() {
-    exec('docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat', function(error, stdout) {
+    exec('docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml', function(error, stdout) {
         if(error !== null)
         {
             onError(stdout);
