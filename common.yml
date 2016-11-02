@@ -1,20 +1,17 @@
-
+# see https://docs.docker.com/compose/extends/
 version: '2'
 
 services:
-  opencounter-slim-codenv-mysql:
+  mysql:
     image: mysql:5.7
     container_name: opencounter-slim-codenv-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=docker
-      - MYSQL_DATABASE=testing_db
-      - MYSQL_USER=testing
-      - MYSQL_PASSWORD=testing
-    extends:
-      file: common.yml
-      service: mysql
+      - MYSQL_DATABASE=development_db
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
 
-  opencounter-slim-codenv-webserver:
+  webserver:
     image: phpdockerio/nginx:latest
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
@@ -23,13 +20,8 @@ services:
         - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
      - "8080:80"
-    links:
-      - opencounter-slim-codenv-php-fpm
-    extends:
-      file: common.yml
-      service: webserver
 
-  opencounter-slim-codenv-php-fpm:
+  php:
     build:
       context: ./php-fpm/
     image: acolono/php7-fpm:latest
@@ -39,8 +31,3 @@ services:
       - ./app:/var/www/opencounter-slim-codenv
   #    - ..:/var/www/opencounter-slim-codenv
       - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
-    links:
-      - opencounter-slim-codenv-mysql
-    extends:
-      file: common.yml
-      service: php

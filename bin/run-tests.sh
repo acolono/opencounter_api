@@ -2,17 +2,19 @@
 
 clear;
 
-docker exec -t -i opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
+## setup database
+/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
 
 # PHPUnit tests
-docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phpunit --config /var/www/opencounter-slim-codenv/tests/phpunit/phpunit.xml
+/var/www/opencounter-slim-codenv/bin/phpunit --configuration /var/www/opencounter-slim-codenv/tests/phpunit/phpunit.xml
 PHPUNIT_RETURN_CODE=$?
 
 # PHPSpec tests
-docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phpspec run --format=pretty --config /var/www/opencounter-slim-codenv/tests/phpspec/phpspec.yml -v
+/var/www/opencounter-slim-codenv/bin/phpspec run --format=pretty --config /var/www/opencounter-slim-codenv/tests/phpspec/phpspec.yml -v
 PHPSPEC_RETURN_CODE=$?
+
 # Behat default suite tests (default)
-docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat --config /var/www/opencounter-slim-codenv/behat.yml;
+/var/www/opencounter-slim-codenv/bin/behat --config /var/www/opencounter-slim-codenv/behat.yml;
 BEHAT_DEFAULT_RETURN_CODE=$?
 
 
@@ -50,5 +52,5 @@ echo $BEHAT_DEFAULT_RETURN_CODE;
 
 
 # Work out an exit code, and exit
-OVERALL_EXIT_CODE=$((PHPUNIT_RETURN_CODE + PHPSPEC_RETURN_CODE + BEHAT_SERVICELEVEL_RETURN_CODE + BEHAT_WEBSERVERL_RETURN_CODE + BEHAT_DEFAULT_RETURN_CODE))
+OVERALL_EXIT_CODE=$((PHPUNIT_RETURN_CODE + PHPSPEC_RETURN_CODE + BEHAT_DEFAULT_RETURN_CODE))
 exit $OVERALL_EXIT_CODE;
