@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a1a47c3-7c03-46f0-bd2e-766df9971ddc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php-fpm/Dockerfile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Vagrantfile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docker-compose.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php-fpm/php-ini-overrides.ini" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bin/run-tests.sh" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/nginx.conf" afterPath="$PROJECT_DIR$/nginx/nginx.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitlab-ci.yml" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/docker-compose.yml" afterPath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/docker-compose.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/nginx/nginx.conf" afterPath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/nginx/nginx.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/bin/run-tests.sh" afterPath="$PROJECT_DIR$/../../OPENCOUNTER_CODENVS/opencounter_api_slim_codenv/bin/run-tests.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="open_opencounter_api_slim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +30,8 @@
       <file leaf-file-name=".gitlab-ci.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitlab-ci.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33684212">
-              <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.44210526">
+              <caret line="21" column="60" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -1275,8 +1268,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitlab-ci.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33684212">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.44210526">
+          <caret line="21" column="60" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
           <folding />
         </state>
       </provider>

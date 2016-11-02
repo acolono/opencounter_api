@@ -6,6 +6,7 @@
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
 services:
   - docker:1.12.1-dind
+  - composer/composer
 
 before_script:
 - docker info
@@ -15,6 +16,18 @@ build:
   script:
   - pwd
   - ls
-  - docker-compose up
+  - docker-compose up -d
+  - bin/run-tests.sh
+  # TODO composer install
+  - docker run --rm -v $(pwd):/app composer/composer install
   #- docker run my-docker-image /script/to/run/tests
-  - docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml
+  #- docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml
+
+
+# TODO: phpcodesniffer
+# TODO: phpdocumentor
+# todo: swagger codegen
+# TODO: Docker semver tag
+# TODO changelog &releasenotes
+# todo: deploy pages
+# todo: deploy stage
