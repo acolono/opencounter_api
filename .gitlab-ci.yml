@@ -1,5 +1,5 @@
 # test locally with
-#gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_NAME=localtestbuild --cache-dir=/tmp/gitlabrunner --docker-volumes /tmp/gitlabrunner:/tmp/gitlabrunner build:composer
+#gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_NAME=localtestbuild --cache-dir=/tmp/gitlabrunner --docker-volumes /tmp/gitlabrunner:/tmp/gitlabrunner --timeout 144 build:composer
 
 
 # Select image from https://hub.docker.com/_/php/
@@ -27,8 +27,6 @@ before_script:
 # Install composer
 - curl -sS https://getcomposer.org/installer | php
 
-services:
-  - mysql:5.5
 variables:
   # Configure mysql service (https://hub.docker.com/_/mysql/) for testing environment
   MYSQL_DATABASE: testing_db
@@ -56,7 +54,6 @@ build:composer:
   # Install all project dependencies
     - php composer.phar install
 
-
 # We test PHP5.6 (the default) with MySQL
 test:mysql:
   stage: test
@@ -67,10 +64,12 @@ test:mysql:
     - bin/
   services:
     - mysql:5.5
+    # TODO: figure out if we can add nginx as service and use that so we have an url and port to run integration tests against.
+    - phpdockerio/nginx:latest
   only:
     - /^(feature|hotfix)\/.*$/
   script:
-    - ls bin
+    - hostname
     - cp .env.testing public/.env
     - bin/phinx migrate --environment testing
     - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
@@ -116,6 +115,7 @@ release:changelog:
     untracked: true
     paths:
     - CHANGELOG.md
+    expire_in: 1 week
 # When we merge code into master branch
 # Then we want github or gitlab pages with the generated documentation
 pages:
@@ -136,6 +136,7 @@ pages:
     untracked: true
     paths:
     - public/docs/
+    expire_in: 1 week
 # When we merge code into master branch
 # Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 deploy:swagger:
@@ -151,6 +152,7 @@ deploy:swagger:
     untracked: true
     paths:
     - docs/swagger
+    expire_in: 1 week
 
 # TODO: # When we merge code into master branch
 # Then tag new version
