@@ -28,7 +28,7 @@ before_script:
 - curl -sS https://getcomposer.org/installer | php
 
 services:
-  - mysql:5.7
+  - mysql:5.5
 variables:
   # Configure mysql service (https://hub.docker.com/_/mysql/) for testing environment
   MYSQL_DATABASE: testing_db
@@ -73,8 +73,8 @@ test:mysql:
     - ls bin
     - cp .env.testing public/.env
     - bin/phinx migrate --environment testing
-    - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
-    - bin/phpspec
+    - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
+    - bin/phpspec run -c ./tests/phpspec/phpspec.yml --format=dot
     - bin/behat
 # We test PHP7 with latest MySQL, but we allow it to fail
 test:php7:mysql:
@@ -93,12 +93,14 @@ test:php7:mysql:
     - ls
     - cp .env.testing .env
     - bin/phinx migrate --environment testing
-    - bin/phpunit --configuration phpunit_mysql.xml --coverage-text
-    - bin/phpspec
+    - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
+    # todo store html report of phpspec tests as artifact
+    - bin/phpspec run -c ./tests/phpspec/phpspec.yml
     - bin/behat
   allow_failure: true
 
-
+# When we merge code into master branch
+# Then we want changelog to be generated
 release:changelog:
   stage: release
   only:
@@ -114,8 +116,8 @@ release:changelog:
     untracked: true
     paths:
     - CHANGELOG.md
-
-
+# When we merge code into master branch
+# Then we want github or gitlab pages with the generated documentation
 pages:
   stage: deploy
   only:
@@ -134,8 +136,8 @@ pages:
     untracked: true
     paths:
     - public/docs/
-
-
+# When we merge code into master branch
+# Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 deploy:swagger:
   stage: deploy
   only:
@@ -150,4 +152,5 @@ deploy:swagger:
     paths:
     - docs/swagger
 
-    # TODO: tag new version
+# TODO: # When we merge code into master branch
+# Then tag new version
