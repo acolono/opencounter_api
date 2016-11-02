@@ -1,3 +1,3 @@
 <?php
 
-define("API_HOST", "localhost:8080");
+define("API_HOST", "phpdockerio__nginx");

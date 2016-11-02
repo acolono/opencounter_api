@@ -15,9 +15,9 @@ default:
       middleware_file: ./configuration/middleware.php
       routes_file: ./configuration/routes.php
     Behat\WebApiExtension:
-      base_url: http://opencounter-slim-codenv-webserver
+      base_url: http://phpdockerio__nginx
     Behat\MinkExtension:
-      base_url:  http://opencounter-slim-codenv-webserver
+      base_url:  http://phpdockerio__nginx
       sessions:
         default:
           goutte: ~

@@ -69,8 +69,16 @@ test:mysql:
   only:
     - /^(feature|hotfix)\/.*$/
   script:
-    - hostname
+    # why cant i set the hostname in config.toml?
+    - hostname -f
+    - ip a
+    # how can we get the nginx conf into the nginx container?
+    - cat /etc/nginx/conf.d/default.conf
+    - pwd
+    - ls -al
+    - ls /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/public
     - cp .env.testing public/.env
+    - ls public
     - bin/phinx migrate --environment testing
     - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
     - bin/phpspec run -c ./tests/phpspec/phpspec.yml --format=dot
@@ -89,7 +97,6 @@ test:php7:mysql:
   only:
     - /^(feature|hotfix)\/.*$/
   script:
-    - ls
     - cp .env.testing .env
     - bin/phinx migrate --environment testing
     - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
