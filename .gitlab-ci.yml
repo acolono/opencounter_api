@@ -1,163 +1,20 @@
-# test locally with
-#gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_NAME=localtestbuild --cache-dir=/tmp/gitlabrunner --docker-volumes /tmp/gitlabrunner:/tmp/gitlabrunner --timeout 144 build:composer
+#image: docker:latest
+#https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
+#services:
+#- docker:dind
 
-
-# Select image from https://hub.docker.com/_/php/
-image: php:5.6
-# Select what we should cache
-cache:
-  key: "$CI_PROJECT_NAME"
-  paths:
-  - vendor/
-  - bin/
-
-# define different pipelines for our jobs
-stages:
-  - build
-  - test
-  - release
-  - deploy
+image: jonaskello/docker-and-compose:1.12.1-1.8.0
+services:
+  - docker:1.12.1-dind
 
 before_script:
-# Install git, zip the php image doesn't have installed
-- apt-get update -yqq
-- apt-get install zip git -yqq
-# Install mysql driver
-- docker-php-ext-install pdo_mysql
-# Install composer
-- curl -sS https://getcomposer.org/installer | php
+- docker info
 
-variables:
-  # Configure mysql service (https://hub.docker.com/_/mysql/) for testing environment
-  MYSQL_DATABASE: testing_db
-  MYSQL_ROOT_PASSWORD: testing
-  MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-  MYSQL_USER: testing
-  MYSQL_PASSWORD: testing
-
-# make sure our source code adheres to coding standards
-build:phpcs:
+build:
   stage: build
-  image: denisura/phpcs
   script:
-    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
-
-# make sure we can install dependencies and cache them for following jobs
-build:composer:
-  stage: build
-  cache:
-    key: "$CI_PROJECT_NAME"
-    paths:
-    - vendor/
-    - bin/
-  script:
-  # Install all project dependencies
-    - php composer.phar install
-
-# We test PHP5.6 (the default) with MySQL
-test:mysql:
-  stage: test
-  cache:
-    key: "$CI_PROJECT_NAME"
-    paths:
-    - vendor/
-    - bin/
-  services:
-    - mysql:5.5
-    # TODO: figure out if we can add nginx as service and use that so we have an url and port to run integration tests against. or if we use phpfpm as a service and webserver for running tests
-    - phpdockerio/nginx:latest
-  only:
-    - /^(feature|hotfix)\/.*$/
-  script:
-    # why cant i set the hostname in config.toml?
-    - hostname -f
-    - ip a
-    # how can we get the nginx conf into the nginx container?
-    - cat /etc/nginx/conf.d/default.conf
-    - pwd
-    - cp .env.testing public/.env
-    - ls public -al
-    - bin/phinx migrate --environment testing
-    - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
-    - bin/phpspec run -c ./tests/phpspec/phpspec.yml --format=dot
-    - bin/behat
-# We test PHP7 with latest MySQL, but we allow it to fail
-test:php7:mysql:
-  stage: test
-  cache:
-    key: "$CI_PROJECT_NAME"
-    paths:
-    - vendor/
-    - bin/
-  image: php:latest
-  services:
-    - mysql:latest
-  only:
-    - /^(feature|hotfix)\/.*$/
-  script:
-    - cp .env.testing .env
-    - bin/phinx migrate --environment testing
-    - bin/phpunit --configuration ./tests/phpunit/phpunit.xml --coverage-text
-    # todo store html report of phpspec tests as artifact
-    - bin/phpspec run -c ./tests/phpspec/phpspec.yml
-    - bin/behat
-  allow_failure: true
-
-# When we merge code into master branch
-# Then we want changelog to be generated
-release:changelog:
-  stage: release
-  only:
-    - master
-  image: ruby:2.3
-  script:
-    # make sure we have the gem to generate changelog (runner should already have this in its path)
-    - gem install github_changelog_generator
-    # generate changelog
-    - github_changelog_generator acolono/opencounter_api
-  artifacts:
-    name: "$CI_BUILD_NAME"
-    untracked: true
-    paths:
-    - CHANGELOG.md
-    expire_in: 1 week
-# When we merge code into master branch
-# Then we want github or gitlab pages with the generated documentation
-pages:
-  stage: deploy
-  only:
-    - master
-  image: php:5.6
-  script:
-    # static swagger json for swaggercodegen or swaggereditor to consume
-    - bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output ./docs/swagger.json
-    # phpdocumentor generated html documentation
-    - php composer.phar global require "phpdocumentor/phpdocumentor:2.*"
-    - ~/.composer/vendor/bin/phpdoc -d ./src -t ./docs/slimcounter
-  allow_failure: true
-  # Store resulting changelog as artifact
-  artifacts:
-    name: "$CI_BUILD_NAME"
-    untracked: true
-    paths:
-    - public/docs/
-    expire_in: 1 week
-# When we merge code into master branch
-# Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
-deploy:swagger:
-  stage: deploy
-  only:
-    - master
-  image: jimschubert/swagger-codegen-cli
-  script:
-    # generate client from swagger.json
-    - generate -i ./docs/swagger.json -o ./docs/swagger/
-  artifacts:
-    name: "$CI_BUILD_NAME"
-    untracked: true
-    paths:
-    - docs/swagger
-    expire_in: 1 week
-
-# TODO: # When we merge code into master branch
-# Then tag new version
+  - pwd
+  - ls
+  - docker-compose up
+  #- docker run my-docker-image /script/to/run/tests
+  - docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml
