@@ -1,6 +1,5 @@
 <?php
 $mode = (string)getenv('MODE');
-
 return [
   'settings' => [
     'displayErrorDetails' => (bool)getenv('DISPLAY_ERRORS'),
@@ -21,10 +20,10 @@ return [
     ],
     'db' =>
       [
-        'host' =>  ($mode == 'production') ? "localhost" : 'opencounter-slim-codenv-mysql',
-        'dbname'  => ($mode = 'production') ? "production_db" : ($mode == 'testing') ?  "testing_db" : "development_db",
-        'user'  => ($mode == 'production') ? "countapp" : ($mode == 'testing') ?  'testing' : "docker",
-        'pass'  => ($mode == 'production') ? "similarly-secure-password" : ($mode == 'testing') ?  'testing' : "docker",
+        'host' => ($mode == 'production') ? "localhost" : 'opencounter-slim-codenv-mysql',
+        'dbname'  => ($mode == 'production') ? "production_db" : ($mode == 'testing') ? "testing_db" : "development_db",
+        'user'  => ($mode == 'production') ? "countapp" : ($mode == 'testing') ? "$mode" : "docker",
+        'pass'  => ($mode == 'production') ? "similarly-secure-password" : ($mode == 'testing') ? "testing" : "docker",
       ],
   ],
 ];
