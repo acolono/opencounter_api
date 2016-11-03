@@ -3,21 +3,22 @@ version: '2'
 
 services:
   mysql:
-    image: mysql:5.7
-    container_name: opencounter-slim-codenv-mysql
+    image: mysql:5.5
+    container_name: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=docker
-      - MYSQL_DATABASE=development_db
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=testing
+      - MYSQL_DATABASE=testing_db
+      - MYSQL_USER=testing
+      - MYSQL_PASSWORD=testing
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
 
   webserver:
     image: phpdockerio/nginx:latest
-    container_name: opencounter-slim-codenv-webserver
+    container_name: webserver
     hostname: opencounter-slim-codenv-webserver
     volumes:
-        - ./app:/var/www/opencounter-slim-codenv
-        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+      - ./nginx:/etc/nginx/conf.d
     ports:
      - "8080:80"
 
@@ -25,9 +26,9 @@ services:
     build:
       context: ./php-fpm/
     image: acolono/php7-fpm:latest
-    container_name: opencounter-slim-codenv-php-fpm
+    container_name: php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
-      - ./app:/var/www/opencounter-slim-codenv
-  #    - ..:/var/www/opencounter-slim-codenv
+      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
       - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+

@@ -4,8 +4,8 @@
 #- docker:dind
 
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
-#services:
-  #- docker:1.12.1-dind
+services:
+  - docker:1.12.1-dind
 
 # define different pipelines for our jobs
 stages:
@@ -39,15 +39,11 @@ build:
   #- docker pull -a mysuperapp
   #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
   #- docker-compose up -d
-  - docker-compose up --build -d
-# ensure containers are up
-  - docker-compose ps
-  # ensure code is checked out and mounted in containers
-  - docker exec opencounter-slim-codenv-php-fpm ls -al /var/www/opencounter-slim-codenv
-  #- docker exec opencounter-slim-codenv-webserver ls -al /var/www/opencounter-slim-codenv
-  - docker exec opencounter-slim-codenv-php-fpm pwd
-  # TODO composer install app dependencies
+  - docker-compose -f docker-compose.testing.yml up -d --force-recreate --build
+
   - docker run --rm -v $(pwd)/app:/app composer/composer install
+  #- docker run --rm -v /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/app composer/composer install
+
   # TODO: Run bash script to migrate db and execute tests on container or run tests individually from here
   #- docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/run-tests.sh
   #- docker run acolono/php7-fpm:latest ls -al /var/www/opencounter-slim-codenv

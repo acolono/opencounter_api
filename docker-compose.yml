@@ -19,8 +19,8 @@ services:
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     volumes:
-        - ./app:/var/www/opencounter-slim-codenv
-        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+        - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
      - "8080:80"
     links:
@@ -36,9 +36,9 @@ services:
     container_name: opencounter-slim-codenv-php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
-      - ./app:/var/www/opencounter-slim-codenv
+      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
   #    - ..:/var/www/opencounter-slim-codenv
-      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
     links:
       - opencounter-slim-codenv-mysql
     extends:
