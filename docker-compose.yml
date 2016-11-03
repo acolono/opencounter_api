@@ -3,7 +3,7 @@ version: '2'
 
 services:
   opencounter-slim-codenv-mysql:
-    image: mysql:5.7
+    image: mysql:5.5
     container_name: opencounter-slim-codenv-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=docker
@@ -38,6 +38,8 @@ services:
     volumes:
       - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
     links:
+      - opencounter-slim-codenv-mysql
+    depends_on:
       - opencounter-slim-codenv-mysql
     extends:
       file: common.yml
