@@ -28,28 +28,28 @@ build:phpcs:
 build:
   stage: build
   script:
-  - pwd
-  - ls -al bin
-  #- ./bin/run-tests.sh
+  # tell app we are testing environment dotenv
+  - cp .env.testing app/public/.env
   # first build and run all docker containers
   - docker-compose up -d
 #  - docker-compose up --build -d
+# ensure containers are up
   - docker-compose ps
+  # ensure code is checked out and mounted in containers
   - docker exec opencounter-slim-codenv-php-fpm ls -al /var/www/opencounter-slim-codenv
+  - docker exec opencounter-slim-codenv-webserver ls -al /var/www/opencounter-slim-codenv
   - docker exec opencounter-slim-codenv-php-fpm pwd
-  # TODO: Run tests on container
-  - docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/run-tests.sh
-#  - docker run acolono/php7-fpm:latest ls -al /var/www/opencounter-slim-codenv
-#  - docker exec acolono/php7-fpm:latest /var/www/opencounter-slim-codenv/bin/run-tests.sh
+  # TODO composer install app dependencies
+  - docker run --rm -v $(pwd)/app:/app composer/composer install
+  # TODO: Run bash script to migrate db and execute tests on container or run tests individually from here
+  #- docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/run-tests.sh
+  #- docker run acolono/php7-fpm:latest ls -al /var/www/opencounter-slim-codenv
+  #- docker exec acolono/php7-fpm:latest /var/www/opencounter-slim-codenv/bin/run-tests.sh
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phinx migrate -c ./phinx.yml --environment testing
 
-  # TODO composer install dependencies
-  - docker run --rm -v $(pwd):/app composer/composer install
-  - ls -al
-  - cp .env.testing public/.env
-  - ls -al ./bin
-  #- docker exec opencounter-slim-codenv-php-fpm ls -al
-  - ./bin/run-tests.sh
-  #- docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v
   artifacts:
     name: "$CI_BUILD_NAME"
     untracked: true

@@ -2,6 +2,8 @@
 
 clear;
 
+echo $PWD
+
 ## setup database
 /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
 
