@@ -17,6 +17,10 @@ stages:
 before_script:
 - docker info
 
+variables:
+  # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
+  DOCKER_DRIVER: overlay
+
 # TODO: phpcodesniffer
 # make sure our source code adheres to coding standards
 build:phpcs:
