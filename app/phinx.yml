@@ -25,7 +25,7 @@ environments:
 
     testing:
         adapter: mysql
-        host: mysql
+        host: opencounter-slim-codenv-mysql
         name: testing_db
         user: testing
         pass: 'testing'
