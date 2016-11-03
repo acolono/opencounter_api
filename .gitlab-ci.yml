@@ -41,15 +41,11 @@ build:
   #- docker-compose up -d
   - docker-compose -f docker-compose.testing.yml up -d --force-recreate --build
 
-  - docker run --rm -v $(pwd)/app:/app composer/composer install
-  #- docker run --rm -v /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/app composer/composer install
-
   # TODO: Run bash script to migrate db and execute tests on container or run tests individually from here
   #- docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/run-tests.sh
   #- docker run acolono/php7-fpm:latest ls -al /var/www/opencounter-slim-codenv
   #- docker exec acolono/php7-fpm:latest /var/www/opencounter-slim-codenv/bin/run-tests.sh
   - docker exec opencounter-slim-codenv-php-fpm ./bin/phinx migrate -c ./phinx.yml --environment testing
-
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
   - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
   - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v

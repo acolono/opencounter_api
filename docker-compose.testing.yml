@@ -6,15 +6,14 @@ services:
     image: mysql:5.7
     container_name: opencounter-slim-codenv-mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=docker
-      - MYSQL_DATABASE=development_db
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=testing
+      - MYSQL_DATABASE=testing_db
+      - MYSQL_USER=testing
+      - MYSQL_PASSWORD=testing
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     extends:
       file: common.yml
       service: mysql
-
   opencounter-slim-codenv-webserver:
     image: phpdockerio/nginx:latest
     container_name: opencounter-slim-codenv-webserver
