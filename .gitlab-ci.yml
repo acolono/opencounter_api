@@ -4,8 +4,8 @@
 #- docker:dind
 
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
-services:
-  - docker:1.12.1-dind
+#services:
+  #- docker:1.12.1-dind
 
 # define different pipelines for our jobs
 stages:
@@ -17,9 +17,9 @@ stages:
 before_script:
 - docker info
 
-variables:
+#variables:
   # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
-  DOCKER_DRIVER: overlay
+  #DOCKER_DRIVER: overlay
 
 # TODO: phpcodesniffer
 # make sure our source code adheres to coding standards
@@ -35,13 +35,16 @@ build:
   # tell app we are testing environment dotenv
   - cp .env.testing app/public/.env
   # first build and run all docker containers
-  - docker-compose up -d
-#  - docker-compose up --build -d
+  #- docker-compose pull
+  #- docker pull -a mysuperapp
+  #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
+  #- docker-compose up -d
+  - docker-compose up --build -d
 # ensure containers are up
   - docker-compose ps
   # ensure code is checked out and mounted in containers
   - docker exec opencounter-slim-codenv-php-fpm ls -al /var/www/opencounter-slim-codenv
-  - docker exec opencounter-slim-codenv-webserver ls -al /var/www/opencounter-slim-codenv
+  #- docker exec opencounter-slim-codenv-webserver ls -al /var/www/opencounter-slim-codenv
   - docker exec opencounter-slim-codenv-php-fpm pwd
   # TODO composer install app dependencies
   - docker run --rm -v $(pwd)/app:/app composer/composer install
