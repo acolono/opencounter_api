@@ -1,5 +1,5 @@
 <?php
-$production = (bool)getenv('PRODUCTION');
+$mode = (string)getenv('MODE');
 
 return [
   'settings' => [
@@ -21,10 +21,10 @@ return [
     ],
     'db' =>
       [
-        'host' =>  $production ? "localhost" : 'opencounter-slim-codenv-mysql',
-        'dbname'  => $production ? "production_db" : "development_db",
-        'user'  => $production ? "countapp" : "docker",
-        'pass'  => $production ? "similarly-secure-password" : "docker",
+        'host' =>  ($mode == 'production') ? "localhost" : 'opencounter-slim-codenv-mysql',
+        'dbname'  => ($mode = 'production') ? "production_db" : ($mode == 'testing') ?  "testing_db" : "development_db",
+        'user'  => ($mode == 'production') ? "countapp" : ($mode == 'testing') ?  'testing' : "docker",
+        'pass'  => ($mode == 'production') ? "similarly-secure-password" : ($mode == 'testing') ?  'testing' : "docker",
       ],
   ],
 ];
