@@ -20,7 +20,7 @@ services:
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     volumes:
-      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+      - ./app:/var/www/opencounter-slim-codenv
     ports:
      - "8080:80"
     links:
@@ -32,11 +32,11 @@ services:
   opencounter-slim-codenv-php-fpm:
     build:
       context: ./php-fpm/
-    image: acolono/php7-fpm:latest
+    image: acolono/php7-fpm:v0.0.1
     container_name: opencounter-slim-codenv-php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
-      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+      - ./app:/var/www/opencounter-slim-codenv
     links:
       - opencounter-slim-codenv-mysql
     depends_on:

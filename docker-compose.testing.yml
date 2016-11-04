@@ -19,11 +19,13 @@ services:
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     volumes:
-      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+      - ./app:/var/www/opencounter-slim-codenv
     ports:
      - "8080:80"
     links:
-     - opencounter-slim-codenv-php-fpm
+      - opencounter-slim-codenv-php-fpm
+    depends_on:
+      - opencounter-slim-codenv-php-fpm
     extends:
       file: common.yml
       service: webserver
@@ -31,12 +33,21 @@ services:
   opencounter-slim-codenv-php-fpm:
     build:
       context: ./php-fpm/
-    image: acolono/php7-fpm:latest
+    image: acolono/php7-fpm:v0.0.1
     container_name: opencounter-slim-codenv-php-fpm
+    environment:
+      - MYSQL_ROOT_PASSWORD=testing
+      - DB_HOST=opencounter-slim-codenv-mysql
+      - MYSQL_DATABASE=testing_db
+      - MYSQL_USER=testing
+      - MYSQL_PASSWORD=testing
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
-      - /mnt/DATA/05-Start/experiments/OPENCOUNTER/OPENCOUNTER_WORCLONES/open_opencounter_api_slim/app:/var/www/opencounter-slim-codenv
+      - ./app:/var/www/opencounter-slim-codenv
     links:
+      - opencounter-slim-codenv-mysql
+    depends_on:
       - opencounter-slim-codenv-mysql
     extends:
       file: common.yml

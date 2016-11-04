@@ -5,7 +5,8 @@ clear;
 echo $PWD
 
 ## setup database
-/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
+##/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
+/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
 
 # PHPUnit tests
 /var/www/opencounter-slim-codenv/bin/phpunit --configuration /var/www/opencounter-slim-codenv/tests/phpunit/phpunit.xml

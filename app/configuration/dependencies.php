@@ -31,6 +31,7 @@ $container['renderer'] = function ($container) {
 
 /**
  * A logger could come in handy.
+ *
  * @param $container
  *
  * @return \Monolog\Logger
@@ -39,7 +40,7 @@ $container['logger'] = function ($container) {
     $settings = $container->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new Monolog\Handler\RotatingFileHandler($settings['path'], Monolog\Logger::DEBUG));
+    $logger->pushHandler(new Monolog\Handler\RotatingFileHandler(__DIR__ . '/logs/' . $settings['path'], Monolog\Logger::DEBUG));
     return $logger;
 };
 
@@ -59,6 +60,8 @@ $container['db'] = function ($container) {
 };
 
 /**
+ * A way to access the db as pdo object
+ *
  * @param $container
  *
  * @return \OpenCounter\Infrastructure\Persistence\Sql\SqlManager
@@ -69,6 +72,8 @@ $container['counter_mapper'] = function ($container) {
 };
 
 /**
+ * Using SQL storage through repository interface
+ *
  * @param $container
  *
  * @return \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository

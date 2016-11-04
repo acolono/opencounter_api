@@ -1,7 +1,5 @@
 #image: docker:latest
 #https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
-#services:
-#- docker:dind
 
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
 services:
@@ -15,14 +13,16 @@ stages:
   - deploy
 
 before_script:
-- docker info
+  - docker info
+  - echo $CI_BUILD_ID
 
-#variables:
+
+variables:
   # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
-  #DOCKER_DRIVER: overlay
+  DOCKER_DRIVER: overlay
 
 # TODO: phpcodesniffer
-# make sure our source code adheres to coding standards
+# Make sure our source code adheres to coding standards.
 build:phpcs:
   stage: build
   image: denisura/phpcs
@@ -39,6 +39,7 @@ build:
   #- docker pull -a mysuperapp
   #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
   #- docker-compose up -d
+  #  https://gitlab.com/gitlab-org/gitlab-ce/issues/17769#note_12167317
   - docker-compose -f docker-compose.testing.yml up -d --force-recreate --build
 
   # TODO: Run bash script to migrate db and execute tests on container or run tests individually from here
@@ -55,8 +56,6 @@ build:
     paths:
     - tests/behat/reports/html/behat
     expire_in: 1 week
-
-
 
 # TODO changelog &releasenotes
 # When we merge code into master branch
@@ -77,7 +76,6 @@ release:changelog:
     paths:
     - CHANGELOG.md
     expire_in: 1 week
-
 
 # todo: deploy pages
 # When we merge code into master branch
@@ -104,7 +102,6 @@ pages:
 # Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 
 # todo: swagger codegen
-
 deploy:swagger:
   stage: deploy
   only:

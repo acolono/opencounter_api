@@ -1,8 +1,8 @@
 <?php
-$mode = (string)getenv('MODE');
+$mode = (string) getenv('MODE');
 return [
   'settings' => [
-    'displayErrorDetails' => (bool)getenv('DISPLAY_ERRORS'),
+    'displayErrorDetails' => (bool) getenv('DISPLAY_ERRORS'),
     // set to false in production
     'addContentLengthHeader' => FALSE,
     // Allow the web server to send the content-length header
@@ -20,10 +20,12 @@ return [
     ],
     'db' =>
       [
-        'host' => ($mode == 'production') ? "localhost" : 'opencounter-slim-codenv-mysql',
-        'dbname'  => ($mode == 'production') ? "production_db" : ($mode == 'testing') ? "testing_db" : "development_db",
-        'user'  => ($mode == 'production') ? "countapp" : ($mode == 'testing') ? "$mode" : "docker",
-        'pass'  => ($mode == 'production') ? "similarly-secure-password" : ($mode == 'testing') ? "testing" : "docker",
+        'host' => (string) getenv('DB_HOST'),
+        'dbname'  => (string) getenv('MYSQL_DATABASE'),
+        'user'  => (string) getenv('MYSQL_USER'),
+//        'user'  => ($mode === 'production') ? "countapp" : ($mode === 'testing') ? "testing" : "docker",
+        //'pass'  => ($mode === 'production') ? "similarly-secure-password" : ($mode === 'development') ? "docker" : "testing",
+        'pass'  => (string) getenv('MYSQL_PASSWORD'),
       ],
   ],
 ];

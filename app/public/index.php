@@ -13,8 +13,14 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
+// ensure required environment variables are available
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
+$dotenv->required('DB_HOST');
+$dotenv->required('MYSQL_DATABASE');
+$dotenv->required('MYSQL_USER');
+$dotenv->required('MYSQL_PASSWORD');
+
 // Instantiate the app
 $settings = require __DIR__ . '/../configuration/settings.php';
 
