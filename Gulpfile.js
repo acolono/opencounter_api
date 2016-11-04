@@ -41,10 +41,10 @@ gulp.task('behat-watch', ['behat'], function (done) {
 gulp.task('serve', ['behat'], function() {
 
     browserSync.init({
-        server: "./tests/behat/reports/html/behat"
+        server: "./app/tests/behat/reports/html/behat"
     });
 
-    gulp.watch('public/*.php',  ['behat-watch']);
+    gulp.watch('./app/public/*.php',  ['behat-watch']);
 });
 
 
