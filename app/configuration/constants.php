@@ -1,3 +1,3 @@
 <?php
 
-define("API_HOST", "phpdockerio__nginx");
+define("API_HOST", "opencounter-slim-codenv-webserver");
