@@ -1,10 +1,8 @@
-#image: docker:latest
 #https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
 
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
 services:
   - docker:1.12.1-dind
-
 # define different pipelines for our jobs
 stages:
   - build
@@ -40,18 +38,15 @@ build:
   #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
   #- docker-compose up -d
   #  https://gitlab.com/gitlab-org/gitlab-ce/issues/17769#note_12167317
-  - docker-compose -f docker-compose.testing.yml up -d --force-recreate --build
 
-  # TODO: Run bash script to migrate db and execute tests on container or run tests individually from here
-  #- docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/run-tests.sh
-  #- docker run acolono/php7-fpm:latest ls -al /var/www/opencounter-slim-codenv
-  #- docker exec acolono/php7-fpm:latest /var/www/opencounter-slim-codenv/bin/run-tests.sh
-  - docker exec opencounter-slim-codenv-php-fpm ./bin/phinx migrate -c ./phinx.yml --environment testing
+  - docker-compose -f docker-compose.testing.yml up --force-recreate --build -d
+  - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
+  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
   - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
   - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v
   artifacts:
-    name: "$CI_BUILD_NAME-behatreports"
+    name: "$CI_BUILD_ID-behatreports"
     untracked: true
     paths:
     - tests/behat/reports/html/behat
@@ -71,7 +66,7 @@ release:changelog:
     # generate changelog
     - github_changelog_generator acolono/opencounter_api
   artifacts:
-    name: "$CI_BUILD_NAME-changelog"
+    name: "$CI_BUILD_ID-changelog"
     untracked: true
     paths:
     - CHANGELOG.md
@@ -93,7 +88,7 @@ pages:
   allow_failure: true
   # Store resulting changelog as artifact
   artifacts:
-    name: "$CI_BUILD_NAME-docs"
+    name: "$CI_BUILD_ID-docs"
     untracked: true
     paths:
     - public/docs/
@@ -111,7 +106,7 @@ deploy:swagger:
     # generate client from swagger.json
     - generate -i ./docs/swagger.json -o ./docs/swagger/
   artifacts:
-    name: "$CI_BUILD_NAME-swaggercli"
+    name: "$CI_BUILD_ID-swaggercli"
     untracked: true
     paths:
     - docs/swagger
@@ -119,8 +114,8 @@ deploy:swagger:
 
 
 # TODO: Docker semver tag and publish
-#docker tag my-image my-registry:5000/my-image
-#docker push my-registry:5000/my-image
+#docker tag acolono/php7-fpm my-registry:5000/acolono/php7-fpm
+#docker push my-registry:5000/acolono/php7-fpm
 # When we merge code into master branch
 # Then tag new version
 
