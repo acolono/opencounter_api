@@ -15,7 +15,7 @@ stages:
   - deploy
 
 before_script:
-  - docker info
+#  - docker info
   - echo $CI_BUILD_ID
 
 
@@ -29,7 +29,7 @@ build:phpcs:
   stage: build
   image: denisura/phpcs
   script:
-    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full src
+    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
 build:
   stage: build
