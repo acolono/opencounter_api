@@ -1,0 +1,28 @@
+# see https://docs.docker.com/compose/extends/
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.5
+    container_name: mysql
+
+  webserver:
+    image: phpdockerio/nginx:latest
+    container_name: webserver
+    hostname: opencounter-slim-codenv-webserver
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/opencounter-slim-codenv-webserver.conf
+      - ./app:/var/www/opencounter-slim-codenv
+    ports:
+     - "8080:80"
+
+  php:
+    build:
+      context: ./php-fpm/
+    image: acolono/php7-fpm:latest
+    container_name: php-fpm
+    hostname: opencounter-slim-codenv-php-fpm
+    volumes:
+      - ./app:/var/www/opencounter-slim-codenv
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+

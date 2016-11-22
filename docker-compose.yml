@@ -1,0 +1,42 @@
+
+version: '2'
+
+services:
+  opencounter-slim-codenv-mysql:
+    image: mysql:5.5
+    container_name: opencounter-slim-codenv-mysql
+    extends:
+      file: common.yml
+      service: mysql
+
+  opencounter-slim-codenv-webserver:
+    image: phpdockerio/nginx:latest
+    container_name: opencounter-slim-codenv-webserver
+    hostname: opencounter-slim-codenv-webserver
+    volumes:
+      - ./app:/var/www/opencounter-slim-codenv
+    ports:
+     - "8080:80"
+    links:
+      - opencounter-slim-codenv-php-fpm
+    depends_on:
+      - opencounter-slim-codenv-php-fpm
+    extends:
+      file: common.yml
+      service: webserver
+
+  opencounter-slim-codenv-php-fpm:
+    build:
+      context: ./php-fpm/
+    image: acolono/php7-fpm:v0.0.1
+    container_name: opencounter-slim-codenv-php-fpm
+    hostname: opencounter-slim-codenv-php-fpm
+    volumes:
+      - ./app:/var/www/opencounter-slim-codenv
+    links:
+      - opencounter-slim-codenv-mysql
+    depends_on:
+      - opencounter-slim-codenv-mysql
+    extends:
+      file: common.yml
+      service: php

@@ -1,0 +1,128 @@
+# Running locally
+# gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_ID=2 --env TAG=0.1.0 --env API_HOST=opencounter-slim-codenv-webserver build
+
+
+#https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
+
+image: jonaskello/docker-and-compose:1.12.1-1.8.0
+services:
+  - docker:dind
+# define different pipelines for our jobs
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+before_script:
+#  - docker info
+  - echo $CI_BUILD_ID
+
+
+variables:
+  # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
+  DOCKER_DRIVER: aufs
+
+# TODO: phpcodesniffer
+# Make sure our source code adheres to coding standards.
+build:phpcs:
+  stage: build
+  image: denisura/phpcs
+  script:
+    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
+
+build:
+  stage: build
+  script:
+  # tell app we are testing environment dotenv
+  - cp .env.testing app/public/.env
+  # first build and run all docker containers
+  #- docker-compose pull
+  #- docker pull -a mysuperapp
+  #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
+  #- docker-compose up -d
+  #  https://gitlab.com/gitlab-org/gitlab-ce/issues/17769#note_12167317
+
+  - docker-compose -f docker-compose.testing.yml up --force-recreate --build -d
+  - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
+  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v
+  artifacts:
+    name: "$CI_BUILD_ID-behatreports"
+    untracked: true
+    paths:
+    - tests/behat/reports/html/behat
+    expire_in: 1 week
+
+# TODO changelog &releasenotes
+# When we merge code into master branch
+# Then we want changelog to be generated
+release:changelog:
+  stage: release
+  only:
+    - master
+  image: ruby:2.3
+  script:
+    # make sure we have the gem to generate changelog (runner should already have this in its path)
+    - gem install github_changelog_generator
+    # generate changelog
+    - github_changelog_generator acolono/opencounter_api
+  artifacts:
+    name: "$CI_BUILD_ID-changelog"
+    untracked: true
+    paths:
+    - CHANGELOG.md
+    expire_in: 1 week
+
+# todo: deploy pages
+# When we merge code into master branch
+# Then we want github or gitlab pages with the generated documentation
+pages:
+  stage: deploy
+  only:
+    - master
+  script:
+    # static swagger json for swaggercodegen or swaggereditor to consume
+    - bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output .public/docs/swagger.json
+    # phpdocumentor generated html documentation
+    - docker run --rm -v $(pwd):/app composer/composer global require "phpdocumentor/phpdocumentor:2.*"
+    - ~/.composer/vendor/bin/phpdoc -d ./src -t ./public/docs/slimcounter
+  allow_failure: true
+  # Store resulting changelog as artifact
+  artifacts:
+    name: "$CI_BUILD_ID-docs"
+    untracked: true
+    paths:
+    - public/docs/
+    expire_in: 1 week
+# When we merge code into master branch
+# Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
+
+# todo: swagger codegen
+deploy:swagger:
+  stage: deploy
+  only:
+    - master
+  image: jimschubert/swagger-codegen-cli
+  script:
+    # generate client from swagger.json
+    - generate -i ./docs/swagger.json -o ./docs/swagger/
+  artifacts:
+    name: "$CI_BUILD_ID-swaggercli"
+    untracked: true
+    paths:
+    - docs/swagger
+    expire_in: 1 week
+
+
+# TODO: Docker semver tag and publish
+#docker tag acolono/php7-fpm my-registry:5000/acolono/php7-fpm
+#docker push my-registry:5000/acolono/php7-fpm
+# When we merge code into master branch
+# Then tag new version
+
+
+# TODO: phpdocumentor
+# todo: deploy stage
