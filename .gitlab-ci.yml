@@ -21,7 +21,7 @@ before_script:
 
 variables:
   # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
-  DOCKER_DRIVER: overlay
+  DOCKER_DRIVER: aufs
 
 # TODO: phpcodesniffer
 # Make sure our source code adheres to coding standards.
