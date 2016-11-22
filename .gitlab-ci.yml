@@ -15,13 +15,16 @@ stages:
   - deploy
 
 before_script:
-#  - docker info
+  # asking for docker info breaks phpcs stage
+  #- docker info
   - echo $CI_BUILD_ID
 
+after_script:
+  - docker-compose -f docker-compose.testing.yml stop
 
-variables:
+#variables:
   # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
-  DOCKER_DRIVER: aufs
+  #DOCKER_DRIVER: aufs
 
 # TODO: phpcodesniffer
 # Make sure our source code adheres to coding standards.

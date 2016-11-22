@@ -16,7 +16,6 @@ services:
       service: mysql
 
   opencounter-slim-codenv-webserver:
-    image: phpdockerio/nginx:latest
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     ports:
