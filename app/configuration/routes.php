@@ -260,6 +260,55 @@ $app->group('/api/counters', function () {
       '\OpenCounter\Http\CounterController:incrementCounter');
 
     /**
+     * Delete Couter Route
+     *
+     * @SWG\Delete(
+     *     path="/counters/{name}/{password}",
+     *     tags={"docs"},
+     *     operationId="deleteCounter",
+     *     summary="Delete counter",
+     *     description="",
+     *     consumes={"application/json", "application/xml"},
+     *     produces={"application/xml", "application/json"},
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="Counter object that needs to be updated",
+     *         required=true,
+     *         @SWG\Schema(ref="#/definitions/counterInput"),
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password",
+     *         in="path",
+     *         description="Counter password to add",
+     *         required=true,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(ref="#/parameters/CounterName"),
+     *     @SWG\Response(
+     *         response=400,
+     *         description="Invalid ID supplied",
+     *     ),
+     *     @SWG\Response(
+     *         response=404,
+     *         description="Counter not found",
+     *     ),
+     *     @SWG\Response(
+     *         response=405,
+     *         description="Validation exception",
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="counter response",
+     *         @SWG\Schema(ref="#/definitions/Counter")
+     *     ),
+     *     security={{"opencounter_auth":{"write:counters", "read:counters"}}}
+     * )
+     */
+    $this->delete('/{name}/{password}',
+      '\OpenCounter\Http\CounterController:deleteCounter');
+
+    /**
      * Set Couter Route
      *
      * @SWG\Put(

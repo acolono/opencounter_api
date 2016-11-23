@@ -27,6 +27,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     private $error;
 
+    protected $parameters;
+
+
     /**
      * Initializes context.
      *
@@ -34,8 +37,10 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct()
+    public function __construct(array $parameters)
     {
+         //var_dump($parameters);
+        $this->baseUrl = $parameters['base_url'];
         // TODO: should we be getting them from the container here since we are kernel aware? probably
 //        $this->logger = $this->app->getContainer()->get('logger');
 //        $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
@@ -43,6 +48,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 //        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
 //       // $this->counterRepository = $this->app->getContainer()->get('counter_repository');
         $this->counters = array();
+
 //        $this->counterBuildService = $this->app->getContainer()->get('counterBuildService');
     }
 
@@ -287,6 +293,24 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
 
     /**
+     * @Then no counter with id :arg1 has been set
+     */
+    public function noCounterWithIdHasBeenSet($id)
+    {
+        // get the counter we added to db and remember it so we can delete it later
+        $this->db = $this->app->getContainer()->get('db');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        $counter = $this->counterRepository->getCounterById(new CounterId($id));
+
+        // if we get a counter something is wrong
+        if ($counter) {
+            throw new \Exception('something is wrong, seems a counter is in the database');
+        }
+    }
+
+    /**
      * @Given no counter :name has been set
      */
     public function noCounterHasBeenSet($name)
@@ -327,43 +351,61 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function aCounterWithIdHasBeenSet($id)
     {
-        // TODO: testing the buildserver requires us to create a request object
+        // testing the counterbuildservice requires us to create a request object
         $name = 'democounter';
-        $uri = \Slim\Http\Uri::createFromString('http://slimapi.opencounter.docker');
+        $uri = \Slim\Http\Uri::createFromString($this->baseUrl);
         $headers = new \Slim\Http\Headers();
         $cookies = [];
         $serverParams = [];
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
+        $args = ['name' => $name, 'id' => $id, 'value' => 0];
+
         $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
             $serverParams, $body);
-        $args = ['name' => $name, 'id' => $id, 'value' => 0];
-// now thest the build service just in case
+
+        $request = $request->withParsedBody($args);
+
+        // now test the build service just in case
         // cant test build service without request
         $this->counters[] = $this->app->getContainer()->get('counter_build_service')->execute($request, $args);
 
 
     }
 
+    /**
+     * @When I remove the counter with id :id
+     */
+    public function iRemoveTheCounterWithId($id)
+    {
+        $endpoint = '/api/counters/' . $id . '/passwordplaceholder';
 
+        $CounterArray = [
+          json_encode(['value' => 0, 'id' => $id])
+        ];
+        // [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterjsonString = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterjsonString);
+        $this->printResponse();
+    }
 
 
 
     /**
-     * @When I remove the counter with id :arg1
+     * @When I remove the counter with name :name
      */
-    public function iRemoveTheCounterWithId($arg1)
+    public function iRemoveTheCounterWithName($name)
     {
-        // TODO: test removal through api if we want to allow that
-        throw new PendingException('TODO: test removal through api if we want to allow that');
+        $endpoint = '/api/counters/' . $name . '/passwordplaceholder';
+
+        $CounterArray = [
+          json_encode(['value' => 0, 'name' => $name])
+        ];
+        // [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterjsonString = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterjsonString);
+        $this->printResponse();
     }
 
-    /**
-     * @Then no counter with id :arg1 has been set
-     */
-    public function noCounterWithIdHasBeenSet($arg1)
-    {
-        throw new PendingException();
-    }
 
     /**
      * @Given a counter with name :name has been set

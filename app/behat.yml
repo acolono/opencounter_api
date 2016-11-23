@@ -43,7 +43,10 @@ default:
     webapi:
 #      paths: [ %paths.base%/features/Counters ]
       paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
-      contexts: [ OpenCounterWebApiContext ]
+      contexts:
+        - OpenCounterWebApiContext:
+            parameters:
+                base_url: http://opencounter-slim-codenv-webserver:8080
       filters:
 #        tags: "@web"
 #        role: "apiuser"
