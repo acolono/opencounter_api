@@ -11,7 +11,7 @@ services:
     container_name: webserver
     hostname: opencounter-slim-codenv-webserver
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/opencounter-slim-codenv-webserver.conf
+      - ./nginx:/etc/nginx/conf.d
       - ./app:/var/www/opencounter-slim-codenv
     ports:
      - "8080:80"

@@ -6,18 +6,18 @@ echo $PWD
 
 ## setup database
 ##/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
-/var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
+docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
 
 # PHPUnit tests
-/var/www/opencounter-slim-codenv/bin/phpunit --configuration /var/www/opencounter-slim-codenv/tests/phpunit/phpunit.xml
+docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phpunit --configuration /var/www/opencounter-slim-codenv/tests/phpunit/phpunit.xml
 PHPUNIT_RETURN_CODE=$?
 
 # PHPSpec tests
-/var/www/opencounter-slim-codenv/bin/phpspec run --format=pretty --config /var/www/opencounter-slim-codenv/tests/phpspec/phpspec.yml -v
+docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phpspec run --format=pretty --config /var/www/opencounter-slim-codenv/tests/phpspec/phpspec.yml -v
 PHPSPEC_RETURN_CODE=$?
 
 # Behat default suite tests (default)
-/var/www/opencounter-slim-codenv/bin/behat --config /var/www/opencounter-slim-codenv/behat.yml;
+docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat --config /var/www/opencounter-slim-codenv/behat.yml;
 BEHAT_DEFAULT_RETURN_CODE=$?
 
 
