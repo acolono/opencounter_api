@@ -23,8 +23,6 @@ return [
         'host' => (string) getenv('DB_HOST'),
         'dbname'  => (string) getenv('MYSQL_DATABASE'),
         'user'  => (string) getenv('MYSQL_USER'),
-//        'user'  => ($mode === 'production') ? "countapp" : ($mode === 'testing') ? "testing" : "docker",
-        //'pass'  => ($mode === 'production') ? "similarly-secure-password" : ($mode === 'development') ? "docker" : "testing",
         'pass'  => (string) getenv('MYSQL_PASSWORD'),
       ],
   ],

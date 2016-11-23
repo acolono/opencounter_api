@@ -1,12 +1,12 @@
 # Running locally
-# gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_ID=2 --env TAG=0.1.0 --env API_HOST=opencounter-slim-codenv-webserver build
+# gitlab-ci-multi-runner exec docker --docker-privileged --env CI_PROJECT_NAME=slimcounter_ci --env CI_BUILD_REF=2 --env TAG=0.1.0 --env API_HOST=opencounter-slim-codenv-webserver build
 
-
-#https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
-
+# Fix for "Can't find "docker-compose" using the Docker-in-Docker image"
+# https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
 image: jonaskello/docker-and-compose:1.12.1-1.8.0
 services:
   - docker:dind
+
 # define different pipelines for our jobs
 stages:
   - build
@@ -14,19 +14,11 @@ stages:
   - release
   - deploy
 
-before_script:
-  # asking for docker info breaks phpcs stage
-  #- docker info
-  - echo $CI_BUILD_ID
+variables:
+  CONTAINER_TEST_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:$CI_BUILD_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:latest
 
-after_script:
-  - docker-compose -f docker-compose.testing.yml stop
-
-#variables:
-  # https://gitlab.com/gitlab-org/gitlab-ce/issues/17861
-  #DOCKER_DRIVER: aufs
-
-# TODO: phpcodesniffer
+# phpcodesniffer
 # Make sure our source code adheres to coding standards.
 build:phpcs:
   stage: build
@@ -35,33 +27,83 @@ build:phpcs:
     - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
 build:
+  cache:
+    key: "CI_BUILD_REF"
+    untracked: true
+    paths:
+      - bin/
+      - vendor/
   stage: build
+ # workaround can be removed once we upgraded to 8.15
+  before_script:
+    # asking for docker info breaks phpcs stage so dont.
+    #- docker info
+    - echo $CI_SERVER_VERSION
+    - echo $CI_BUILD_REF_SLUG
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
   script:
   # tell app we are testing environment dotenv
   - cp .env.testing app/public/.env
-  # first build and run all docker containers
-  #- docker-compose pull
-  #- docker pull -a mysuperapp
-  #- docker build --cache-from mysuperapp -t mysuperapp:v1 .
-  #- docker-compose up -d
-  #  https://gitlab.com/gitlab-org/gitlab-ce/issues/17769#note_12167317
-
-  - docker-compose -f docker-compose.testing.yml up --force-recreate --build -d
+  # start docker containers
+  - docker-compose -f docker-compose.testing.yml up -d
+  # install dependencies with composer in php container
   - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
-  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
-  - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
-  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
-  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v
+  # cleanup after ourselves after tests
+  after_script:
+    - docker-compose -f docker-compose.testing.yml stop
+  # keep vendor and bin around for later stages
   artifacts:
-    name: "$CI_BUILD_ID-behatreports"
+    name: "$CI_BUILD_REF-vendor"
     untracked: true
     paths:
-    - tests/behat/reports/html/behat
+    - vendor/
+    - bin/
     expire_in: 1 week
 
-# TODO changelog &releasenotes
+# Run Behat and Phpspec tests.
+build:test:
+  # we want to use cache to load installed composer dependeicies from previous build step
+  cache:
+    key: "CI_BUILD_REF"
+    untracked: true
+    paths:
+      - bin/
+      - vendor/
+  stage: build
+  before_script:
+    # asking for docker info breaks phpcs stage so dont.
+    #- docker info
+    - echo $CI_BUILD_REF
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
+  script:
+  # tell app we are in the testing environment via dotenv
+  - cp .env.testing app/public/.env
+  # TODO see if we can pull the prepared docker (from build stage) images from our own registry
+  # start containers needed for testing
+  - docker-compose -f docker-compose.testing.yml up -d
+  # setup database for testing environment
+  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
+  # run behat tests
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
+  # run phpunit tests
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpunit --configuration ./tests/phpunit/phpunit.xml
+  # run phpspec tests
+  - docker exec opencounter-slim-codenv-php-fpm ./bin/phpspec run --format=pretty --config ./tests/phpspec/phpspec.yml -v
+  after_script:
+  # shouldnt be necessary but shutdown containers cleanly just in case
+    - docker-compose -f docker-compose.testing.yml stop
+  # cache behat report artifacts for publishing to pages during deploy step
+  artifacts:
+    name: "$CI_BUILD_REF-behatreports"
+    untracked: true
+    paths:
+    - app/tests/behat/reports/html/behat
+    expire_in: 1 week
+
+# TODO changelog & releasenotes
 # When we merge code into master branch
 # Then we want changelog to be generated
+# And Changed changelog should be committed or attached as release notes to corresponding release (tag/version)
 release:changelog:
   stage: release
   only:
@@ -73,47 +115,118 @@ release:changelog:
     # generate changelog
     - github_changelog_generator acolono/opencounter_api
   artifacts:
-    name: "$CI_BUILD_ID-changelog"
+    name: "$CI_BUILD_REF-changelog"
     untracked: true
     paths:
     - CHANGELOG.md
     expire_in: 1 week
+  except:
+    - tags
+
+# When we merge code into master branch
+# Then bump version number and tag new version
+# TODO: consider automatically tagging when something gets merged into master.
+#release:version:
+#  stage: release
+#  only:
+#    - master
+#  script:
+#    - git status
+#    - git remote -v
+#    - ls
+#    - pwd
+#  except:
+#    - tags
+
+
+# TODO: as final step of the release stage react to tags.
+# TODO: Create artifacts only for tags ?
+#release:tag:
+#  stage: release
+#  only:
+#    - tags
+#  script:
+#    - docker tag acolono/php7-fpm registry.acolono.net:5000/open-counter/slimcounter
+#    - git status
+#    - git remote -v
+#    - ls
+#    - pwd
 
 # todo: deploy pages
 # When we merge code into master branch
-# Then we want github or gitlab pages with the generated documentation
+# Then we want github or gitlab pages with the generated phpdocumentor documentation
+# And we want github or gitlab pages with the generated swagger.json
+
 pages:
   stage: deploy
-  only:
-    - master
-  script:
-    # static swagger json for swaggercodegen or swaggereditor to consume
-    - bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output .public/docs/swagger.json
-    # phpdocumentor generated html documentation
-    - docker run --rm -v $(pwd):/app composer/composer global require "phpdocumentor/phpdocumentor:2.*"
-    - ~/.composer/vendor/bin/phpdoc -d ./src -t ./public/docs/slimcounter
-  allow_failure: true
-  # Store resulting changelog as artifact
-  artifacts:
-    name: "$CI_BUILD_ID-docs"
+  # here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
+  # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
+#  image: acolono/php-fpm7:latest
+  # we want to use cache to load installed composer dependency from build step
+  cache:
+    key: "CI_BUILD_REF"
     untracked: true
     paths:
-    - public/docs/
+      - bin/
+      - vendor/
+  only:
+    - master
+  before_script:
+    # asking for docker info breaks phpcs stage so dont.
+    #- docker info
+    - echo $CI_BUILD_REF
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
+  script:
+    # TODO Fetch ready-built docker images from registry
+    - docker-compose -f docker-compose.testing.yml pull
+    # static swagger json for swaggercodegen or swaggereditor to consume
+    - pwd
+    - ls
+    - docker-compose -f docker-compose.testing.yml up -d
+    - docker-compose ps -a
+    #- docker-compose -f docker-compose.testing.yml run opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
+    - docker exec opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
+    # we can install phpdocumentor in the php-fpm container because we already have composer installed there. consider having this preinstalled in the container or using an existing docker image specificly for running phpdoc
+    # Previously we Installed phpdocumentor via composer/composer image
+    #- docker run --rm -v $(pwd):/app composer/composer global require "phpdocumentor/phpdocumentor:2.*"
+    # generate phpdocumentor html documentation
+    - docker exec opencounter-slim-codenv-php-fpm composer global require "phpdocumentor/phpdocumentor:2.*"
+    - docker exec opencounter-slim-codenv-php-fpm ls ~/.composer/vendor/bin
+    - docker exec opencounter-slim-codenv-php-fpm ~/.composer/vendor/bin/phpdoc -d ./src -t ./public/docs/slimcounter
+  after_script:
+    # shouldnt be necessary but shutdown containers cleanly just in case
+    - docker-compose -f docker-compose.testing.yml stop
+  allow_failure: true
+  # Store resulting swagger.json and phpdoc folder as artifacts
+  artifacts:
+    name: "$CI_BUILD_REF-docs"
+    untracked: true
+    paths:
+    - public/swagger.json
+    - public/docs/slimcounter
     expire_in: 1 week
 # When we merge code into master branch
 # Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 
-# todo: swagger codegen
+# todo: swagger codegen https://github.com/swagger-api/swagger-codegen
+# evaluate https://hub.docker.com/r/jimschubert/swagger-codegen-cli/~/dockerfile/
+# And we want github or gitlab pages with the generated swagger documentation from swagger.json
+
 deploy:swagger:
   stage: deploy
   only:
     - master
-  image: jimschubert/swagger-codegen-cli
   script:
     # generate client from swagger.json
-    - generate -i .public/docs/swagger.json -o ./docs/swagger/
+    - docker run -v /docs/swagger/:/swagger-api/out \
+          -v ./docs/:/swagger-api/json \
+          jimschubert/swagger-codegen-cli generate \
+          -i /swagger-api/json/swagger.json \
+          -l php \
+          -o ./swagger-api/out/swagger/
+    #- generate -i ./docs/swagger.json -o ./docs/swagger/
   artifacts:
-    name: "$CI_BUILD_ID-swaggercli"
+    name: "$CI_BUILD_REF-swaggercli"
     untracked: true
     paths:
     - docs/swagger
@@ -127,5 +240,6 @@ deploy:swagger:
 # Then tag new version
 
 
-# TODO: phpdocumentor
+
 # todo: deploy stage
+# https://docs.gitlab.com/ce/ci/yaml/README.html#environment

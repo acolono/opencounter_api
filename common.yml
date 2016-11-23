@@ -17,9 +17,8 @@ services:
      - "8080:80"
 
   php:
-    build:
-      context: ./php-fpm/
-    image: acolono/php7-fpm:latest
+    #image: registry.acolono.net:444/rosenstrauch/php-fpm:${CI_BUILD_REF_SLUG}
+    image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
     container_name: php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:

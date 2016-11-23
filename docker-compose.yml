@@ -26,9 +26,7 @@ services:
       service: webserver
 
   opencounter-slim-codenv-php-fpm:
-    build:
-      context: ./php-fpm/
-    image: acolono/php7-fpm:v0.0.1
+    image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
     container_name: opencounter-slim-codenv-php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:

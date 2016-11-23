@@ -4,7 +4,7 @@
     "keywords": ["microframework","rest","router", "psr7"],
     "homepage": "http://github.com/acolono/slim-opencounter",
     "license": "MIT",
-  "version": "0.0.1-dev",
+    "version": "0.1.0",
     "minimum-stability": "dev",
   "repositories": [
     {

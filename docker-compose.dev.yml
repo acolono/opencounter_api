@@ -27,9 +27,6 @@ services:
       service: webserver
 
   opencounter-slim-codenv-php-fpm:
-    build:
-      context: ./php-fpm/
-    image: acolono/php7-fpm:v0.0.1
     container_name: opencounter-slim-codenv-php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     environment:
@@ -48,3 +45,11 @@ services:
     extends:
       file: common.yml
       service: php
+
+
+  swaggerui:
+    hostname: swaggerui.opencounter.docker
+    image: schickling/swagger-ui
+    container_name: opencounter-slim-codenv-swaggerui
+    environment:
+      API_URL: http://localhost:8080/api/docs
