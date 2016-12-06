@@ -111,7 +111,7 @@ deploy:swagger:
   image: jimschubert/swagger-codegen-cli
   script:
     # generate client from swagger.json
-    - generate -i ./docs/swagger.json -o ./docs/swagger/
+    - generate -i .public/docs/swagger.json -o ./docs/swagger/
   artifacts:
     name: "$CI_BUILD_ID-swaggercli"
     untracked: true

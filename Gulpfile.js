@@ -1,19 +1,20 @@
 var gulp        = require('gulp');
 var browserSync = require('browser-sync').create();
 var beep    = require('beepbeep');
-var sys     = require('sys');
 var exec    = require('child_process').exec;
 var gutil   = require('gulp-util');
-var plumber = require('gulp-plumber');
+
+'use strict';
+const release = require('gulp-release');
 
 var onError = function(err) {
     beep([1000, 1000, 1000]);
     gutil.log(gutil.colors.red(err));
-}
+};
 
 var onSuccess = function(message) {
     gutil.log(gutil.colors.green(message));
-}
+};
 
 gulp.task('behat', function() {
     exec('docker exec -t -i opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/behat -c /var/www/opencounter-slim-codenv/behat.yml', function(error, stdout) {
@@ -47,5 +48,6 @@ gulp.task('serve', ['behat'], function() {
     gulp.watch('./app/public/*.php',  ['behat-watch']);
 });
 
+release.register(gulp, {packages: ['app/composer.json', 'package.json']});
 
 gulp.task('default', ['serve']);
