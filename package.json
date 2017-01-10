@@ -1,12 +1,11 @@
 {
   "name": "opencounter_api_slim",
-  "version": "0.1.0",
+  "version": "0.1.2-dev",
   "devDependencies": {
     "beepbeep": "^1.2.0",
     "browser-sync": "^2.10.1",
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.1.0",
     "gulp-release": "^1.1.1"
-  },
-  "codename": "Bronze Marklar"
+  }
 }

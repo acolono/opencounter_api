@@ -1,11 +1,11 @@
-var gulp        = require('gulp');
+'use strict';
+const gulp = require('gulp');
+const release = require('gulp-release');
 var browserSync = require('browser-sync').create();
 var beep    = require('beepbeep');
 var exec    = require('child_process').exec;
 var gutil   = require('gulp-util');
 
-'use strict';
-const release = require('gulp-release');
 
 var onError = function(err) {
     beep([1000, 1000, 1000]);
@@ -48,6 +48,6 @@ gulp.task('serve', ['behat'], function() {
     gulp.watch('./app/public/*.php',  ['behat-watch']);
 });
 
-release.register(gulp, {packages: ['package.json', './app/composer.json']});
+release.register(gulp, {packages: ['./app/composer.json', 'package.json']});
 
 gulp.task('default', ['serve']);
