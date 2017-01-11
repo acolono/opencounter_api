@@ -82,7 +82,7 @@ build:test:
   # start containers needed for testing
   - docker-compose -f docker-compose.testing.yml up -d
   # wait a bit for db
-  - sleep 5
+  - sleep 7
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
   # run behat tests
@@ -212,10 +212,9 @@ pages:
 # And we want github or gitlab pages with the generated swagger documentation from swagger.json
 deploy:swagger:
   stage: deploy
-  image: ruby:2.1
   before_script:
   # install ssh-agent
-  - 'which ssh-agent || ( apt-get update -y && apt-get install sshpass openssh-client -y )'
+  - 'which ssh-agent || (apk add sshpass openssh-client -y )'
   # run ssh-agent
   - eval $(ssh-agent -s)
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
