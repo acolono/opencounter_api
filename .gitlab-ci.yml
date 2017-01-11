@@ -214,7 +214,7 @@ deploy:swagger:
   stage: deploy
   before_script:
   # install ssh-agent
-  - 'which ssh-agent || (apk add sshpass openssh-client -y )'
+  - 'which ssh-agent || (apk add rsync sshpass openssh-client -y )'
   # run ssh-agent
   - eval $(ssh-agent -s)
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
