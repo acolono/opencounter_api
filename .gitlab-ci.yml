@@ -214,12 +214,12 @@ deploy:swagger:
   stage: deploy
   before_script:
   # install ssh-agent
-  - 'which ssh-agent || (apk add rsync sshpass )'
+  - 'which ssh-agent || (apk add rsync sshpass openssh)'
   # run ssh-agent
   - eval $(ssh-agent -s)
   - which sshpass
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
-  #- ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
  # we want to use cache to load swagger.json from pages step
   cache:
     key: "CI_BUILD_REF"
@@ -234,7 +234,7 @@ deploy:swagger:
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l php -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
-    - rsync -ratlz --rsh="sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
+    - rsync -ratlz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
