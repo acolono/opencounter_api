@@ -233,7 +233,7 @@ deploy:swagger:
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l php -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
-    - /usr/bin/rsync -ratlz --rsh="/usr/bin/sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
+    - rsync -ratlz --rsh="/usr/bin/sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
