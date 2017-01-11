@@ -214,9 +214,10 @@ deploy:swagger:
   stage: deploy
   before_script:
   # install ssh-agent
-  - 'which ssh-agent || (apk add rsync sshpass openssh-client -y )'
+  - 'which ssh-agent || (apk add rsync sshpass )'
   # run ssh-agent
   - eval $(ssh-agent -s)
+  - which sshpass
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
   #- ssh-add <(echo "$SSH_PRIVATE_KEY")
  # we want to use cache to load swagger.json from pages step
