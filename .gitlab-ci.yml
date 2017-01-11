@@ -210,9 +210,16 @@ pages:
 # todo: swagger codegen https://github.com/swagger-api/swagger-codegen
 # evaluate https://hub.docker.com/r/jimschubert/swagger-codegen-cli/~/dockerfile/
 # And we want github or gitlab pages with the generated swagger documentation from swagger.json
-
 deploy:swagger:
   stage: deploy
+  image: ruby:2.1
+  before_script:
+  # install ssh-agent
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  # run ssh-agent
+  - eval $(ssh-agent -s)
+  # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+  #- ssh-add <(echo "$SSH_PRIVATE_KEY")
  # we want to use cache to load swagger.json from pages step
   cache:
     key: "CI_BUILD_REF"
@@ -228,7 +235,7 @@ deploy:swagger:
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
     - apt-get install sshpass
-    -  /usr/bin/rsync -ratlz --rsh="/usr/bin/sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
+    - /usr/bin/rsync -ratlz --rsh="/usr/bin/sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
