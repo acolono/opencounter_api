@@ -215,7 +215,7 @@ deploy:swagger:
   image: ruby:2.1
   before_script:
   # install ssh-agent
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - 'which ssh-agent || ( apt-get update -y && apt-get install sshpass openssh-client -y )'
   # run ssh-agent
   - eval $(ssh-agent -s)
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
@@ -234,7 +234,6 @@ deploy:swagger:
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l php -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
-    - apt-get install sshpass
     - /usr/bin/rsync -ratlz --rsh="/usr/bin/sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
   environment:
     name: docs
