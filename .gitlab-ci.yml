@@ -243,8 +243,7 @@ deploy:swagger:
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
     - which rsync
     #- rsync -ratlz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
-    #- rsync --rsync-path=/usr/bin/rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs $DEPLOY_USER@artur.acolono.net:/web
-    - scp -r ./docs $DEPLOY_USER@artur.acolono.net:/web
+    - rsync --rsync-path=/usr/bin/rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs $DEPLOY_USER@artur.acolono.net:/web
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
