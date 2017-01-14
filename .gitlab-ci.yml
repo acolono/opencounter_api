@@ -225,8 +225,8 @@ deploy:swagger:
   # you are suspectible to man-in-the-middle attacks.
   # WARNING: Use this only with the Docker executor, if you use it with shell
   # you will overwrite your user's SSH config.
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  #- mkdir -p ~/.ssh
+  #- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
  # we want to use cache to load swagger.json from pages step
   cache:
     key: "CI_BUILD_REF"
