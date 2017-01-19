@@ -161,7 +161,7 @@ release:changelog:
 
 pages:
   stage: release
-  # here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
+  # TODO: here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
   # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
 #  image: acolono/php-fpm7:latest
   # we want to use cache to load installed composer dependency from build step
@@ -170,9 +170,9 @@ pages:
     untracked: true
     paths:
       - app
-  # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
-#  only:
-#    - master
+  # make sure this only happens on the master branch (for new releases)
+  only:
+    - master
   before_script:
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
@@ -234,9 +234,11 @@ deploy:swagger:
     paths:
       - docs/
   # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
-  #only:
-  #  - master
+  only:
+    - master
   script:
+    # make sure we have phpdocs from releases stage
+    - ls ./docs
     # generate client from swagger.json
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l html2 -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
