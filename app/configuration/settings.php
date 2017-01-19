@@ -14,7 +14,11 @@ return [
 
     // Renderer settings
     'renderer' => [
-      'template_path' => APP_ROOT . '/templates/',
+      'template_path' => [
+        APP_ROOT . '/themes/default_theme/templates/',
+        APP_ROOT . '/themes/default_theme/source/_patterns',
+        APP_ROOT . '/themes/default_theme/source/_layouts'
+      ],
       'cache_path' => APP_ROOT . '/cache/',
 
     ],
