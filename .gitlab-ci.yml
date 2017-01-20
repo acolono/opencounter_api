@@ -81,6 +81,8 @@ build:test:
   # TODO see if we can pull the prepared docker (from build stage) images from our own registry
   # start containers needed for testing
   - docker-compose -f docker-compose.testing.yml up -d
+  # wait a bit for db
+  - sleep 7
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml --environment testing
   # run behat tests
@@ -158,8 +160,8 @@ release:changelog:
 # And we want github or gitlab pages with the generated swagger.json
 
 pages:
-  stage: deploy
-  # here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
+  stage: release
+  # TODO: here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
   # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
 #  image: acolono/php-fpm7:latest
   # we want to use cache to load installed composer dependency from build step
@@ -167,8 +169,8 @@ pages:
     key: "CI_BUILD_REF"
     untracked: true
     paths:
-      - bin/
-      - vendor/
+      - app
+  # make sure this only happens on the master branch (for new releases)
   only:
     - master
   before_script:
@@ -177,13 +179,10 @@ pages:
     - echo $CI_BUILD_REF
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
   script:
-    # TODO Fetch ready-built docker images from registry
+    # Fetch ready-built docker images from registry
     - docker-compose -f docker-compose.testing.yml pull
     # static swagger json for swaggercodegen or swaggereditor to consume
-    - pwd
-    - ls
     - docker-compose -f docker-compose.testing.yml up -d
-    - docker-compose ps -a
     #- docker-compose -f docker-compose.testing.yml run opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
     - docker exec opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
     # we can install phpdocumentor in the php-fpm container because we already have composer installed there. consider having this preinstalled in the container or using an existing docker image specificly for running phpdoc
@@ -202,8 +201,8 @@ pages:
     name: "$CI_BUILD_REF-docs"
     untracked: true
     paths:
-    - public/swagger.json
-    - public/docs/slimcounter
+    - app/public/swagger.json
+    - app/public/docs/slimcounter
     expire_in: 1 week
 # When we merge code into master branch
 # Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
@@ -211,35 +210,41 @@ pages:
 # todo: swagger codegen https://github.com/swagger-api/swagger-codegen
 # evaluate https://hub.docker.com/r/jimschubert/swagger-codegen-cli/~/dockerfile/
 # And we want github or gitlab pages with the generated swagger documentation from swagger.json
-
 deploy:swagger:
   stage: deploy
+  before_script:
+  # install ssh-agent
+  - 'which ssh-agent || (apk update && apk add bash rsync openssh)'
+  # run ssh-agent
+  - eval $(ssh-agent -s)
+  - which bash
+  # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+  - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+
+ # we want to use cache to load swagger.json from pages step
+  cache:
+    key: "CI_BUILD_REF"
+    untracked: true
+    paths:
+      - docs/
+  # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
     - master
   script:
+    # make sure we have phpdocs from releases stage
+    - ls ./docs
     # generate client from swagger.json
-    - docker run -v /docs/swagger/:/swagger-api/out \
-          -v ./docs/:/swagger-api/json \
-          jimschubert/swagger-codegen-cli generate \
-          -i /swagger-api/json/swagger.json \
-          -l php \
-          -o ./swagger-api/out/swagger/
+    - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l html2 -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
+    - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
+    #- rsync -ratlz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" docs/swagger-api/out/swagger/ $DEPLOY_USER@artur.acolono.net:/web
+  environment:
+    name: docs
+    url: https://ocdocs.artur.acolono.net/
   artifacts:
     name: "$CI_BUILD_REF-swaggercli"
     untracked: true
     paths:
     - docs/swagger
     expire_in: 1 week
-
-
-# TODO: Docker semver tag and publish
-#docker tag acolono/php7-fpm my-registry:5000/acolono/php7-fpm
-#docker push my-registry:5000/acolono/php7-fpm
-# When we merge code into master branch
-# Then tag new version
-
-
-
-# todo: deploy stage
-# https://docs.gitlab.com/ce/ci/yaml/README.html#environment
