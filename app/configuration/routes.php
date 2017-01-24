@@ -6,6 +6,37 @@
  * creating named routes and mapping them to controllers.
  */
 
+use Chadicus\Slim\OAuth2\Routes;
+use Slim\Views;
+use OAuth2\Storage;
+use Chadicus\Slim\OAuth2\Middleware;
+
+$storage = new Storage\Pdo($container['db']);
+
+use OAuth2\GrantType;
+//Setup Auth
+$server = new OAuth2\Server(
+  $storage,
+  [
+    'access_lifetime' => 3600,
+  ],
+  [
+    new GrantType\ClientCredentials($storage),
+    new GrantType\AuthorizationCode($storage),
+    new GrantType\RefreshToken($storage),
+    new GrantType\UserCredentials($storage)
+  ]
+);
+$authorization = new Middleware\Authorization($server, $app->getContainer());
+
+//Auth Routes
+
+$auth_renderer = new Views\PhpRenderer( __DIR__ . '/vendor/chadicus/slim-oauth2-routes/templates');
+
+$app->map(['GET', 'POST'], Routes\Authorize::ROUTE, new Routes\Authorize($server, $auth_renderer))->setName('authorize');
+$app->post(Routes\Token::ROUTE, new Routes\Token($server))->setName('token');
+$app->map(['GET', 'POST'], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($auth_renderer))->setName('receive-code');
+
 // Admin Routes
 
 
@@ -37,6 +68,7 @@ $app->group('/admin', function () {
  * we are using annotations to generate the documentation of our rest api
  * @see https://github.com/zircote/swagger-php#usage-from-php
  * @SWG\Swagger(
+
  *     basePath="/api",
  *     host=API_HOST,
  *     schemes={"http"},
@@ -391,7 +423,7 @@ $app->group('/api/counters', function () {
      */
     $this->get('/{name}/value', '\OpenCounter\Http\CounterController:getCount');
 
-});
+})->add($authorization->withRequiredScope(['counterAccess']));
 
 // Fallback Route
-$app->get('/[{name}]', '\OpenCounter\Http\DefaultController:index');
+$app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');

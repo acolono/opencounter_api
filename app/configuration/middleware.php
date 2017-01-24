@@ -13,3 +13,11 @@ $app->add(new \Tuupola\Middleware\Cors([
     "credentials" => false,
     "cache" => 0,
 ]));
+
+
+$app->add(new \Slim\Middleware\HttpBasicAuthentication([
+  "users" => [
+    "admin" => getenv("ADMIN_PASSWORD")
+  ],
+  "path" => "/admin"
+]));

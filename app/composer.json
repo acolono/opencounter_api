@@ -15,6 +15,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/acolono/opencounter_core.git"
+    },
+    {
+        "type": "vcs",
+        "url": "git@github.com:rstgroup/behat-oauth2-context.git"
     }
   ],
   "require": {
@@ -28,8 +32,11 @@
     "ramsey/uuid": "^3.5",
     "tuupola/cors-middleware": "^0.5.2",
     "robmorgan/phinx": "^0.6.4",
-    "rosenstrauch/opencounter_api_core": "^0",
-    "vlucas/phpdotenv": "^2.4"
+    "rosenstrauch/opencounter_api_core": "dev-develop",
+    "vlucas/phpdotenv": "^2.4",
+    "chadicus/slim-oauth2": "^3.1",
+    "rstgroup/behat-oauth2-context": "^1.0",
+    "tuupola/slim-basic-auth": "^2.2"
   },
   "require-dev": {
     "behat/behat": "^3",

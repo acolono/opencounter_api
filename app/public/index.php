@@ -11,6 +11,7 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 
+
 session_start();
 
 // ensure required environment variables are available
@@ -20,6 +21,7 @@ $dotenv->required('DB_HOST');
 $dotenv->required('MYSQL_DATABASE');
 $dotenv->required('MYSQL_USER');
 $dotenv->required('MYSQL_PASSWORD');
+
 
 // Instantiate the app
 $settings = require __DIR__ . '/../configuration/settings.php';
@@ -36,8 +38,15 @@ require __DIR__ . '/../configuration/middleware.php';
 // load constants (TODO: is this better than .env)
 require __DIR__ . '/../configuration/constants.php';
 
+
+
+
 // Register routes
 require __DIR__ . '/../configuration/routes.php';
+
+
+
+
 
 // Run app
 $app->run();

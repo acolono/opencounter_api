@@ -19,7 +19,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     /**
      * AdminUiContext constructor.
      */
-    public function __construct()
+    public function __construct($parameters)
     {
         $this->counters = array();
     }
