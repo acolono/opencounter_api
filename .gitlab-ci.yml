@@ -248,3 +248,16 @@ deploy:swagger:
     paths:
     - docs/swagger
     expire_in: 1 week
+
+deploy:live:
+  stage: deploy
+  environment:
+    name: live
+    url: https://oc.artur.acolono.net/
+  before_script:
+  - echo "will be deployed in git post hook"
+ # we want to use cache to load swagger.json from pages step
+  script:
+    - echo "will be deployed in git post hook"
+  only:
+    - master

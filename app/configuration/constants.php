@@ -1,3 +1,3 @@
 <?php
 
-define("API_HOST", "opencounter-slim-codenv-webserver");
+define("API_HOST", "localhost:8080");

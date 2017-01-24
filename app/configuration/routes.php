@@ -158,6 +158,10 @@ $app->group('/api/counters', function () {
      *                 type="integer",
      *                 format="int64"
      *             ),
+     *             @SWG\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
      *              @SWG\Property(
      *                 property="status",
      *                 type="string",
