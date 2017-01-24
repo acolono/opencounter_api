@@ -43,7 +43,7 @@ build:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
   script:
   # tell app we are testing environment dotenv
-  - cp .env.testing app/public/.env
+  - cp .env.testing app/.env
   # start docker containers
   - docker-compose -f docker-compose.testing.yml up -d
   # install dependencies with composer in php container
@@ -77,7 +77,7 @@ build:test:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
   script:
   # tell app we are in the testing environment via dotenv
-  - cp .env.testing app/public/.env
+  - cp .env.testing app/.env
   # TODO see if we can pull the prepared docker (from build stage) images from our own registry
   # start containers needed for testing
   - docker-compose -f docker-compose.testing.yml up -d
