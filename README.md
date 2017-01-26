@@ -59,7 +59,7 @@ you need to create a .env file containing
 installed via [Phinx](https://phinx.org/)
 
     # using codenv to run bin/phinx migrate
-    docker exec -t -i opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.yml
+    docker exec -t -i opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php
 
 <span class="underline">Run Tests</span>
 

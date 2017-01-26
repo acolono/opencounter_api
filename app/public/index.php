@@ -15,7 +15,7 @@ require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // ensure required environment variables are available
-$dotenv = new Dotenv\Dotenv(__DIR__ . '../');
+$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
 $dotenv->load();
 $dotenv->required('DB_HOST');
 $dotenv->required('MYSQL_DATABASE');
