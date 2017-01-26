@@ -1,6 +1,6 @@
 {
   "name": "opencounter_api_slim",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "devDependencies": {
     "beepbeep": "^1.2.0",
     "browser-sync": "^2.10.1",

@@ -49,7 +49,7 @@ if you dont have composer installed on your host but have docker then you can us
 
 <span class="underline">Environment file</span>
 
-you need to create a public/.env file containing
+you need to create a .env file containing
 
     DISPLAY_ERRORS=1
     LOG_LEVEL=debug
