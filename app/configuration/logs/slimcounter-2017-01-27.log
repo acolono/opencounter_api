@@ -1,0 +1,14 @@
+[2017-01-27 02:13:23] slim-app.INFO: admincontroller 'index' route [] {"uid":"a1b5098"}
+[2017-01-27 02:13:23] slim-app.INFO: admincontroller 'index' route [] {"uid":"0d72927"}
+[2017-01-27 02:13:23] slim-app.INFO: admincontroller 'index' route [] {"uid":"bb25329"}
+[2017-01-27 02:13:23] slim-app.INFO: admincontroller 'index' route [] {"uid":"aac1804"}
+[2017-01-27 02:17:30] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"96eb378"}
+[2017-01-27 02:17:31] slim-app.INFO: testing during creation if counter exists  [] {"uid":"96eb378"}
+[2017-01-27 02:17:50] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"4cf6528"}
+[2017-01-27 02:17:50] slim-app.INFO: testing during creation if counter exists  [] {"uid":"4cf6528"}
+[2017-01-27 02:18:47] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"637ff06"}
+[2017-01-27 02:18:47] slim-app.INFO: testing during creation if counter exists  [] {"uid":"637ff06"}
+[2017-01-27 02:25:11] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"c6ba2f8"}
+[2017-01-27 02:25:11] slim-app.INFO: testing during creation if counter exists  [] {"uid":"c6ba2f8"}
+[2017-01-27 02:32:32] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"efa0125"}
+[2017-01-27 02:32:32] slim-app.INFO: testing during creation if counter exists  [] {"uid":"efa0125"}

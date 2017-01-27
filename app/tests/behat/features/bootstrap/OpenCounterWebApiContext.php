@@ -344,7 +344,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
    */
   public function iHaveAValidAccessToken() {
 
-    print_r($this);
+//    print_r($this);
 
   }
 

@@ -1,0 +1,158 @@
+[2017-01-24 10:47:41] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"2c9033c"}
+[2017-01-24 10:47:41] slim-app.INFO: testing during creation if counter exists  [] {"uid":"2c9033c"}
+[2017-01-24 10:49:17] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"6b84a82"}
+[2017-01-24 10:49:17] slim-app.INFO: testing during creation if counter exists  [] {"uid":"6b84a82"}
+[2017-01-24 10:50:20] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"c138707"}
+[2017-01-24 10:50:20] slim-app.INFO: testing during creation if counter exists  [] {"uid":"c138707"}
+[2017-01-24 10:53:40] slim-app.INFO: admincontroller 'index' route [] {"uid":"045759e"}
+[2017-01-24 10:53:40] slim-app.INFO: admincontroller 'index' route [] {"uid":"0ebd597"}
+[2017-01-24 10:54:01] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"0757d81"}
+[2017-01-24 10:54:01] slim-app.INFO: testing during creation if counter exists  [] {"uid":"0757d81"}
+[2017-01-24 10:54:15] slim-app.INFO: gettin swagger [] {"uid":"c8a689d"}
+[2017-01-24 10:54:55] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"d864dd6"}
+[2017-01-24 10:54:55] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"d864dd6"}
+[2017-01-24 10:54:55] slim-app.INFO: testing during creation if counter exists  [] {"uid":"d864dd6"}
+[2017-01-24 10:54:55] slim-app.INFO: saved onecounter [] {"uid":"d864dd6"}
+[2017-01-24 10:54:55] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"5cc7fad"}
+[2017-01-24 10:54:55] slim-app.INFO: {} [] {"uid":"5cc7fad"}
+[2017-01-24 10:54:56] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"3781dbf"}
+[2017-01-24 10:54:56] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"3781dbf"}
+[2017-01-24 10:54:56] slim-app.INFO: testing during creation if counter exists  [] {"uid":"3781dbf"}
+[2017-01-24 10:54:56] slim-app.INFO: saved onecounter [] {"uid":"3781dbf"}
+[2017-01-24 10:54:56] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"5b9e93c"}
+[2017-01-24 10:54:56] slim-app.INFO: {"value":1} [] {"uid":"5b9e93c"}
+[2017-01-24 10:54:56] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"4ac118b"}
+[2017-01-24 10:54:56] slim-app.INFO: {} [] {"uid":"4ac118b"}
+[2017-01-24 10:54:56] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"8bb5d94"}
+[2017-01-24 10:54:56] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"8bb5d94"}
+[2017-01-24 10:54:56] slim-app.INFO: testing during creation if counter exists  [] {"uid":"8bb5d94"}
+[2017-01-24 10:54:56] slim-app.INFO: saved onecounter [] {"uid":"8bb5d94"}
+[2017-01-24 10:54:56] slim-app.INFO: updating (PATCH) status of counter with name  {"name":"onecounter"} {"uid":"7965b3e"}
+[2017-01-24 10:54:56] slim-app.INFO: received request data {"status":"locked","value":0} {"uid":"7965b3e"}
+[2017-01-24 10:54:56] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"252fd3e"}
+[2017-01-24 10:54:56] slim-app.INFO: {"value":1} [] {"uid":"252fd3e"}
+[2017-01-24 10:54:56] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"5c0434e"}
+[2017-01-24 10:54:56] slim-app.INFO: {} [] {"uid":"5c0434e"}
+[2017-01-24 10:54:57] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"ed68049"}
+[2017-01-24 10:54:57] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"ed68049"}
+[2017-01-24 10:54:57] slim-app.INFO: testing during creation if counter exists  [] {"uid":"ed68049"}
+[2017-01-24 10:54:57] slim-app.INFO: saved onecounter [] {"uid":"ed68049"}
+[2017-01-24 10:54:57] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"6f8ca63"}
+[2017-01-24 10:54:57] slim-app.INFO: {} [] {"uid":"6f8ca63"}
+[2017-01-24 10:54:57] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"f542d33"}
+[2017-01-24 10:54:57] slim-app.INFO: testing during creation if counter exists  [] {"uid":"f542d33"}
+[2017-01-24 10:54:57] slim-app.INFO: deleting counter with name  {"name":"1CE05088-ED1F-43E9-A415-3B3792655A9B","password":"passwordplaceholder"} {"uid":"bc1cd4c"}
+[2017-01-24 10:54:57] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"ba137ce"}
+[2017-01-24 10:54:57] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"ba137ce"}
+[2017-01-24 10:54:57] slim-app.INFO: testing during creation if counter exists  [] {"uid":"ba137ce"}
+[2017-01-24 10:54:57] slim-app.INFO: saved onecounter [] {"uid":"ba137ce"}
+[2017-01-24 10:54:57] slim-app.INFO: deleting counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"be3171e"}
+[2017-01-24 10:54:57] slim-app.INFO: received request body {"value":0,"id":"onecounter"} {"uid":"be3171e"}
+[2017-01-24 10:54:57] slim-app.INFO: found  {"value":0,"id":"onecounter"} {"uid":"be3171e"}
+[2017-01-24 10:54:57] slim-app.INFO: deleted  {"name":"onecounter","value":0} {"uid":"be3171e"}
+[2017-01-24 10:54:57] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"87adee4"}
+[2017-01-24 10:54:57] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"87adee4"}
+[2017-01-24 10:54:57] slim-app.INFO: testing during creation if counter exists  [] {"uid":"87adee4"}
+[2017-01-24 10:54:57] slim-app.INFO: saved onecounter [] {"uid":"87adee4"}
+[2017-01-24 10:54:57] slim-app.INFO: updating (PUT) counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"0e7d8da"}
+[2017-01-24 10:54:57] slim-app.INFO: received request body {"value":0} {"uid":"0e7d8da"}
+[2017-01-24 10:54:57] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"3078102"}
+[2017-01-24 10:54:57] slim-app.INFO: {} [] {"uid":"3078102"}
+[2017-01-24 10:56:00] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"cbb019d"}
+[2017-01-24 10:56:00] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"cbb019d"}
+[2017-01-24 10:56:00] slim-app.INFO: testing during creation if counter exists  [] {"uid":"cbb019d"}
+[2017-01-24 10:56:00] slim-app.INFO: saved onecounter [] {"uid":"cbb019d"}
+[2017-01-24 10:56:00] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"6dc472a"}
+[2017-01-24 10:56:00] slim-app.INFO: {} [] {"uid":"6dc472a"}
+[2017-01-24 10:56:00] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"348e7ce"}
+[2017-01-24 10:56:00] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"348e7ce"}
+[2017-01-24 10:56:00] slim-app.INFO: testing during creation if counter exists  [] {"uid":"348e7ce"}
+[2017-01-24 10:56:01] slim-app.INFO: saved onecounter [] {"uid":"348e7ce"}
+[2017-01-24 10:56:01] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"0030fd7"}
+[2017-01-24 10:56:01] slim-app.INFO: {"value":1} [] {"uid":"0030fd7"}
+[2017-01-24 10:56:01] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"3a6f64f"}
+[2017-01-24 10:56:01] slim-app.INFO: {} [] {"uid":"3a6f64f"}
+[2017-01-24 10:56:01] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"47a2eb4"}
+[2017-01-24 10:56:01] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"47a2eb4"}
+[2017-01-24 10:56:01] slim-app.INFO: testing during creation if counter exists  [] {"uid":"47a2eb4"}
+[2017-01-24 10:56:01] slim-app.INFO: saved onecounter [] {"uid":"47a2eb4"}
+[2017-01-24 10:56:01] slim-app.INFO: updating (PATCH) status of counter with name  {"name":"onecounter"} {"uid":"a79e775"}
+[2017-01-24 10:56:01] slim-app.INFO: received request data {"status":"locked","value":0} {"uid":"a79e775"}
+[2017-01-24 10:56:01] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"8b10fb9"}
+[2017-01-24 10:56:01] slim-app.INFO: {"value":1} [] {"uid":"8b10fb9"}
+[2017-01-24 10:56:01] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"bf54119"}
+[2017-01-24 10:56:01] slim-app.INFO: {} [] {"uid":"bf54119"}
+[2017-01-24 10:56:01] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"c600262"}
+[2017-01-24 10:56:01] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"c600262"}
+[2017-01-24 10:56:01] slim-app.INFO: testing during creation if counter exists  [] {"uid":"c600262"}
+[2017-01-24 10:56:01] slim-app.INFO: saved onecounter [] {"uid":"c600262"}
+[2017-01-24 10:56:01] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"cfada9c"}
+[2017-01-24 10:56:01] slim-app.INFO: {} [] {"uid":"cfada9c"}
+[2017-01-24 10:56:01] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"bcf134b"}
+[2017-01-24 10:56:01] slim-app.INFO: testing during creation if counter exists  [] {"uid":"bcf134b"}
+[2017-01-24 10:56:01] slim-app.INFO: deleting counter with name  {"name":"1CE05088-ED1F-43E9-A415-3B3792655A9B","password":"passwordplaceholder"} {"uid":"3d6cd91"}
+[2017-01-24 10:56:01] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"a153d1e"}
+[2017-01-24 10:56:01] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"a153d1e"}
+[2017-01-24 10:56:01] slim-app.INFO: testing during creation if counter exists  [] {"uid":"a153d1e"}
+[2017-01-24 10:56:01] slim-app.INFO: saved onecounter [] {"uid":"a153d1e"}
+[2017-01-24 10:56:02] slim-app.INFO: deleting counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"28b78d7"}
+[2017-01-24 10:56:02] slim-app.INFO: received request body {"value":0,"id":"onecounter"} {"uid":"28b78d7"}
+[2017-01-24 10:56:02] slim-app.INFO: found  {"value":0,"id":"onecounter"} {"uid":"28b78d7"}
+[2017-01-24 10:56:02] slim-app.INFO: deleted  {"name":"onecounter","value":0} {"uid":"28b78d7"}
+[2017-01-24 10:56:02] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"b28a303"}
+[2017-01-24 10:56:02] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"b28a303"}
+[2017-01-24 10:56:02] slim-app.INFO: testing during creation if counter exists  [] {"uid":"b28a303"}
+[2017-01-24 10:56:02] slim-app.INFO: saved onecounter [] {"uid":"b28a303"}
+[2017-01-24 10:56:02] slim-app.INFO: updating (PUT) counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"0db8ea9"}
+[2017-01-24 10:56:02] slim-app.INFO: received request body {"value":0} {"uid":"0db8ea9"}
+[2017-01-24 10:56:02] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"ea256eb"}
+[2017-01-24 10:56:02] slim-app.INFO: {} [] {"uid":"ea256eb"}
+[2017-01-24 11:00:45] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"4e8d867"}
+[2017-01-24 11:00:45] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"4e8d867"}
+[2017-01-24 11:00:45] slim-app.INFO: testing during creation if counter exists  [] {"uid":"4e8d867"}
+[2017-01-24 11:00:45] slim-app.INFO: saved onecounter [] {"uid":"4e8d867"}
+[2017-01-24 11:00:45] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"93c6568"}
+[2017-01-24 11:00:45] slim-app.INFO: {} [] {"uid":"93c6568"}
+[2017-01-24 11:00:45] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"147b970"}
+[2017-01-24 11:00:45] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"147b970"}
+[2017-01-24 11:00:45] slim-app.INFO: testing during creation if counter exists  [] {"uid":"147b970"}
+[2017-01-24 11:00:45] slim-app.INFO: saved onecounter [] {"uid":"147b970"}
+[2017-01-24 11:00:45] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"f006ffe"}
+[2017-01-24 11:00:45] slim-app.INFO: {"value":1} [] {"uid":"f006ffe"}
+[2017-01-24 11:00:46] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"6d72dbf"}
+[2017-01-24 11:00:46] slim-app.INFO: {} [] {"uid":"6d72dbf"}
+[2017-01-24 11:00:46] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"b972f1e"}
+[2017-01-24 11:00:46] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"b972f1e"}
+[2017-01-24 11:00:46] slim-app.INFO: testing during creation if counter exists  [] {"uid":"b972f1e"}
+[2017-01-24 11:00:46] slim-app.INFO: saved onecounter [] {"uid":"b972f1e"}
+[2017-01-24 11:00:46] slim-app.INFO: updating (PATCH) status of counter with name  {"name":"onecounter"} {"uid":"f397ae5"}
+[2017-01-24 11:00:46] slim-app.INFO: received request data {"status":"locked","value":0} {"uid":"f397ae5"}
+[2017-01-24 11:00:46] slim-app.INFO: incrementing (PATCH) counter with name  {"name":"onecounter"} {"uid":"f6928fe"}
+[2017-01-24 11:00:46] slim-app.INFO: {"value":1} [] {"uid":"f6928fe"}
+[2017-01-24 11:00:46] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"45878b0"}
+[2017-01-24 11:00:46] slim-app.INFO: {} [] {"uid":"45878b0"}
+[2017-01-24 11:00:46] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"a47f51e"}
+[2017-01-24 11:00:46] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"a47f51e"}
+[2017-01-24 11:00:46] slim-app.INFO: testing during creation if counter exists  [] {"uid":"a47f51e"}
+[2017-01-24 11:00:46] slim-app.INFO: saved onecounter [] {"uid":"a47f51e"}
+[2017-01-24 11:00:46] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"225f47f"}
+[2017-01-24 11:00:46] slim-app.INFO: {} [] {"uid":"225f47f"}
+[2017-01-24 11:00:46] slim-app.INFO: {"name":"democounter","id":"1CE05088-ED1F-43E9-A415-3B3792655A9B","value":0} [] {"uid":"c5f81d2"}
+[2017-01-24 11:00:46] slim-app.INFO: testing during creation if counter exists  [] {"uid":"c5f81d2"}
+[2017-01-24 11:00:46] slim-app.INFO: deleting counter with name  {"name":"1CE05088-ED1F-43E9-A415-3B3792655A9B","password":"passwordplaceholder"} {"uid":"1defebc"}
+[2017-01-24 11:00:46] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"ba10ecf"}
+[2017-01-24 11:00:46] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":0} [] {"uid":"ba10ecf"}
+[2017-01-24 11:00:46] slim-app.INFO: testing during creation if counter exists  [] {"uid":"ba10ecf"}
+[2017-01-24 11:00:46] slim-app.INFO: saved onecounter [] {"uid":"ba10ecf"}
+[2017-01-24 11:00:46] slim-app.INFO: deleting counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"e17b09b"}
+[2017-01-24 11:00:46] slim-app.INFO: received request body {"value":0,"id":"onecounter"} {"uid":"e17b09b"}
+[2017-01-24 11:00:46] slim-app.INFO: found  {"value":0,"id":"onecounter"} {"uid":"e17b09b"}
+[2017-01-24 11:00:46] slim-app.INFO: deleted  {"name":"onecounter","value":0} {"uid":"e17b09b"}
+[2017-01-24 11:00:47] slim-app.INFO: inserting new counter with name  {"name":"onecounter"} {"uid":"8741fc1"}
+[2017-01-24 11:00:47] slim-app.INFO: {"name":"onecounter","uuid":"demouuid","value":"1"} [] {"uid":"8741fc1"}
+[2017-01-24 11:00:47] slim-app.INFO: testing during creation if counter exists  [] {"uid":"8741fc1"}
+[2017-01-24 11:00:47] slim-app.INFO: saved onecounter [] {"uid":"8741fc1"}
+[2017-01-24 11:00:47] slim-app.INFO: updating (PUT) counter with name  {"name":"onecounter","password":"passwordplaceholder"} {"uid":"552c480"}
+[2017-01-24 11:00:47] slim-app.INFO: received request body {"value":0} {"uid":"552c480"}
+[2017-01-24 11:00:47] slim-app.INFO: getting value from counter with name: onecounter [] {"uid":"44919aa"}
+[2017-01-24 11:00:47] slim-app.INFO: {} [] {"uid":"44919aa"}
