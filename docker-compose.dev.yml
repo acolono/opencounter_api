@@ -63,3 +63,17 @@ services:
      - PMA_HOST=database
     ports:
      - "8181:80"
+
+  ssh:
+    image: jeroenpeeters/docker-ssh
+    hostname: ssh.opencounter.docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    environment:
+      - CONTAINER=opencounter-slim-codenv-php-fpm
+      - AUTH_MECHANISM=noAuth
+#      - AUTH_USER=docker
+#      - AUTH_PASSWORD=docker
+    ports:
+      - "2222:22"

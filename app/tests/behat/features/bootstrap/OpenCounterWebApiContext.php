@@ -22,13 +22,11 @@ use OpenCounter\Domain\Model\Counter\Counter;
 class OpenCounterWebApiContext extends WebApiContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
     use App;
+  protected $parameters;
     /**
      * @var bool
      */
     private $error;
-
-    protected $parameters;
-
 
     /**
      * Initializes context.
@@ -75,7 +73,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         }
     }
 
-    /**
+  /**
      * @Given a counter :name with ID :id and a value of :value has been set
      */
     public function aCounterWithIdAndAValueOfWasAddedToTheCollection(
@@ -110,48 +108,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         //make absolutely sure we added it successfully and our cleanup works
         $errormesage = array('message' => "counter with id $id already exists");
-        $ErrorString = new PyStringNode($newCounterArray, 1);
-        $this->theResponseShouldNotContain($ErrorString);
-    }
-
-
-    /**
-     * @Given a counter :name with a value of :value has been set
-     */
-    public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
-    {
-        $endpoint = '/api/counters/' . $name;
-        // send a POST request to the endpoint with the counter values in the body
-        $newCounterArray = array(
-          json_encode(array(
-            'name' => $name,
-            'uuid' => 'demouuid',
-            'value' => $value
-          ))
-        );
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $newCounterjsonString = new PyStringNode($newCounterArray, 1);
-        $this->iSetHeaderWithValue('Content-Type', 'application/json');
-        $this->iSetHeaderWithValue('Accept', 'application/json');
-        $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
-        $response = $this->printResponse();
-
-        // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
-        $this->counterRepository = $this->app->getContainer()->get('counter_repository');
-        $this->counterName = new CounterName($name);
-        $counter = $this->counterRepository->getCounterByName($this->counterName);
-
-        $this->counters[] = $counter;
-
-        // since we are using this as a given step we can make sure it was added successfully within this step
-        //$this->theResponseShouldContain('id');
-
-        $this->theResponseCodeShouldBe('201');
-
-        //make absolutely sure we added it successfully and our cleanup works
-        $errormesage = array('message' => "counter with name $name already exists");
         $ErrorString = new PyStringNode($newCounterArray, 1);
         $this->theResponseShouldNotContain($ErrorString);
     }
@@ -291,7 +247,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->printResponse();
     }
 
-
     /**
      * @Then no counter with id :arg1 has been set
      */
@@ -329,6 +284,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         }
 
     }
+
     /**
      * @When I set a counter with name :name
      */
@@ -337,15 +293,61 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
       $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
     }
 
-
     /**
-     * @Given a counter :name has been set
+     * @Given a counter :name with a value of :value has been set
      */
-    public function aCounterHasBeenSet($name)
+  public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
     {
-        $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
+      $endpoint = '/api/counters/' . $name;
+      // send a POST request to the endpoint with the counter values in the body
+      $newCounterArray = array(
+        json_encode(array(
+          'name' => $name,
+          'uuid' => 'demouuid',
+          'value' => $value
+        ))
+      );
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+    $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+    $this->iSetHeaderWithValue('Content-Type', 'application/json');
+    // TODO: authenticate using valid access token:
+    $this->iHaveAValidAccessToken();
 
+
+    $this->iSetHeaderWithValue('Accept', 'application/json');
+    $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
+    $response = $this->printResponse();
+
+    // get the counter we added to db and remember it so we can delete it later
+    $this->db = $this->app->getContainer()->get('db');
+    $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+    $this->counterRepository = $this->app->getContainer()
+      ->get('counter_repository');
+    $this->counterName = new CounterName($name);
+    $counter = $this->counterRepository->getCounterByName($this->counterName);
+
+    $this->counters[] = $counter;
+
+    // since we are using this as a given step we can make sure it was added successfully within this step
+    //$this->theResponseShouldContain('id');
+
+    $this->theResponseCodeShouldBe('201');
+
+    //make absolutely sure we added it successfully and our cleanup works
+    $errormesage = array('message' => "counter with name $name already exists");
+    $ErrorString = new PyStringNode($newCounterArray, 1);
+    $this->theResponseShouldNotContain($ErrorString);
     }
+
+  /**
+   * @Given i have a valid access token :token
+   */
+  public function iHaveAValidAccessToken() {
+
+    print_r($this);
+
+  }
+
     /**
      * @Given a counter with id :id has been set
      */
@@ -388,8 +390,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->printResponse();
     }
 
-
-
     /**
      * @When I remove the counter with name :name
      */
@@ -406,7 +406,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->printResponse();
     }
 
-
     /**
      * @Given a counter with name :name has been set
      */
@@ -414,4 +413,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $this->aCounterHasBeenSet($name);
     }
+
+  /**
+   * @Given a counter :name has been set
+   */
+  public function aCounterHasBeenSet($name) {
+    $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
+
+  }
 }
