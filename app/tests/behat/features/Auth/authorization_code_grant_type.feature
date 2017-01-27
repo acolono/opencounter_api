@@ -1,19 +1,19 @@
-#@client_credentials_grant_type
-#Feature: OAuth2 Token Grant ClientCredentials
+#@authorization_code_grant_type
+#Feature: OAuth2 Token Grant Authorization Code
 #
-#  Scenario: Without client credentials
+#  Scenario: Without authorization code
 #    When I create oauth2 request
 ##    And I add the request parameters:
-##        | grant_type | client_credentials |
+##        | grant_type | authorization_code |
 #    And I send a access token request
 #    Then the response status code is 400
 #    And the response has a "error" property and it is equals "invalid_request"
 #    And the response has a "error_description" property
 #
-#  Scenario: Invalid client credentials
+#  Scenario: Invalid authorization code
 #    When I create oauth2 request
 #    And I add the request parameters:
-#        | grant_type | client_credentials |
+#        | grant_type | authorization_code |
 #        | client_id   | no       |
 #        | client_secret   | bar      |
 #    And I send a access token request
@@ -21,11 +21,11 @@
 #    And the response has a "error" property and it is equals "invalid_client"
 #    And the response has a "error_description" property
 #
-#  Scenario: Token Granted
+#  Scenario: Token Granted via auth code
 #    When I create oauth2 request
 #    And I add the request parameters:
-#        | grant_type | client_credentials   |
-#    And I add resource owner credentials
+#        | grant_type | authorization_code   |
+#    And I add a valid auth_code
 #    And I send a access token request
 #    Then the response status code is 200
 #    And the response is oauth2 format

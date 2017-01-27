@@ -42,6 +42,8 @@ services:
       - MYSQL_PASSWORD=docker
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - API_HOST=opencounter-slim-codenv-webserver
+      - XDEBUG_CONFIG="idekey=PHPSTORM remote_enable=1 remote_mode=req remote_port=9000 remote_host=172.17.0.1 remote_connect_back=1 remote_autostart=1"
+      - PHP_IDE_CONFIG=serverName=opencounter-slim-codenv-webserver
     volumes:
       - ./app:/var/www/opencounter-slim-codenv
     links:

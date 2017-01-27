@@ -35,8 +35,9 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
             ->get('counter_repository');
+      // TODO: ignore empty array
 
-        if (isset($this->counters) && is_array($this->counters)) {
+      if (isset($this->counters) && is_array($this->counters) && !(empty($this->counters))) {
             echo 'removing testing counters';
 
             // foreach $created_counters as counter delete counter
@@ -55,64 +56,32 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     }
 
     /**
-     * @Given no counter :name has been set
+     * @Given a counter :name with a value of :value has been set
      */
-    public function noCounterHasBeenSet($name)
+  public function aCounterWithAValueOfHasBeenSet($name, $value)
     {
 
-        // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
-        $this->counterRepository = $this->app->getContainer()
-            ->get('counter_repository');
-        $counter = $this->counterRepository->getCounterByName(new CounterName($name));
+      // TODO: like this it will fail if none was set, but probably we want to use this to make sure one is set.
+      // TODO: currently still ignoring the value because we arent creating the counter
+      // so add the counter to db here?
+// lets create the counter here instead of assuming it exists
+    $this->iSetACounterWithNameAndValue($name, $value);
 
-        // if we get a counter something is wrong
-        if ($counter) {
-            throw new \Exception('something is wrong, seems a counter is in the database');
-        }
+  }
 
-    }
-
-
-    /**
-     * @When I set a counter with name :name
-     */
-    public function iSetACounterWithName($name)
-    {
-        $this->visitPath('/admin/content/add');
-//        [$rowLineNumber => [$val1, $val2, $val3]]
-//        id|name|label|value|placeholder
-        $fields = new \Behat\Gherkin\Node\TableNode(array(
-            array('name', $name),
-            array('status', 'active'),
-            array('value', 0)
-        ));
-        $this->fillFields($fields);
-        $this->pressButton('submit');
-
-        // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
-
-        $this->counterName = new CounterName($name);
-        $counter = $counterRepository->getCounterByName($this->counterName);
-
-        $this->counters[] = $counter;
-    }
     /**
      * @When I set a counter with name :name and value :value
      */
-    public function iSetACounterWithNameAndValue($name, $value)
+  public function iSetACounterWithNameAndValue($name, $value)
     {
+//      TODO: authenticate with basic auth
         $this->visitPath('/admin/content/add');
 //        [$rowLineNumber => [$val1, $val2, $val3]]
 //        id|name|label|value|placeholder
         $fields = new \Behat\Gherkin\Node\TableNode(array(
             array('name', $name),
             array('status', 'active'),
-            array('value', $value)
+          array('value', $value)
         ));
         $this->fillFields($fields);
         $this->pressButton('submit');
@@ -129,15 +98,52 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     }
 
     /**
-     * @Then I can get the value of the counter with Name :name
+     * @Given no counter :name has been set
      */
-    public function iCanGetTheValueOfTheCounterWithName($name)
+  public function noCounterHasBeenSet($name)
     {
-        $this->visitPath('/admin/counters/' . $name);
-        $this->assertElementContainsText('h1', 'View Counter ' . $name);
-        $this->assertElementOnPage('li.counter__value');
+
+      // get the counter we added to db and remember it so we can delete it later
+      $this->db = $this->app->getContainer()->get('db');
+      $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+      $this->counterRepository = $this->app->getContainer()
+        ->get('counter_repository');
+      $counter = $this->counterRepository->getCounterByName(new CounterName($name));
+
+      // if we get a counter something is wrong
+      if ($counter) {
+        throw new \Exception('something is wrong, seems a counter is in the database');
+      }
 
     }
+
+  /**
+   * @When I set a counter with name :name
+   */
+  public function iSetACounterWithName($name) {
+//      TODO: authorize requests via basic auth.
+
+    $this->visitPath('/admin/content/add');
+//        [$rowLineNumber => [$val1, $val2, $val3]]
+//        id|name|label|value|placeholder
+    $fields = new \Behat\Gherkin\Node\TableNode(array(
+      array('name', $name),
+      array('status', 'active'),
+      array('value', 0)
+    ));
+    $this->fillFields($fields);
+    $this->pressButton('submit');
+
+    // get the counter we added to db and remember it so we can delete it later
+    $this->db = $this->app->getContainer()->get('db');
+    $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+    $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+
+    $this->counterName = new CounterName($name);
+    $counter = $counterRepository->getCounterByName($this->counterName);
+
+    $this->counters[] = $counter;
+  }
 
     /**
      * @Then the value returned should be :value
@@ -161,20 +167,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     public function noCounterWithIdHasBeenSet($arg1)
     {
         throw new PendingException();
-    }
-
-    /**
-     * @Given a counter :name with a value of :value has been set
-     */
-    public function aCounterWithAValueOfHasBeenSet($name, $value)
-    {
-
-        // TODO: like this it will fail if none was set, but probably we want to use this to make sure one is set.
-        // TODO: currently still ignoring the value because we arent creating the counter
-        // so add the counter to db here?
-// lets create the counter here instead of assuming it exists
-        $this->iSetACounterWithNameAndValue($name, $value);
-
     }
 
     /**
@@ -211,6 +203,16 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     {
         $this->iCanGetTheValueOfTheCounterWithName($name);
     }
+
+  /**
+   * @Then I can get the value of the counter with Name :name
+   */
+  public function iCanGetTheValueOfTheCounterWithName($name) {
+    $this->visitPath('/admin/counters/' . $name);
+    $this->assertElementContainsText('h1', 'View Counter ' . $name);
+    $this->assertElementOnPage('li.counter__value');
+
+  }
 
     /**
      * @When I lock the counter with name :name

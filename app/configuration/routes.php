@@ -10,29 +10,29 @@ use Chadicus\Slim\OAuth2\Routes;
 use Slim\Views;
 use OAuth2\Storage;
 use Chadicus\Slim\OAuth2\Middleware;
+use OAuth2\GrantType;
 
 $storage = new Storage\Pdo($container['db']);
-
-use OAuth2\GrantType;
 
 //Setup Auth
 $server = new OAuth2\Server(
   $storage,
   [
-    'access_lifetime' => 3600,
+//    'access_lifetime' => 3600,
+    'allow_implicit' => TRUE,
   ],
   [
     new GrantType\ClientCredentials($storage),
+//    new GrantType\UserCredentials($storage),
     new GrantType\AuthorizationCode($storage),
-    new GrantType\RefreshToken($storage),
-    new GrantType\UserCredentials($storage)
+//    new GrantType\RefreshToken($storage),
   ]
 );
 $authorization = new Middleware\Authorization($server, $app->getContainer());
 
 //Auth Routes
 
-$auth_renderer = new Views\PhpRenderer(__DIR__ . '/vendor/chadicus/slim-oauth2-routes/templates');
+$auth_renderer = new Views\PhpRenderer(__DIR__ . '/../vendor/chadicus/slim-oauth2-routes/templates');
 
 $app->map([
   'GET',
@@ -90,17 +90,22 @@ $app->group('/admin', function () {
  *         @SWG\Contact(name="Acolono API Team"),
  *         @SWG\License(name="MIT")
  *     ),
- *      @SWG\SecurityScheme(
- *       securityDefinition="opencounter_auth",
- *       type="oauth2",
- *       authorizationUrl="localhost:8080/authorize",
- *       tokenUrl="localhost:8080/token",
- *      flow="implicit",
- *       scopes={
- *     "read:counter": "read your counters",
- *     "write:counters": "modify counters in your account"
- *       }
+ *     @SWG\SecurityScheme(
+ *      securityDefinition="api_key",
+ *      type="apiKey",
+ *      in="header",
+ *      name="api_key"
  *     ),
+ * @SWG\SecurityScheme(
+ *   securityDefinition="counter_auth",
+ *   type="oauth2",
+ *   authorizationUrl="http://opencounter-slim-codenv-webserver:8080/authorize",
+ *   flow="implicit",
+ *   scopes={
+ *     "read:counters": "read your counters",
+ *     "write:counters": "modify counters in your account"
+ *   }
+ * ),
  *     @SWG\Definition(
  *         definition="errorModel",
  *         required={"code", "message"},
@@ -164,8 +169,11 @@ $app->group('/api/counters', function () {
    *         description="unexpected error",
    *         @SWG\Schema(ref="#/definitions/errorModel")
    *     ),
-   *   security={{"oauth2": {"read_counters"}}}
-   * )
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
+   *   )
    */
   $this->get('/{name}', '\OpenCounter\Http\CounterController:getCounter');
 
@@ -203,8 +211,11 @@ $app->group('/api/counters', function () {
    *         description="unexpected error",
    *         @SWG\Schema(ref="#/definitions/errorModel")
    *     ),
-   *   security={{"oauth2": {"write_counter"}}}
-   * )
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
+   *    )
    * @SWG\Definition(
    *     definition="counterInput",
    *     allOf={
@@ -272,7 +283,10 @@ $app->group('/api/counters', function () {
    *         description="counter response",
    *         @SWG\Schema(ref="#/definitions/Counter")
    *     ),
-   *     security={{"opencounter_auth":{"write:counters", "read:counters"}}}
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
    * )
    */
   $this->patch('/{name}/status',
@@ -313,7 +327,10 @@ $app->group('/api/counters', function () {
    *         description="counter response",
    *         @SWG\Schema(ref="#/definitions/Counter")
    *     ),
-   *     security={{"opencounter_auth":{"write:counters", "read:counters"}}}
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
    * )
    */
   $this->patch('/{name}/value',
@@ -362,7 +379,10 @@ $app->group('/api/counters', function () {
    *         description="counter response",
    *         @SWG\Schema(ref="#/definitions/Counter")
    *     ),
-   *     security={{"opencounter_auth":{"write:counters", "read:counters"}}}
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
    * )
    */
   $this->delete('/{name}/{password}',
@@ -411,7 +431,10 @@ $app->group('/api/counters', function () {
    *         description="counter response",
    *         @SWG\Schema(ref="#/definitions/Counter")
    *     ),
-   *     security={{"opencounter_auth":{"write:counters", "read:counters"}}}
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
    * )
    */
   $this->put('/{name}/{password}',
@@ -447,12 +470,15 @@ $app->group('/api/counters', function () {
    *         description="unexpected error",
    *         @SWG\Schema(ref="#/definitions/errorModel")
    *     ),
-   *   security={{"opencounter_auth":{"read:counters"}}}
+   *   security={{
+   *     "api_key":{},
+   *         "counter_auth": {"write:counters", "read:counters"},
+   *   }}
    * )
    */
   $this->get('/{name}/value', '\OpenCounter\Http\CounterController:getCount');
 
-})->add($authorization->withRequiredScope(['counterAccess']));
+})->add($authorization->withRequiredScope(['write:counters read:counters']));
 
 // Fallback Route
 $app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');

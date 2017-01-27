@@ -89,6 +89,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $newCounterjsonString = new PyStringNode($newCounterArray, 1);
         $this->iSetHeaderWithValue('Content-Type', 'application/json');
         $this->iSetHeaderWithValue('Accept', 'application/json');
+//        TODO: try authenticatink with valid access token as api key header.
+      $this->iSetHeaderWithValue('api_key', 'testtoken');
+//        TODO: make sure we send valid authentication in all requests we make in this context. we are not testing authorization layer
         $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
         $this->printResponse();
 
@@ -310,8 +313,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 //      [$rowLineNumber => [$val1, $val2, $val3]]
     $newCounterjsonString = new PyStringNode($newCounterArray, 1);
     $this->iSetHeaderWithValue('Content-Type', 'application/json');
-    // TODO: authenticate using valid access token:
-    $this->iHaveAValidAccessToken();
+    // TODO: authenticate using valid access token or bypass auth layer entirely so we just test counter routes: right now counter routes need an oauth access token but that should not really matter here since authentication and authorization get their own tests. here we just make sure the webapi for counters works. so where can i best ensure these tests ignore the oauth access layer
+//    $this->iSetHeaderWithValidAccessToken();
 
 
     $this->iSetHeaderWithValue('Accept', 'application/json');

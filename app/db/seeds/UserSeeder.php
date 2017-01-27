@@ -16,22 +16,70 @@ class UserSeeder extends AbstractSeed
     {
       $data = array(
         array(
-          'client_id'    => 'librarian',
-          'client_secret'    => 'secret',
-          'scope'    => 'counterAdmin',
-          'redirect_uri'    => '/receive-code',
-        ),
-        array(
-          'client_id'    => 'student',
-          'client_secret'    => 's3cr3t',
-          'scope'    => '',
-          'redirect_uri'    => '',
+          'username' => 'librarian',
+//          TODO: hash passwords in db
+          'password' => 'secret',
+          'first_name' => 'librarian',
+          'last_name' => 'librarian',
+          'scope' => 'readCounter writeCounter',
+          'email' => 'a@b.c',
+          'email_verified' => 1,
         ),
 
       );
 
+      $oauth_users = $this->table('oauth_users');
+      $oauth_users->insert($data)
+        ->save();
+
+
+      $data = [
+        [
+          'client_id'    => 'librarian',
+          'user_id' => 'librarian',
+          'client_secret'    => 'secret',
+          'grant_types' => 'implicit password code',
+          'scope' => 'write:counters read:counters',
+          'redirect_uri' => '172.25.0.3/2c.html',
+        ],
+        [
+          'client_id'    => 'student',
+          'user_id' => 'student',
+          'client_secret'    => 's3cr3t',
+          'grant_types' => 'implicit password code',
+          'scope' => 'write:counters read:counters',
+          'redirect_uri' => '172.25.0.2/2c.html',
+        ],
+        [
+          'client_id' => 'swagger-editor',
+          'user_id' => 'swagger-editor',
+          'client_secret' => 's3cr3t',
+          'grant_types' => 'implicit password code',
+          'scope' => 'write:counters read:counters',
+          'redirect_uri' => '172.25.0.2/2c.html',
+        ],
+
+      ];
+
       $oauth_clients = $this->table('oauth_clients');
       $oauth_clients->insert($data)
+        ->save();
+
+
+      $data = [
+        [
+          'scope' => 'readCounter',
+          'is_default' => 1,
+
+        ],
+        [
+          'scope' => 'writeCounter',
+          'is_default' => 0,
+
+        ],
+      ];
+      $scopes = $this->table('oauth_scopes');
+      $scopes->insert($data)
         ->save();
     }
 }
