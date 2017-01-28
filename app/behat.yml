@@ -83,7 +83,7 @@ default:
         role: "admin"
     oauth:
       paths:
-        - %paths.base%/vendor/rstgroup/behat-oauth2-context/features
+        #- %paths.base%/vendor/rstgroup/behat-oauth2-context/features
         - %paths.base%/tests/behat/features/Auth
       contexts:
         - RstGroup\Behat\OAuth2\Context\OAuth2Context:

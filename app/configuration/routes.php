@@ -23,10 +23,10 @@ $server = new OAuth2\Server(
   ],
   [
 
-    new GrantType\UserCredentials($storage),
+//    new GrantType\UserCredentials($storage),
     new GrantType\ClientCredentials($storage),
     new GrantType\AuthorizationCode($storage),
-    new GrantType\RefreshToken($storage),
+//    new GrantType\RefreshToken($storage),
   ]
 );
 $authorization = new Middleware\Authorization($server, $app->getContainer());
@@ -46,7 +46,7 @@ $app->map([
   'POST'
 ], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($auth_renderer))
   ->setName('receive-code');
-
+$app->post(Routes\Revoke::ROUTE, new Routes\Revoke($server))->setName('revoke');
 // Admin Routes
 
 
