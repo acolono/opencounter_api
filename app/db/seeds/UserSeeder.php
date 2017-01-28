@@ -21,7 +21,7 @@ class UserSeeder extends AbstractSeed
           'password' => 'secret',
           'first_name' => 'librarian',
           'last_name' => 'librarian',
-          'scope' => 'readCounter writeCounter',
+          'scope' => 'write:counters read:counters',
           'email' => 'a@b.c',
           'email_verified' => 1,
         ),
@@ -40,7 +40,7 @@ class UserSeeder extends AbstractSeed
           'client_secret'    => 'secret',
           'grant_types' => 'implicit password client_credentials refresh_token authorization_code',
           'scope' => 'write:counters read:counters',
-          'redirect_uri' => '172.25.0.3/2c.html',
+          'redirect_uri' => '/receive-code',
         ],
         [
           'client_id'    => 'student',
@@ -48,7 +48,7 @@ class UserSeeder extends AbstractSeed
           'client_secret'    => 's3cr3t',
           'grant_types' => 'implicit password client_credentials refresh_token authorization_code',
           'scope' => 'write:counters read:counters',
-          'redirect_uri' => '172.25.0.2/2c.html',
+          'redirect_uri' => '172.25.0.2/o2c.html',
         ],
         [
           'client_id' => 'swagger-editor',
@@ -56,7 +56,7 @@ class UserSeeder extends AbstractSeed
           'client_secret' => 's3cr3t',
           'grant_types' => 'implicit password client_credentials refresh_token authorization_code',
           'scope' => 'write:counters read:counters',
-          'redirect_uri' => '172.25.0.2/2c.html',
+          'redirect_uri' => '172.25.0.2/o2c.html',
         ],
 
       ];

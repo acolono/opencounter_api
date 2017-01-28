@@ -54,21 +54,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            0 features failed of 7
+            1 features failed of 11
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            0 scenarios failed of 8
+            1 scenarios failed of 16
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            0 steps failed of 28
+            0 steps failed of 68
         </div>
     </div>
     <hr>
@@ -231,48 +231,185 @@ given a Counter, it is possible to replace all its properties, and if that count
                                                                             </div>
                                 </div>
                             </div>
-                                                    <div class="col-sm-4 feature" data-id="feature-6">
-                                <div class="card passed">
-                                    <div class="header">
-                                        <h2>Feature: I can authenticate with credentials to become authorized to access counter routes via an access token.</h2>
-                                    </div>
-                                    <div class="info">
-                                        <p></p>
-                                    </div>
-                                    <div class="footer">
-                                        <div class="tags">
-                                                                                    </div>
-                                                                            </div>
-                                </div>
-                            </div>
-                                                    <div class="col-sm-4 feature" data-id="feature-7">
-                                <div class="card passed">
-                                    <div class="header">
-                                        <h2>Feature: when i am not authenticated with valid access token i get appropriate error messages. i get access if i send authorized requests (use valid access token)</h2>
-                                    </div>
-                                    <div class="info">
-                                        <p></p>
-                                    </div>
-                                    <div class="footer">
-                                        <div class="tags">
-                                                                                    </div>
-                                                                                    <div class="progress">
+                    </div>
+                </div>
+                    </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Suite: adminui</h2>
 
-                                                <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 100%">
-                                                    <span class="sr-only">40% Complete (success)</span>
-                                                </div>
-                                                <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 0%">
-                                                    <span class="sr-only">40% Complete (success)</span>
-                                                </div>
-                                            </div>
-                                                                            </div>
+                <div class="row">
+                    <div class="col-sm-4 feature" data-id="feature-6">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: create a new counter</h2>
+                            </div>
+                            <div class="info">
+                                <p>As an admin<br/>
+                                    in order to know what I am counting<br/>
+                                    I need to be able to create a new counter with a name and default value of '0'</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
                                 </div>
                             </div>
-                                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-7">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: read one counter</h2>
+                            </div>
+                            <div class="info">
+                                <p>As an admin<br/>
+                                    in order to /display the counter value<br/>
+                                    i need to be able to /get the counter value/ from api<br/>
+                                    <br/>
+                                    GET /counters/1/value</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Suite: oauth</h2>
+
+                <div class="row">
+                    <div class="col-sm-4 feature" data-id="feature-8">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: Refresh Token Grant Type</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                    <span class="badge">refresh_token_grant_type</span>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-9">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: I can authenticate with credentials to become authorized to access counter routes via an access token.</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-10">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: when i am not authenticated with valid access token i get appropriate error messages. i get access if i send authorized requests (use valid access token)</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-11">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                    <span class="badge">client_credentials_grant_type</span>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
             <hr>
             </div>
     <div id="scenario-overview" class="row">
@@ -707,25 +844,337 @@ given a Counter, it is possible to replace all its properties, and if that count
                             </div>
                                             </div>
                 </div>
-                            <div class="feature" data-id="feature-6">
+        <div class="feature" data-id="feature-6">
                     <div class="col-sm-4">
                         <div class="card passed">
                             <div class="header">
-                                <h2>Feature: I can authenticate with credentials to become authorized to access counter routes via an access token.</h2>
+                                <h2>Feature: create a new counter</h2>
                             </div>
                             <div class="info">
-                                <p></p>
+                                <p>As an admin<br/>
+                                    in order to know what I am counting<br/>
+                                    I need to be able to create a new counter with a name and default value of '0'</p>
                             </div>
                             <div class="footer">
                                 <div class="tags">
-                                                                    </div>
-                                                            </div>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-6-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-6-1">
+                                Scenario: create a new counter
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-6-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>Given</b> no counter &quot;onecounter&quot; has been set
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I set a counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the value returned should be 0
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                            <div class="feature" data-id="feature-7">
+            </div>
+        </div>
+        <div class="feature" data-id="feature-7">
+            <div class="col-sm-4">
+                <div class="card passed">
+                    <div class="header">
+                        <h2>Feature: read one counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an admin<br/>
+                            in order to /display the counter value<br/>
+                            i need to be able to /get the counter value/ from api<br/>
+                            <br/>
+                            GET /counters/1/value</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-7-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-7-1">
+                                Scenario: Getting the value for a single counter in the collection
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-7-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; has been set
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the value returned should be 1
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-8">
+            <div class="col-sm-4">
+                <div class="card passed">
+                    <div class="header">
+                        <h2>Feature: Refresh Token Grant Type</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                            <span class="badge">refresh_token_grant_type</span>
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-8-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-8-1">
+                                Scenario: Without Refresh Token
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-8-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | refresh_token |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_request&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-8-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-8-2">
+                                Scenario: Invalid refresh token
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-8-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | refresh_token |<br/>
+                                    | refresh_token | foo |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_grant&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-9">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: I can authenticate with credentials to become authorized to access counter routes via an access token.</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-9-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-9-1">
+                                Scenario: user exists in db and authenticates using client credentials
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-9-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-warning">
+                                <b>Given</b> oauth_client:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | client_id | client_secret | username | password |</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> I add resource owner credentials
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> the response status code is 200
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response is oauth2 format
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;access_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;refresh_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;scope&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-10">
                     <div class="col-sm-4">
                         <div class="card passed">
                             <div class="header">
@@ -756,9 +1205,9 @@ given a Counter, it is possible to replace all its properties, and if that count
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-7-1"
+                                           href="#scenario-10-1"
                                            aria-expanded="true"
-                                           aria-controls="scenario-7-1">
+                                           aria-controls="scenario-10-1">
                                             Scenario: Authorized attempt to access counter routes
                                         </a>
 
@@ -766,9 +1215,9 @@ given a Counter, it is possible to replace all its properties, and if that count
                                                                                     </div>
                                     </h4>
                                 </div>
-                                <div id="scenario-7-1" class="panel-collapse collapse in"
-                                     role="tabpanel"
-                                     aria-labelledby="headingOne">
+                                                        <div id="scenario-10-1" class="panel-collapse collapse in"
+                                                             role="tabpanel"
+                                                             aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
                                                 <b>Given</b> I have a valid access token
@@ -778,6 +1227,168 @@ given a Counter, it is possible to replace all its properties, and if that count
                             </div>
                                             </div>
                 </div>
+        <div class="feature" data-id="feature-11">
+            <div class="col-sm-4">
+                <div class="card passed">
+                    <div class="header">
+                        <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                            <span class="badge">client_credentials_grant_type</span>
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-1">
+                                Scenario: Without client credentials
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_request&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-2">
+                                Scenario: Invalid client credentials
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |<br/>
+                                    | client_id | no |<br/>
+                                    | client_secret | bar |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-3"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-3">
+                                Scenario: Token Granted
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-3" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add resource owner credentials
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 200
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response is oauth2 format
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;access_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;scope&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
                         </div>
 </div>
 <!-- /container -->
@@ -789,13 +1400,13 @@ given a Counter, it is possible to replace all its properties, and if that count
 <script type="text/javascript">
     var featureData = [
         {
-            value: 0,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 7,
+            value: 10,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -804,13 +1415,13 @@ given a Counter, it is possible to replace all its properties, and if that count
 
     var scenarioData = [
         {
-            value: 0,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 8,
+            value: 15,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -825,7 +1436,7 @@ given a Counter, it is possible to replace all its properties, and if that count
             label: "Failed"
         },
         {
-            value: 28,
+            value: 68,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -857,7 +1468,7 @@ given a Counter, it is possible to replace all its properties, and if that count
     $(function () {
         $('.collapse').collapse();
 
-        $('.filters').click()
+        $('.filters').click();;;;;;;;;;;;;;;;;;;;;;;;;
         {
             showOverview();
         }

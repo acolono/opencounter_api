@@ -22,8 +22,9 @@ $server = new OAuth2\Server(
     'allow_implicit' => TRUE,
   ],
   [
-    new GrantType\ClientCredentials($storage),
+
     new GrantType\UserCredentials($storage),
+    new GrantType\ClientCredentials($storage),
     new GrantType\AuthorizationCode($storage),
     new GrantType\RefreshToken($storage),
   ]
