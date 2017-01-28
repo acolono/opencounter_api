@@ -2,10 +2,6 @@
 
 define("API_HOST", "opencounter-slim-codenv-webserver:8080");
 
-if (!defined('APP_ROOT')) {
-  $spl = new SplFileInfo(__DIR__ . '/..');
-  define('APP_ROOT', $spl->getRealPath());
-}
 
 
 if (PHP_SAPI == 'cli-server') {
@@ -18,13 +14,13 @@ if (PHP_SAPI == 'cli-server') {
   }
 }
 
-require APP_ROOT . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 
 session_start();
 
 // ensure required environment variables are available
-$dotenv = new Dotenv\Dotenv(APP_ROOT);
+$dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
 $dotenv->load();
 $dotenv->required('DB_HOST');
 $dotenv->required('MYSQL_DATABASE');
@@ -33,18 +29,6 @@ $dotenv->required('MYSQL_PASSWORD');
 
 
 // Instantiate the app
-$settings = require APP_ROOT . '/configuration/settings.php';
+$settings = require __DIR__ . '/settings.php';
 
 $app = new \Slim\App($settings);
-
-
-// Set up dependencies
-require APP_ROOT . '/configuration/dependencies.php';
-
-// Register middleware
-require APP_ROOT . '/configuration/middleware.php';
-
-
-// Register routes
-require APP_ROOT . '/configuration/routes.php';
-

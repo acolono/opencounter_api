@@ -1,5 +1,10 @@
 <?php
-$mode = (string) getenv('MODE');
+
+if (!defined('APP_ROOT')) {
+  $spl = new SplFileInfo(__DIR__ . '/..');
+  define("APP_ROOT", $spl->getRealPath());
+}
+
 return [
   'settings' => [
     'displayErrorDetails' => (bool) getenv('DISPLAY_ERRORS'),
