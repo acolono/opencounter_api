@@ -17,8 +17,8 @@
       "url": "https://github.com/acolono/opencounter_core.git"
     },
     {
-        "type": "vcs",
-        "url": "git@github.com:rstgroup/behat-oauth2-context.git"
+      "type": "vcs",
+      "url": "git@github.com:gregooor/behat-oauth2-context.git"
     }
   ],
   "require": {

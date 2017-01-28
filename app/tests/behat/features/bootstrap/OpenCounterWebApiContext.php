@@ -27,8 +27,46 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      * @var bool
      */
     private $error;
+  const GUZZLE_PARAMETERS = 'guzzle_parameters';
 
-    /**
+  protected $headers = [];
+
+  /**
+   * @var GuzzleHttpClient
+   */
+  protected $client = null;
+
+  /**
+   * @var ResponseInterface
+   */
+  protected $response = null;
+
+  /**
+   * @var RequestInterface
+   */
+  protected $request = null;
+
+  protected $requestBody = [];
+
+  protected $data = null;
+
+
+  /**
+   * @var string
+   */
+  protected $refreshToken;
+  protected $accessToken;
+  protected $accessHeader;
+
+  /**
+   * @var string
+   */
+  protected $lastErrorJson;
+
+
+  private $oauthContext;
+
+  /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -37,7 +75,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function __construct(array $parameters)
     {
-         //var_dump($parameters);
+      // Initialize your context here
+      $this->parameters = $parameters;
         $this->baseUrl = $parameters['base_url'];
         // TODO: should we be getting them from the container here since we are kernel aware? probably
 //        $this->logger = $this->app->getContainer()->get('logger');
@@ -50,6 +89,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 //        $this->counterBuildService = $this->app->getContainer()->get('counterBuildService');
     }
 
+  /** @BeforeScenario */
+  public function gatherContexts(BeforeScenarioScope $scope)
+  {
+    $environment = $scope->getEnvironment();
+
+    $this->oauthContext = $environment->getContext('RstGroup\Behat\OAuth2\Context\OAuth2Context');
+  }
     /**
      * @AfterScenario
      */
@@ -89,6 +135,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $newCounterjsonString = new PyStringNode($newCounterArray, 1);
         $this->iSetHeaderWithValue('Content-Type', 'application/json');
         $this->iSetHeaderWithValue('Accept', 'application/json');
+      $this->oauthContext->iHaveValidAccessToken();
+      $this->iSetHeaderWithValue('Authorization', $this->accessToken);
+
 //        TODO: try authenticatink with valid access token as api key header.
       $this->iSetHeaderWithValue('api_key', 'testtoken');
 //        TODO: make sure we send valid authentication in all requests we make in this context. we are not testing authorization layer
@@ -313,9 +362,10 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 //      [$rowLineNumber => [$val1, $val2, $val3]]
     $newCounterjsonString = new PyStringNode($newCounterArray, 1);
     $this->iSetHeaderWithValue('Content-Type', 'application/json');
-    // TODO: authenticate using valid access token or bypass auth layer entirely so we just test counter routes: right now counter routes need an oauth access token but that should not really matter here since authentication and authorization get their own tests. here we just make sure the webapi for counters works. so where can i best ensure these tests ignore the oauth access layer
-//    $this->iSetHeaderWithValidAccessToken();
-
+    // TODO: authenticate using valid access token or bypass auth layer entirely so we just test counter routes: right now counter routes need an oauth access token but that should not really matter here since authentication and authorization get their own tests. here we just make sure the webapi for counters works. so where can i best ensure these tests ignore the oauth access layer maybe use parts of oauth context here to authenticate? http://docs.behat.org/en/v3.0/cookbooks/accessing_contexts_from_each_other.html
+    $this->oauthContext->iHaveValidAccessToken();
+    $this->accessHeader = 'Bearer ' . $this->oauthContext->accessToken;
+    $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
 
     $this->iSetHeaderWithValue('Accept', 'application/json');
     $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
@@ -342,14 +392,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     $this->theResponseShouldNotContain($ErrorString);
     }
 
-  /**
-   * @Given i have a valid access token :token
-   */
-  public function iHaveAValidAccessToken() {
-
-//    print_r($this);
-
-  }
 
     /**
      * @Given a counter with id :id has been set
@@ -424,4 +466,5 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
 
   }
+
 }

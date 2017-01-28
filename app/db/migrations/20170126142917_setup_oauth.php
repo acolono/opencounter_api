@@ -34,7 +34,7 @@ class SetupOauth extends AbstractMigration
       $oauth_clients
         ->addColumn('client_id', 'string', ['limit' => 40, 'comment' => 'A unique client identifier'])
         ->addColumn('user_id', 'string', ['limit' => 40, 'comment' => 'OAUTH_USERS.USER_ID'])
-        ->addColumn('grant_types', 'string', ['limit' => 40, 'comment' => 'Space-delimited list of permitted grant types'])
+        ->addColumn('grant_types', 'string', ['limit' => 80, 'comment' => 'Space-delimited list of permitted grant types'])
         ->addColumn('client_secret', 'string', ['limit' => 40, 'comment' => 'Used to secure Client Credentials Grant'])
         ->addColumn('scope', 'string', ['limit' => 40, 'comment' => 'Space-delimited list of permitted scopes'])
         ->addColumn('redirect_uri', 'string', ['limit' => 50, 'comment' => 'Redirect URI used for Authorization Grant'])

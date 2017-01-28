@@ -23,9 +23,9 @@ $server = new OAuth2\Server(
   ],
   [
     new GrantType\ClientCredentials($storage),
-//    new GrantType\UserCredentials($storage),
+    new GrantType\UserCredentials($storage),
     new GrantType\AuthorizationCode($storage),
-//    new GrantType\RefreshToken($storage),
+    new GrantType\RefreshToken($storage),
   ]
 );
 $authorization = new Middleware\Authorization($server, $app->getContainer());
