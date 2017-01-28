@@ -11,12 +11,14 @@ return [
     'renderer' => [
       'template_path' => __DIR__ . '/../templates/',
       'cache_path' => __DIR__ . '/../cache/',
+
     ],
     // Monolog settings
     'logger' => [
       'name' => 'slim-app',
       'level' => (int)getenv('LOG_LEVEL') ?: 400,
       'path' => 'slimcounter.log',
+      'logger_path' => __DIR__ .  '/../logs/',
     ],
     'db' =>
       [
