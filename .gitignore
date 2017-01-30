@@ -1,5 +1,5 @@
 vendor
-/logs/*
+/app/logs/*
 !/app/logs/README.md
 node_modules
 .env
