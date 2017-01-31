@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a8984a527ba4e7a42f4affaf92f7f77",
+    "content-hash": "9f34495137d1c445e4411cdecc4dc9aa",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -1041,7 +1041,7 @@
             "version": "dev-feature/3-logging-in-countercontroller",
             "source": {
                 "type": "git",
-                "url": "git@git.acolono.net:Rosenstrauch/OpenCounter_api_core.git",
+                "url": "../../opencounter_api_core",
                 "reference": "2963b3e09184f10506c9eaef8efb25bba611bbe9"
             },
             "require": {
@@ -3606,7 +3606,7 @@
                 }
             ],
             "description": "Behat Context for OAuth2",
-            "time": "2017-01-31T01:36:59+00:00"
+            "time": "2017-01-31 01:46:33"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

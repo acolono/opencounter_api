@@ -42,11 +42,11 @@ $app->add(new \Tuupola\Middleware\Cors([
 ]));
 
 
-//$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-//  "users" => [
-//    "admin" => getenv("ADMIN_PASSWORD")
-//  ],
-//  "path" => "/admin",
-//  "secure" => true,
-//  "relaxed" => ["localhost", "opencounter-slim-codenv-webserver"],
-//]));
+$app->add(new \Slim\Middleware\HttpBasicAuthentication([
+  "users" => [
+    "admin" => getenv("ADMIN_PASSWORD")
+  ],
+  "path" => "/admin",
+  "secure" => true,
+  "relaxed" => ["localhost", "opencounter-slim-codenv-webserver"],
+]));

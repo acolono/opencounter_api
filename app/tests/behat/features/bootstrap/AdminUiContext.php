@@ -21,6 +21,9 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function __construct($parameters)
     {
+      // Initialize your context here
+      $this->parameters = $parameters;
+      $this->baseUrl = $parameters['base_url'];
         $this->counters = array();
     }
 
@@ -75,7 +78,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
   public function iSetACounterWithNameAndValue($name, $value)
     {
 //      TODO: authenticate with basic auth
-        $this->visitPath('/admin/content/add');
+        $this->visitPath($this->baseUrl . '/admin/content/add');
 //        [$rowLineNumber => [$val1, $val2, $val3]]
 //        id|name|label|value|placeholder
         $fields = new \Behat\Gherkin\Node\TableNode(array(
@@ -123,7 +126,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
   public function iSetACounterWithName($name) {
 //      TODO: authorize requests via basic auth.
 
-    $this->visitPath('/admin/content/add');
+    $this->visitPath($this->baseUrl . '/admin/content/add');
 //        [$rowLineNumber => [$val1, $val2, $val3]]
 //        id|name|label|value|placeholder
     $fields = new \Behat\Gherkin\Node\TableNode(array(
@@ -208,7 +211,8 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
    * @Then I can get the value of the counter with Name :name
    */
   public function iCanGetTheValueOfTheCounterWithName($name) {
-    $this->visitPath('/admin/counters/' . $name);
+
+    $this->visitPath($this->baseUrl . '/admin/counters/' . $name);
     $this->assertElementContainsText('h1', 'View Counter ' . $name);
     $this->assertElementOnPage('li.counter__value');
 

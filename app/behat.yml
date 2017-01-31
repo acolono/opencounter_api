@@ -75,7 +75,7 @@ default:
         - AdminUiContext:
             parameters:
             # TODO: get this from dotenv?
-              admin:admin
+              base_url: http://admin:admin@opencounter-slim-codenv-webserver:8080
       filters:
 #        tags: "@adminui"
         role: "admin"
