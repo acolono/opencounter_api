@@ -179,9 +179,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $endpoint = '/api/counters/' . $id . '/passwordplaceholder';
 
-        $CounterArray = array(
-          json_encode(array('value' => '+1'))
-        );
+        $CounterArray = [
+          json_encode(['value' => '+1'])
+        ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterjsonString = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);

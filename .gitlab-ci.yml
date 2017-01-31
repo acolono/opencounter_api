@@ -88,6 +88,7 @@ build:test:
   # seed demo users into database so we can test auth layer more easily
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx seed:run -c /var/www/opencounter-slim-codenv/phinx.php
   - docker exec opencounter-slim-codenv-php-fpm chmod 777 /var/www/opencounter-slim-codenv/logs
+  - docker exec opencounter-slim-codenv-php-fpm mkdir /var/www/opencounter-slim-codenv/logs
   # run behat tests
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
   # run phpunit tests
