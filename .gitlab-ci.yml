@@ -39,6 +39,8 @@ build:
   - cp .env.testing app/.env
   # start docker containers
   - docker-compose -f docker-compose.testing.yml up -d
+  # deal with Host key verification failed.
+  - docker exec opencounter-slim-codenv-php-fpm ssh-keyscan -H gitlab.acolono.net >> ~/.ssh/known_hosts
   # install dependencies with composer in php container
   - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
   # cleanup after ourselves after tests
