@@ -29,11 +29,6 @@ build:phpcs:
 build:
   stage: build
   before_script:
-    # run ssh-agent
-    - eval $(ssh-agent -s)
-    - which bash
-    # add ssh key stored in OC_DEPLOY variable to the agent store
-    - /bin/bash -c 'ssh-add <(echo "$OC_DEPLOY")'
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
     - echo $CI_SERVER_VERSION

@@ -22,7 +22,6 @@ services:
     container_name: php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
-      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
       - ./app:/var/www/opencounter-slim-codenv
       - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
 
