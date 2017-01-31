@@ -22,8 +22,7 @@ return [
     'logger' => [
       'name' => 'slim-app',
       'level' => (int)getenv('LOG_LEVEL') ?: 400,
-      'path' => 'slimcounter.log',
-      'logger_path' => APP_ROOT . '/logs/',
+      'logger_path' => APP_ROOT . '/logs/slimcounter.log',
     ],
     'db' =>
       [
