@@ -38,8 +38,10 @@ services:
       - API_HOST=opencounter-slim-codenv-webserver
       - XDEBUG_CONFIG="idekey=PHPSTORM remote_enable=1 remote_mode=req remote_port=9000 remote_host=172.17.0.1 remote_connect_back=0 remote_autostart=1"
       - PHP_IDE_CONFIG=serverName=opencounter-slim-codenv-webserver
+      - SSH_AUTH_SOCK="/ssh-agent"
     volumes:
       - ./app:/var/www/opencounter-slim-codenv
+      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
     links:
       - opencounter-slim-codenv-mysql
     depends_on:
