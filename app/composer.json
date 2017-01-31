@@ -13,11 +13,11 @@
   "minimum-stability": "dev",
   "repositories": [
     {
-      "type": "git",
+      "type": "vcs",
       "url": "git@github.com:rosenstrauch/behat-oauth2-context.git"
     },
     {
-      "type": "git",
+      "type": "vcs",
       "url": "git@git.acolono.net:Rosenstrauch/OpenCounter_api_core.git"
     }
   ],
