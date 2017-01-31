@@ -28,8 +28,12 @@ build:phpcs:
 
 build:
   stage: build
- # workaround can be removed once we upgraded to 8.15
   before_script:
+    # run ssh-agent
+    - eval $(ssh-agent -s)
+    - which bash
+    # add ssh key stored in OC_DEPLOY variable to the agent store
+    - /bin/bash -c 'ssh-add <(echo "$OC_DEPLOY")'
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
     - echo $CI_SERVER_VERSION
@@ -75,7 +79,6 @@ build:test:
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php --environment testing
   # seed demo users into database so we can test auth layer more easily
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx seed:run -c /var/www/opencounter-slim-codenv/phinx.php
-  - chmod 777 app/logs
   # run behat tests
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
   # run phpunit tests
@@ -87,7 +90,7 @@ build:test:
     - docker-compose -f docker-compose.testing.yml stop
   # cache behat report artifacts for publishing to pages during deploy step
   artifacts:
-    name: "$CI_BUILD_REF-behatreports"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - app/tests/behat/reports/html/behat
@@ -115,40 +118,6 @@ release:changelog:
     expire_in: 1 week
   except:
     - tags
-
-# When we merge code into master branch
-# Then bump version number and tag new version
-# TODO: consider automatically tagging when something gets merged into master.
-#release:version:
-#  stage: release
-#  only:
-#    - master
-#  script:
-#    - git status
-#    - git remote -v
-#    - ls
-#    - pwd
-#  except:
-#    - tags
-
-
-# TODO: as final step of the release stage react to tags.
-# TODO: Create artifacts only for tags ?
-#release:tag:
-#  stage: release
-#  only:
-#    - tags
-#  script:
-#    - docker tag acolono/php7-fpm registry.acolono.net:5000/open-counter/slimcounter
-#    - git status
-#    - git remote -v
-#    - ls
-#    - pwd
-
-# todo: deploy pages
-# When we merge code into master branch
-# Then we want github or gitlab pages with the generated phpdocumentor documentation
-# And we want github or gitlab pages with the generated swagger.json
 
 pages:
   stage: release
