@@ -40,6 +40,7 @@ $container['logger'] = function ($container) {
     $settings = $container->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+    $logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor($settings['level']));
 
     $logger->pushHandler(new Monolog\Handler\RotatingFileHandler($settings['logger_path'] . $settings['path'], Monolog\Logger::DEBUG));
     return $logger;

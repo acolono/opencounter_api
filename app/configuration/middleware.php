@@ -6,13 +6,38 @@
 // middleware for cors for swaggerui
 // https://github.com/tuupola/cors-middleware
 $app->add(new \Tuupola\Middleware\Cors([
-    "origin" => ["*"],
-    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE", "CONNECT", "DEBUG", "DONE", "HEAD", "HTTP","QUIC", "REST", "SESSION", "SHOULD", "SPDY", "TRACE", "TRACK"],
+  "origin" => ["*"],
+  "methods" => [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "CONNECT",
+    "DEBUG",
+    "DONE",
+    "HEAD",
+    "HTTP",
+    "QUIC",
+    "REST",
+    "SESSION",
+    "SHOULD",
+    "SPDY",
+    "TRACE",
+    "TRACK"
+  ],
   "headers.allow" => ["Content-Type", "Authorization", "api_key"],
-    "headers.expose" => [],
-    "credentials" => false,
-    "cache" => 0,
+  "headers.expose" => [],
+  "credentials" => FALSE,
+  "cache" => 0,
   'logger' => $container['logger'],
+  "error" => function ($request, $response, $arguments) {
+    $data["status"] = "error";
+    $data["message"] = $arguments["message"];
+    return $response
+      ->withHeader("Content-Type", "application/json")
+      ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+  }
 
 ]));
 

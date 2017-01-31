@@ -85,6 +85,8 @@ build:test:
   - sleep 7
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php --environment testing
+  # seed demo users into database so we can test auth layer more easily
+  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx seed:run -c /var/www/opencounter-slim-codenv/phinx.php
   - docker exec opencounter-slim-codenv-php-fpm chmod 777 /var/www/opencounter-slim-codenv/logs
   # run behat tests
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml

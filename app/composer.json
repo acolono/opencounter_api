@@ -13,13 +13,14 @@
   "minimum-stability": "dev",
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://github.com/acolono/opencounter_core.git"
+      "type": "git",
+      "url": "git@github.com:rosenstrauch/behat-oauth2-context.git"
     },
     {
-      "type": "vcs",
-      "url": "git@github.com:gregooor/behat-oauth2-context.git"
+      "type": "git",
+      "url": "git@git.acolono.net:Rosenstrauch/OpenCounter_api_core.git"
     }
+
   ],
   "require": {
     "php": ">=5.5.0",
@@ -32,10 +33,10 @@
     "ramsey/uuid": "^3.5",
     "robmorgan/phinx": "^0.6.4",
     "tuupola/cors-middleware": "^0.5.2",
-    "rosenstrauch/opencounter_api_core": "dev-develop",
+    "rosenstrauch/opencounter_api_core": "dev-feature/3-logging-in-countercontroller",
     "vlucas/phpdotenv": "^2.4",
     "chadicus/slim-oauth2": "^3.1",
-    "rstgroup/behat-oauth2-context": "^1.0",
+
     "tuupola/slim-basic-auth": "^2.2"
   },
   "require-dev": {
@@ -47,6 +48,7 @@
     "emuse/behat-html-formatter": "0.1.*",
     "behat/mink": "^1.7",
     "behat/mink-goutte-driver": "^1.2",
+    "rstgroup/behat-oauth2-context": "dev-client_credentials",
     "behat/mink-extension": "^2.2"
   },
   "config": {

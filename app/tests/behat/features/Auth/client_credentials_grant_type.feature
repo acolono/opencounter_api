@@ -3,11 +3,11 @@ Feature: OAuth2 Token Grant ClientCredentials
 
   Scenario: Without client credentials
     When I create oauth2 request
-#    And I add the request parameters:
-#        | grant_type | client_credentials |
+    And I add the request parameters:
+        | grant_type | client_credentials |
     And I send a access token request
     Then the response status code is 400
-    And the response has a "error" property and it is equals "invalid_request"
+    And the response has a "error" property and it is equals "invalid_client"
     And the response has a "error_description" property
 
   Scenario: Invalid client credentials
@@ -21,11 +21,14 @@ Feature: OAuth2 Token Grant ClientCredentials
     And the response has a "error" property and it is equals "invalid_client"
     And the response has a "error_description" property
 
-  Scenario: Token Granted
+  Scenario: Token Granted to clien_credentials in db
+    # TODO: pick how we want to ensure the user we are authenticating as exists in the database
+#    Given oauth client exists in database:
+#    Given I reseed the user migration
     When I create oauth2 request
     And I add the request parameters:
       | grant_type | client_credentials |
-    And I add resource owner credentials
+    And I add client credentials
     And I send a access token request
     Then the response status code is 200
     And the response is oauth2 format

@@ -135,8 +135,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $newCounterjsonString = new PyStringNode($newCounterArray, 1);
         $this->iSetHeaderWithValue('Content-Type', 'application/json');
         $this->iSetHeaderWithValue('Accept', 'application/json');
-      $this->oauthContext->iHaveValidAccessToken();
-      $this->iSetHeaderWithValue('Authorization', $this->accessToken);
+        $this->oauthContext->iHaveValidAccessToken();
+        $this->iSetHeaderWithValue('Authorization', $this->accessToken);
 
 //        TODO: try authenticatink with valid access token as api key header.
       $this->iSetHeaderWithValue('api_key', 'testtoken');
@@ -196,9 +196,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $endpoint = '/api/counters/' . $name . '/value';
 
-        $CounterArray = array(
-          json_encode(array('value' => 1))
-        );
+        $CounterArray = [
+          json_encode(['value' => 1])
+        ];
         // [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterjsonString = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
@@ -213,9 +213,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $endpoint = '/api/counters/' . $id . '/status';
 
-        $CounterArray = array(
-          json_encode(array('value' => '1', 'status' => 'locked'))
-        );
+        $CounterArray = [
+          json_encode(['value' => '1', 'status' => 'locked'])
+        ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterjsonString = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
@@ -229,12 +229,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $endpoint = '/api/counters/' . $name . '/status';
 
-        $CounterArray = array(
-          json_encode(array(
+        $CounterArray = [
+          json_encode([
             'status' => 'locked',
             'value' => 0
-          ))
-        );
+          ])
+        ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterjsonString = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
@@ -275,9 +275,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $endpoint = '/api/counters/' . $id;
 
-        $CounterArray = array(
-          json_encode(array('value' => 0))
-        );
+        $CounterArray = [
+          json_encode(['value' => 0])
+        ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterjsonString = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
