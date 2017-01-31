@@ -27,12 +27,6 @@ build:phpcs:
     - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
 build:
-  cache:
-    key: "CI_BUILD_NAME"
-    untracked: true
-    paths:
-      - bin/
-      - vendor/
   stage: build
  # workaround can be removed once we upgraded to 8.15
   before_script:
@@ -53,7 +47,7 @@ build:
     - docker-compose -f docker-compose.testing.yml stop
   # keep vendor and bin around for later stages
   artifacts:
-    name: "$CI_BUILD_REF-vendor"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - vendor/
@@ -63,12 +57,6 @@ build:
 # Run Behat and Phpspec tests.
 build:test:
   # we want to use cache to load installed composer dependeicies from previous build step
-  cache:
-    key: "CI_BUILD_REF"
-    untracked: true
-    paths:
-      - bin/
-      - vendor/
   stage: build
   before_script:
     # asking for docker info breaks phpcs stage so dont.
@@ -120,7 +108,7 @@ release:changelog:
     # generate changelog
     - github_changelog_generator acolono/opencounter_api
   artifacts:
-    name: "$CI_BUILD_REF-changelog"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - CHANGELOG.md
@@ -168,11 +156,6 @@ pages:
   # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
 #  image: acolono/php-fpm7:latest
   # we want to use cache to load installed composer dependency from build step
-  cache:
-    key: "CI_BUILD_NAME"
-    untracked: true
-    paths:
-      - app
   # make sure this only happens on the master branch (for new releases)
   only:
     - master
@@ -201,7 +184,7 @@ pages:
   allow_failure: true
   # Store resulting swagger.json and phpdoc folder as artifacts
   artifacts:
-    name: "$CI_BUILD_REF-docs"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - app/public/swagger.json
@@ -223,13 +206,7 @@ deploy:swagger:
   - which bash
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
   - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
-
  # we want to use cache to load swagger.json from pages step
-  cache:
-    key: "CI_BUILD_NAME"
-    untracked: true
-    paths:
-      - docs/
   # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
     - master
@@ -246,7 +223,7 @@ deploy:swagger:
     name: docs
     url: https://ocdocs.artur.acolono.net/
   artifacts:
-    name: "$CI_BUILD_REF-swaggercli"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - docs/swagger
