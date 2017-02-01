@@ -42,7 +42,7 @@ build:
   # deal with Host key verification failed.
   - docker exec opencounter-slim-codenv-php-fpm ls -lah ~/
   - docker exec opencounter-slim-codenv-php-fpm mkdir ~/.ssh || true
-  - docker exec opencounter-slim-codenv-php-fpm ls -lah ~/
+  - docker exec opencounter-slim-codenv-php-fpm ls -lah ~/.ssh/
   - docker exec opencounter-slim-codenv-php-fpm ssh-keyscan -H gitlab.acolono.net >> ~/.ssh/known_hosts
   # install dependencies with composer in php container
   - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
