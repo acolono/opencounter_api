@@ -26,7 +26,7 @@ build:phpcs:
   script:
     - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
-build:
+build:dependencies:
   stage: build
   before_script:
     # asking for docker info breaks phpcs stage so dont.
@@ -57,9 +57,9 @@ build:
     expire_in: 1 week
 
 # Run Behat and Phpspec tests.
-build:test:
+test:
   # we want to use cache to load installed composer dependeicies from previous build step
-  stage: build
+  stage: test
   before_script:
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
