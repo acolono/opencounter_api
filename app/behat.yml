@@ -42,18 +42,64 @@ default:
 ##        role: "developer"
     webapi:
 #      paths: [ %paths.base%/features/Counters ]
-      paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
+      paths:
+        - %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters
       contexts:
+        - RstGroup\Behat\OAuth2\Context\OAuth2Context:
+            parameters:
+              token_url: http://opencounter-slim-codenv-webserver/token
+              authorize_url: http://opencounter-slim-codenv-webserver/authorize
+              oauth2:
+                  client_id: librarian
+                  client_secret: secret
+                  username: librarian
+                  password: secret
+              recommended:  #Are RECOMMENDED in OAuth2 documentation. If you know that your server doesn't send someone, you can change it on false.
+                  expires_in: true
+              optional: #Are OPTIONAL in OAuth2 documentation. If you know that your server doesn't send someone, you can change it on false.
+                  refresh_token : false
+                  error_description : true
+                  scope : true
+              guzzle_parameters: #configuration for guzzle http client
         - OpenCounterWebApiContext:
             parameters:
-                base_url: http://opencounter-slim-codenv-webserver:8080
+              base_url: http://opencounter-slim-codenv-webserver:8080
       filters:
 #        tags: "@web"
 #        role: "apiuser"
+
     adminui:
       paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
 #      paths: [ %paths.base%/features/Counters ]
-      contexts: [ AdminUiContext ]
+      contexts:
+        - AdminUiContext:
+            parameters:
+            # TODO: get this from dotenv?
+              base_url: http://admin:admin@opencounter-slim-codenv-webserver:8080
       filters:
 #        tags: "@adminui"
         role: "admin"
+    oauth:
+      paths:
+#        - %paths.base%/vendor/rstgroup/behat-oauth2-context/features
+        - %paths.base%/tests/behat/features/Auth
+      contexts:
+#        - OpenCounterOauthContext:
+#            parameters:
+        - RstGroup\Behat\OAuth2\Context\OAuth2Context:
+            parameters:
+              base_url: http://opencounter-slim-codenv-webserver:8080
+              token_url: http://opencounter-slim-codenv-webserver/token
+              authorize_url: http://opencounter-slim-codenv-webserver/authorize
+              oauth2:
+                client_id: librarian
+                client_secret: secret
+                username: librarian
+                password: secret
+              recommended:  #Are RECOMMENDED in OAuth2 documentation. If you know that your server doesn't send someone, you can change it on false.
+                expires_in: true
+              optional: #Are OPTIONAL in OAuth2 documentation. If you know that your server doesn't send someone, you can change it on false.
+                refresh_token : false
+                error_description : true
+                scope : false
+              guzzle_parameters: #configuration for guzzle http client

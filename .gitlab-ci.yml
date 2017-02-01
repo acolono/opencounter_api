@@ -26,15 +26,8 @@ build:phpcs:
   script:
     - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
-build:
-  cache:
-    key: "CI_BUILD_REF"
-    untracked: true
-    paths:
-      - bin/
-      - vendor/
+build:dependencies:
   stage: build
- # workaround can be removed once we upgraded to 8.15
   before_script:
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
@@ -46,6 +39,9 @@ build:
   - cp .env.testing app/.env
   # start docker containers
   - docker-compose -f docker-compose.testing.yml up -d
+  # deal with Host key verification failed.
+  - docker exec opencounter-slim-codenv-php-fpm mkdir ~/.ssh || true
+  - docker exec opencounter-slim-codenv-php-fpm sh -c "ssh-keyscan -H git.acolono.net >> ~/.ssh/known_hosts"
   # install dependencies with composer in php container
   - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
   # cleanup after ourselves after tests
@@ -53,23 +49,17 @@ build:
     - docker-compose -f docker-compose.testing.yml stop
   # keep vendor and bin around for later stages
   artifacts:
-    name: "$CI_BUILD_REF-vendor"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
-    - vendor/
-    - bin/
+    - app/vendor/
+    - app/bin/
     expire_in: 1 week
 
 # Run Behat and Phpspec tests.
-build:test:
+test:
   # we want to use cache to load installed composer dependeicies from previous build step
-  cache:
-    key: "CI_BUILD_REF"
-    untracked: true
-    paths:
-      - bin/
-      - vendor/
-  stage: build
+  stage: test
   before_script:
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
@@ -85,6 +75,8 @@ build:test:
   - sleep 7
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php --environment testing
+  # seed demo users into database so we can test auth layer more easily
+  - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx seed:run -c /var/www/opencounter-slim-codenv/phinx.php
   # run behat tests
   - docker exec opencounter-slim-codenv-php-fpm ./bin/behat -c ./behat.yml
   # run phpunit tests
@@ -96,7 +88,7 @@ build:test:
     - docker-compose -f docker-compose.testing.yml stop
   # cache behat report artifacts for publishing to pages during deploy step
   artifacts:
-    name: "$CI_BUILD_REF-behatreports"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - app/tests/behat/reports/html/behat
@@ -117,7 +109,7 @@ release:changelog:
     # generate changelog
     - github_changelog_generator acolono/opencounter_api
   artifacts:
-    name: "$CI_BUILD_REF-changelog"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - CHANGELOG.md
@@ -125,51 +117,12 @@ release:changelog:
   except:
     - tags
 
-# When we merge code into master branch
-# Then bump version number and tag new version
-# TODO: consider automatically tagging when something gets merged into master.
-#release:version:
-#  stage: release
-#  only:
-#    - master
-#  script:
-#    - git status
-#    - git remote -v
-#    - ls
-#    - pwd
-#  except:
-#    - tags
-
-
-# TODO: as final step of the release stage react to tags.
-# TODO: Create artifacts only for tags ?
-#release:tag:
-#  stage: release
-#  only:
-#    - tags
-#  script:
-#    - docker tag acolono/php7-fpm registry.acolono.net:5000/open-counter/slimcounter
-#    - git status
-#    - git remote -v
-#    - ls
-#    - pwd
-
-# todo: deploy pages
-# When we merge code into master branch
-# Then we want github or gitlab pages with the generated phpdocumentor documentation
-# And we want github or gitlab pages with the generated swagger.json
-
 pages:
   stage: release
   # TODO: here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
   # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
 #  image: acolono/php-fpm7:latest
   # we want to use cache to load installed composer dependency from build step
-  cache:
-    key: "CI_BUILD_REF"
-    untracked: true
-    paths:
-      - app
   # make sure this only happens on the master branch (for new releases)
   only:
     - master
@@ -198,7 +151,7 @@ pages:
   allow_failure: true
   # Store resulting swagger.json and phpdoc folder as artifacts
   artifacts:
-    name: "$CI_BUILD_REF-docs"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - app/public/swagger.json
@@ -220,13 +173,7 @@ deploy:swagger:
   - which bash
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
   - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
-
  # we want to use cache to load swagger.json from pages step
-  cache:
-    key: "CI_BUILD_REF"
-    untracked: true
-    paths:
-      - docs/
   # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
     - master
@@ -243,7 +190,7 @@ deploy:swagger:
     name: docs
     url: https://ocdocs.artur.acolono.net/
   artifacts:
-    name: "$CI_BUILD_REF-swaggercli"
+    name: "$CI_BUILD_REF"
     untracked: true
     paths:
     - docs/swagger
