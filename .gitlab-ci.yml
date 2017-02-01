@@ -44,6 +44,7 @@ build:
   - docker exec opencounter-slim-codenv-php-fpm mkdir ~/.ssh || true
   - docker exec opencounter-slim-codenv-php-fpm touch ~/.ssh/known_hosts
   - docker exec opencounter-slim-codenv-php-fpm ls -lah ~/.ssh/
+  - docker exec opencounter-slim-codenv-php-fpm ssh-keyscan -H git.acolono.net
   - docker exec opencounter-slim-codenv-php-fpm ssh-keyscan -H git.acolono.net >> ~/.ssh/known_hosts
   # install dependencies with composer in php container
   # - docker exec opencounter-slim-codenv-php-fpm php /usr/local/bin/composer install
