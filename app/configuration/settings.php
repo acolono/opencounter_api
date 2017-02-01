@@ -1,5 +1,10 @@
 <?php
-$mode = (string) getenv('MODE');
+
+if (!defined('APP_ROOT')) {
+  $spl = new SplFileInfo(__DIR__ . '/..');
+  define("APP_ROOT", $spl->getRealPath());
+}
+
 return [
   'settings' => [
     'displayErrorDetails' => (bool) getenv('DISPLAY_ERRORS'),
@@ -9,14 +14,15 @@ return [
 
     // Renderer settings
     'renderer' => [
-      'template_path' => __DIR__ . '/../templates/',
-      'cache_path' => __DIR__ . '/../cache/',
+      'template_path' => APP_ROOT . '/templates/',
+      'cache_path' => APP_ROOT . '/cache/',
+
     ],
     // Monolog settings
     'logger' => [
       'name' => 'slim-app',
       'level' => (int)getenv('LOG_LEVEL') ?: 400,
-      'path' => 'slimcounter.log',
+      'logger_path' => APP_ROOT . '/logs/slimcounter.log',
     ],
     'db' =>
       [
