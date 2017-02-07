@@ -23,7 +23,7 @@
     },
     {
       "type": "git",
-      "url": "/mnt/DATA/06-TEAMProjects/ACOLONO/OPENCOUNTER_project/OPENCOUNTER_WORCLONES/opencounter-theme"
+      "url": "git@git.acolono.net:open-counter/opencounter-theme.git"
     }
 
   ],
