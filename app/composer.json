@@ -12,6 +12,7 @@
   "license": "MIT",
   "minimum-stability": "dev",
   "repositories": [
+
     {
       "type": "vcs",
       "url": "https://github.com/rosenstrauch/behat-oauth2-context.git"
@@ -19,7 +20,12 @@
     {
       "type": "vcs",
       "url": "https://github.com/acolono/opencounter_core.git"
+    },
+    {
+      "type": "git",
+      "url": "git@git.acolono.net:open-counter/opencounter-theme.git"
     }
+
   ],
   "require": {
     "php": ">=5.5.0",
@@ -31,6 +37,7 @@
     "raveren/kint": "^1.0",
     "ramsey/uuid": "^3.5",
     "robmorgan/phinx": "^0.6.4",
+    "slimcounter/default_theme": "dev-opencounter_patternlab",
     "tuupola/cors-middleware": "^0.5.2",
     "rosenstrauch/opencounter_api_core": "~0",
     "vlucas/phpdotenv": "^2.4",

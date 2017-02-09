@@ -6,6 +6,16 @@ var beep    = require('beepbeep');
 var exec    = require('child_process').exec;
 var gutil   = require('gulp-util');
 
+var paths = {
+    styles: {
+        src: 'app/themes/default_theme/public/css/*.css',
+        dest: 'app/public/assets/css'
+    },
+    scripts: {
+        src: 'app/themes/default_theme/public/scripts/**/*.js',
+        dest: 'app/public/assets/scripts/'
+    }
+};
 
 var onError = function(err) {
     beep([1000, 1000, 1000]);
@@ -49,4 +59,13 @@ gulp.task('serve', ['behat'], function() {
 });
 
 release.register(gulp, { packages: ['package.json', './**/composer.json'] });
+
+
+// CSS Copy
+gulp.task('copy:css', function(){
+    return gulp.src(paths.styles.src)
+        .pipe(gulp.dest(paths.styles.dest))
+        .pipe(browserSync.stream());
+});
+
 gulp.task('default', ['serve']);

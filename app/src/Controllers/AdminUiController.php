@@ -42,7 +42,7 @@ class AdminUiController implements ContainerInterface
         $this->logger->info("admincontroller 'index' route");
 
         // Render index view
-        return $this->renderer->render($response, 'admin/index.phtml', $args);
+        return $this->renderer->render($response, 'index.twig', $args);
     }
 
     public function newCounterForm(Request $request, Response $response, $args)
