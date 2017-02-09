@@ -34,6 +34,13 @@ build:dependencies:
     - echo $CI_SERVER_VERSION
     - echo $CI_BUILD_REF_SLUG
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.acolono.net:444
+    # install ssh-agent
+    - 'which ssh-agent || (apk update && apk add bash rsync openssh)'
+    # run ssh-agent
+    - eval $(ssh-agent -s)
+    - which bash
+    # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+    - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
   script:
   # tell app we are testing environment dotenv
   - cp .env.testing app/.env
