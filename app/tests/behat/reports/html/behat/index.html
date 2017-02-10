@@ -54,21 +54,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            0 features failed of 10
+            3 features failed of 11
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            0 scenarios failed of 12
+            4 scenarios failed of 15
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            0 steps failed of 56
+            4 steps failed of 70
         </div>
     </div>
     <hr>
@@ -241,7 +241,7 @@ given a Counter, it is possible to replace all its properties, and if that count
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-6">
-                                <div class="card passed">
+                                <div class="card failed">
                                     <div class="header">
                                         <h2>Feature: create a new counter</h2>
                                     </div>
@@ -256,11 +256,11 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -268,7 +268,7 @@ I need to be able to create a new counter with a name and default value of '0'</
                                 </div>
                             </div>
                                                     <div class="col-sm-4 feature" data-id="feature-7">
-                                <div class="card passed">
+                                <div class="card failed">
                                     <div class="header">
                                         <h2>Feature: read one counter</h2>
                                     </div>
@@ -285,11 +285,11 @@ GET /counters/1/value</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -334,6 +334,32 @@ GET /counters/1/value</p>
                                 </div>
                             </div>
                                                     <div class="col-sm-4 feature" data-id="feature-10">
+                                <div class="card failed">
+                                    <div class="header">
+                                        <h2>Feature: OAuth2 Token Grant Authorization Code</h2>
+                                    </div>
+                                    <div class="info">
+                                        <p></p>
+                                    </div>
+                                    <div class="footer">
+                                        <div class="tags">
+                                                                                            <span class="badge">authorization_code_grant_type</span>
+                                                                                    </div>
+                                                                                    <div class="progress">
+
+                                                <div class="progress-bar progress-bar-green" role="progressbar"
+                                                     style="width: 33.333333333333%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                                <div class="progress-bar progress-bar-red" role="progressbar"
+                                                     style="width: 66.666666666667%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                            </div>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <div class="col-sm-4 feature" data-id="feature-11">
                                 <div class="card passed">
                                     <div class="header">
                                         <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
@@ -704,19 +730,19 @@ I need to be able to delete the existing counter</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter with name &quot;onecounter&quot; has been set
+                                                <b>Given</b> I set a counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
                                                     <p style="padding-left:2em ; color:black">| POST http://opencounter-slim-codenv-webserver:8080/api/counters/onecounter =&gt; 201:
 {&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:0}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I remove the counter with id &quot;onecounter&quot;
+                                                <b>When</b> I remove the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
                                                     <p style="padding-left:2em ; color:black">| DELETE http://opencounter-slim-codenv-webserver:8080/api/counters/onecounter/passwordplaceholder =&gt; 200:
 {&quot;name&quot;:&quot;onecounter&quot;,&quot;value&quot;:0}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>Then</b> no counter with id &quot;onecounter&quot; has been set
+                                                <b>Then</b> no counter &quot;onecounter&quot; has been set
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
@@ -798,7 +824,7 @@ given a Counter, it is possible to replace all its properties, and if that count
                 </div>
                                                 <div class="feature" data-id="feature-6">
                     <div class="col-sm-4">
-                        <div class="card passed">
+                        <div class="card failed">
                             <div class="header">
                                 <h2>Feature: create a new counter</h2>
                             </div>
@@ -813,11 +839,11 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -825,7 +851,7 @@ I need to be able to create a new counter with a name and default value of '0'</
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default passed">
+                                                    <div class="panel panel-default failed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -849,10 +875,12 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I set a counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
                                                 <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(The text &quot;View Counter onecounter&quot; was not found in the text of the element matching css &quot;h1&quot;.)</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
                                                 <b>And</b> the value returned should be 0
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -862,7 +890,7 @@ I need to be able to create a new counter with a name and default value of '0'</
                 </div>
                             <div class="feature" data-id="feature-7">
                     <div class="col-sm-4">
-                        <div class="card passed">
+                        <div class="card failed">
                             <div class="header">
                                 <h2>Feature: read one counter</h2>
                             </div>
@@ -879,11 +907,11 @@ GET /counters/1/value</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -891,7 +919,7 @@ GET /counters/1/value</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default passed">
+                                                    <div class="panel panel-default failed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -912,10 +940,12 @@ GET /counters/1/value</p>
                                                                                     <li class="list-group-item alert alert-success">
                                                 <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; has been set
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
                                                 <b>When</b> I get the value of the counter with name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(The text &quot;View Counter onecounter&quot; was not found in the text of the element matching css &quot;h1&quot;.)</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
                                                 <b>Then</b> the value returned should be 1
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -961,6 +991,181 @@ GET /counters/1/value</p>
                 </div>
                             <div class="feature" data-id="feature-10">
                     <div class="col-sm-4">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: OAuth2 Token Grant Authorization Code</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                                                            <span class="badge">authorization_code_grant_type</span>
+                                                                    </div>
+                                                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: 33.333333333333%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: 66.666666666667%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-10-1"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-10-1">
+                                            Scenario: Without authorization code
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                    </div>
+                                    </h4>
+                                </div>
+                                <div id="scenario-10-1" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>When</b> I create oauth2 request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I add the request parameters:
+                                                                                                                                                            <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">| grant_type | authorization_code |</p>
+                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I send a access token request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> the response status code is 400
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_request&quot;
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Given error value is not invalid_request
+
+ )</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;error_description&quot; property
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                </ul>
+                                </div>
+                            </div>
+                                                    <div class="panel panel-default passed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-10-2"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-10-2">
+                                            Scenario: Invalid authorization code
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                    </div>
+                                    </h4>
+                                </div>
+                                <div id="scenario-10-2" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>When</b> I create oauth2 request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I add the request parameters:
+                                                                                                                                                            <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">| grant_type    | authorization_code |<br />
+| client_id     | no                 |<br />
+| client_secret | bar                |</p>
+                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I send a access token request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> the response status code is 400
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> the response has a &quot;error_description&quot; property
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                </ul>
+                                </div>
+                            </div>
+                                                    <div class="panel panel-default failed">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#scenario-10-3"
+                                           aria-expanded="true"
+                                           aria-controls="scenario-10-3">
+                                            Scenario: Token Granted via auth code
+                                        </a>
+
+                                        <div class="tags pull-right">
+                                                                                    </div>
+                                    </h4>
+                                </div>
+                                <div id="scenario-10-3" class="panel-collapse collapse in"
+                                     role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <ul class="list-group">
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>When</b> I create oauth2 request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I add the request parameters:
+                                                                                                                                                            <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">| grant_type | authorization_code |</p>
+                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I add client credentials
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I send a access token request
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>Then</b> the response status code is 200
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(HTTP code does not match 200 (actual: 400)
+
+ )</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response is oauth2 format
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;access_token&quot; property
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;refresh_token&quot; property
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>And</b> the response has a &quot;scope&quot; property
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                </ul>
+                                </div>
+                            </div>
+                                            </div>
+                </div>
+                            <div class="feature" data-id="feature-11">
+                    <div class="col-sm-4">
                         <div class="card passed">
                             <div class="header">
                                 <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
@@ -991,9 +1196,9 @@ GET /counters/1/value</p>
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-10-1"
+                                           href="#scenario-11-1"
                                            aria-expanded="true"
-                                           aria-controls="scenario-10-1">
+                                           aria-controls="scenario-11-1">
                                             Scenario: Without client credentials
                                         </a>
 
@@ -1001,7 +1206,7 @@ GET /counters/1/value</p>
                                                                                     </div>
                                     </h4>
                                 </div>
-                                <div id="scenario-10-1" class="panel-collapse collapse in"
+                                <div id="scenario-11-1" class="panel-collapse collapse in"
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
@@ -1031,9 +1236,9 @@ GET /counters/1/value</p>
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-10-2"
+                                           href="#scenario-11-2"
                                            aria-expanded="true"
-                                           aria-controls="scenario-10-2">
+                                           aria-controls="scenario-11-2">
                                             Scenario: Invalid client credentials
                                         </a>
 
@@ -1041,7 +1246,7 @@ GET /counters/1/value</p>
                                                                                     </div>
                                     </h4>
                                 </div>
-                                <div id="scenario-10-2" class="panel-collapse collapse in"
+                                <div id="scenario-11-2" class="panel-collapse collapse in"
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
@@ -1073,9 +1278,9 @@ GET /counters/1/value</p>
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-10-3"
+                                           href="#scenario-11-3"
                                            aria-expanded="true"
-                                           aria-controls="scenario-10-3">
+                                           aria-controls="scenario-11-3">
                                             Scenario: Token Granted to clien_credentials in db
                                         </a>
 
@@ -1083,7 +1288,7 @@ GET /counters/1/value</p>
                                                                                     </div>
                                     </h4>
                                 </div>
-                                <div id="scenario-10-3" class="panel-collapse collapse in"
+                                <div id="scenario-11-3" class="panel-collapse collapse in"
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
@@ -1134,13 +1339,13 @@ GET /counters/1/value</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 0,
+            value: 3,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 10,
+            value: 8,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1149,13 +1354,13 @@ GET /counters/1/value</p>
 
     var scenarioData = [
         {
-            value: 0,
+            value: 4,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 12,
+            value: 11,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1164,13 +1369,13 @@ GET /counters/1/value</p>
 
     var stepData = [
         {
-            value: 0,
+            value: 4,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 56,
+            value: 66,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"

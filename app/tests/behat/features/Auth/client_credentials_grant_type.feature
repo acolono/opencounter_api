@@ -22,7 +22,7 @@ Feature: OAuth2 Token Grant ClientCredentials
     And the response has a "error_description" property
 
   Scenario: Token Granted to clien_credentials in db
-    # TODO: pick how we want to ensure the user we are authenticating as exists in the database
+    # TODO: pick how we want to ensure the user we are authenticating as exists in the database (http://bshaffer.github.io/oauth2-server-php-docs/storage/pdo/)
 #    Given oauth client exists in database:
 #    Given I reseed the user migration
     When I create oauth2 request

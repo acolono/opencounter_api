@@ -34,8 +34,55 @@ class AdminUiController implements ContainerInterface
         $this->counterBuildService = $this->ci->get('counter_build_service');
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
+        $this->storage = $this->ci->get('db');
+    }
+    public function users(Request $request, Response $response, $args)
+    {
+        // log message
+        $this->logger->info("admincontroller 'users' route");
+
+        // Render index view
+        return $this->renderer->render($response, 'admin/list-users.html.twig', $args);
+    }
+    public function addUserForm(Request $request, Response $response, $args)
+    {
+        // logging
+        $this->logger->info("admincontroller 'newUserForm' route");
+
+
+
+        // TODO: just call an application service to fill the response
+
+
+        // Render new counter form view
+        return $this->renderer->render($response, 'admin/clients-form.html.twig');
     }
 
+    /**
+     * Add User Route is called by New Counter Form and calls a service.
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param $args
+     *
+     * @return \Slim\Http\Response
+     */
+    public function addUser(Request $request, Response $response, $args)
+    {
+        $this->logger->info('admincontroller inserting new user from form post ' . json_encode($args));
+
+
+
+        // TODO: just call an application service to fill the response
+        //$this->storage->setClientDetails($client_id, $client_secret, $redirect_uri, $grant_types, $scopes, $user_id);
+         $this->storage->setUser($username, $password, $firstName = null, $lastName = null);
+
+        $uri = $request->getUri()->withPath($this->router->pathFor('admin.users.view'));
+        return $response->withRedirect((string)$uri);
+
+
+
+    }
     public function index(Request $request, Response $response, $args)
     {
         // log message
