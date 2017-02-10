@@ -19,7 +19,7 @@
     },
     {
       "type": "vcs",
-      "url": "https://github.com/acolono/opencounter_core.git"
+      "url": "/mnt/DATA/06-TEAMProjects/ACOLONO/OPENCOUNTER_project/OPENCOUNTER_WORCLONES/opencounter_api_core"
     },
     {
       "type": "git",
@@ -37,12 +37,13 @@
     "raveren/kint": "^1.0",
     "ramsey/uuid": "^3.5",
     "robmorgan/phinx": "^0.6.4",
-    "slimcounter/default_theme": "dev-opencounter_patternlab",
+    "slimcounter/default_theme": "dev-feature/patternlab",
     "tuupola/cors-middleware": "^0.5.2",
-    "rosenstrauch/opencounter_api_core": "~0",
+    "rosenstrauch/opencounter_api_core": "dev-feature/counter_commands",
     "vlucas/phpdotenv": "^2.4",
     "chadicus/slim-oauth2": "^3.1",
-    "tuupola/slim-basic-auth": "^2.2"
+    "tuupola/slim-basic-auth": "^2.2",
+    "ruflin/elastica": "^5.0"
   },
   "require-dev": {
     "behat/behat": "^3",

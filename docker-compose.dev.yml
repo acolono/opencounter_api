@@ -38,12 +38,15 @@ services:
       - API_HOST=opencounter-slim-codenv-webserver
       - XDEBUG_CONFIG="idekey=PHPSTORM remote_enable=1 remote_mode=req remote_port=9000 remote_host=172.17.0.1 remote_connect_back=0 remote_autostart=1"
       - PHP_IDE_CONFIG=serverName=opencounter-slim-codenv-webserver
+      - PHP_SENDMAIL_PATH=/usr/local/bin/mhsendmail --smtp-addr="mailhog:1025"
+#      - MAILCATCHER_PORT_1025_TCP_ADDR=1025
     volumes:
       - ./app:/var/www/opencounter-slim-codenv
     links:
       - opencounter-slim-codenv-mysql
     depends_on:
       - opencounter-slim-codenv-mysql
+      - mailhog
     extends:
       file: common.yml
       service: php
@@ -74,6 +77,23 @@ services:
      - PMA_HOST=database
     ports:
      - "8181:80"
+  #######################################
+  # Mailcatcher
+  #######################################
+#  mailcatcher:
+#    image: schickling/mailcatcher
+#    ports:
+#      - 1080:1080
+#    links:
+#      - opencounter-slim-codenv-php-fpm
+
+  mailhog:
+    hostname: mailhog.opencounter.docker
+    image: mailhog/mailhog
+    # Web-inteface exposed on port 8025
+    ports:
+      - "8025:8025"
+
 #
 #  ssh:
 #    image: jeroenpeeters/docker-ssh

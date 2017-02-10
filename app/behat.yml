@@ -40,6 +40,10 @@ default:
 #      filters:
 #        tags: "@domain"
 ##        role: "developer"
+#    services:
+#      paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
+#      contexts: [ OpenCounter\Behat\Counters\Context\ApplicationServicesContext ]
+
     webapi:
 #      paths: [ %paths.base%/features/Counters ]
       paths:
@@ -70,7 +74,7 @@ default:
 
     adminui:
       paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
-#      paths: [ %paths.base%/features/Counters ]
+      paths: [ %paths.base%/features/Users ]
       contexts:
         - AdminUiContext:
             parameters:

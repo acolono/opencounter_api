@@ -8,18 +8,27 @@
 
 namespace SlimCounter\Controllers;
 
+use Application\Service\Counter\AddCounterService;
+use BenGorUser\User\Application\Command\SignUp\SignUpUserHandler;
 use Interop\Container\ContainerInterface;
 
 use OpenCounter\Domain\Model\Counter\CounterName;
 
+use OpenCounter\Domain\Model\Counter\CounterValue;
 use Slim\Exception\SlimException;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use SlimCounter\Application\Command\Counter\CounterAddCommand;
+use SlimCounter\Application\Command\Counter\CounterViewCommand;
+use SlimCounter\Application\Command\Counter\ViewCounterRequest;
+use SlimCounter\Application\Query\CounterOfNameQuery;
+use SlimCounter\Application\Service\Counter\AddCounterRequest;
+use SlimCounter\Application\Service\User\AddUserRequest;
+use SlimCounter\Application\Service\User\ViewUsersRequest;
 
 class AdminUiController implements ContainerInterface
 {
     protected $ci;
-
 
     private $logger;
     private $counter_repository;
@@ -34,101 +43,63 @@ class AdminUiController implements ContainerInterface
         $this->counterBuildService = $this->ci->get('counter_build_service');
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
-        $this->storage = $this->ci->get('db');
+        $this->storage = $this->ci->get('pdo');
+        $this->CounterViewService = $this->ci->get('CounterViewService');
+        $this->CounterAddService = $this->ci->get('CounterAddService');
     }
-    public function users(Request $request, Response $response, $args)
-    {
-        // log message
-        $this->logger->info("admincontroller 'users' route");
 
-        // Render index view
-        return $this->renderer->render($response, 'admin/list-users.html.twig', $args);
-    }
-    public function addUserForm(Request $request, Response $response, $args)
-    {
-        // logging
-        $this->logger->info("admincontroller 'newUserForm' route");
-
-
-
-        // TODO: just call an application service to fill the response
-
-
-        // Render new counter form view
-        return $this->renderer->render($response, 'admin/clients-form.html.twig');
-    }
 
     /**
-     * Add User Route is called by New Counter Form and calls a service.
+     * New Counter form
+     *
+     * basic form which submits to a different route.
+     * currently just for adding not for editing
      *
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param $args
-     *
-     * @return \Slim\Http\Response
+     * @return mixed
      */
-    public function addUser(Request $request, Response $response, $args)
-    {
-        $this->logger->info('admincontroller inserting new user from form post ' . json_encode($args));
-
-
-
-        // TODO: just call an application service to fill the response
-        //$this->storage->setClientDetails($client_id, $client_secret, $redirect_uri, $grant_types, $scopes, $user_id);
-         $this->storage->setUser($username, $password, $firstName = null, $lastName = null);
-
-        $uri = $request->getUri()->withPath($this->router->pathFor('admin.users.view'));
-        return $response->withRedirect((string)$uri);
-
-
-
-    }
-    public function index(Request $request, Response $response, $args)
-    {
-        // log message
-        $this->logger->info("admincontroller 'index' route");
-
-        // Render index view
-        return $this->renderer->render($response, 'index.twig', $args);
-    }
-
     public function newCounterForm(Request $request, Response $response, $args)
     {
         // logging
         $this->logger->info("admincontroller 'newCounterForm' route");
 
         // Render new counter form view
-        return $this->renderer->render($response, 'admin/counterForm.twig');
+        return $this->renderer->render(
+            $response,
+            'admin/counter-form.html.twig'
+        );
     }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return static
+     */
 
     public function viewCounter(Request $request, Response $response, $args)
     {
-        // logging
-        $this->logger->info('admincontroller viewCounter getting counter with name: ' . $args['name']);
-
-        $counterName = new CounterName($args['name']);
-        $counter = $this->counter_repository->getCounterByName($counterName);
-       // was empty
-        $counterDisplay = json_encode($counter->toArray());
-
-        // logging
-        $this->logger->info($counterDisplay);
-
-        if ($counter) {
-            // logging
-            $this->logger->info('found' . $counterDisplay);
-
-            return $this->renderer->render(
-                $response,
-                'admin/counter.twig',
-                $array = (array) $counter->toArray()
+        try {
+            $result = $this->CounterViewService->execute(
+              new CounterOfNameQuery($args['name'])
             );
-        } else {
-            // TODO: pretty error page
-            $this->logger->info('not found');
+
+            $response->withJson($result);
+        } catch (\Exception $e) {
+            $return = ['message' => $e->getMessage()];
+            $code = 409;
             $response->write('resource not found');
             return $response->withStatus(404);
         }
+
+        return $this->renderer->render(
+            $response,
+          'admin/view-counter.html.twig'
+          , $result->toArray()
+        );
+//
     }
 
     /**
@@ -142,34 +113,40 @@ class AdminUiController implements ContainerInterface
      */
     public function addCounter(Request $request, Response $response, $args)
     {
-        // logging
-        $this->logger->info('admincontroller inserting new counter from form post ' . json_encode($args));
 
-        // Now we need to instantiate our Counter using a factory
-        // use another service that in turn calls the factory?
         try {
-            $counter = $this->counterBuildService->execute($request, $args);
-            // logging
-            $this->logger->info('admincontroller will try having repo save counter ');
+            $data = $request->getParsedBody();
 
+            $name = new CounterName($data['name']);
+            $value = new CounterValue($data['value']);
+            $status = 'active';
+            $password = 'passwordplaceholder';
 
-            $this->counter_repository->save($counter);
-            $this->counters[] = $counter;
-            // logging
-            $this->logger->info('saved ' . json_encode($counter->toArray()));
+            // call Service that executes appropriate command with given parameters.
 
-            $return =  json_encode($counter->toArray());
             $code = 201;
+
+            $result = $this->CounterAddService
+              ->execute(new CounterAddCommand(
+                  $name,
+                  $value,
+                  $status,
+                  $password
+              ));
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
             $code = 409;
         }
-        //$this->logger->error($return . $args['name'] . $code);
         // just redirect to counter list but try to redirect to newly created counter instead
-//        http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
-        $uri = $request->getUri()->withPath($this->router->pathFor('admin.counter.view', ['name' => $counter->getName()]));
+        // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
+        $uri = $request->getUri()
+          ->withPath($this->router->pathFor(
+              'admin.counter.view',
+              ['name' => $result['name']]
+          ));
         return $response->withRedirect((string)$uri);
     }
+
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface
      *******************************************************************************/

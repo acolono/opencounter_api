@@ -7,47 +7,54 @@
  */
 
 use Chadicus\Slim\OAuth2\Routes;
-use Slim\Views;
-use Chadicus\Slim\OAuth2\Middleware;
 
+$container = $app->getContainer();
 
-
-
-$authorization = new Middleware\Authorization($container->get('oauth2_server'), $app->getContainer());
-
-//Auth Routes
-$auth_renderer = new Views\PhpRenderer(__DIR__ . '/../vendor/chadicus/slim-oauth2-routes/templates');
 
 $app->map([
   'GET',
   'POST'
-], Routes\Authorize::ROUTE, new Routes\Authorize($container->get('oauth2_server'), $auth_renderer))
+], Routes\Authorize::ROUTE, new Routes\Authorize($container['oauth2_server'], $container['authorization_views']))
   ->setName('authorize');
 $app->post(Routes\Token::ROUTE, new Routes\Token($container->get('oauth2_server')))->setName('token');
 $app->map([
   'GET',
   'POST'
-], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($auth_renderer))
+], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($container->get('authorization_views')))
   ->setName('receive-code');
 $app->post(Routes\Revoke::ROUTE, new Routes\Revoke($container->get('oauth2_server')))->setName('revoke');
 
-// Admin Routes
+
+/**
+ * Admin Routes
+ *
+ * protected via oauth
+ */
+
 
 $app->group('/admin', function () {
-    $this->get('/users',
-      '\SlimCounter\Controllers\AdminUiController:users')
-      ->setName('admin.users.view');
-    $this->get('/users/add',
-      '\SlimCounter\Controllers\AdminUiController:addUserForm')
-      ->setName('admin.user.add');
-    $this->get('/users/new',
-      '\SlimCounter\Controllers\AdminUiController:addUser')
-      ->setName('admin.user.new');
+    $this->get('/',
+        '\SlimCounter\Controllers\AdminUiController:index')
+        ->setName('admin.index');
+    // list of users
+    $this->get('/clients',
+      '\SlimCounter\Controllers\UsersController:clientsIndex')
+      ->setName('admin.client.index');
+
+    $this->get('/clients/add',
+        '\SlimCounter\Controllers\UsersController:addClientForm')
+        ->setName('admin.client.add');
+    // receives posts from  add oauth2_client form
+    $this->post('/clients/new',
+        '\SlimCounter\Controllers\UsersController:newClient')
+        ->setName('admin.client.new');
+
+
 
 
     // Get admin overview over counters
     $this->get('/counters',
-      '\SlimCounter\Controllers\AdminUiController:index')
+        '\SlimCounter\Controllers\AdminUiController:counter_index')
       ->setName('admin.counter.index');
     // get new counter form
     $this->get('/content/add',
@@ -80,7 +87,7 @@ $app->group('/admin', function () {
  *    @SWG\Info(
  *      version="1.0.0",
  *      title="Swagger Open counter",
- *      description="A sample API that uses a counter as an example to demonstrate api principles",
+ *      description="A sample API that uses a counter as an example to demonstrate practices patterns and principles",
  *      termsOfService="http://acolono.com/terms/",
  *      @SWG\Contact(name="Acolono API Team"),
  *      @SWG\License(name="MIT")
@@ -130,346 +137,51 @@ $app->get('/api', function ($request, $response, $args) {
 $app->group('/api/counters', function () {
 
     /**
-     * routes that go directly to /counters with no additional path parameters
+     * routes that go directly to /counters with optional id as additional path parameters
      */
+    $this->get('/', '\SlimCounter\Controllers\CounterController:counterIndex');
 
-    $this->post('/', '\OpenCounter\Http\CounterController:addCounter');
+    //    TODO: what urls to use for incrementing and locking and geting value
+    $this->patch('/status[/{id}]', '\SlimCounter\Controllers\CounterController:setCounterStatus');
+    $this->patch('/value[/{id}]', '\SlimCounter\Controllers\CounterController:incrementCounter');
+    $this->get('/value[/{id}]', '\SlimCounter\Controllers\CounterController:getCount');
+    $this->get('/name[/{name}]', '\SlimCounter\Controllers\CounterController:getCounterByName');
+//    $this->get('/[{id}/value]', '\SlimCounter\Controllers\CounterController:getCount');
 
-    /**
-     * Get Counter Route.
-     *
-     * @SWG\Get(
-     *     path="/counters/{name}",
-     *     tags={"docs"},
-     *     operationId="getCounter",
-     *     description="Returns a Counter if the user has access to the Counter",
-     *     summary="get entire counter",
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     produces={
-     *         "application/json",
-     *         "application/xml",
-     *         "text/html",
-     *         "text/xml"
-     *     },
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *     @SWG\Response(
-     *         response="default",
-     *         description="unexpected error",
-     *         @SWG\Schema(ref="#/definitions/errorModel")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     *   )
-     */
-    $this->get('/{name}', '\OpenCounter\Http\CounterController:getCounter');
 
-    /**
-     * Creating new counter.
-     *
-     * @param $request
-     * @param $response
-     * @param $args
-     *
-     * @return mixed
-     *
-     * @SWG\Post(
-     *     path="/counters/{name}",
-     *     tags={"docs"},
-     *     operationId="newCounter",
-     *     description="Creates a new Counter. Duplicates are allowed",
-     *     summary="setup a new counter an existing counter",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     @SWG\Parameter(
-     *         name="counter",
-     *         in="body",
-     *         description="Counter object to add",
-     *         required=true,
-     *         @SWG\Schema(ref="#/definitions/counterInput"),
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *     @SWG\Response(
-     *         response="default",
-     *         description="unexpected error",
-     *         @SWG\Schema(ref="#/definitions/errorModel")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     *    )
-     * @SWG\Definition(
-     *     definition="counterInput",
-     *     allOf={
-     *         @SWG\Schema(
-     *             @SWG\Property(
-     *                 property="value",
-     *                 type="integer",
-     *                 format="int64"
-     *             ),
-     *             @SWG\Property(
-     *                 property="name",
-     *                 type="string"
-     *             ),
-     *              @SWG\Property(
-     *                 property="status",
-     *                 type="string",
-     *                 default="active"
-     *             )
-     *         )
-     *     }
-     * )
-     */
-    $this->post('/{name}', '\OpenCounter\Http\CounterController:newCounter');
+    $this->post('/[{id}]', '\SlimCounter\Controllers\CounterController:newCounter');
+    $this->get('/{id}', '\SlimCounter\Controllers\CounterController:getCounter');
+    $this->delete('/[{id}]', '\SlimCounter\Controllers\CounterController:deleteCounter');
+    $this->put('/[{id}]', '\SlimCounter\Controllers\CounterController:setCounter');
 
-    /**
-     * Route for changing counter state
-     *
-     * @param $request
-     * @param $response
-     * @param $args
-     *
-     * @return mixed
-     *
-     * @SWG\Patch(
-     *     path="/counters/{name}/status",
-     *     tags={"docs"},
-     *     operationId="setCounterState",
-     *     summary="lock or unlock existing counter",
-     *     description="partially updates existing counter",
-     *     consumes={"application/json", "application/xml"},
-     *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     @SWG\Parameter(
-     *       name="status",
-     *       description="status to change to",
-     *       type="string",
-     *       in="body",
-     *       default="locked",
-     *       @SWG\Schema(ref="#/definitions/Counter"),
-     *     ),
-     *     @SWG\Response(
-     *         response=400,
-     *         description="Invalid ID supplied",
-     *     ),
-     *     @SWG\Response(
-     *         response=404,
-     *         description="Counter not found",
-     *     ),
-     *     @SWG\Response(
-     *         response=405,
-     *         description="Validation exception",
-     *     ),
-     *     @SWG\Response(
-     *         response=201,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     * )
-     */
-    $this->patch('/{name}/status',
-      '\OpenCounter\Http\CounterController:setCounterStatus');
 
-    /**
-     * Change Counter value Route.
-     *
-     * @SWG\Patch(
-     *     path="/counters/{name}/value",
-     *     tags={"docs"},
-     *     operationId="inrementCounter",
-     *     summary="increment existing counter",
-     *     description="partially updates existing counter",
-     *     consumes={"application/json", "application/xml"},
-     *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     @SWG\Parameter(
-     *       name="increment",
-     *       description="increment to change by",
-     *       in="body",
-     *       @SWG\Schema(ref="#/definitions/CounterValue"),
-     *     ),
-     *     @SWG\Response(
-     *         response=400,
-     *         description="Invalid ID supplied",
-     *     ),
-     *     @SWG\Response(
-     *         response=404,
-     *         description="Counter not found",
-     *     ),
-     *     @SWG\Response(
-     *         response=405,
-     *         description="Validation exception",
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     * )
-     */
-    $this->patch('/{name}/value',
-      '\OpenCounter\Http\CounterController:incrementCounter');
+// TODO: do we have extra routes to use names in addition to generated ids?
+//    $this->get('/{name}/value',
+//      '\SlimCounter\Controllers\CounterController:getCount');
+//    $this->get('/{name}',
+//      '\SlimCounter\Controllers\CounterController:getCounter');
+//
+//    $this->post('/[{name}]',
+//      '\SlimCounter\Controllers\CounterController:newCounter');
+//
+//    $this->patch('/{name}/status',
+//      '\SlimCounter\Controllers\CounterController:setCounterStatus');
+//
+//    $this->patch('/{name}/value',
+//      '\SlimCounter\Controllers\CounterController:incrementCounter');
+//
+//    $this->delete('/{name}/{password}',
+//      '\SlimCounter\Controllers\CounterController:deleteCounter');
+//
+//
+//    $this->put('/{name}/{password}',
+//      '\SlimCounter\Controllers\CounterController:setCounter');
 
-    /**
-     * Delete Couter Route
-     *
-     * @SWG\Delete(
-     *     path="/counters/{name}/{password}",
-     *     tags={"docs"},
-     *     operationId="deleteCounter",
-     *     summary="Delete counter",
-     *     description="",
-     *     consumes={"application/json", "application/xml"},
-     *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         description="Counter object that needs to be updated",
-     *         required=true,
-     *         @SWG\Schema(ref="#/definitions/counterInput"),
-     *     ),
-     *     @SWG\Parameter(
-     *         name="password",
-     *         in="path",
-     *         description="Counter password to add",
-     *         required=true,
-     *         type="string",
-     *     ),
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     @SWG\Response(
-     *         response=400,
-     *         description="Invalid ID supplied",
-     *     ),
-     *     @SWG\Response(
-     *         response=404,
-     *         description="Counter not found",
-     *     ),
-     *     @SWG\Response(
-     *         response=405,
-     *         description="Validation exception",
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     * )
-     */
-    $this->delete('/{name}/{password}',
-      '\OpenCounter\Http\CounterController:deleteCounter');
 
-    /**
-     * Set Couter Route
-     *
-     * @SWG\Put(
-     *     path="/counters/{name}/{password}",
-     *     tags={"docs"},
-     *     operationId="setCounter",
-     *     summary="Set counter",
-     *     description="",
-     *     consumes={"application/json", "application/xml"},
-     *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         description="Counter object that needs to be updated",
-     *         required=true,
-     *         @SWG\Schema(ref="#/definitions/counterInput"),
-     *     ),
-     *     @SWG\Parameter(
-     *         name="password",
-     *         in="path",
-     *         description="Counter password to add",
-     *         required=true,
-     *         type="string",
-     *     ),
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     @SWG\Response(
-     *         response=400,
-     *         description="Invalid ID supplied",
-     *     ),
-     *     @SWG\Response(
-     *         response=404,
-     *         description="Counter not found",
-     *     ),
-     *     @SWG\Response(
-     *         response=405,
-     *         description="Validation exception",
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     * )
-     */
-    $this->put('/{name}/{password}',
-      '\OpenCounter\Http\CounterController:setCounter');
 
-    /**
-     * Some routes that provide limited responses
-     */
 
-    /**
-     * Get Value only Route
-     * @SWG\Get(
-     *     path="/counters/{name}/value",
-     *     tags={"docs"},
-     *     description="Returns a Counters value if the user has access to the Counter",
-     *     summary="read value from counter",
-     *     operationId="getCount",
-     *     @SWG\Parameter(ref="#/parameters/CounterName"),
-     *     produces={
-     *         "application/json",
-     *         "application/xml",
-     *         "text/html",
-     *         "text/xml"
-     *     },
-     *     @SWG\Response(
-     *         response=200,
-     *         description="counter value response",
-     *         @SWG\Schema(ref="#/definitions/CounterValue")
-     *     ),
-     *     @SWG\Response(
-     *         response="default",
-     *         description="unexpected error",
-     *         @SWG\Schema(ref="#/definitions/errorModel")
-     *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
-     * )
-     */
-    $this->get('/{name}/value', '\OpenCounter\Http\CounterController:getCount');
 
-})->add($authorization->withRequiredScope(['write:counters read:counters']));
+})->add($container['authorization']->withRequiredScope(['write:counters read:counters']));
 
 // Fallback Route
 $app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');
