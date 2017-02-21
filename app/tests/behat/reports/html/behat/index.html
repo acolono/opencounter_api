@@ -61,14 +61,14 @@
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            2 scenarios failed of 2
+            1 scenarios failed of 2
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            1 steps failed of 2
+            1 steps failed of 5
         </div>
     </div>
     <hr>
@@ -87,14 +87,12 @@
                                                     <div class="col-sm-4 feature" data-id="feature-1">
                                 <div class="card failed">
                                     <div class="header">
-                                        <h2>Feature: read one counter</h2>
+                                        <h2>Feature: create a new counter</h2>
                                     </div>
                                     <div class="info">
                                         <p>As an admin<br />
-in order to /display the counter value<br />
-i need to be able to /get the counter value/ from api<br />
-<br />
-GET /counters/1/value</p>
+in order to know what I am counting<br />
+I need to be able to create a new counter with a name and default value of '0'</p>
                                     </div>
                                     <div class="footer">
                                         <div class="tags">
@@ -102,11 +100,11 @@ GET /counters/1/value</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -123,14 +121,12 @@ GET /counters/1/value</p>
                     <div class="col-sm-4">
                         <div class="card failed">
                             <div class="header">
-                                <h2>Feature: read one counter</h2>
+                                <h2>Feature: create a new counter</h2>
                             </div>
                             <div class="info">
                                 <p>As an admin<br />
-in order to /display the counter value<br />
-i need to be able to /get the counter value/ from api<br />
-<br />
-GET /counters/1/value</p>
+in order to know what I am counting<br />
+I need to be able to create a new counter with a name and default value of '0'</p>
                             </div>
                             <div class="footer">
                                 <div class="tags">
@@ -138,11 +134,11 @@ GET /counters/1/value</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -150,14 +146,14 @@ GET /counters/1/value</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#scenario-1-1"
                                            aria-expanded="true"
                                            aria-controls="scenario-1-1">
-                                            Scenario: Getting the value for a single counter in the collection by name
+                                            Scenario: create a new counter with custom name
                                         </a>
 
                                         <div class="tags pull-right">
@@ -169,18 +165,19 @@ GET /counters/1/value</p>
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;11&quot; has been set
+                                                <b>Given</b> no counter &quot;onecounter&quot; has been set
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>When</b> I set a counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
                                                     <p style="padding-left:2em ; color:black">| POST http://opencounter-slim-codenv-webserver:8080/api/counters/ =&gt; 201:
 {}</p>
                                                                                                                                             </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
-                                                <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Notice: Undefined variable: id in /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/OpenCounterWebApiContext.php line 281)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
-                                                <b>Then</b> the value returned should be 11
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> the value returned should be 0
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
@@ -192,7 +189,7 @@ GET /counters/1/value</p>
                                            href="#scenario-1-2"
                                            aria-expanded="true"
                                            aria-controls="scenario-1-2">
-                                            Scenario: I (can )get the Id of the counter with Name :name
+                                            Scenario: creating new counter if name already taken
                                         </a>
 
                                         <div class="tags pull-right">
@@ -203,14 +200,16 @@ GET /counters/1/value</p>
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-warning">
-                                                <b>Given</b> a counter &quot;twocounter&quot; with ID &quot;0000000&quot; and a value of 12 was added to the collection
+                                                                                    <li class="list-group-item alert alert-danger">
+                                                <b>Given</b> a counter with name &quot;onecounter&quot; has been set
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that 409 is identical to 201.)</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>When</b> I set a counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
-                                                <b>When</b> I get the Id of the counter with Name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-warning">
-                                                <b>Then</b> the Id returned should be &quot;0000000&quot;
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>Then</b> I should see an error &quot;A counter by that name already exists&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
@@ -243,13 +242,13 @@ GET /counters/1/value</p>
 
     var scenarioData = [
         {
-            value: 2,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 0,
+            value: 1,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -264,7 +263,7 @@ GET /counters/1/value</p>
             label: "Failed"
         },
         {
-            value: 1,
+            value: 4,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"

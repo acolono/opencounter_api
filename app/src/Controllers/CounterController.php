@@ -263,11 +263,11 @@ class CounterController
               )
             );
 
-            // next make a query t get the updated counter we want to return
-
-            $result = $this->CounterViewService->execute(
-              new CounterOfNameQuery($args['name'])
-            );
+//            // next make a query t get the updated counter we want to return
+//
+//            $result = $this->CounterViewService->execute(
+//              new CounterOfNameQuery($args['name'])
+//            );
 
             $code = 201;
         } catch (\Exception $e) {
@@ -478,7 +478,7 @@ class CounterController
      * Set Couter Route
      *
      * @SWG\Put(
-     *     path="/counters/{name}/{password}",
+     *     path="/counters/{id}",
      *     tags={"docs"},
      *     operationId="setCounter",
      *     summary="Set counter",
@@ -540,18 +540,38 @@ class CounterController
 
         try {
 
-            // TODO: use service
+            // TODO: use service and make sure we accept id from args or name in body
             $data = $request->getParsedBody();
+            $name = $data['name'];
+//
+            //$counterId = new CounterId($args['id']);
 
-            $counterId = new CounterId($args['id']);
-            $counterValue = new CounterValue($data['value']);
-            $counter = $this->counter_repository->getCounterById($counterId);
+            // first try without command bus dependency
+            $CounterResetValueService = new \OpenCounter\Application\Service\Counter\CounterResetValueService(
+                new \OpenCounter\Application\Command\Counter\CounterResetValueHandler(
+                    $this->counter_repository
+                )
 
-            $counter->resetValueTo($counterValue);
+            );
 
-            $this->counter_repository->save($counter);
+            $CounterResetValueService->execute(
+                new \OpenCounter\Application\Command\Counter\CounterResetValueCommand(
+                    $name
 
-            $return = $counter->toArray();
+                )
+            );
+//
+//            $data = $request->getParsedBody();
+//
+//            $counterId = new CounterId($args['id']);
+//            $counterValue = new CounterValue($data['value']);
+//            $counter = $this->counter_repository->getCounterById($counterId);
+//
+//            $counter->resetValueTo($counterValue);
+//
+//            $this->counter_repository->save($counter);
+// todo: command doesnt return anything but we want to return a link to the created counter
+            $return = '';
             $code = 201;
         } catch (\Exception $e) {
             $return = json_encode($e->getMessage());
