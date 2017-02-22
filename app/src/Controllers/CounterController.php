@@ -80,6 +80,9 @@ class CounterController
      *
      */
     private $CounterIncrementValueService;
+    /**
+     * @var \OpenCounter\Application\Service\Counter\CounterViewService
+     */
     private $CounterViewService;
 
     /**
@@ -132,19 +135,22 @@ class CounterController
         // Assume everything will fail
         $code = 400;
         try {
-            // Get at data we need from server request object to build our command and query.
+            // Get at data we need from server request object
+            // to build our command and query.
             $data = $request->getParsedBody();
 
-            // TODO: when creating counters who will create the new id. how does the api client know the id
+            // TODO: when creating counters who will create the new id.
+            // how does the api client know the id
             //$id = new CounterId($args['id']);
-            $name = new CounterName($data['name']);
+            $name = $data['name'];
             $value = new CounterValue($data['value']);
             $status = 'active';
             $password = 'passwordplaceholder';
 
-            // Call Service that executes appropriate command with given parameters.
+            // Call Service that executes appropriate
+            // command with given parameters.
 
-            $this->CounterAddService->execute(
+            $return = $this->CounterAddService->execute(
               new CounterAddCommand(
                 $name,
                 $value,
@@ -152,20 +158,21 @@ class CounterController
                 $password
               )
             );
-
-            // next make a query t get the updated counter we want to return
-
-            $result = $this->CounterViewService->execute(
+            $counter = $this->CounterViewService->execute(
               new CounterOfNameQuery($data['name'])
             );
+            $result = $counter->toArray();
 
             $code = 201;
         } catch (\Exception $e) {
+
             $result = $e->getMessage();
             $code = 409;
-            $this->logger->info('exception ' . $e->getMessage());
+
         }
-        // note that even though the response is json encoded if requested as html you will get content type html showing the json.
+
+        // note that even though the response is json encoded if requested
+        // as html you will get content type html showing the json.
         //TODO: make sure there is a link to the new counter in the response
         $response->write(json_encode($result));
 
@@ -799,11 +806,7 @@ class CounterController
 //
         try {
             $this->CounterRemoveService->execute(
-              new CounterRemoveCommand($request->getParsedBody()['id'])
-            );
-
-            $result = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
+              new CounterRemoveCommand($args['id'])
             );
 
         } catch (\Exception $e) {

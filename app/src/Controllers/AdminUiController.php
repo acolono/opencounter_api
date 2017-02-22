@@ -8,8 +8,7 @@
 
 namespace SlimCounter\Controllers;
 
-use Application\Service\Counter\AddCounterService;
-use BenGorUser\User\Application\Command\SignUp\SignUpUserHandler;
+
 use Interop\Container\ContainerInterface;
 
 use OpenCounter\Domain\Model\Counter\CounterName;
@@ -18,13 +17,7 @@ use OpenCounter\Domain\Model\Counter\CounterValue;
 use Slim\Exception\SlimException;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use SlimCounter\Application\Command\Counter\CounterAddCommand;
-use SlimCounter\Application\Command\Counter\CounterViewCommand;
-use SlimCounter\Application\Command\Counter\ViewCounterRequest;
-use SlimCounter\Application\Query\CounterOfNameQuery;
-use SlimCounter\Application\Service\Counter\AddCounterRequest;
-use SlimCounter\Application\Service\User\AddUserRequest;
-use SlimCounter\Application\Service\User\ViewUsersRequest;
+
 
 class AdminUiController implements ContainerInterface
 {
@@ -83,7 +76,7 @@ class AdminUiController implements ContainerInterface
     {
         try {
             $result = $this->CounterViewService->execute(
-              new CounterOfNameQuery($args['name'])
+              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($args['name'])
             );
 
             $response->withJson($result);
@@ -127,7 +120,7 @@ class AdminUiController implements ContainerInterface
             $code = 201;
 
             $result = $this->CounterAddService
-              ->execute(new CounterAddCommand(
+              ->execute(new \OpenCounter\Application\Command\Counter\CounterAddCommand(
                   $name,
                   $value,
                   $status,
@@ -138,6 +131,7 @@ class AdminUiController implements ContainerInterface
             $code = 409;
         }
         // just redirect to counter list but try to redirect to newly created counter instead
+        // TODO: try to redirect to appropriate fetch id url
         // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(

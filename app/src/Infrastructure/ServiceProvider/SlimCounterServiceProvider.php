@@ -6,6 +6,7 @@
  */
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
+use OpenCounter\Application\Query\Counter\CounterOfIdHandler;
 use OpenCounter\Application\Query\Counter\CounterOfNameHandler;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterAddService;
