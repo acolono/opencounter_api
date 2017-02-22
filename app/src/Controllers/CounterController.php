@@ -19,6 +19,7 @@ namespace SlimCounter\Controllers;
 use OpenCounter\Application\Command\Counter\CounterAddCommand;
 use OpenCounter\Application\Command\Counter\CounterIncrementValueCommand;
 use OpenCounter\Application\Command\Counter\CounterRemoveCommand;
+use OpenCounter\Application\Command\Counter\CounterResetValueCommand;
 use OpenCounter\Application\Command\Counter\CounterSetStatusCommand;
 use OpenCounter\Application\Query\Counter\CounterOfIdQuery;
 use OpenCounter\Application\Query\Counter\CounterOfNameQuery;
@@ -26,6 +27,7 @@ use OpenCounter\Application\Service\Counter\CounterAddService;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
 use OpenCounter\Application\Service\Counter\CounterRemoveService;
+use OpenCounter\Application\Service\Counter\CounterResetValueService;
 use OpenCounter\Application\Service\Counter\CounterSetStatusService;
 use OpenCounter\Application\Service\Counter\CounterViewService;
 use OpenCounter\Domain\Model\Counter\CounterId;
@@ -84,6 +86,10 @@ class CounterController
      * @var \OpenCounter\Application\Service\Counter\CounterViewService
      */
     private $CounterViewService;
+    /**
+     * @var \OpenCounter\Application\Service\Counter\CounterResetValueService
+     */
+    private $CounterResetValueService;
 
     /**
      * CounterController constructor.
@@ -103,7 +109,8 @@ class CounterController
       CounterRemoveService $CounterRemoveService,
       CounterIncrementValueService $CounterIncrementValueService,
       CounterViewService $CounterViewService,
-      CounterSetStatusService $CounterSetStatusService
+      CounterSetStatusService $CounterSetStatusService,
+      CounterResetValueService $CounterResetValueService
     ) {
 
         $this->logger = $logger;
@@ -115,6 +122,7 @@ class CounterController
         $this->CounterIncrementValueService = $CounterIncrementValueService;
         $this->CounterViewService = $CounterViewService;
         $this->CounterSetStatusService = $CounterSetStatusService;
+        $this->CounterResetValueService = $CounterResetValueService;
     }
 
     /**
@@ -143,7 +151,7 @@ class CounterController
             // how does the api client know the id
             //$id = new CounterId($args['id']);
             $name = $data['name'];
-            $value = new CounterValue($data['value']);
+            $value = $data['value'];
             $status = 'active';
             $password = 'passwordplaceholder';
 
@@ -219,6 +227,11 @@ class CounterController
      *         response="default",
      *         description="unexpected error",
      *         @SWG\Schema(ref="#/definitions/errorModel")
+     *     ),
+     *     @SWG\Response(
+     *         response="AlreadyExists",
+     *         description="Counter name is taken error",
+     *         @SWG\Schema(ref="#/definitions/AlreadyExistsErrorModel")
      *     )
      *     @SWG\Definition(
      *     definition="counterInput",
@@ -546,45 +559,25 @@ class CounterController
         $code = 400;
 
         try {
-
-            // TODO: use service and make sure we accept id from args or name in body
+            // Get at data we need from server request object
+            // to build our command and query.
             $data = $request->getParsedBody();
-            $name = $data['name'];
-//
-            //$counterId = new CounterId($args['id']);
 
-            // first try without command bus dependency
-            $CounterResetValueService = new \OpenCounter\Application\Service\Counter\CounterResetValueService(
-                new \OpenCounter\Application\Command\Counter\CounterResetValueHandler(
-                    $this->counter_repository
-                )
-
+            // try getting the right counter first so we know which one to increment
+            $counter = $this->CounterViewService->execute(
+              new CounterOfNameQuery($data['name'])
             );
 
-            $CounterResetValueService->execute(
-                new \OpenCounter\Application\Command\Counter\CounterResetValueCommand(
-                    $name
-
-                )
+            $return = $this->CounterResetValueService->execute(
+              new CounterResetValueCommand($counter->getName())
             );
-//
-//            $data = $request->getParsedBody();
-//
-//            $counterId = new CounterId($args['id']);
-//            $counterValue = new CounterValue($data['value']);
-//            $counter = $this->counter_repository->getCounterById($counterId);
-//
-//            $counter->resetValueTo($counterValue);
-//
-//            $this->counter_repository->save($counter);
-// todo: command doesnt return anything but we want to return a link to the created counter
-            $return = '';
-            $code = 201;
+//            $return = $counter->getValue();
+
         } catch (\Exception $e) {
-            $return = json_encode($e->getMessage());
+            $return = $e->getMessage();
             //      $code = 409;
-            $this->logger->info('exception ' . $e->getMessage());
         }
+
 
         $body = $response->getBody();
         // now how can we allow slim response to write to body like this? and how to handle mimetypes
@@ -597,7 +590,7 @@ class CounterController
     /**
      * Get Value only Route
      * @SWG\Get(
-     *     path="/counters/value/{name}",
+     *     path="/counters/{id}",
      *     tags={"docs"},
      *     description="Returns a Counters value if the user has access to the Counter",
      *     summary="read value from counter",
@@ -646,7 +639,6 @@ class CounterController
         } catch (\Exception $e) {
             $result = $e->getMessage();
             //      $code = 409;
-            $this->logger->info('exception ' . $e->getMessage());
         }
 
         $body = $response->getBody();
@@ -684,6 +676,11 @@ class CounterController
      *         description="unexpected error",
      *         @SWG\Schema(ref="#/definitions/errorModel")
      *     ),
+     *     @SWG\Response(
+     *         response="NotFound",
+     *         description="counternot found error",
+     *         @SWG\Schema(ref="#/definitions/NotFoundErrorModel")
+     *     ),
      *   security={{
      *     "api_key":{},
      *         "counter_auth": {"write:counters", "read:counters"},
@@ -705,6 +702,7 @@ class CounterController
     ) {
 
         try {
+
             $result = $this->CounterViewService->execute(
               new CounterOfIdQuery($args['id'])
             );
@@ -712,7 +710,6 @@ class CounterController
         } catch (\Exception $e) {
             $result = $e->getMessage();
             $code = 409;
-            $this->logger->info('exception ' . $e->getMessage());
         }
 
         $body = $response->getBody();
@@ -721,29 +718,8 @@ class CounterController
 
         return $response;
     }
-    public function getCounterByName(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
-    ) {
 
-        try {
-            $result = $this->CounterViewService->execute(
-              new CounterOfNameQuery($args['name'])
-            );
 
-        } catch (\Exception $e) {
-            $result = $e->getMessage();
-            $code = 409;
-            $this->logger->info('exception ' . $e->getMessage());
-        }
-
-        $body = $response->getBody();
-        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
-        $body->write(json_encode($result, JSON_UNESCAPED_SLASHES));
-
-        return $response;
-    }
 
     /**
      * Delete Couter Route
@@ -792,7 +768,6 @@ class CounterController
      * pass it to the counterremoval service.
      * return a response with either an json formatted error
      * TODO:  (see content negotiation on how to serve e.g. xml instead)
-     * TODO: figure out what we want to return on success if anything and how to do it.
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param $args
@@ -810,13 +785,11 @@ class CounterController
             );
 
         } catch (\Exception $e) {
-            // TODO: catch specific expected exceptions and provide helpful user
-            // feedback in the response instead of the error message
+
             $result = $e->getMessage();
         }
 
         $body = $response->getBody();
-        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
         $body->write(json_encode($result, JSON_UNESCAPED_SLASHES));
 
         return $response;
@@ -834,72 +807,5 @@ class CounterController
 
         return ['counter' => $counters];
     }
-//    /********************************************************************************
-//     * Methods to satisfy Interop\Container\ContainerInterface
-//     *******************************************************************************/
-//
-//    /**
-//     * Finds an entry of the container by its identifier and returns it.
-//     *
-//     * @param string $id Identifier of the entry to look for.
-//     *
-//     * @throws ContainerValueNotFoundException  No entry was found for this identifier.
-//     * @throws ContainerException               Error while retrieving the entry.
-//     *
-//     * @return mixed Entry.
-//     */
-//    public function get($id)
-//    {
-//        if (!$this->offsetExists($id)) {
-//            throw new ContainerValueNotFoundException(
-//              sprintf(
-//                'Identifier "%s" is not defined.',
-//                $id
-//              )
-//            );
-//        }
-//        try {
-//            return $this->offsetGet($id);
-//        } catch (\InvalidArgumentException $exception) {
-//            if ($this->exceptionThrownByContainer($exception)) {
-//                throw new SlimContainerException(
-//                  sprintf('Container error while retrieving "%s"', $id),
-//                  null,
-//                  $exception
-//                );
-//            } else {
-//                throw $exception;
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Tests whether an exception needs to be recast for compliance with Container-Interop.  This will be if the
-//     * exception was thrown by Pimple.
-//     *
-//     * @param \InvalidArgumentException $exception
-//     *
-//     * @return bool
-//     */
-//    private function exceptionThrownByContainer(
-//      \InvalidArgumentException $exception
-//    ) {
-//
-//        $trace = $exception->getTrace()[0];
-//
-//        return $trace['class'] === PimpleContainer::class && $trace['function'] === 'offsetGet';
-//    }
-//
-//    /**
-//     * Returns true if the container can return an entry for the given identifier.
-//     * Returns false otherwise.
-//     *
-//     * @param string $id Identifier of the entry to look for.
-//     *
-//     * @return boolean
-//     */
-//    public function has($id)
-//    {
-//        return $this->offsetExists($id);
-//    }
+
 }

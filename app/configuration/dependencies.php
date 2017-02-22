@@ -145,7 +145,8 @@ $container['\SlimCounter\Controllers\CounterController'] = function ($container)
         $container['CounterRemoveService'],
         $container['CounterIncrementValueService'],
       $container['CounterViewService'],
-      $container['CounterSetStatusService']
+      $container['CounterSetStatusService'],
+      $container['CounterResetValueService']
 
 
     );

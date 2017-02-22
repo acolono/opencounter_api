@@ -94,9 +94,10 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
-        $counter = $counterRepository->getCounterByName($this->counterName);
-
-        $this->counters[] = $counter;
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
     }
 
     /**
@@ -143,9 +144,10 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
-        $counter = $counterRepository->getCounterByName($this->counterName);
-
-        $this->counters[] = $counter;
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
     }
 
     /**
@@ -181,9 +183,10 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         // get the counter we added to db and remember it so we can delete it later
         $counterRepository = $this->app->getContainer()
           ->get('counter_repository');
-        $counter = $counterRepository->getCounterByName(new CounterName($name));
-        // mark for post scenario deletion
-        $this->counters[] = $counter;
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
         // if we get a counter something is wrong
         if (!$counter) {
             throw new \Exception('something is wrong, no counter by that name was found');

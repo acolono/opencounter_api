@@ -54,21 +54,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            2 features failed of 2
+            1 features failed of 1
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            4 scenarios failed of 4
+            1 scenarios failed of 2
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            3 steps failed of 8
+            1 steps failed of 6
         </div>
     </div>
     <hr>
@@ -81,18 +81,21 @@
     <div id="feature-overview">
                     <div class="row">
                 <div class="col-sm-12">
-                    <h2>Suite: adminui</h2>
+                    <h2>Suite: webapi</h2>
 
                     <div class="row">
                                                     <div class="col-sm-4 feature" data-id="feature-1">
                                 <div class="card failed">
                                     <div class="header">
-                                        <h2>Feature: create a new counter</h2>
+                                        <h2>Feature: reset one counter</h2>
                                     </div>
                                     <div class="info">
-                                        <p>As an admin<br />
-in order to know what I am counting<br />
-I need to be able to create a new counter with a name and default value of '0'</p>
+                                        <p>As an apiuser<br />
+in order to remove the current counter value (start over)<br />
+i need to be able to reset the counter value and state to default from api<br />
+<br />
+PUT /counters/1<br />
+given a Counter, it is possible to replace its value with 0.</p>
                                     </div>
                                     <div class="footer">
                                         <div class="tags">
@@ -100,40 +103,11 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
-                                                    <span class="sr-only">40% Complete (success)</span>
-                                                </div>
-                                                                                    </div>
-                                    </div>
-                                </div>
-                                                    </div>
-                        <div class="col-sm-4 feature" data-id="feature-2">
-                            <div class="card failed">
-                                <div class="header">
-                                    <h2>Feature: read one counter</h2>
-                                </div>
-                                <div class="info">
-                                    <p>As an admin<br/>
-                                        in order to /display the counter value<br/>
-                                        i need to be able to /get the counter value/ from api<br/>
-                                        <br/>
-                                        GET /counters/1/value</p>
-                                </div>
-                                <div class="footer">
-                                    <div class="tags">
-                                    </div>
-                                    <div class="progress">
-
-                                        <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                        <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                                     style="width: 50%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -150,12 +124,15 @@ I need to be able to create a new counter with a name and default value of '0'</
                     <div class="col-sm-4">
                         <div class="card failed">
                             <div class="header">
-                                <h2>Feature: create a new counter</h2>
+                                <h2>Feature: reset one counter</h2>
                             </div>
                             <div class="info">
-                                <p>As an admin<br />
-in order to know what I am counting<br />
-I need to be able to create a new counter with a name and default value of '0'</p>
+                                <p>As an apiuser<br />
+in order to remove the current counter value (start over)<br />
+i need to be able to reset the counter value and state to default from api<br />
+<br />
+PUT /counters/1<br />
+given a Counter, it is possible to replace its value with 0.</p>
                             </div>
                             <div class="footer">
                                 <div class="tags">
@@ -163,11 +140,11 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 0%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 100%">
+                                             style="width: 50%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -175,14 +152,14 @@ I need to be able to create a new counter with a name and default value of '0'</
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#scenario-1-1"
                                            aria-expanded="true"
                                            aria-controls="scenario-1-1">
-                                            Scenario: create a new counter with custom name
+                                            Scenario: Resetting the first counter
                                         </a>
 
                                         <div class="tags pull-right">
@@ -194,19 +171,22 @@ I need to be able to create a new counter with a name and default value of '0'</
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
                                                                                     <li class="list-group-item alert alert-success">
-                                                <b>Given</b> no counter &quot;onecounter&quot; has been set
+                                                <b>Given</b> a counter &quot;excounter&quot; with a value of &quot;8&quot; has been set
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| POST http://opencounter-slim-codenv-webserver:8080/api/counters/ =&gt; 201:
+{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>When</b> I reset the counter with Name &quot;excounter&quot;
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/0df58a28-d91e-4a71-8d2a-6300433c7955 =&gt; 200:
+null</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
-                                                <b>When</b> I set a counter with name &quot;onecounter&quot;
-                                                                                                                                                                                                                        </li>
-                                        <li class="list-group-item alert alert-danger">
-                                                <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
-                                            <br>
-                                            <p style="padding-left:2em ; color:gray">(Element matching css &quot;h1&quot;
-                                                not found.)</p>
-                                        </li>
-                                        <li class="list-group-item alert alert-info">
-                                                <b>And</b> the value returned should be 0
+                                                <b>Then</b> the value returned should be &quot;0&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
@@ -218,7 +198,7 @@ I need to be able to create a new counter with a name and default value of '0'</
                                            href="#scenario-1-2"
                                            aria-expanded="true"
                                            aria-controls="scenario-1-2">
-                                            Scenario: creating new counter if name already taken
+                                            Scenario: Resetting counter that doesn&#039;t exist
                                         </a>
 
                                         <div class="tags pull-right">
@@ -229,121 +209,22 @@ I need to be able to create a new counter with a name and default value of '0'</
                                      role="tabpanel"
                                      aria-labelledby="headingOne">
                                     <ul class="list-group">
-                                        <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter with name &quot;onecounter&quot; has been set
-                                        </li>
-                                        <li class="list-group-item alert alert-success">
-                                                <b>When</b> I set a counter with name &quot;onecounter&quot;
+                                                                                    <li class="list-group-item alert alert-success">
+                                                <b>Given</b> no counter &quot;onecounter&quot; has been set
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                        <li class="list-group-item alert alert-warning">
-                                                <b>Then</b> I should see an error &quot;A counter by that name already exists&quot;
-                                            <br>
-                                            <p style="padding-left:2em ; color:gray">(TODO: write pending
-                                                definition)</p>
-                                        </li>
-                                    </ul>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                <b>When</b> I reset the counter with Name &quot;onecounter&quot;
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Notice: Array to string conversion in /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/OpenCounterWebApiContext.php line 397)</p>
+                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                <b>Then</b> I should see an error &quot;Counter not found. You can not reset a counter that doesnt exist.&quot;
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                </ul>
                                 </div>
-                                                    </div>
-                    </div>
-                                    </div>
-        <div class="feature" data-id="feature-2">
-            <div class="col-sm-4">
-                <div class="card failed">
-                    <div class="header">
-                        <h2>Feature: read one counter</h2>
-                    </div>
-                    <div class="info">
-                        <p>As an admin<br/>
-                            in order to /display the counter value<br/>
-                            i need to be able to /get the counter value/ from api<br/>
-                            <br/>
-                            GET /counters/1/value</p>
-                    </div>
-                    <div class="footer">
-                        <div class="tags">
-                        </div>
-                        <div class="progress">
-
-                            <div class="progress-bar progress-bar-green" role="progressbar"
-                                 style="width: 0%">
-                                <span class="sr-only">40% Complete (success)</span>
                             </div>
-                            <div class="progress-bar progress-bar-red" role="progressbar"
-                                 style="width: 100%">
-                                <span class="sr-only">40% Complete (success)</span>
-                            </div>
-                        </div>
-                    </div>
+                                            </div>
                 </div>
-            </div>
-            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default failed">
-                    <div class="panel-heading" role="tab">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion"
-                               href="#scenario-2-1"
-                               aria-expanded="true"
-                               aria-controls="scenario-2-1">
-                                Scenario: Getting the value for a single counter in the collection by name
-                            </a>
-
-                            <div class="tags pull-right">
-                            </div>
-                        </h4>
-                    </div>
-                    <div id="scenario-2-1" class="panel-collapse collapse in"
-                         role="tabpanel"
-                         aria-labelledby="headingOne">
-                        <ul class="list-group">
-                            <li class="list-group-item alert alert-success">
-                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;11&quot; has been
-                                set
-                            </li>
-                            <li class="list-group-item alert alert-danger">
-                                <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
-                                <br>
-                                <p style="padding-left:2em ; color:gray">(Element matching css &quot;h1&quot; not
-                                    found.)</p>
-                            </li>
-                            <li class="list-group-item alert alert-info">
-                                <b>Then</b> the value returned should be 11
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default failed">
-                    <div class="panel-heading" role="tab">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion"
-                               href="#scenario-2-2"
-                               aria-expanded="true"
-                               aria-controls="scenario-2-2">
-                                Scenario: I (can )get the Id of the counter with Name :name
-                            </a>
-
-                            <div class="tags pull-right">
-                            </div>
-                        </h4>
-                    </div>
-                    <div id="scenario-2-2" class="panel-collapse collapse in"
-                         role="tabpanel"
-                         aria-labelledby="headingOne">
-                        <ul class="list-group">
-                            <li class="list-group-item alert alert-warning">
-                                <b>Given</b> a counter &quot;twocounter&quot; with ID &quot;0000000&quot; and a value of
-                                12 was added to the collection
-                            </li>
-                            <li class="list-group-item alert alert-warning">
-                                <b>When</b> I get the Id of the counter with Name &quot;onecounter&quot;
-                            </li>
-                            <li class="list-group-item alert alert-warning">
-                                <b>Then</b> the Id returned should be &quot;0000000&quot;
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
                         </div>
 </div>
 <!-- /container -->
@@ -355,7 +236,7 @@ I need to be able to create a new counter with a name and default value of '0'</
 <script type="text/javascript">
     var featureData = [
         {
-            value: 2,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
@@ -370,13 +251,13 @@ I need to be able to create a new counter with a name and default value of '0'</
 
     var scenarioData = [
         {
-            value: 4,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 0,
+            value: 1,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -385,7 +266,7 @@ I need to be able to create a new counter with a name and default value of '0'</
 
     var stepData = [
         {
-            value: 3,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
@@ -423,7 +304,7 @@ I need to be able to create a new counter with a name and default value of '0'</
     $(function () {
         $('.collapse').collapse();
 
-        $('.filters').click();;;;;;;;;;;;;;;;;;;;;;
+        $('.filters').click()
         {
             showOverview();
         }

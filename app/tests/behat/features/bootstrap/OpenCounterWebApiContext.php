@@ -110,6 +110,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->app->getContainer()
           ->get('oauth2_storage')
           ->unsetAccessToken($this->accessToken);
+
         if (isset($this->counters) && is_array($this->counters)) {
             echo 'removing testing counters';
 
@@ -118,6 +119,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
                 $this->counterRepository->remove($counter);
             }
         }
+
     }
 
     /**
@@ -315,7 +317,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
             );
 
         } catch (Exception $e) {
-            $this->error = true;
+            $error = ['message' => $e->getMessage()];
+
+            return $error;
         }
 
         if (isset($counter)) {
@@ -370,11 +374,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iResetTheCounterWithName($name)
     {
 
-        // NEXT NO NAME ENDPOINT since we dont have endpoints for counter name directly
+        // since we dont have endpoints for counter name directly
         // lets for now resolve name to id internally
 
-// just a helper until we implemented an endpoint
+        // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
+
         $endpoint = '/api/counters/' . $id;
 
         $CounterArray = [
@@ -423,29 +428,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         }
 
     }
-    /*aCounterWithNameHasBeenSetre not testing here just setting up a convinience function, could use this directly from domaincontext actually
-            $CounterFactory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
-            $this->counter = $CounterFactory->build(
-              new CounterId($id),
-              new CounterName('testcounter'),
-              new \OpenCounter\Domain\Model\Counter\CounterValue(0),
-              'active',
-              'passwordplaceholder');
-
-            $this->counter_repository = $this->app->getContainer()->get('counter_repository');
-
-            $this->counter_repository->save($this->counter);
 
 
-        }*/
-
-    /**
-     * NOTE : we do have a httpbuildcounterservice but are using
-     *  specific command / query services by now.
-     * consider using and testing the httpbuildservice at a later point.
-     * but for now just ensure that after this task there is a counter with the correct id.
-     *
-     */
 
     /**
      * @When I remove the counter with id :id
@@ -488,7 +472,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function aCounterWithNameHasBeenSet($name)
     {
-        $this->aCounterHasBeenSet($name);
+        $id = '1111111';
+        $value = 1111111;
+        $this->aCounterWithIdAndAValueOfWasAddedToTheCollection(
+          $name,
+          $id,
+          $value
+        );
     }
 
     /**
@@ -503,6 +493,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     /**
      * creates counter via webapi
      * will not mark counter for removal
+     * verifies creation was successful
      * @Given a counter :name with a value of :value has been set
      */
     public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
@@ -525,6 +516,18 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->iSetHeaderWithValue('Accept', 'application/json');
         $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
         $this->printResponse();
+        $this->theResponseCodeShouldBe('201');
+
+        // get the counter we added to db and remember it so we can delete it later
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        $this->counterName = new CounterName($name);
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
 
     }
 
@@ -557,9 +560,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
             $this->printResponse();
 
         } catch (Exception $e) {
-            $this->error = true;
+            $error = ['message' => $e->getMessage()];
 
-            return $this->error;
+            return $error;
         }
 
         // get the counter we added to db and remember it so we can delete it later
@@ -568,9 +571,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
         $this->counterName = new CounterName($name);
-        $counter = $this->counterRepository->getCounterByName($this->counterName);
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
 
-        $this->counters[] = $counter;
+
+
 
     }
 

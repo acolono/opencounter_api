@@ -1764,7 +1764,7 @@
             "source": {
                 "type": "git",
                 "url": "/mnt/DATA/06-TEAMProjects/ACOLONO/OPENCOUNTER_project/OPENCOUNTER_WORCLONES/opencounter_api_core",
-                "reference": "e10517f9b65681bcbabfa3542261c5386b4f0e15"
+                "reference": "7e7eafe58decc982023012c4e1c08359df20b8f9"
             },
             "require": {
                 "monolog/monolog": "^1.17",
@@ -1791,7 +1791,7 @@
                 }
             },
             "description": "framework agnostic counter business logic",
-            "time": "2017-02-21 20:19:53"
+            "time": "2017-02-22 19:37:28"
         },
         {
             "name": "ruflin/elastica",
@@ -2770,12 +2770,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "bb3f4d61830c3b0bb5aeaefb9a74b56b2f8da74b"
+                "reference": "30085c5e78165d18cd421c866218f29ceb8243c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/bb3f4d61830c3b0bb5aeaefb9a74b56b2f8da74b",
-                "reference": "bb3f4d61830c3b0bb5aeaefb9a74b56b2f8da74b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/30085c5e78165d18cd421c866218f29ceb8243c7",
+                "reference": "30085c5e78165d18cd421c866218f29ceb8243c7",
                 "shasum": ""
             },
             "require": {
@@ -2824,7 +2824,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-02-21T15:46:47+00:00"
+            "time": "2017-02-22T02:52:36+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5516,12 +5516,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "43e4add0572a1e3655b76814585f71a8f8493a62"
+                "reference": "c3dc9dc0e05ec7a24e259b8be2e9581c1d174d57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/43e4add0572a1e3655b76814585f71a8f8493a62",
-                "reference": "43e4add0572a1e3655b76814585f71a8f8493a62",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/c3dc9dc0e05ec7a24e259b8be2e9581c1d174d57",
+                "reference": "c3dc9dc0e05ec7a24e259b8be2e9581c1d174d57",
                 "shasum": ""
             },
             "require": {
@@ -5592,7 +5592,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-21T10:07:34+00:00"
+            "time": "2017-02-22T08:57:32+00:00"
         },
         {
             "name": "symfony/translation",

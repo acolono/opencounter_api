@@ -6,12 +6,14 @@
  */
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
+use OpenCounter\Application\Command\Counter\CounterResetValueHandler;
 use OpenCounter\Application\Query\Counter\CounterOfIdHandler;
 use OpenCounter\Application\Query\Counter\CounterOfNameHandler;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterAddService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
 use OpenCounter\Application\Service\Counter\CounterRemoveService;
+use OpenCounter\Application\Service\Counter\CounterResetValueService;
 use OpenCounter\Infrastructure\Factory\Counter\CounterFactory;
 use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository;
 use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
@@ -49,6 +51,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
       'CounterRemoveService',
       'add_counter_application_service',
       'CounterAddService',
+      'CounterResetValueService',
     ];
 
     /**
@@ -151,7 +154,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         ) {
 
             // first try without command bus dependency
-            $CounterAddService = new CounterSetStatusService(
+            $CounterSetStatusService = new CounterSetStatusService(
               new CounterSetStatusHandler(
                 $pimple['counter_repository'],
                 $pimple['counter_build_service']
@@ -159,7 +162,22 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             );
 
-            return $CounterAddService;
+            return $CounterSetStatusService;
         });
+        $pimple['CounterResetValueService'] = $pimple->factory(function ($pimple
+        ) {
+
+            // first try without command bus dependency
+            $CounterResetValueService = new CounterResetValueService(
+              new CounterResetValueHandler(
+                $pimple['counter_repository'],
+                $pimple['counter_build_service']
+              )
+
+            );
+
+            return $CounterResetValueService;
+        });
+
     }
 }
