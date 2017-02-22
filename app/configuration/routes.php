@@ -150,7 +150,7 @@ $app->group('/api/counters', function () {
 //    $this->get('/[{id}/value]', '\SlimCounter\Controllers\CounterController:getCount');
 
 
-    $this->post('/[{id}]', '\SlimCounter\Controllers\CounterController:newCounter');
+    $this->post('/[{id}]', '\SlimCounter\Controllers\CounterController:addCounter');
     $this->get('/{id}', '\SlimCounter\Controllers\CounterController:getCounter');
     $this->delete('/[{id}]', '\SlimCounter\Controllers\CounterController:deleteCounter');
     $this->put('/[{id}]', '\SlimCounter\Controllers\CounterController:setCounter');

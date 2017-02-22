@@ -152,7 +152,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
       $id,
       $value
     ) {
-        $this->counterName = new CounterName('testcounter');
+        $this->counterName = new CounterName($name);
         $this->counterId = new CounterId($id);
         $this->counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue(0);
         $this->counter_repository = $this->app->getContainer()
@@ -178,6 +178,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function theValueReturnedShouldBe($arg1)
     {
+        $this->printResponse();
+
         $this->theResponseShouldContain($arg1);
     }
 
@@ -342,7 +344,11 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iGetTheValueOfTheCounterWithId($id)
     {
-        $this->iSendARequest('GET', "api/counters/" . $id);
+
+        $this->iSendARequest('GET',
+          'api/counters/' . $id);
+        $this->printResponse();
+
     }
 
     /**
@@ -429,8 +435,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     }
 
-
-
     /**
      * @When I remove the counter with id :id
      */
@@ -492,7 +496,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     /**
      * creates counter via webapi
-     * will not mark counter for removal
+     * will mark counter for removal
      * verifies creation was successful
      * @Given a counter :name with a value of :value has been set
      */
@@ -534,6 +538,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     /**
      * creates counter via webapi
      * will mark counter for removal
+     * verifies response code
      * @When I set a counter with name :name
      */
 
@@ -558,6 +563,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
             $this->iSendARequestWithBody('POST', $endpoint,
               $newCounterjsonString);
             $this->printResponse();
+            $this->theResponseCodeShouldBe('200');
 
         } catch (Exception $e) {
             $error = ['message' => $e->getMessage()];
@@ -575,9 +581,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
-
-
-
 
     }
 

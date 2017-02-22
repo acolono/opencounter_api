@@ -128,64 +128,68 @@ class CounterController
     /**
      * New Counter
      *
-     * this method is meant to be called by the add counter route with counter name as path argument
+     * this method is meant to be called by the add counter route
+     * with counter id as optional path argument
      *
      * @param \Psr\Http\Message\RequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param $args
      * @return \Psr\Http\Message\ResponseInterface|static
      */
-    public function newCounter(
-      RequestInterface $request,
-      ResponseInterface $response,
-      $args
-    ) {
-        // Assume everything will fail
-        $code = 400;
-        try {
-            // Get at data we need from server request object
-            // to build our command and query.
-            $data = $request->getParsedBody();
-
-            // TODO: when creating counters who will create the new id.
-            // how does the api client know the id
-            //$id = new CounterId($args['id']);
-            $name = $data['name'];
-            $value = $data['value'];
-            $status = 'active';
-            $password = 'passwordplaceholder';
-
-            // Call Service that executes appropriate
-            // command with given parameters.
-
-            $return = $this->CounterAddService->execute(
-              new CounterAddCommand(
-                $name,
-                $value,
-                $status,
-                $password
-              )
-            );
-            $counter = $this->CounterViewService->execute(
-              new CounterOfNameQuery($data['name'])
-            );
-            $result = $counter->toArray();
-
-            $code = 201;
-        } catch (\Exception $e) {
-
-            $result = $e->getMessage();
-            $code = 409;
-
-        }
-
-        // note that even though the response is json encoded if requested
-        // as html you will get content type html showing the json.
-        //TODO: make sure there is a link to the new counter in the response
-        $response->write(json_encode($result));
-
-        return $response->withStatus($code);
-    }
+//    public function newCounter(
+//      RequestInterface $request,
+//      ResponseInterface $response,
+//      $args
+//    ) {
+//        // Assume everything will fail
+//        $code = 400;
+//        try {
+//            // Get at data we need from server request object
+//            // to build our command and query.
+//            $data = $request->getParsedBody();
+//
+//            // TODO: when creating counters who will create the new id.
+//            // how does the api client know the id
+//            //$id = new CounterId($args['id']);
+//            $name = $data['name'];
+//            $value = $data['value'];
+//            $status = 'active';
+//            $password = 'passwordplaceholder';
+//
+//            // Call Service that executes appropriate
+//            // command with given parameters.
+//
+//            $this->CounterAddService->execute(
+//              new CounterAddCommand(
+//                $name,
+//                $value,
+//                $status,
+//                $password
+//              )
+//            );
+//
+//            // get result to pass back (or inject relevant hateoas links)
+//            $result = $this->CounterViewService->execute(
+//              new CounterOfIdQuery($args['id'])
+//            );
+//
+//
+//
+//            $code = 201;
+//        } catch (\Exception $e) {
+//
+//            $result = $e->getMessage();
+//            $code = 409;
+//
+//        }
+//
+//        // note that even though the response is json encoded if requested
+//        // as html you will get content type html showing the json.
+//        //TODO: make sure there is a link to the new counter in the response
+//        $response->write(json_encode($result));
+//
+//        return $response->withStatus($code);
+//    }
 
     /**
      * Creating new counter.
@@ -267,14 +271,14 @@ class CounterController
             // get at data we need from server request object to build our request
             $data = $request->getParsedBody();
 
-            $name = new CounterName($data['name']);
-            $value = new CounterValue($data['value']);
+            $name = $data['name'];
+            $value = $data['value'];
             $status = 'active';
             $password = 'passwordplaceholder';
 
             // call Service that executes appropriate command with given parameters.
 
-            $this->CounterAddService->execute(
+            $result = $this->CounterAddService->execute(
               new CounterAddCommand(
                 $name,
                 $value,
@@ -283,11 +287,7 @@ class CounterController
               )
             );
 
-//            // next make a query t get the updated counter we want to return
-//
-//            $result = $this->CounterViewService->execute(
-//              new CounterOfNameQuery($args['name'])
-//            );
+
 
             $code = 201;
         } catch (\Exception $e) {
@@ -370,8 +370,9 @@ class CounterController
             $data = $request->getParsedBody();
             // get the counter so we can use its id
             $counter = $this->CounterViewService->execute(
-              new CounterOfNameQuery($data['name'])
+              new CounterOfIdQuery($args['id'])
             );
+
             $increment = $data['value'];
 
 
@@ -386,8 +387,9 @@ class CounterController
 
             // get the updated counter
             $result = $this->CounterViewService->execute(
-              new CounterOfNameQuery($counter->getName())
+              new CounterOfIdQuery($args['id'])
             );
+
 
 
             $code = 201;
@@ -478,8 +480,9 @@ class CounterController
               )
             );
             $result = $this->CounterViewService->execute(
-              new CounterOfNameQuery($data['name'])
+              new CounterOfIdQuery($args['id'])
             );
+
 
             $code = 201;
         } catch (\Exception $e) {
@@ -565,11 +568,11 @@ class CounterController
 
             // try getting the right counter first so we know which one to increment
             $counter = $this->CounterViewService->execute(
-              new CounterOfNameQuery($data['name'])
+              new CounterOfIdQuery($args['id'])
             );
 
             $return = $this->CounterResetValueService->execute(
-              new CounterResetValueCommand($counter->getName())
+              new CounterResetValueCommand($counter->getId())
             );
 //            $return = $counter->getValue();
 
@@ -635,15 +638,16 @@ class CounterController
               new CounterOfIdQuery($args['id'])
             );
             $result = $counter->getValue();
+            $code = 201;
 
         } catch (\Exception $e) {
             $result = $e->getMessage();
-            //      $code = 409;
+                  $code = 409;
         }
 
         $body = $response->getBody();
         // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
-        $body->write(json_encode($result, JSON_UNESCAPED_SLASHES));
+        $body->write(json_encode($result));
 
         return $response;
     }
@@ -700,23 +704,25 @@ class CounterController
       ResponseInterface $response,
       $args
     ) {
-
+        $code = 400;
         try {
 
             $result = $this->CounterViewService->execute(
               new CounterOfIdQuery($args['id'])
             );
-
+            $code = 200;
         } catch (\Exception $e) {
             $result = $e->getMessage();
             $code = 409;
         }
 
-        $body = $response->getBody();
-        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
-        $body->write(json_encode($result, JSON_UNESCAPED_SLASHES));
+//        $body = $response->getBody();
+//        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
+//        $body->write(json_encode($result));
+// note that even though the response is json encoded if requested as html you will get content type html showing the json.
+        $response->write(json_encode($result->toArray()));
 
-        return $response;
+        return $response->withStatus($code);
     }
 
 

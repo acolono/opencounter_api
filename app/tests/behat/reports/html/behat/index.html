@@ -61,14 +61,14 @@
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            1 scenarios failed of 2
+            2 scenarios failed of 2
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            1 steps failed of 6
+            2 steps failed of 6
         </div>
     </div>
     <hr>
@@ -103,11 +103,11 @@ given a Counter, it is possible to replace its value with 0.</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 50%">
+                                                     style="width: 0%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 50%">
+                                                     style="width: 100%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -140,11 +140,11 @@ given a Counter, it is possible to replace its value with 0.</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 0%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 50%">
+                                             style="width: 100%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -152,7 +152,7 @@ given a Counter, it is possible to replace its value with 0.</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default passed">
+                                                    <div class="panel panel-default failed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -179,15 +179,61 @@ given a Counter, it is possible to replace its value with 0.</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I reset the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/0df58a28-d91e-4a71-8d2a-6300433c7955 =&gt; 200:
-null</p>
+                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/605003f7-26fd-45bc-8f66-c6e993395d6a =&gt; 500:
+{
+    &quot;message&quot;: &quot;Slim Application Error&quot;,
+    &quot;error&quot;: [
+        {
+            &quot;type&quot;: &quot;Error&quot;,
+            &quot;code&quot;: 0,
+            &quot;message&quot;: &quot;Call to undefined method OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand::id()&quot;,
+            &quot;file&quot;: &quot;\/var\/www\/opencounter-slim-codenv\/vendor\/rosenstrauch\/opencounter_api_core\/src\/Application\/Command\/Counter\/CounterResetValueHandler.php&quot;,
+            &quot;line&quot;: 36,
+            &quot;trace&quot;: [
+                &quot;#0 \/var\/www\/opencounter-slim-codenv\/vendor\/rosenstrauch\/opencounter_api_core\/src\/Application\/Service\/Counter\/CounterResetValueService.php(30): OpenCounter\\Application\\Command\\Counter\\CounterResetValueHandler-&gt;__invoke(Object(OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand))&quot;,
+                &quot;#1 \/var\/www\/opencounter-slim-codenv\/src\/Controllers\/CounterController.php(575): OpenCounter\\Application\\Service\\Counter\\CounterResetValueService-&gt;execute(Object(OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand))&quot;,
+                &quot;#2 [internal function]: SlimCounter\\Controllers\\CounterController-&gt;setCounter(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
+                &quot;#3 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Handlers\/Strategies\/RequestResponse.php(41): call_user_func(Array, Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
+                &quot;#4 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Route.php(344): Slim\\Handlers\\Strategies\\RequestResponse-&gt;__invoke(Array, Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
+                &quot;#5 \/var\/www\/opencounter-slim-codenv\/vendor\/chadicus\/slim-oauth2-middleware\/src\/Authorization.php(80): Slim\\Route-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#6 [internal function]: Chadicus\\Slim\\OAuth2\\Middleware\\Authorization-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
+                &quot;#7 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Chadicus\\Slim\\OAuth2\\Middleware\\Authorization), Array)&quot;,
+                &quot;#8 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
+                &quot;#9 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
+                &quot;#10 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(122): Slim\\Route-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#11 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Route.php(316): Slim\\Route-&gt;callMiddlewareStack(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#12 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(476): Slim\\Route-&gt;run(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#13 \/var\/www\/opencounter-slim-codenv\/vendor\/tuupola\/cors-middleware\/src\/Cors.php(83): Slim\\App-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#14 [internal function]: Tuupola\\Middleware\\Cors-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
+                &quot;#15 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Tuupola\\Middleware\\Cors), Array)&quot;,
+                &quot;#16 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
+                &quot;#17 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
+                &quot;#18 \/var\/www\/opencounter-slim-codenv\/vendor\/tuupola\/slim-basic-auth\/src\/HttpBasicAuthentication.php(87): Slim\\App-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#19 [internal function]: Slim\\Middleware\\HttpBasicAuthentication-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
+                &quot;#20 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Slim\\Middleware\\HttpBasicAuthentication), Array)&quot;,
+                &quot;#21 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
+                &quot;#22 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
+                &quot;#23 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(122): Slim\\App-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#24 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(370): Slim\\App-&gt;callMiddlewareStack(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#25 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(295): Slim\\App-&gt;process(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
+                &quot;#26 \/var\/www\/opencounter-slim-codenv\/public\/index.php(15): Slim\\App-&gt;run()&quot;,
+                &quot;#27 {main}&quot;
+            ]
+        }
+    ]
+}</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
+                                                                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/605003f7-26fd-45bc-8f66-c6e993395d6a =&gt; 200:
+{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
+                                                                                                                                            </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                                                        <br>
+                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}&#039; matches PCRE pattern &quot;/0/i&quot;.)</p>
+                                                                                                                                                                                            </li>
                                                                                                                                                                                                                 </ul>
                                 </div>
                             </div>
@@ -215,7 +261,7 @@ null</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-danger">
                                                 <b>When</b> I reset the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:gray">(Notice: Array to string conversion in /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/OpenCounterWebApiContext.php line 397)</p>
+                                                    <p style="padding-left:2em ; color:gray">(Notice: Array to string conversion in /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/OpenCounterWebApiContext.php line 389)</p>
                                                                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-info">
                                                 <b>Then</b> I should see an error &quot;Counter not found. You can not reset a counter that doesnt exist.&quot;
@@ -251,13 +297,13 @@ null</p>
 
     var scenarioData = [
         {
-            value: 1,
+            value: 2,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 1,
+            value: 0,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -266,13 +312,13 @@ null</p>
 
     var stepData = [
         {
-            value: 1,
+            value: 2,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 5,
+            value: 4,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"

@@ -97,7 +97,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         $pimple['CounterViewService'] = function ($pimple) {
 
             $CounterViewService = new CounterViewService(
-              new CounterOfNameHandler(
+              new CounterOfIdHandler(
                 $pimple['counter_repository']
               )
             );
