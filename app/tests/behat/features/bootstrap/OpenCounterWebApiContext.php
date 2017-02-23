@@ -338,8 +338,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iGetTheValueOfTheCounterWithId($id)
     {
 
-        $this->iSendARequest('GET',
-          'api/counters/' . $id);
+        $this->iSendARequest('GET', 'api/counters/value/' . $id);
         $this->printResponse();
 
     }
@@ -372,14 +371,14 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iResetTheCounterWithId($id)
     {
-        $endpoint = '/api/counters/value/' . $id;
+        $endpoint = '/api/counters/' . $id;
 
         $CounterArray = [
           json_encode(['value' => 0])
         ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
+        $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
         $this->printResponse();
         $this->theResponseCodeShouldBe('201');
     }
@@ -526,6 +525,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iSetACounterWithName($name)
     {
         try {
+
             $endpoint = '/api/counters/';
             // send a POST request to the endpoint with the counter values in the body
             $newCounterArray = [
@@ -544,17 +544,16 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
             $this->iSendARequestWithBody('POST', $endpoint,
               $newCounterjsonString);
             $this->printResponse();
-            $this->theResponseCodeShouldBe('200');
+            $this->theResponseCodeShouldBe('201');
+
+
+
 
         } catch (Exception $e) {
             $error = ['message' => $e->getMessage()];
 
             return $error;
         }
-
-        // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('pdo');
-        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
         $this->counterName = new CounterName($name);
