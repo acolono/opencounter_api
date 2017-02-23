@@ -170,7 +170,17 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
           $this->counterValue,
           'active',
           'passwordplaceholder');
+
         $this->counter_repository->save($this->counter);
+
+        // mark for removal
+        $this->counters[] = $this->counter;
+
+
+
+
+
+
     }
 
     /**
@@ -184,106 +194,15 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
-     * @When I increment the value of the counter with ID :id
-     */
-    public function iIncrementTheValueOfTheCounterWithId($id)
-    {
-        $endpoint = '/api/counters/value/' . $id;
-
-        $CounterArray = [
-          json_encode(['value' => '+1'])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
-        $this->printResponse();
-
-    }
-
-    /**
      * @When I increment the value of the counter with Name :name
      */
     public function iIncrementTheValueOfTheCounterWithName($name)
     {
-        $endpoint = '/api/counters/value';
-
-        $CounterArray = [
-          json_encode([
-            'name' => $name,
-            'value' => 1
-          ])
-        ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
-        $this->printResponse();
-
-    }
-
-    /**
-     * @When I lock the counter with ID :id
-     */
-    public function iLockTheCounterWithId($id)
-    {
-        $endpoint = '/api/counters/status';
-
-        $CounterArray = [
-          json_encode(['id' => $id, 'value' => '1', 'status' => 'locked'])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
-        $this->printResponse();
-    }
-
-    /**
-     * @When I lock the counter with Name :name
-     */
-    public function iLockTheCounterWithName($name)
-    {
-        // TODO: do we need to get the id to do this or can we patch to the generic endpoint
-        $endpoint = '/api/counters/status';
-
-        $CounterArray = [
-          json_encode([
-            'name' => $name,
-            'status' => 'locked',
-            'value' => 0
-          ])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
-        $this->printResponse();
-
-    }
-
-    /**
-     * @Then I should see an error :message
-     */
-    public function iShouldSeeAnError($message)
-    {
-        $errormesage = ['message' => $message];
-        $ErrorString = new PyStringNode($errormesage, 1);
-        $this->theResponseShouldContain($ErrorString);
-    }
-
-    /**
-     * @When I (can )get the value of the counter with Name :name
-     */
-    public function iGetTheValueOfTheCounterWithName($name)
-    {
-        // we expect our client to know the id and use that,
-        // we need to make sure the client can get at the id
-        // somehow from the name somewhere else.
-        // during this test we just get the id from the repository directly. (or using our service)
-        // getting the counter id from its name deserves its own scenario.
-        // TODO: get counter id from name, consider whether we expect a hateoas link or just the id back when we look for a name (in seperate scenario)
 
 // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
+       $this->iIncrementTheValueOfTheCounterWithId($id);
 
-        $this->iGetTheValueOfTheCounterWithId($id);
     }
 
     /**
@@ -330,6 +249,80 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     }
 
+    /**
+     * @When I increment the value of the counter with ID :id
+     */
+    public function iIncrementTheValueOfTheCounterWithId($id)
+    {
+        $endpoint = '/api/counters/value/' . $id;
+
+        $CounterArray = [
+          json_encode(['value' => '+1'])
+        ];
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
+        $this->printResponse();
+
+    }
+
+    /**
+     * @When I lock the counter with Name :name
+     */
+    public function iLockTheCounterWithName($name)
+    {
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+        // TODO: do we need to get the id to do this or can we patch to the generic endpoint
+        $this->iLockTheCounterWithId($id);
+
+    }
+
+    /**
+     * @When I lock the counter with ID :id
+     */
+    public function iLockTheCounterWithId($id)
+    {
+        $endpoint = '/api/counters/status/' . $id;
+
+        $CounterArray = [
+          json_encode(['id' => $id, 'value' => '1', 'status' => 'locked'])
+        ];
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
+        $this->printResponse();
+    }
+
+    /**
+     * @Then I should see an error :message
+     */
+    public function iShouldSeeAnError($message)
+    {
+        $errormesage = ['message' => $message];
+        $ErrorString = new PyStringNode($errormesage, 1);
+        $this->theResponseShouldContain($ErrorString);
+    }
+
+    /**
+     * @When I (can )get the value of the counter with Name :name
+     */
+    public function iGetTheValueOfTheCounterWithName($name)
+    {
+        // we expect our client to know the id and use that,
+        // we need to make sure the client can get at the id
+        // somehow from the name somewhere else.
+        // during this test we just get the id from the repository directly. (or using our service)
+        // getting the counter id from its name deserves its own scenario.
+        // TODO: get counter id from name, consider whether we expect a hateoas link or just the id back when we look for a name (in seperate scenario)
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+
+        $this->iGetTheValueOfTheCounterWithId($id);
+    }
+
 
 //    /**
 //     * @When I get the Id of the counter with Name :arg1
@@ -360,21 +353,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
-     * @When I reset the counter with ID :id
-     */
-    public function iResetTheCounterWithId($id)
-    {
-        $endpoint = '/api/counters/' . $id;
-
-        $CounterArray = [
-          json_encode(['value' => 0])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
-    }
-
-    /**
      * @When I reset the counter with Name :name
      */
     public function iResetTheCounterWithName($name)
@@ -386,15 +364,24 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
 
-        $endpoint = '/api/counters/' . $id;
+        $this->iResetTheCounterWithId($id);
+    }
+
+    /**
+     * @When I reset the counter with ID :id
+     */
+    public function iResetTheCounterWithId($id)
+    {
+        $endpoint = '/api/counters/value/' . $id;
 
         $CounterArray = [
-          json_encode(['name' => $name, 'value' => 0])
+          json_encode(['value' => 0])
         ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
+//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
+        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
+        $this->theResponseCodeShouldBe('201');
     }
 
     /**
@@ -436,6 +423,19 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
+     * @When I remove the counter with name :name
+     */
+    public function iRemoveTheCounterWithName($name)
+    {
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+
+        $this->iRemoveTheCounterWithId($id);
+
+    }
+
+    /**
      * @When I remove the counter with id :id
      */
     public function iRemoveTheCounterWithId($id)
@@ -449,26 +449,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('DELETE', $endpoint, $CounterStringNode);
         $this->printResponse();
-        $this->theResponseCodeShouldBe('200');
-    }
-
-    /**
-     * @When I remove the counter with name :name
-     */
-    public function iRemoveTheCounterWithName($name)
-    {
-
-// just a helper until we implemented an endpoint
-        $id = $this->iGetTheIdOfTheCounterWithName($name);
-        $endpoint = '/api/counters/' . $id;
-
-        $CounterArray = [
-          json_encode(['value' => 0, 'name' => $name, 'id' => $id])
-        ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterStringNode = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterStringNode);
-        $this->printResponse();
+        $this->theResponseCodeShouldBe('201');
     }
 
     /**
@@ -529,7 +510,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
           ->get('counter_repository');
         $this->counterName = new CounterName($name);
         // if we have a counter mark it for cleanup after scenario
-        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+        if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
 
@@ -578,7 +559,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
           ->get('counter_repository');
         $this->counterName = new CounterName($name);
         // if we have a counter mark it for cleanup after scenario
-        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+        if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
 

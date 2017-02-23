@@ -54,21 +54,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            1 features failed of 1
+            9 features failed of 11
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            2 scenarios failed of 2
+            13 scenarios failed of 17
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            2 steps failed of 6
+            13 steps failed of 50
         </div>
     </div>
     <hr>
@@ -87,57 +87,52 @@
                                                     <div class="col-sm-4 feature" data-id="feature-1">
                                 <div class="card failed">
                                     <div class="header">
-                                        <h2>Feature: reset one counter</h2>
+                                        <h2>Feature: create a new counter</h2>
                                     </div>
                                     <div class="info">
-                                        <p>As an apiuser<br />
-in order to remove the current counter value (start over)<br />
-i need to be able to reset the counter value and state to default from api<br />
-<br />
-PUT /counters/1<br />
-given a Counter, it is possible to replace its value with 0.</p>
+                                        <p>As an admin<br/>
+                                            in order to know what I am counting<br/>
+                                            I need to be able to create a new counter with a name and default value of
+                                            '0'</p>
                                     </div>
                                     <div class="footer">
                                         <div class="tags">
-                                                                                    </div>
-                                                                                    <div class="progress">
+                                        </div>
+                                        <div class="progress">
 
-                                                <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 0%">
-                                                    <span class="sr-only">40% Complete (success)</span>
-                                                </div>
-                                                <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 100%">
-                                                    <span class="sr-only">40% Complete (success)</span>
-                                                </div>
+                                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                                 style="width: 50%">
+                                                <span class="sr-only">40% Complete (success)</span>
                                             </div>
-                                                                            </div>
+                                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                                 style="width: 50%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                                            </div>
-                </div>
-            </div>
-            <hr>
-            </div>
-    <div id="scenario-overview" class="row">
-                                    <div class="feature" data-id="feature-1">
-                    <div class="col-sm-4">
-                        <div class="card failed">
-                            <div class="header">
-                                <h2>Feature: reset one counter</h2>
-                            </div>
-                            <div class="info">
-                                <p>As an apiuser<br />
-in order to remove the current counter value (start over)<br />
-i need to be able to reset the counter value and state to default from api<br />
-<br />
-PUT /counters/1<br />
-given a Counter, it is possible to replace its value with 0.</p>
-                            </div>
-                            <div class="footer">
-                                <div class="tags">
-                                                                    </div>
-                                                                    <div class="progress">
+                                                    </div>
+                        <div class="col-sm-4 feature" data-id="feature-2">
+                            <div class="card failed">
+                                <div class="header">
+                                    <h2>Feature: edit one counter</h2>
+                                </div>
+                                <div class="info">
+                                    <p>As an apiuser<br/>
+                                        in order to change the state or the value of the counter<br/>
+                                        I need to be able to send a patch request to /counters/route from api<br/>
+                                        <br/>
+                                        PATCH<br/>
+                                        /counters/1/value<br/>
+                                        increment value of counter<br/>
+                                        <br/>
+                                        /counters/1/state<br/>
+                                        change state of counter (active, disabled, locked)</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                    </div>
+                                    <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
                                              style="width: 0%">
@@ -148,129 +143,1283 @@ given a Counter, it is possible to replace its value with 0.</p>
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
-                                                            </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-1-1"
-                                           aria-expanded="true"
-                                           aria-controls="scenario-1-1">
-                                            Scenario: Resetting the first counter
-                                        </a>
-
-                                        <div class="tags pull-right">
-                                                                                    </div>
-                                    </h4>
+                        <div class="col-sm-4 feature" data-id="feature-3">
+                            <div class="card failed">
+                                <div class="header">
+                                    <h2>Feature: read one counter</h2>
                                 </div>
-                                <div id="scenario-1-1" class="panel-collapse collapse in"
-                                     role="tabpanel"
-                                     aria-labelledby="headingOne">
-                                    <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-success">
-                                                <b>Given</b> a counter &quot;excounter&quot; with a value of &quot;8&quot; has been set
-                                                                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:black">| POST http://opencounter-slim-codenv-webserver:8080/api/counters/ =&gt; 201:
-{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
-                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
-                                                <b>When</b> I reset the counter with Name &quot;excounter&quot;
-                                                                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/605003f7-26fd-45bc-8f66-c6e993395d6a =&gt; 500:
-{
-    &quot;message&quot;: &quot;Slim Application Error&quot;,
-    &quot;error&quot;: [
-        {
-            &quot;type&quot;: &quot;Error&quot;,
-            &quot;code&quot;: 0,
-            &quot;message&quot;: &quot;Call to undefined method OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand::id()&quot;,
-            &quot;file&quot;: &quot;\/var\/www\/opencounter-slim-codenv\/vendor\/rosenstrauch\/opencounter_api_core\/src\/Application\/Command\/Counter\/CounterResetValueHandler.php&quot;,
-            &quot;line&quot;: 36,
-            &quot;trace&quot;: [
-                &quot;#0 \/var\/www\/opencounter-slim-codenv\/vendor\/rosenstrauch\/opencounter_api_core\/src\/Application\/Service\/Counter\/CounterResetValueService.php(30): OpenCounter\\Application\\Command\\Counter\\CounterResetValueHandler-&gt;__invoke(Object(OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand))&quot;,
-                &quot;#1 \/var\/www\/opencounter-slim-codenv\/src\/Controllers\/CounterController.php(575): OpenCounter\\Application\\Service\\Counter\\CounterResetValueService-&gt;execute(Object(OpenCounter\\Application\\Command\\Counter\\CounterResetValueCommand))&quot;,
-                &quot;#2 [internal function]: SlimCounter\\Controllers\\CounterController-&gt;setCounter(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
-                &quot;#3 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Handlers\/Strategies\/RequestResponse.php(41): call_user_func(Array, Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
-                &quot;#4 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Route.php(344): Slim\\Handlers\\Strategies\\RequestResponse-&gt;__invoke(Array, Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Array)&quot;,
-                &quot;#5 \/var\/www\/opencounter-slim-codenv\/vendor\/chadicus\/slim-oauth2-middleware\/src\/Authorization.php(80): Slim\\Route-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#6 [internal function]: Chadicus\\Slim\\OAuth2\\Middleware\\Authorization-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
-                &quot;#7 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Chadicus\\Slim\\OAuth2\\Middleware\\Authorization), Array)&quot;,
-                &quot;#8 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
-                &quot;#9 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\Route))&quot;,
-                &quot;#10 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(122): Slim\\Route-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#11 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/Route.php(316): Slim\\Route-&gt;callMiddlewareStack(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#12 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(476): Slim\\Route-&gt;run(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#13 \/var\/www\/opencounter-slim-codenv\/vendor\/tuupola\/cors-middleware\/src\/Cors.php(83): Slim\\App-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#14 [internal function]: Tuupola\\Middleware\\Cors-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
-                &quot;#15 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Tuupola\\Middleware\\Cors), Array)&quot;,
-                &quot;#16 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
-                &quot;#17 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Slim\\App))&quot;,
-                &quot;#18 \/var\/www\/opencounter-slim-codenv\/vendor\/tuupola\/slim-basic-auth\/src\/HttpBasicAuthentication.php(87): Slim\\App-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#19 [internal function]: Slim\\Middleware\\HttpBasicAuthentication-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
-                &quot;#20 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/DeferredCallable.php(43): call_user_func_array(Object(Slim\\Middleware\\HttpBasicAuthentication), Array)&quot;,
-                &quot;#21 [internal function]: Slim\\DeferredCallable-&gt;__invoke(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
-                &quot;#22 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(73): call_user_func(Object(Slim\\DeferredCallable), Object(Slim\\Http\\Request), Object(Slim\\Http\\Response), Object(Closure))&quot;,
-                &quot;#23 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/MiddlewareAwareTrait.php(122): Slim\\App-&gt;Slim\\{closure}(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#24 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(370): Slim\\App-&gt;callMiddlewareStack(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#25 \/var\/www\/opencounter-slim-codenv\/vendor\/slim\/slim\/Slim\/App.php(295): Slim\\App-&gt;process(Object(Slim\\Http\\Request), Object(Slim\\Http\\Response))&quot;,
-                &quot;#26 \/var\/www\/opencounter-slim-codenv\/public\/index.php(15): Slim\\App-&gt;run()&quot;,
-                &quot;#27 {main}&quot;
-            ]
-        }
-    ]
-}</p>
-                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
-                                                <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
-                                                                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/605003f7-26fd-45bc-8f66-c6e993395d6a =&gt; 200:
-{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
-                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
-                                                <b>Then</b> the value returned should be &quot;0&quot;
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}&#039; matches PCRE pattern &quot;/0/i&quot;.)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                </ul>
+                                <div class="info">
+                                    <p>As an admin<br/>
+                                        in order to /display the counter value<br/>
+                                        i need to be able to /get the counter value/ from api<br/>
+                                        <br/>
+                                        GET /counters/1/value</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                    </div>
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: 0%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: 100%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                                                    <div class="panel panel-default failed">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#scenario-1-2"
-                                           aria-expanded="true"
-                                           aria-controls="scenario-1-2">
-                                            Scenario: Resetting counter that doesn&#039;t exist
-                                        </a>
-
-                                        <div class="tags pull-right">
-                                                                                    </div>
-                                    </h4>
+                        </div>
+                        <div class="col-sm-4 feature" data-id="feature-4">
+                            <div class="card failed">
+                                <div class="header">
+                                    <h2>Feature: remove counter</h2>
                                 </div>
-                                <div id="scenario-1-2" class="panel-collapse collapse in"
-                                     role="tabpanel"
-                                     aria-labelledby="headingOne">
-                                    <ul class="list-group">
-                                                                                    <li class="list-group-item alert alert-success">
-                                                <b>Given</b> no counter &quot;onecounter&quot; has been set
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
-                                                <b>When</b> I reset the counter with Name &quot;onecounter&quot;
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(Notice: Array to string conversion in /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/OpenCounterWebApiContext.php line 389)</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
-                                                <b>Then</b> I should see an error &quot;Counter not found. You can not reset a counter that doesnt exist.&quot;
-                                                                                                                                                                                                                                                                                                                                                </li>
-                                                                                                                                                                                                                </ul>
+                                <div class="info">
+                                    <p>As a developer<br/>
+                                        in order to clean up after our tests<br/>
+                                        I need to be able to delete the existing counter</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                    </div>
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: 0%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: 100%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-sm-4 feature" data-id="feature-5">
+                            <div class="card failed">
+                                <div class="header">
+                                    <h2>Feature: reset one counter</h2>
+                                </div>
+                                <div class="info">
+                                    <p>As an apiuser<br />
+in order to remove the current counter value (start over)<br />
+i need to be able to reset the counter value and state to default from api<br />
+<br />
+PUT /counters/1<br />
+given a Counter, it is possible to replace its value with 0.</p>
+                                </div>
+                                <div class="footer">
+                                    <div class="tags">
+                                    </div>
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-green" role="progressbar"
+                                             style="width: 0%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-red" role="progressbar"
+                                             style="width: 100%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                                             </div>
                 </div>
+            </div>
+            <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Suite: adminui</h2>
+
+                <div class="row">
+                    <div class="col-sm-4 feature" data-id="feature-6">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: create a new counter</h2>
+                            </div>
+                            <div class="info">
+                                <p>As an admin<br/>
+                                    in order to know what I am counting<br/>
+                                    I need to be able to create a new counter with a name and default value of '0'</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-7">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: read one counter</h2>
+                            </div>
+                            <div class="info">
+                                <p>As an admin<br/>
+                                    in order to /display the counter value<br/>
+                                    i need to be able to /get the counter value/ from api<br/>
+                                    <br/>
+                                    GET /counters/1/value</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 0%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 100%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Suite: oauth</h2>
+
+                <div class="row">
+                    <div class="col-sm-4 feature" data-id="feature-8">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: I can authenticate with credentials to become authorized to access counter
+                                    routes via an access token.</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-9">
+                        <div class="card passed">
+                            <div class="header">
+                                <h2>Feature: when i am not authenticated with valid access token i get appropriate error
+                                    messages. i get access if i send authorized requests (use valid access token)</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-10">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: OAuth2 Token Grant Authorization Code</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                    <span class="badge">authorization_code_grant_type</span>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 33.333333333333%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 66.666666666667%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 feature" data-id="feature-11">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
+                            </div>
+                            <div class="info">
+                                <p></p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                    <span class="badge">client_credentials_grant_type</span>
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 66.666666666667%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 33.333333333333%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+            </div>
+    <div id="scenario-overview" class="row">
+                                    <div class="feature" data-id="feature-1">
+                    <div class="col-sm-4">
+                        <div class="card failed">
+                            <div class="header">
+                                <h2>Feature: create a new counter</h2>
+                            </div>
+                            <div class="info">
+                                <p>As an admin<br/>
+                                    in order to know what I am counting<br/>
+                                    I need to be able to create a new counter with a name and default value of '0'</p>
+                            </div>
+                            <div class="footer">
+                                <div class="tags">
+                                </div>
+                                <div class="progress">
+
+                                    <div class="progress-bar progress-bar-green" role="progressbar"
+                                         style="width: 50%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-red" role="progressbar"
+                                         style="width: 50%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="col-sm-8 details panel-group" role="tablist"
+                                             aria-multiselectable="true">
+                                            <div class="panel panel-default failed">
+                                                <div class="panel-heading" role="tab">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#scenario-1-1"
+                                                           aria-expanded="true"
+                                                           aria-controls="scenario-1-1">
+                                                            Scenario: create a new counter with custom name
+                                                        </a>
+
+                                                        <div class="tags pull-right">
+                                                        </div>
+                                                    </h4>
+                                                </div>
+                                                <div id="scenario-1-1" class="panel-collapse collapse in"
+                                                     role="tabpanel"
+                                                     aria-labelledby="headingOne">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item alert alert-danger">
+                                                            <b>Given</b> no counter &quot;onecounter&quot; has been set
+                                                            <br>
+                                                            <p style="padding-left:2em ; color:gray">(something is
+                                                                wrong, seems a counter is in the database)</p>
+                                                        </li>
+                                                        <li class="list-group-item alert alert-info">
+                                                            <b>When</b> I set a counter with name &quot;onecounter&quot;
+                                                        </li>
+                                                        <li class="list-group-item alert alert-info">
+                                                            <b>Then</b> I can get the value of the counter with Name
+                                                            &quot;onecounter&quot;
+                                                        </li>
+                                                        <li class="list-group-item alert alert-info">
+                                                            <b>And</b> the value returned should be 0
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default passed">
+                                                <div class="panel-heading" role="tab">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#scenario-1-2"
+                                                           aria-expanded="true"
+                                                           aria-controls="scenario-1-2">
+                                                            Scenario: creating new counter if name already taken
+                                                        </a>
+
+                                                        <div class="tags pull-right">
+                                                        </div>
+                                                    </h4>
+                                                </div>
+                                                <div id="scenario-1-2" class="panel-collapse collapse in"
+                                                     role="tabpanel"
+                                                     aria-labelledby="headingOne">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item alert alert-success">
+                                                            <b>Given</b> a counter with name &quot;onecounter&quot; has
+                                                            been set
+                                                        </li>
+                                                        <li class="list-group-item alert alert-success">
+                                                            <b>When</b> I set a counter with name &quot;onecounter&quot;
+                                                            <br>
+                                                            <p style="padding-left:2em ; color:black">| POST
+                                                                http://opencounter-slim-codenv-webserver:8080/api/counters/
+                                                                =&gt; 409:
+                                                                &quot;A counter by that name already exists&quot;</p>
+                                                        </li>
+                                                        <li class="list-group-item alert alert-success">
+                                                            <b>Then</b> I should see an error &quot;A counter by that
+                                                            name already exists&quot;
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+        <div class="feature" data-id="feature-2">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: edit one counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an apiuser<br/>
+                            in order to change the state or the value of the counter<br/>
+                            I need to be able to send a patch request to /counters/route from api<br/>
+                            <br/>
+                            PATCH<br/>
+                            /counters/1/value<br/>
+                            increment value of counter<br/>
+                            <br/>
+                            /counters/1/state<br/>
+                            change state of counter (active, disabled, locked)</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-2-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-2-1">
+                                Scenario: increment the value for a single counter by name
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-2-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;2&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Failed asserting that 409 is identical to
+                                    201.)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> I get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> the value returned should be 3
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-2-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-2-2">
+                                Scenario: lock a single counter by name and try to increment it
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-2-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;1&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Failed asserting that 409 is identical to
+                                    201.)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I lock the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> I increment the value of the counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> I should see an error &quot;counter is locked&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the value returned should be 1
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-3">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: read one counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an admin<br/>
+                            in order to /display the counter value<br/>
+                            i need to be able to /get the counter value/ from api<br/>
+                            <br/>
+                            GET /counters/1/value</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-3-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-3-1">
+                                Scenario: Getting the value for a single counter in the collection by name
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-3-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;11&quot; has been
+                                set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Failed asserting that 409 is identical to
+                                    201.)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> the value returned should be 11
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-4">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: remove counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As a developer<br/>
+                            in order to clean up after our tests<br/>
+                            I need to be able to delete the existing counter</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-4-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-4-1">
+                                Scenario: remove existing counter by name
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-4-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>Given</b> a counter with name &quot;onecounter&quot; has been set
+                            </li>
+                            <li class="list-group-item alert alert-danger">
+                                <b>When</b> I remove the counter with name &quot;onecounter&quot;
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Failed asserting that 401 is identical to
+                                    201.)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> no counter &quot;onecounter&quot; has been set
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-5">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: reset one counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an apiuser<br />
+in order to remove the current counter value (start over)<br />
+i need to be able to reset the counter value and state to default from api<br />
+<br />
+PUT /counters/1<br />
+given a Counter, it is possible to replace its value with 0.</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-5-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-5-1">
+                                Scenario: Resetting the first counter
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-5-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>Given</b> a counter &quot;excounter&quot; with a value of &quot;8&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:black">| POST http://opencounter-slim-codenv-webserver:8080/api/counters/ =&gt; 201:
+{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I reset the counter with Name &quot;excounter&quot;
+                                <br>
+                                <p style="padding-left:2em ; color:black">| PATCH
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/c81e7d5a-18b7-4930-936a-8a859efd9bbd
+                                    =&gt; 201:
+                                    null</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
+                                <br>
+                                <p style="padding-left:2em ; color:black">| GET
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/c81e7d5a-18b7-4930-936a-8a859efd9bbd
+                                    =&gt; 200:
+{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}</p>
+                            </li>
+                            <li class="list-group-item alert alert-danger">
+                                <b>Then</b> the value returned should be &quot;0&quot;
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Failed asserting that &#039;{&quot;name&quot;:&quot;excounter&quot;,&quot;value&quot;:8}&#039; matches PCRE pattern &quot;/0/i&quot;.)</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-5-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-5-2">
+                                Scenario: Resetting counter that doesn&#039;t exist
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-5-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> no counter &quot;onecounter&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(something is wrong, seems a counter is in the
+                                    database)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I reset the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> I should see an error &quot;Counter not found. You can not reset a counter that doesnt exist.&quot;
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-6">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: create a new counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an admin<br/>
+                            in order to know what I am counting<br/>
+                            I need to be able to create a new counter with a name and default value of '0'</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-6-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-6-1">
+                                Scenario: create a new counter with custom name
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-6-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> no counter &quot;onecounter&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(something is wrong, seems a counter is in the
+                                    database)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I set a counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the value returned should be 0
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-6-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-6-2">
+                                Scenario: creating new counter if name already taken
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-6-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> a counter with name &quot;onecounter&quot; has been set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Notice: Undefined property:
+                                    AdminUiContext::$counterRepository in
+                                    /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/AdminUiContext.php
+                                    line 98)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I set a counter with name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> I should see an error &quot;A counter by that name already exists&quot;
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-7">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: read one counter</h2>
+                    </div>
+                    <div class="info">
+                        <p>As an admin<br/>
+                            in order to /display the counter value<br/>
+                            i need to be able to /get the counter value/ from api<br/>
+                            <br/>
+                            GET /counters/1/value</p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 0%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 100%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-7-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-7-1">
+                                Scenario: Getting the value for a single counter in the collection by name
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-7-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-danger">
+                                <b>Given</b> a counter &quot;onecounter&quot; with a value of &quot;11&quot; has been
+                                set
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Notice: Undefined property:
+                                    AdminUiContext::$counterRepository in
+                                    /var/www/opencounter-slim-codenv/tests/behat/features/bootstrap/AdminUiContext.php
+                                    line 98)</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>Then</b> the value returned should be 11
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-8">
+            <div class="col-sm-4">
+                <div class="card passed">
+                    <div class="header">
+                        <h2>Feature: I can authenticate with credentials to become authorized to access counter routes
+                            via an access token.</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+            </div>
+        </div>
+        <div class="feature" data-id="feature-9">
+            <div class="col-sm-4">
+                <div class="card passed">
+                    <div class="header">
+                        <h2>Feature: when i am not authenticated with valid access token i get appropriate error
+                            messages. i get access if i send authorized requests (use valid access token)</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+            </div>
+        </div>
+        <div class="feature" data-id="feature-10">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: OAuth2 Token Grant Authorization Code</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                            <span class="badge">authorization_code_grant_type</span>
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 33.333333333333%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 66.666666666667%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-10-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-10-1">
+                                Scenario: Without authorization code
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-10-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | authorization_code |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-danger">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_request&quot;
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(Given error value is not invalid_request
+
+                                    )</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-10-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-10-2">
+                                Scenario: Invalid authorization code
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-10-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | authorization_code |<br/>
+                                    | client_id | no |<br/>
+                                    | client_secret | bar |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-10-3"
+                               aria-expanded="true"
+                               aria-controls="scenario-10-3">
+                                Scenario: Token Granted via auth code
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-10-3" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | authorization_code |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add client credentials
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-danger">
+                                <b>Then</b> the response status code is 200
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(HTTP code does not match 200 (actual: 400)
+
+                                    )</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response is oauth2 format
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;access_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;refresh_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;scope&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feature" data-id="feature-11">
+            <div class="col-sm-4">
+                <div class="card failed">
+                    <div class="header">
+                        <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
+                    </div>
+                    <div class="info">
+                        <p></p>
+                    </div>
+                    <div class="footer">
+                        <div class="tags">
+                            <span class="badge">client_credentials_grant_type</span>
+                        </div>
+                        <div class="progress">
+
+                            <div class="progress-bar progress-bar-green" role="progressbar"
+                                 style="width: 66.666666666667%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-red" role="progressbar"
+                                 style="width: 33.333333333333%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-1"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-1">
+                                Scenario: Without client credentials
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-1" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default passed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-2"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-2">
+                                Scenario: Invalid client credentials
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-2" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |<br/>
+                                    | client_id | no |<br/>
+                                    | client_secret | bar |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>Then</b> the response status code is 400
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> the response has a &quot;error_description&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default failed">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                               href="#scenario-11-3"
+                               aria-expanded="true"
+                               aria-controls="scenario-11-3">
+                                Scenario: Token Granted to clien_credentials in db
+                            </a>
+
+                            <div class="tags pull-right">
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="scenario-11-3" class="panel-collapse collapse in"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item alert alert-success">
+                                <b>When</b> I create oauth2 request
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add the request parameters:
+                                <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">
+                                    | grant_type | client_credentials |</p>
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I add client credentials
+                            </li>
+                            <li class="list-group-item alert alert-success">
+                                <b>And</b> I send a access token request
+                            </li>
+                            <li class="list-group-item alert alert-danger">
+                                <b>Then</b> the response status code is 200
+                                <br>
+                                <p style="padding-left:2em ; color:gray">(HTTP code does not match 200 (actual: 400)
+
+                                    )</p>
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response is oauth2 format
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;access_token&quot; property
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
+                            </li>
+                            <li class="list-group-item alert alert-info">
+                                <b>And</b> the response has a &quot;scope&quot; property
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
                         </div>
 </div>
 <!-- /container -->
@@ -282,13 +1431,13 @@ given a Counter, it is possible to replace its value with 0.</p>
 <script type="text/javascript">
     var featureData = [
         {
-            value: 1,
+            value: 9,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 0,
+            value: 2,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -297,13 +1446,13 @@ given a Counter, it is possible to replace its value with 0.</p>
 
     var scenarioData = [
         {
-            value: 2,
+            value: 13,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 0,
+            value: 4,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -312,13 +1461,13 @@ given a Counter, it is possible to replace its value with 0.</p>
 
     var stepData = [
         {
-            value: 2,
+            value: 13,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 4,
+            value: 37,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -350,7 +1499,7 @@ given a Counter, it is possible to replace its value with 0.</p>
     $(function () {
         $('.collapse').collapse();
 
-        $('.filters').click()
+        $('.filters').click();;;;;;;;;
         {
             showOverview();
         }

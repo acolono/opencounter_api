@@ -22,7 +22,6 @@ use OpenCounter\Application\Command\Counter\CounterRemoveCommand;
 use OpenCounter\Application\Command\Counter\CounterResetValueCommand;
 use OpenCounter\Application\Command\Counter\CounterSetStatusCommand;
 use OpenCounter\Application\Query\Counter\CounterOfIdQuery;
-use OpenCounter\Application\Query\Counter\CounterOfNameQuery;
 use OpenCounter\Application\Service\Counter\CounterAddService;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
@@ -30,12 +29,8 @@ use OpenCounter\Application\Service\Counter\CounterRemoveService;
 use OpenCounter\Application\Service\Counter\CounterResetValueService;
 use OpenCounter\Application\Service\Counter\CounterSetStatusService;
 use OpenCounter\Application\Service\Counter\CounterViewService;
-use OpenCounter\Domain\Model\Counter\CounterId;
-use OpenCounter\Domain\Model\Counter\CounterName;
-use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Repository\CounterRepository;
 use OpenCounter\Infrastructure\Persistence\StorageInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -287,8 +282,6 @@ class CounterController
               )
             );
 
-
-
             $code = 201;
         } catch (\Exception $e) {
             $result = $e->getMessage();
@@ -368,29 +361,17 @@ class CounterController
 
         try {
             $data = $request->getParsedBody();
-            // get the counter so we can use its id
-            $counter = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
-            );
 
             $increment = $data['value'];
 
-
             // TODO: get the counter id by getting counter by name or do we trust the client to do that himself and know his ids before sending commands
 
-            $this->CounterIncrementValueService->execute(
+            $result = $this->CounterIncrementValueService->execute(
               new CounterIncrementValueCommand(
-                $counter->getName(),
+                $args['id'],
                 $increment
               )
             );
-
-            // get the updated counter
-            $result = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
-            );
-
-
 
             $code = 201;
         } catch (\Exception $e) {
@@ -471,18 +452,17 @@ class CounterController
         try {
             $data = $request->getParsedBody();
 
-            $counterName = $data['name'];
+//            $counterName = $data['name'];
             $counterStatus = $data['status'];
-            $this->CounterSetStatusService->execute(
+            $result = $this->CounterSetStatusService->execute(
               new CounterSetStatusCommand(
-                $counterName,
+                $args['id'],
                 $counterStatus
               )
             );
-            $result = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
-            );
-
+//            $this->CounterViewService->execute(
+//              new CounterOfIdQuery($args['id'])
+//            );
 
             $code = 201;
         } catch (\Exception $e) {
@@ -565,22 +545,21 @@ class CounterController
             // Get at data we need from server request object
             // to build our command and query.
             $data = $request->getParsedBody();
-
-            // try getting the right counter first so we know which one to increment
-            $counter = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
-            );
+//
+//            // try getting the right counter first so we know which one to increment
+//            $counter = $this->CounterViewService->execute(
+//              new CounterOfIdQuery()
+//            );
 
             $return = $this->CounterResetValueService->execute(
-              new CounterResetValueCommand($counter->getId())
+              new CounterResetValueCommand($args['id'])
             );
-//            $return = $counter->getValue();
+            $code = 201;
 
         } catch (\Exception $e) {
             $return = $e->getMessage();
-            //      $code = 409;
+            $code = 409;
         }
-
 
         $body = $response->getBody();
         // now how can we allow slim response to write to body like this? and how to handle mimetypes
@@ -642,7 +621,7 @@ class CounterController
 
         } catch (\Exception $e) {
             $result = $e->getMessage();
-                  $code = 409;
+            $code = 409;
         }
 
         $body = $response->getBody();
@@ -725,8 +704,6 @@ class CounterController
         return $response->withStatus($code);
     }
 
-
-
     /**
      * Delete Couter Route
      *
@@ -786,10 +763,10 @@ class CounterController
     ) {
 //
         try {
-            $this->CounterRemoveService->execute(
+            $result = $this->CounterRemoveService->execute(
               new CounterRemoveCommand($args['id'])
             );
-
+            $code = 201;
         } catch (\Exception $e) {
 
             $result = $e->getMessage();
