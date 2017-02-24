@@ -1,22 +1,31 @@
 <?php
 /**
+ * UsersController
+ *
  * Created by PhpStorm.
  * User: rosenstrauch
  * Date: 8/6/16
  * Time: 11:46 AM
+ *
+ * TODO: consider routing all requests through a single method since ideally its always just a matter of calling the right service and returning the right template (or errorpage on exception)
  */
 
 namespace SlimCounter\Controllers;
 
 use Interop\Container\ContainerInterface;
-use OpenCounter\Domain\Model\Counter\CounterName;
-use OpenCounter\Domain\Model\Counter\CounterValue;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AdminUiController implements ContainerInterface
+use SlimCounter\Application\Command\Oauth2\AddClientCommand;
+
+class UsersController implements ContainerInterface
 {
     protected $ci;
+
+    private $logger;
+    private $counter_repository;
+    private $router;
+    private $counterBuildService;
 
     public function __construct(ContainerInterface $ci)
     {
@@ -26,112 +35,80 @@ class AdminUiController implements ContainerInterface
         $this->counterBuildService = $this->ci->get('counter_build_service');
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
-        $this->storage = $this->ci->get('pdo');
-        $this->CounterViewService = $this->ci->get('CounterViewService');
-        $this->CounterViewUiService = $this->ci->get('CounterViewUiService');
-        $this->CounterAddService = $this->ci->get('CounterAddService');
+        $this->oauth2_storage = $this->ci->get('oauth2_storage');
+
+        $this->add_client_application_service = $this->ci->get('add_client_application_service');
     }
 
-    /**
-     * New Counter form
-     *
-     * basic form which submits to a different route.
-     * currently just for adding not for editing
-     *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param $args
-     * @return mixed
-     */
-    public function newCounterForm(Request $request, Response $response, $args)
+    public function addClientForm(Request $request, Response $response, $args)
     {
         // logging
-        $this->logger->info("admincontroller 'newCounterForm' route");
+        $this->logger->info("admincontroller 'newUserForm' route");
+
+        // TODO: just call an application service to fill the response
 
         // Render new counter form view
         return $this->renderer->render(
             $response,
-            'admin/counter-form.html.twig'
+            'admin/clients-form.html.twig'
         );
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param $args
-     * @return static
-     */
-
-    public function viewCounter(Request $request, Response $response, $args)
+    public function newClient(Request $request, Response $response, $args)
     {
+
+        // TODO: just call an application service to fill the response
+
+        // get at form data
+
+        $form_state = $request->getParsedBody();
+
+        $data = $form_state;
+        // call an application service that will list registered users.
         try {
-            $result = $this->CounterViewUiService->execute(
-                new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($args['name'])
+//            $result = $this->ci->get('add_user_application_service')
+            $result = $this->add_client_application_service;
+            $result->execute(
+                new AddClientCommand(
+                    $data['client_id'],
+                    $data['client_secret'],
+                    $data['redirect_uri'],
+                    $data['grant_types'],
+                    $data['scopes'],
+                    $data['user_id']
+                )
             );
-
-            $response->withJson($result);
+        } catch (ClientAlreadyExistsException $e) {
+//            $form->get('email')->addError(new FormError('Email is already registered by another user'));
         } catch (\Exception $e) {
-            $return = ['message' => $e->getMessage()];
-            $code = 409;
-            $response->write('resource not found');
-
-            return $response->withStatus(404);
+            throw $e;
+//            $form->addError(new FormError('There was an error, please get in touch with us'));
         }
+        // TODO: consider adding oauth_users along with local users.
+        //$this->storage->setUser($username, $password, $firstName = null, $lastName = null);
 
-        return $this->renderer->render(
-            $response,
-            'admin/view-counter.html.twig',
-            $result->toArray()
-        );
-//
-    }
+        // TODO: provie a generated client id and secret to each user.
 
-    /**
-     * Add Counter Route is called by New Counter Form
-     *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param $args
-     *
-     * @return \Slim\Http\Response
-     */
-    public function addCounter(Request $request, Response $response, $args)
-    {
+        //$this->storage->setClientDetails($client_id, $client_secret, $redirect_uri, $grant_types, $scopes, $user_id);
 
-        try {
-            $data = $request->getParsedBody();
-
-            $name = $data['name'];
-            $value = $data['value'];
-            $status = 'active';
-            $password = 'passwordplaceholder';
-
-            // call Service that executes appropriate command with given parameters.
-
-            $result = $this->CounterAddService
-              ->execute(new \OpenCounter\Application\Command\Counter\CounterAddCommand(
-                  $name,
-                  $value,
-                  $status,
-                  $password
-              ));
-            $code = 201;
-        } catch (\Exception $e) {
-            $return = ['message' => $e->getMessage()];
-            $code = 409;
-        }
-
-        // just redirect to counter list but try to redirect to newly created counter instead
-        // TODO: try to redirect to appropriate fetch id url
-        // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-              'admin.counter.view',
-              ['name' => $name]
+              'admin.client.add',
+              ['client' => (array)$result]
           ));
 
         return $response->withRedirect((string)$uri);
     }
+
+    public function index(Request $request, Response $response, $args)
+    {
+        // log message
+        $this->logger->info("user controller 'index' route");
+
+        // Render index view
+        return $this->renderer->render($response, 'index.twig', $args);
+    }
+
 
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface
@@ -181,6 +158,7 @@ class AdminUiController implements ContainerInterface
     private function exceptionThrownByContainer(
         \InvalidArgumentException $exception
     ) {
+
         $trace = $exception->getTrace()[0];
 
         return $trace['class'] === PimpleContainer::class && $trace['function'] === 'offsetGet';

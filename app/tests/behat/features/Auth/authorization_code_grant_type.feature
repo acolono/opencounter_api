@@ -3,8 +3,8 @@
 #
 #  Scenario: Without authorization code
 #    When I create oauth2 request
-##    And I add the request parameters:
-##        | grant_type | authorization_code |
+#    And I add the request parameters:
+#        | grant_type | authorization_code |
 #    And I send a access token request
 #    Then the response status code is 400
 #    And the response has a "error" property and it is equals "invalid_request"
@@ -25,7 +25,7 @@
 #    When I create oauth2 request
 #    And I add the request parameters:
 #        | grant_type | authorization_code   |
-#    And I add a valid auth_code
+#    And I add client credentials
 #    And I send a access token request
 #    Then the response status code is 200
 #    And the response is oauth2 format

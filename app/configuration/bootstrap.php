@@ -1,7 +1,8 @@
 <?php
 
-define("API_HOST", "opencounter-slim-codenv-webserver:8080");
 
+// Setting a constant we will use later during swagger annotations
+define("API_HOST", "opencounter-slim-codenv-webserver:8080");
 
 
 if (PHP_SAPI == 'cli-server') {
@@ -14,6 +15,7 @@ if (PHP_SAPI == 'cli-server') {
   }
 }
 
+// setup autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
 
@@ -28,7 +30,17 @@ $dotenv->required('MYSQL_USER');
 $dotenv->required('MYSQL_PASSWORD');
 
 
-// Instantiate the app
+// Instantiate the application with settings from file
 $settings = require __DIR__ . '/settings.php';
 
+
 $app = new \Slim\App($settings);
+
+// No idea when best to initialize even subscribers. but before routes and controllers or before each request probably
+
+//\Ddd\Domain\DomainEventPublisher::instance()->subscribe(
+//  new \Ddd\Domain\PersistDomainEventSubscriber(
+//    $app->getContainer()->get('event_store')
+//  )
+//);
+
