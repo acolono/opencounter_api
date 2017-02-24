@@ -235,6 +235,7 @@ class CounterController
             $value = $data['value'];
             $status = 'active';
             $password = 'passwordplaceholder';
+            $id = (isset($args['id'])) ? $args['id'] : null;
 
             // call Service that executes appropriate command with given parameters.
 
@@ -243,7 +244,8 @@ class CounterController
                 $name,
                 $value,
                 $status,
-                $password
+                $password,
+                $id
               )
             );
 
@@ -289,7 +291,8 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      @SWG\Schema(ref="#/definitions/CounterIncrementValueCommand")
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
      *     ),
      *     @SWG\Parameter(
      *       name="increment",
@@ -373,12 +376,14 @@ class CounterController
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
-     *         description="ID of Counter to lock or unlock",
-     *         format="int64",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         type="integer"
+     *      parameter="id",
+     *      description="id of counter to lock or unlock",
+     *      in="path",
+     *      name="id",
+     *      required=false,
+     *      type="string",
+     *      default="1fffffff-6160-4201-93d1-568d5a50a886",
+     *      @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
      *     ),
      *     @SWG\Parameter(
      *       name="status",
@@ -386,7 +391,7 @@ class CounterController
      *       type="string",
      *       in="body",
      *       default="locked",
-     *       @SWG\Schema(ref="#/definitions/Counter"),
+     *       @SWG\Schema(ref="#/definitions/CounterSetStatusCommand")
      *     ),
      *     @SWG\Response(
      *         response=400,
@@ -468,20 +473,22 @@ class CounterController
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         description="Counter object that needs to be updated",
-     *         required=true,
-     *         @SWG\Schema(ref="#/definitions/CounterSetValueCommand"),
+     *       name="id",
+     *       description="counter id to reset",
+     *       type="string",
+     *       in="body",
+     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       @SWG\Schema(ref="#/definitions/CounterResetValueCommand")
      *     ),
      *     @SWG\Parameter(
-     *         description="ID of Counter to Set",
-     *         format="int64",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         type="integer",
-     *         @SWG\Schema(ref="#/definitions/CounterSetValueCommand"),
+     *      parameter="id",
+     *      description="id of counter to lock or unlock",
+     *      in="path",
+     *      name="id",
+     *      required=false,
+     *      type="string",
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      @SWG\Schema(ref = "#/definitions/CounterResetValueCommand")
      *     ),
      *     @SWG\Response(
      *         response=400,
@@ -565,13 +572,14 @@ class CounterController
      *     summary="read value from counter",
      *     operationId="getCount",
      *     @SWG\Parameter(
-     *         description="ID of Counter to get",
-     *         format="int64",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         type="integer",
-     *      @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
+     *      parameter="id",
+     *      description="id of counter to get",
+     *      in="path",
+     *      name="id",
+     *      required=false,
+     *      type="string",
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
      *     ),
      *     produces={
      *         "application/json",
@@ -638,13 +646,14 @@ class CounterController
      *         "text/xml"
      *     },
      *     @SWG\Parameter(
-     *         description="ID of Counter to get",
-     *         format="int64",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         type="string",
-     *         @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
+     *      parameter="id",
+     *      description="id of counter to Delete",
+     *      in="path",
+     *      name="id",
+     *      required=false,
+     *      type="string",
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
      *     ),
      *     @SWG\Response(
      *         response=200,
@@ -683,9 +692,10 @@ class CounterController
         $code = 400;
         try {
 
-            $result = $this->CounterViewService->execute(
+            $counter = $this->CounterViewService->execute(
               new CounterOfIdQuery($args['id'])
             );
+            $result = $counter->toArray();
             $code = 200;
         } catch (\Exception $e) {
             $result = $e->getMessage();

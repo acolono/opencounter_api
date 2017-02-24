@@ -64,8 +64,11 @@ services:
 #      Default API Key (optional)
 #      API_KEY: 'demoapikey'
 #      oAuth2 client ID (optional, use empty to remove)
+      OAUTH_REALM: ''
       OAUTH_CLIENT_ID: librarian
       OAUTH_CLIENT_SECRET: secret
+      OAUTH_APP_NAME: swaggerui28
+#      OAUTH_ADDITIONAL_PARAMS: 'user_id=librarian'
 
 
   phpmyadmin:
