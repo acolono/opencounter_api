@@ -1,20 +1,14 @@
 <?php
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\WebApiExtension\Context\WebApiContext;
-
+use OpenCounter\Domain\Model\Counter\CounterId;
+use OpenCounter\Domain\Model\Counter\CounterName;
 use Pavlakis\Slim\Behat\Context\App;
 use Pavlakis\Slim\Behat\Context\KernelAwareContext;
-
-use OpenCounter\Domain\Model\Counter\CounterId;
-use OpenCounter\Domain\Model\Counter\CounterValue;
-use OpenCounter\Domain\Model\Counter\CounterName;
-use OpenCounter\Domain\Model\Counter\Counter;
 
 /**
  * Defines application features from the specific context.
@@ -22,51 +16,44 @@ use OpenCounter\Domain\Model\Counter\Counter;
 class OpenCounterWebApiContext extends WebApiContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
     use App;
-  protected $parameters;
+    const GUZZLE_PARAMETERS = 'guzzle_parameters';
+    protected $parameters;
+    protected $headers = [];
+    /**
+     * @var GuzzleHttpClient
+     */
+    protected $client = null;
+    /**
+     * @var ResponseInterface
+     */
+    protected $response = null;
+    /**
+     * @var RequestInterface
+     */
+    protected $request = null;
+    protected $requestBody = [];
+    protected $data = null;
+    /**
+     * @var string
+     */
+    protected $refreshToken;
+    protected $accessToken;
+    protected $accessHeader;
+    /**
+     * @var string
+     */
+    protected $lastErrorJson;
     /**
      * @var bool
      */
     private $error;
-  const GUZZLE_PARAMETERS = 'guzzle_parameters';
 
-  protected $headers = [];
+    private $oauthContext;
+    private $counters;
 
-  /**
-   * @var GuzzleHttpClient
-   */
-  protected $client = null;
+    private $counterRepository;
 
-  /**
-   * @var ResponseInterface
-   */
-  protected $response = null;
-
-  /**
-   * @var RequestInterface
-   */
-  protected $request = null;
-
-  protected $requestBody = [];
-
-  protected $data = null;
-
-
-  /**
-   * @var string
-   */
-  protected $refreshToken;
-  protected $accessToken;
-  protected $accessHeader;
-
-  /**
-   * @var string
-   */
-  protected $lastErrorJson;
-
-
-  private $oauthContext;
-
-  /**
+    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -75,39 +62,54 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function __construct(array $parameters)
     {
-      // Initialize your context here
-      $this->parameters = $parameters;
+        // Initialize your context here
+        $this->parameters = $parameters;
         $this->baseUrl = $parameters['base_url'];
         // TODO: should we be getting them from the container here since we are kernel aware? probably
-//        $this->logger = $this->app->getContainer()->get('logger');
 //        $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
-//        $this->db = $this->app->getContainer()->get('db');
-//        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
-//       // $this->counterRepository = $this->app->getContainer()->get('counter_repository');
-        $this->counters = array();
 
-//        $this->counterBuildService = $this->app->getContainer()->get('counterBuildService');
+        // TODO: why can we access app in our steps but not here in construct?
+//        $this->db = $this->app->getContainer()->get('pdo');
+//        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counters = [];
+//        $this->oauth_storage = $this->app->getContainer()->get('oauth_storage');
     }
 
-  /** @BeforeScenario */
-  public function gatherContexts(BeforeScenarioScope $scope)
-  {
-    $environment = $scope->getEnvironment();
+    /** @BeforeScenario */
+    public function gatherContexts(BeforeScenarioScope $scope)
+    {
+        $environment = $scope->getEnvironment();
 
-    $this->oauthContext = $environment->getContext('RstGroup\Behat\OAuth2\Context\OAuth2Context');
-  }
+        //$this->oauthContext = $environment->getContext('RstGroup\Behat\OAuth2\Context\OAuth2Context');
+        // lets insert a valid access token before each scenario and remove after
+        // set them from context parameters shouldnt be neccessary
+        $access_token = 'abxc';
+        $client_id = 'abxc';
+        $user_id = 'abxc';
+        $time = 'tomorrow';
+        $expires = strtotime($time);
+        $scope = 'write:counters read:counters';
+
+        $this->app->getContainer()
+          ->get('oauth2_storage')
+          ->setAccessToken($access_token, $client_id, $user_id, $expires,
+            $scope);
+        $this->accessToken = $access_token;
+    }
+
     /**
      * @AfterScenario
      */
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {
-
-        $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = $this->app->getContainer()
-            ->get('counter_mapper');
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
-//    $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlPersistentCounterRepository($this->sqlManager);
+
+        $this->app->getContainer()
+          ->get('oauth2_storage')
+          ->unsetAccessToken($this->accessToken);
 
         if (isset($this->counters) && is_array($this->counters)) {
             echo 'removing testing counters';
@@ -117,51 +119,68 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
                 $this->counterRepository->remove($counter);
             }
         }
+
     }
 
-  /**
-     * @Given a counter :name with ID :id and a value of :value has been set
+    /**
+     * Utility since we dont set counters with ids via service layer
+     * This doenst clean up after itsself so we can test counter removal.
+     *
+     * TODO: has been set doesnt need to use the webapi. if we want to use the webapi we use: i set a. consider using step from lower context
+     * @Given a counter with id :id has been set
+     *
+     */
+
+    public function aCounterWithIdhasBeenSet($id)
+    {
+        $name = 'testname';
+        $value = "1";
+        $this->aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id,
+          $value);
+    }
+
+    /**
+     * adding counters with a specific id
+     * isnt possible via the application layer.
+     * instead this is just a utility to
+     * create a counter with id for later test steps
+     * and uses the domain context for it
+     * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
     public function aCounterWithIdAndAValueOfWasAddedToTheCollection(
       $name,
       $id,
       $value
     ) {
-        $endpoint = '/api/counters/' . $id;
-        // send a POST request to the endpoint with the counter values in the body
-        $newCounterArray = array(
-          json_encode(array('anId' => $id, 'name' => $name, 'value' => $value))
-        );
-        $newCounterjsonString = new PyStringNode($newCounterArray, 1);
-        $this->iSetHeaderWithValue('Content-Type', 'application/json');
-        $this->iSetHeaderWithValue('Accept', 'application/json');
-        $this->oauthContext->iHaveValidAccessToken();
-        $this->iSetHeaderWithValue('Authorization', $this->accessToken);
+        $this->counterName = new CounterName($name);
+        $this->counterId = new CounterId($id);
+        $this->counterValue = new \OpenCounter\Domain\Model\Counter\CounterValue(0);
+        $this->counter_repository = $this->app->getContainer()
+          ->get('counter_repository');
+        $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
 
-//        TODO: try authenticatink with valid access token as api key header.
-      $this->iSetHeaderWithValue('api_key', 'testtoken');
-//        TODO: make sure we send valid authentication in all requests we make in this context. we are not testing authorization layer
-        $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
-        $this->printResponse();
+        // lets use the factory to create the counter here, but not bother with using the build Service
+        // TODO we are not testing here just setting up a convinience function,
+        // could use this directly from domaincontext actually but there we arent saving the counter
+        //$this->domainContext->aCounterWithIdhasBeenSet($id);
+        // gotta make sure we got the factory or just create one
+        $this->counter = $this->counter_factory->build(
+          $this->counterId,
+          $this->counterName,
+          $this->counterValue,
+          'active',
+          'passwordplaceholder');
 
-        // get counter object from db and remember it so we can delete it later.
+        $this->counter_repository->save($this->counter);
 
-        $this->db = $this->app->getContainer()->get('db');
-        $this->sqlManager = $this->app->getContainer()
-            ->get('counter_mapper');
-        $this->counterRepository = $this->app->getContainer()
-            ->get('counter_repository');
+        // mark for removal
+        $this->counters[] = $this->counter;
 
-        $counter = $this->counterRepository->getCounterByName($name);
-        $this->counters[] = $counter;
-        // since we are using this as a given step we can make sure it was added successfully within this step
-        $this->theResponseShouldContain('id');
-        $this->theResponseCodeShouldBe('201');
 
-        //make absolutely sure we added it successfully and our cleanup works
-        $errormesage = array('message' => "counter with id $id already exists");
-        $ErrorString = new PyStringNode($newCounterArray, 1);
-        $this->theResponseShouldNotContain($ErrorString);
+
+
+
+
     }
 
     /**
@@ -169,24 +188,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function theValueReturnedShouldBe($arg1)
     {
-        $this->theResponseShouldContain($arg1);
-    }
-
-    /**
-     * @When I increment the value of the counter with ID :id
-     */
-    public function iIncrementTheValueOfTheCounterWithId($id)
-    {
-        $endpoint = '/api/counters/' . $id . '/passwordplaceholder';
-
-        $CounterArray = [
-          json_encode(['value' => '+1'])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
         $this->printResponse();
 
+        $this->theResponseShouldContain($arg1);
     }
 
     /**
@@ -194,15 +198,71 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iIncrementTheValueOfTheCounterWithName($name)
     {
-        $endpoint = '/api/counters/' . $name . '/value';
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+       $this->iIncrementTheValueOfTheCounterWithId($id);
+
+    }
+
+    /**
+     * TODO: we can not yet get id through webapi
+     * and are using application service directly
+     * to get the other tests to complete.
+     * we will need to expose an endpoint where
+     * clients can query for counter id by counter
+     * name though and replace this step definition.
+     * @When I (can )get the Id of the counter with Name :name
+     */
+    public function iGetTheIdOfTheCounterWithName($name)
+    {
+        $this->CounterViewUiService = $this->app->getContainer()
+          ->get('CounterViewUiService');
+
+        try {
+            $counter = $this->CounterViewUiService->execute(
+              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($name)
+            );
+
+        } catch (Exception $e) {
+            $error = ['message' => $e->getMessage()];
+
+            return $error;
+        }
+
+        if (isset($counter)) {
+            return $counter->getId();
+        }
+
+    }
+
+    /**
+     * @When I increment the value of the counter with ID :id
+     */
+    public function iIncrementTheValueOfTheCounterWithId($id)
+    {
+        $endpoint = '/api/counters/value/' . $id;
 
         $CounterArray = [
-          json_encode(['value' => 1])
+          json_encode(['value' => '+1'])
         ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
+
+    }
+
+    /**
+     * @When I lock the counter with Name :name
+     */
+    public function iLockTheCounterWithName($name)
+    {
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+        // TODO: do we need to get the id to do this or can we patch to the generic endpoint
+        $this->iLockTheCounterWithId($id);
 
     }
 
@@ -211,35 +271,15 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iLockTheCounterWithId($id)
     {
-        $endpoint = '/api/counters/' . $id . '/status';
+        $endpoint = '/api/counters/status/' . $id;
 
         $CounterArray = [
-          json_encode(['value' => '1', 'status' => 'locked'])
+          json_encode(['id' => $id, 'value' => '1', 'status' => 'locked'])
         ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
-    }
-
-    /**
-     * @When I lock the counter with Name :name
-     */
-    public function iLockTheCounterWithName($name)
-    {
-        $endpoint = '/api/counters/' . $name . '/status';
-
-        $CounterArray = [
-          json_encode([
-            'status' => 'locked',
-            'value' => 0
-          ])
-        ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
-        $this->printResponse();
-
     }
 
     /**
@@ -247,17 +287,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iShouldSeeAnError($message)
     {
-        $errormesage = array('message' => $message);
+        $errormesage = ['message' => $message];
         $ErrorString = new PyStringNode($errormesage, 1);
         $this->theResponseShouldContain($ErrorString);
-    }
-
-    /**
-     * @When I get the value of the counter with ID :id
-     */
-    public function iGetTheValueOfTheCounterWithId($id)
-    {
-        $this->iSendARequest('GET', "api/counters/$id/value");
     }
 
     /**
@@ -265,7 +297,60 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iGetTheValueOfTheCounterWithName($name)
     {
-        $this->iSendARequest('GET', "api/counters/$name/value");
+        // we expect our client to know the id and use that,
+        // we need to make sure the client can get at the id
+        // somehow from the name somewhere else.
+        // during this test we just get the id from the repository directly. (or using our service)
+        // getting the counter id from its name deserves its own scenario.
+        // TODO: get counter id from name, consider whether we expect a hateoas link or just the id back when we look for a name (in seperate scenario)
+
+// just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+
+        $this->iGetTheValueOfTheCounterWithId($id);
+    }
+
+
+//    /**
+//     * @When I get the Id of the counter with Name :arg1
+//     */
+//    public function iGetTheIdOfTheCounterWithName($arg1)
+//    {
+//        throw new PendingException();
+//    }
+
+    /**
+     * @When I get the value of the counter with ID :id
+     */
+    public function iGetTheValueOfTheCounterWithId($id)
+    {
+
+        $this->iSendARequest('GET', 'api/counters/value/' . $id);
+        $this->printResponse();
+
+    }
+
+    /**
+     * @Then the Id returned should be :arg1
+     */
+    public function theIdReturnedShouldBe($arg1)
+    {
+        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
+
+    /**
+     * @When I reset the counter with Name :name
+     */
+    public function iResetTheCounterWithName($name)
+    {
+
+        // since we dont have endpoints for counter name directly
+        // lets for now resolve name to id internally
+
+        // just a helper until we implemented an endpoint
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+
+        $this->iResetTheCounterWithId($id);
     }
 
     /**
@@ -279,24 +364,10 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
           json_encode(['value' => 0])
         ];
 //      [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PATCH', $endpoint, $CounterjsonString);
-    }
-
-    /**
-     * @When I reset the counter with Name :name
-     */
-    public function iResetTheCounterWithName($name)
-    {
-        $endpoint = '/api/counters/' . $name . '/passwordplaceholder';
-
-        $CounterArray = [
-          json_encode(['value' => 0])
-        ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('PUT', $endpoint, $CounterjsonString);
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
         $this->printResponse();
+        $this->theResponseCodeShouldBe('200');
     }
 
     /**
@@ -305,7 +376,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function noCounterWithIdHasBeenSet($id)
     {
         // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
+        $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
@@ -324,10 +395,10 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
 
         // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
+        $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
-            ->get('counter_repository');
+          ->get('counter_repository');
         $counter = $this->counterRepository->getCounterByName(new CounterName($name));
 
         // if we get a counter something is wrong
@@ -338,84 +409,14 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
     /**
-     * @When I set a counter with name :name
+     * @When I remove the counter with name :name
      */
-    public function iSetACounterWithName($name)
+    public function iRemoveTheCounterWithName($name)
     {
-      $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
-    }
 
-    /**
-     * @Given a counter :name with a value of :value has been set
-     */
-  public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
-    {
-      $endpoint = '/api/counters/' . $name;
-      // send a POST request to the endpoint with the counter values in the body
-      $newCounterArray = array(
-        json_encode(array(
-          'name' => $name,
-          'uuid' => 'demouuid',
-          'value' => $value
-        ))
-      );
-//      [$rowLineNumber => [$val1, $val2, $val3]]
-    $newCounterjsonString = new PyStringNode($newCounterArray, 1);
-    $this->iSetHeaderWithValue('Content-Type', 'application/json');
-    // TODO: authenticate using valid access token or bypass auth layer entirely so we just test counter routes: right now counter routes need an oauth access token but that should not really matter here since authentication and authorization get their own tests. here we just make sure the webapi for counters works. so where can i best ensure these tests ignore the oauth access layer maybe use parts of oauth context here to authenticate? http://docs.behat.org/en/v3.0/cookbooks/accessing_contexts_from_each_other.html
-    $this->oauthContext->iHaveValidAccessToken();
-    $this->accessHeader = 'Bearer ' . $this->oauthContext->accessToken;
-    $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
-
-    $this->iSetHeaderWithValue('Accept', 'application/json');
-    $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
-    $response = $this->printResponse();
-
-    // get the counter we added to db and remember it so we can delete it later
-    $this->db = $this->app->getContainer()->get('db');
-    $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
-    $this->counterRepository = $this->app->getContainer()
-      ->get('counter_repository');
-    $this->counterName = new CounterName($name);
-    $counter = $this->counterRepository->getCounterByName($this->counterName);
-
-    $this->counters[] = $counter;
-
-    // since we are using this as a given step we can make sure it was added successfully within this step
-    //$this->theResponseShouldContain('id');
-
-    $this->theResponseCodeShouldBe('201');
-
-    //make absolutely sure we added it successfully and our cleanup works
-    $errormesage = array('message' => "counter with name $name already exists");
-    $ErrorString = new PyStringNode($newCounterArray, 1);
-    $this->theResponseShouldNotContain($ErrorString);
-    }
-
-
-    /**
-     * @Given a counter with id :id has been set
-     */
-    public function aCounterWithIdHasBeenSet($id)
-    {
-        // testing the counterbuildservice requires us to create a request object
-        $name = 'democounter';
-        $uri = \Slim\Http\Uri::createFromString($this->baseUrl);
-        $headers = new \Slim\Http\Headers();
-        $cookies = [];
-        $serverParams = [];
-        $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
-        $args = ['name' => $name, 'id' => $id, 'value' => 0];
-
-        $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
-            $serverParams, $body);
-
-        $request = $request->withParsedBody($args);
-
-        // now test the build service just in case
-        // cant test build service without request
-        $this->counters[] = $this->app->getContainer()->get('counter_build_service')->execute($request, $args);
-
+// just a helper until we implemented an endpoint, might lead to wrong errors when id doesnt exist
+        $id = $this->iGetTheIdOfTheCounterWithName($name);
+        $this->iRemoveTheCounterWithId($id);
 
     }
 
@@ -424,31 +425,21 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iRemoveTheCounterWithId($id)
     {
-        $endpoint = '/api/counters/' . $id . '/passwordplaceholder';
+        $endpoint = '/api/counters/' . $id;
+        $this->iSetHeaderWithValue('Content-Type', 'application/json');
 
+        $this->accessHeader = 'Bearer ' . $this->accessToken;
+        $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
+
+        $this->iSetHeaderWithValue('Accept', 'application/json');
         $CounterArray = [
-          json_encode(['value' => 0, 'id' => $id])
+          json_encode(['value' => 0])
         ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterjsonString);
+//      [$rowLineNumber => [$val1, $val2, $val3]]
+        $CounterStringNode = new PyStringNode($CounterArray, 1);
+        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterStringNode);
         $this->printResponse();
-    }
-
-    /**
-     * @When I remove the counter with name :name
-     */
-    public function iRemoveTheCounterWithName($name)
-    {
-        $endpoint = '/api/counters/' . $name . '/passwordplaceholder';
-
-        $CounterArray = [
-          json_encode(['value' => 0, 'name' => $name])
-        ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
-        $CounterjsonString = new PyStringNode($CounterArray, 1);
-        $this->iSendARequestWithBody('DELETE', $endpoint, $CounterjsonString);
-        $this->printResponse();
+//        $this->theResponseCodeShouldBe('200');
     }
 
     /**
@@ -456,15 +447,112 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function aCounterWithNameHasBeenSet($name)
     {
-        $this->aCounterHasBeenSet($name);
+        $id = '1111111';
+        $value = 1111111;
+        $this->aCounterWithIdAndAValueOfWasAddedToTheCollection(
+          $name,
+          $id,
+          $value
+        );
     }
 
-  /**
-   * @Given a counter :name has been set
-   */
-  public function aCounterHasBeenSet($name) {
-    $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
+    /**
+     * @Given a counter :name has been set
+     */
+    public function aCounterHasBeenSet($name)
+    {
+        $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
 
-  }
+    }
+
+    /**
+     * creates counter via webapi
+     * will mark counter for removal
+     * verifies creation was successful
+     * @Given a counter :name with a value of :value has been set
+     */
+    public function aCounterWithValueOfWasAddedToTheCollection($name, $value)
+    {
+
+        $endpoint = '/api/counters/';
+        // send a POST request to the endpoint with the counter values in the body
+        $newCounterArray = [
+          json_encode([
+            'name' => $name,
+            'value' => $value
+          ])
+        ];
+        $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+        $this->iSetHeaderWithValue('Content-Type', 'application/json');
+
+        $this->accessHeader = 'Bearer ' . $this->accessToken;
+        $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
+
+        $this->iSetHeaderWithValue('Accept', 'application/json');
+        $this->iSendARequestWithBody('POST', $endpoint, $newCounterjsonString);
+        $this->printResponse();
+        $this->theResponseCodeShouldBe('201');
+
+        // get the counter we added to db and remember it so we can delete it later
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        $this->counterName = new CounterName($name);
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
+
+    }
+
+    /**
+     * creates counter via webapi
+     * will mark counter for removal
+     * verifies response code
+     * @When I set a counter with name :name
+     */
+
+    public function iSetACounterWithName($name)
+    {
+        try {
+
+            $endpoint = '/api/counters/';
+            // send a POST request to the endpoint with the counter values in the body
+            $newCounterArray = [
+              json_encode([
+                'name' => $name,
+                'value' => '0'
+              ])
+            ];
+            $newCounterjsonString = new PyStringNode($newCounterArray, 1);
+            $this->iSetHeaderWithValue('Content-Type', 'application/json');
+
+            $this->accessHeader = 'Bearer ' . $this->accessToken;
+            $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
+
+            $this->iSetHeaderWithValue('Accept', 'application/json');
+            $this->iSendARequestWithBody('POST', $endpoint,
+              $newCounterjsonString);
+            $this->printResponse();
+            $this->theResponseCodeShouldBe('201');
+
+
+
+
+        } catch (Exception $e) {
+            $error = ['message' => $e->getMessage()];
+
+            return $error;
+        }
+        $this->counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        $this->counterName = new CounterName($name);
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
+
+    }
 
 }

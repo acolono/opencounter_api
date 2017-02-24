@@ -14,7 +14,35 @@ class UserSeeder extends AbstractSeed
      */
     public function run()
     {
-      $data = array(
+        $data = array(
+          array(
+            'id' => 'librarian',
+//          TODO: hash passwords in db
+            'password' => 'secret',
+            'confirmation_token_token' => 'secret',
+            'remember_password_token_token' => 'secret',
+            'email' => 'a@b.c',
+            'roles' => '{"0":"admin","1":"user"}',
+            'invitation_token_token' => 'a@b.c',
+          ),
+          array(
+            'id' => 'testuser',
+//          TODO: hash passwords in db
+            'password' => 'testuser',
+            'confirmation_token_token' => 'testuser',
+            'remember_password_token_token' => 'testuser',
+            'email' => 'user@b.c',
+            'roles' => '{"1":"user"}',
+            'invitation_token_token' => 'a@b.c',
+          ),
+
+        );
+
+        $user = $this->table('user');
+        $user->insert($data)
+          ->save();
+
+        $data = array(
         array(
           'username' => 'librarian',
 //          TODO: hash passwords in db
@@ -25,7 +53,16 @@ class UserSeeder extends AbstractSeed
           'email' => 'a@b.c',
           'email_verified' => 1,
         ),
-
+          array(
+            'username' => 'oauthuser',
+//          TODO: hash passwords in db
+            'password' => 'oauthuser',
+            'first_name' => 'oauthuser',
+            'last_name' => 'oauthuser',
+            'scope' => 'write:counters read:counters',
+            'email' => 'aoauthuser@b.c',
+            'email_verified' => 1,
+          ),
       );
 
       $oauth_users = $this->table('oauth_users');

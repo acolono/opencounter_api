@@ -1,5 +1,6 @@
 suites:
   opencounter_suite:
-    namespace: OpenCounter
+    namespace: SlimCounter
+    psr4_prefix: SlimCounter
     src_path: %paths.config%/../../src
     spec_path: %paths.config%/

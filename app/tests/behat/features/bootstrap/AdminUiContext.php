@@ -21,12 +21,11 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function __construct($parameters)
     {
-      // Initialize your context here
-      $this->parameters = $parameters;
-      $this->baseUrl = $parameters['base_url'];
+        // Initialize your context here
+        $this->parameters = $parameters;
+        $this->baseUrl = $parameters['base_url'];
         $this->counters = array();
     }
-
 
     /**
      * @AfterScenario
@@ -34,13 +33,13 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {
 
-        $this->db = $this->app->getContainer()->get('db');
+        $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
-            ->get('counter_repository');
-      // TODO: ignore empty array
+          ->get('counter_repository');
+        // TODO: ignore empty array
 
-      if (isset($this->counters) && is_array($this->counters) && !(empty($this->counters))) {
+        if (isset($this->counters) && is_array($this->counters) && !(empty($this->counters))) {
             echo 'removing testing counters';
 
             // foreach $created_counters as counter delete counter
@@ -61,92 +60,95 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     /**
      * @Given a counter :name with a value of :value has been set
      */
-  public function aCounterWithAValueOfHasBeenSet($name, $value)
+    public function aCounterWithAValueOfHasBeenSet($name, $value)
     {
 
-      // TODO: like this it will fail if none was set, but probably we want to use this to make sure one is set.
-      // TODO: currently still ignoring the value because we arent creating the counter
-      // so add the counter to db here?
+        // TODO: like this it will fail if none was set, but probably we want to use this to make sure one is set.
+        // TODO: currently still ignoring the value because we arent creating the counter
+        // so add the counter to db here?
 // lets create the counter here instead of assuming it exists
-    $this->iSetACounterWithNameAndValue($name, $value);
+        $this->iSetACounterWithNameAndValue($name, $value);
 
-  }
+    }
 
     /**
      * @When I set a counter with name :name and value :value
      */
-  public function iSetACounterWithNameAndValue($name, $value)
+    public function iSetACounterWithNameAndValue($name, $value)
     {
-//      TODO: authenticate with basic auth
+//      authenticate with basic auth
         $this->visitPath($this->baseUrl . '/admin/content/add');
 //        [$rowLineNumber => [$val1, $val2, $val3]]
 //        id|name|label|value|placeholder
         $fields = new \Behat\Gherkin\Node\TableNode(array(
-            array('name', $name),
-            array('status', 'active'),
+          array('name', $name),
+          array('status', 'active'),
           array('value', $value)
         ));
         $this->fillFields($fields);
         $this->pressButton('submit');
 
         // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('db');
+        $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+        $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
-        $counter = $counterRepository->getCounterByName($this->counterName);
-
-        $this->counters[] = $counter;
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
     }
 
     /**
      * @Given no counter :name has been set
      */
-  public function noCounterHasBeenSet($name)
+    public function noCounterHasBeenSet($name)
     {
 
-      // get the counter we added to db and remember it so we can delete it later
-      $this->db = $this->app->getContainer()->get('db');
-      $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
-      $this->counterRepository = $this->app->getContainer()
-        ->get('counter_repository');
-      $counter = $this->counterRepository->getCounterByName(new CounterName($name));
+        // get the counter we added to db and remember it so we can delete it later
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        $counter = $this->counterRepository->getCounterByName(new CounterName($name));
 
-      // if we get a counter something is wrong
-      if ($counter) {
-        throw new \Exception('something is wrong, seems a counter is in the database');
-      }
+        // if we get a counter something is wrong
+        if ($counter) {
+            throw new \Exception('something is wrong, seems a counter is in the database');
+        }
 
     }
 
-  /**
-   * @When I set a counter with name :name
-   */
-  public function iSetACounterWithName($name) {
+    /**
+     * @When I set a counter with name :name
+     */
+    public function iSetACounterWithName($name)
+    {
 //      TODO: authorize requests via basic auth.
 
-    $this->visitPath($this->baseUrl . '/admin/content/add');
+        $this->visitPath($this->baseUrl . '/admin/content/add');
 //        [$rowLineNumber => [$val1, $val2, $val3]]
 //        id|name|label|value|placeholder
-    $fields = new \Behat\Gherkin\Node\TableNode(array(
-      array('name', $name),
-      array('status', 'active'),
-      array('value', 0)
-    ));
-    $this->fillFields($fields);
-    $this->pressButton('submit');
+        $fields = new \Behat\Gherkin\Node\TableNode(array(
+          array('name', $name),
+          array('status', 'active'),
+          array('value', 0)
+        ));
+        $this->fillFields($fields);
+        $this->pressButton('submit');
 
-    // get the counter we added to db and remember it so we can delete it later
-    $this->db = $this->app->getContainer()->get('db');
-    $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-    $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+        // get the counter we added to db and remember it so we can delete it later
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
-    $this->counterName = new CounterName($name);
-    $counter = $counterRepository->getCounterByName($this->counterName);
-
-    $this->counters[] = $counter;
-  }
+        $this->counterName = new CounterName($name);
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
+    }
 
     /**
      * @Then the value returned should be :value
@@ -178,12 +180,13 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     public function aCounterWithAValueOfexists($name, $value)
     {
 
-
         // get the counter we added to db and remember it so we can delete it later
-        $counterRepository = $this->app->getContainer()->get('counter_repository');
-        $counter = $counterRepository->getCounterByName(new CounterName($name));
-        // mark for post scenario deletion
-        $this->counters[] = $counter;
+        $counterRepository = $this->app->getContainer()
+          ->get('counter_repository');
+        // if we have a counter mark it for cleanup after scenario
+        if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
+            $this->counters[] = $counter;
+        }
         // if we get a counter something is wrong
         if (!$counter) {
             throw new \Exception('something is wrong, no counter by that name was found');
@@ -207,16 +210,17 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->iCanGetTheValueOfTheCounterWithName($name);
     }
 
-  /**
-   * @Then I can get the value of the counter with Name :name
-   */
-  public function iCanGetTheValueOfTheCounterWithName($name) {
+    /**
+     * @Then I can get the value of the counter with Name :name
+     */
+    public function iCanGetTheValueOfTheCounterWithName($name)
+    {
 
-    $this->visitPath($this->baseUrl . '/admin/counters/' . $name);
-    $this->assertElementContainsText('h1', 'View Counter ' . $name);
-    $this->assertElementOnPage('li.counter__value');
+        $this->visitPath($this->baseUrl . '/admin/counters/' . $name);
+        $this->assertElementContainsText('h1', 'View Counter ' . $name);
+        $this->assertElementOnPage('li.counter__value');
 
-  }
+    }
 
     /**
      * @When I lock the counter with name :name
@@ -252,11 +256,13 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $serverParams = [];
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
         $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
-            $serverParams, $body);
+          $serverParams, $body);
         $args = ['name' => $name, 'id' => $id, 'value' => 0];
 // now thest the build service just in case
         // cant test build service without request
-        $counter = $this->app->getContainer()->get('counter_build_service')->execute($request, $args);
+        $counter = $this->app->getContainer()
+          ->get('counter_build_service')
+          ->execute($request, $args);
 // still need to use repository to save counter and add it to counters array for post scenario deletion
         $this->app->getContainer()->get('counter_repository')->save($counter);
         $this->counters[] = $counter;
