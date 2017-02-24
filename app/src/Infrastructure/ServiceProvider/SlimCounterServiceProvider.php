@@ -6,26 +6,25 @@
  */
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
+use OpenCounter\Application\Command\Counter\CounterAddHandler;
+use OpenCounter\Application\Command\Counter\CounterIncrementValueHandler;
+use OpenCounter\Application\Command\Counter\CounterRemoveHandler;
 use OpenCounter\Application\Command\Counter\CounterResetValueHandler;
+use OpenCounter\Application\Command\Counter\CounterSetStatusHandler;
 use OpenCounter\Application\Query\Counter\CounterOfIdHandler;
 use OpenCounter\Application\Query\Counter\CounterOfNameHandler;
-use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterAddService;
+use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
 use OpenCounter\Application\Service\Counter\CounterRemoveService;
 use OpenCounter\Application\Service\Counter\CounterResetValueService;
+use OpenCounter\Application\Service\Counter\CounterSetStatusService;
+use OpenCounter\Application\Service\Counter\CounterViewService;
 use OpenCounter\Infrastructure\Factory\Counter\CounterFactory;
 use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository;
 use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use OpenCounter\Application\Command\Counter\CounterAddHandler;
-use OpenCounter\Application\Command\Counter\CounterIncrementValueHandler;
-use OpenCounter\Application\Command\Counter\CounterRemoveHandler;
-use OpenCounter\Application\Command\Counter\CounterSetStatusHandler;
-
-use OpenCounter\Application\Service\Counter\CounterSetStatusService;
-use OpenCounter\Application\Service\Counter\CounterViewService;
 
 /**
  * Class OpenCounterServiceProvider
@@ -64,12 +63,10 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
     {
         $pimple['counter_mapper'] = function ($pimple) {
             $counter_mapper = new SqlManager($pimple['pdo']);
-
             return $counter_mapper;
         };
 
         $pimple['counter_repository'] = function ($pimple) {
-
             $counter_mapper = $pimple['counter_mapper'];
             $counter_repository = new SqlCounterRepository($counter_mapper);
 
@@ -91,11 +88,12 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
         /**
          * Application service used to view a counter
+         *
          * @param $container
+         *
          * @return \OpenCounter\Application\Service\Counter\CounterViewService
          */
         $pimple['CounterViewService'] = function ($pimple) {
-
             $CounterViewService = new CounterViewService(
                 new CounterOfIdHandler(
                     $pimple['counter_repository']
@@ -106,87 +104,79 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         };
         /**
          * Application service used to view a counter
+         *
          * @param $container
+         *
          * @return \OpenCounter\Application\Service\Counter\CounterViewService
          */
         $pimple['CounterViewUiService'] = function ($pimple) {
-
             $CounterViewUiService = new CounterViewService(
                 new CounterOfNameHandler(
                     $pimple['counter_repository']
                 )
             );
-
             return $CounterViewUiService;
         };
         $pimple['CounterIncrementValueService'] = $pimple->factory(function (
             $pimple
         ) {
-
-            // first try without command bus dependency
             $CounterIncrementValueService = new CounterIncrementValueService(
                 new CounterIncrementValueHandler(
                     $pimple['counter_repository']
                 )
             );
-
             return $CounterIncrementValueService;
         });
         $pimple['CounterRemoveService'] = $pimple->factory(function ($pimple) {
-
-            // first try without command bus dependency
             $CounterRemoveService = new CounterRemoveService(
                 new CounterRemoveHandler(
                     $pimple['counter_repository']
                 )
             );
-
             return $CounterRemoveService;
         });
         /**
          * Application service used to create new counters
          *
          * @param $container
+         *
          * @return \OpenCounter\Application\Service\Counter\CounterAddService
          */
 
         $pimple['CounterAddService'] = $pimple->factory(function ($pimple) {
-
-            // first try without command bus dependency
             $CounterAddService = new CounterAddService(
                 new CounterAddHandler(
                     $pimple['counter_repository'],
                     $pimple['counter_build_service']
                 )
             );
-
             return $CounterAddService;
         });
+        /**
+         * Application service used to Lock and unlock
+         */
 
-        $pimple['CounterSetStatusService'] = $pimple->factory(function ($pimple
-        ) {
-
-            // first try without command bus dependency
+        $pimple['CounterSetStatusService'] = $pimple->factory(function ($pimple) {
             $CounterSetStatusService = new CounterSetStatusService(
                 new CounterSetStatusHandler(
                     $pimple['counter_repository'],
                     $pimple['counter_build_service']
                 )
             );
-
             return $CounterSetStatusService;
         });
-        $pimple['CounterResetValueService'] = $pimple->factory(function ($pimple
-        ) {
 
-            // first try without command bus dependency
+        /**
+         * Application service used to Reset counters
+         */
+
+        $pimple['CounterResetValueService'] = $pimple->factory(function ($pimple) {
             $CounterResetValueService = new CounterResetValueService(
                 new CounterResetValueHandler(
                     $pimple['counter_repository'],
                     $pimple['counter_build_service']
                 )
             );
-
             return $CounterResetValueService;
         });
     }
