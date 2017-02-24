@@ -112,16 +112,16 @@ class CounterController
      */
 
     public function __construct(
-      LoggerInterface $logger,
-      CounterBuildService $counterBuildService,
-      StorageInterface $counter_mapper,
-      CounterRepository $counter_repository,
-      CounterAddService $CounterAddService,
-      CounterRemoveService $CounterRemoveService,
-      CounterIncrementValueService $CounterIncrementValueService,
-      CounterViewService $CounterViewService,
-      CounterSetStatusService $CounterSetStatusService,
-      CounterResetValueService $CounterResetValueService
+        LoggerInterface $logger,
+        CounterBuildService $counterBuildService,
+        StorageInterface $counter_mapper,
+        CounterRepository $counter_repository,
+        CounterAddService $CounterAddService,
+        CounterRemoveService $CounterRemoveService,
+        CounterIncrementValueService $CounterIncrementValueService,
+        CounterViewService $CounterViewService,
+        CounterSetStatusService $CounterSetStatusService,
+        CounterResetValueService $CounterResetValueService
     ) {
 
         $this->logger = $logger;
@@ -143,7 +143,7 @@ class CounterController
      *   path = "/counters/{id}",
      *   operationId = "newCounter",
      *   description = "Creates a new Counter. Duplicates are allowed",
-     *   summary = "setup a new counter an existing counter",
+     *   summary = "create a new counter",
      *   produces ={"application/json"},
      *   tags ={"docs"},
      *   produces ={"application/json"},
@@ -221,9 +221,9 @@ class CounterController
      *
      */
     public function addCounter(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         // assume everything will fail
         $code = 400;
@@ -240,13 +240,13 @@ class CounterController
             // call Service that executes appropriate command with given parameters.
 
             $result = $this->CounterAddService->execute(
-              new CounterAddCommand(
-                $name,
-                $value,
-                $status,
-                $password,
-                $id
-              )
+                new CounterAddCommand(
+                    $name,
+                    $value,
+                    $status,
+                    $password,
+                    $id
+                )
             );
 
             $code = 201;
@@ -324,9 +324,9 @@ class CounterController
      * )
      */
     public function incrementCounter(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
 
         //we assume everything is going to fail
@@ -339,10 +339,10 @@ class CounterController
             $increment = $data['value'];
 
             $result = $this->CounterIncrementValueService->execute(
-              new CounterIncrementValueCommand(
-                $args['id'],
-                $increment
-              )
+                new CounterIncrementValueCommand(
+                    $args['id'],
+                    $increment
+                )
             );
 
             $code = 201;
@@ -382,7 +382,7 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      default="1fffffff-6160-4201-93d1-568d5a50a886",
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
      *      @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
      *     ),
      *     @SWG\Parameter(
@@ -426,9 +426,9 @@ class CounterController
      * @return \Psr\Http\Message\ResponseInterface|static
      */
     public function setCounterStatus(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         //we assume everything is going to fail
         $result = 'an error has occurred';
@@ -439,10 +439,10 @@ class CounterController
 //            $counterName = $data['name'];
             $counterStatus = $data['status'];
             $result = $this->CounterSetStatusService->execute(
-              new CounterSetStatusCommand(
-                $args['id'],
-                $counterStatus
-              )
+                new CounterSetStatusCommand(
+                    $args['id'],
+                    $counterStatus
+                )
             );
 //            $this->CounterViewService->execute(
 //              new CounterOfIdQuery($args['id'])
@@ -468,8 +468,8 @@ class CounterController
      *     path="/counters/{id}",
      *     tags={"docs"},
      *     operationId="setCounter",
-     *     summary="Set counter",
-     *     description="",
+     *     summary="Reset counter",
+     *     description="Reset a counter's value to 0",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
@@ -521,9 +521,9 @@ class CounterController
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function setCounter(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         //we assume everything is going to fail
         $return = ['message' => 'an error has occurred'];
@@ -540,10 +540,9 @@ class CounterController
 //            );
 
             $return = $this->CounterResetValueService->execute(
-              new CounterResetValueCommand($args['id'])
+                new CounterResetValueCommand($args['id'])
             );
             $code = 201;
-
         } catch (\Exception $e) {
             $return = $e->getMessage();
             $code = 409;
@@ -604,20 +603,19 @@ class CounterController
      * )
      */
     public function getCount(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         //we assume everything is going to fail
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
             $counter = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
+                new CounterOfIdQuery($args['id'])
             );
             $result = $counter->getValue();
             $code = 201;
-
         } catch (\Exception $e) {
             $result = $e->getMessage();
             $code = 409;
@@ -683,17 +681,16 @@ class CounterController
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getCounter(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         //we assume everything is going to fail
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
-
             $counter = $this->CounterViewService->execute(
-              new CounterOfIdQuery($args['id'])
+                new CounterOfIdQuery($args['id'])
             );
             $result = $counter->toArray();
             $code = 200;
@@ -777,16 +774,16 @@ class CounterController
      *
      */
     public function deleteCounter(
-      ServerRequestInterface $request,
-      ResponseInterface $response,
-      $args
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $args
     ) {
         //we assume everything is going to fail
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
             $result = $this->CounterRemoveService->execute(
-              new CounterRemoveCommand($args['id'])
+                new CounterRemoveCommand($args['id'])
             );
             $code = 201;
         } catch (\Exception $e) {
@@ -813,5 +810,4 @@ class CounterController
 
         return ['counter' => $counters];
     }
-
 }

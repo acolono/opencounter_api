@@ -55,13 +55,14 @@ class AddClientCommand
      * @param $user_id
      */
     public function __construct(
-      $client_id,
-      $client_secret,
-      $redirect_url,
-      $grant_types,
-      $scopes,
-      $user_id)
-    {
+        $client_id,
+        $client_secret,
+        $redirect_url,
+        $grant_types,
+        $scopes,
+        $user_id
+    ) {
+    
         $this->user_id = $user_id;
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;

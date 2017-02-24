@@ -139,55 +139,33 @@ $app->get('/api', function ($request, $response, $args) {
 
 $app->group('/api/counters', function () {
 
+
+
     /**
      * routes that go directly to /counters with optional id as additional path parameters
      */
-    $this->get('/', '\SlimCounter\Controllers\CounterController:counterIndex');
+    $this->get('/', '\SlimCounter\Controllers\CounterController:counterIndex')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
 
     $this->delete('/{id}',
-      '\SlimCounter\Controllers\CounterController:deleteCounter');
-    //    TODO: what urls to use for incrementing and locking and geting value
+      '\SlimCounter\Controllers\CounterController:deleteCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
 
     $this->patch('/status[/{id}]',
-      '\SlimCounter\Controllers\CounterController:setCounterStatus');
+      '\SlimCounter\Controllers\CounterController:setCounterStatus')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
     $this->patch('/value[/{id}]',
-      '\SlimCounter\Controllers\CounterController:incrementCounter');
+      '\SlimCounter\Controllers\CounterController:incrementCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
     $this->get('/value[/{id}]',
-      '\SlimCounter\Controllers\CounterController:getCount');
+      '\SlimCounter\Controllers\CounterController:getCount')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
     $this->get('/name[/{name}]',
-      '\SlimCounter\Controllers\CounterController:getCounterByName');
+      '\SlimCounter\Controllers\CounterController:getCounterByName')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
 
     $this->post('/[{id}]',
-      '\SlimCounter\Controllers\CounterController:addCounter');
+      '\SlimCounter\Controllers\CounterController:addCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
     $this->get('/{id}',
-      '\SlimCounter\Controllers\CounterController:getCounter');
+      '\SlimCounter\Controllers\CounterController:getCounter')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
     $this->put('/[{id}]',
-      '\SlimCounter\Controllers\CounterController:setCounter');
+      '\SlimCounter\Controllers\CounterController:setCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
 
-// TODO: do we have extra routes to use names in addition to generated ids?
-//    $this->get('/{name}/value',
-//      '\SlimCounter\Controllers\CounterController:getCount');
-//    $this->get('/{name}',
-//      '\SlimCounter\Controllers\CounterController:getCounter');
-//
-//    $this->post('/[{name}]',
-//      '\SlimCounter\Controllers\CounterController:newCounter');
-//
-//    $this->patch('/{name}/status',
-//      '\SlimCounter\Controllers\CounterController:setCounterStatus');
-//
-//    $this->patch('/{name}/value',
-//      '\SlimCounter\Controllers\CounterController:incrementCounter');
-//
-//    $this->delete('/{name}/{password}',
-//      '\SlimCounter\Controllers\CounterController:deleteCounter');
-//
-//
-//    $this->put('/{name}/{password}',
-//      '\SlimCounter\Controllers\CounterController:setCounter');
-
-})
-  ->add($container['authorization']->withRequiredScope(['write:counters read:counters']));
+});
 
 // Fallback Route
 //$app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');

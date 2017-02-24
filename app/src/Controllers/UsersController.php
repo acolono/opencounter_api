@@ -49,8 +49,8 @@ class UsersController implements ContainerInterface
 
         // Render new counter form view
         return $this->renderer->render(
-          $response,
-          'admin/clients-form.html.twig'
+            $response,
+            'admin/clients-form.html.twig'
         );
     }
 
@@ -69,14 +69,14 @@ class UsersController implements ContainerInterface
 //            $result = $this->ci->get('add_user_application_service')
             $result = $this->add_client_application_service;
             $result->execute(
-              new AddClientCommand(
-                $data['client_id'],
-                $data['client_secret'],
-                $data['redirect_uri'],
-                $data['grant_types'],
-                $data['scopes'],
-                $data['user_id']
-              )
+                new AddClientCommand(
+                    $data['client_id'],
+                    $data['client_secret'],
+                    $data['redirect_uri'],
+                    $data['grant_types'],
+                    $data['scopes'],
+                    $data['user_id']
+                )
             );
         } catch (ClientAlreadyExistsException $e) {
 //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
@@ -93,8 +93,8 @@ class UsersController implements ContainerInterface
 
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-            'admin.client.add',
-            ['client' => (array)$result]
+              'admin.client.add',
+              ['client' => (array)$result]
           ));
 
         return $response->withRedirect((string)$uri);
@@ -128,8 +128,8 @@ class UsersController implements ContainerInterface
     {
         if (!$this->offsetExists($id)) {
             throw new ContainerValueNotFoundException(sprintf(
-              'Identifier "%s" is not defined.',
-              $id
+                'Identifier "%s" is not defined.',
+                $id
             ));
         }
         try {
@@ -137,9 +137,9 @@ class UsersController implements ContainerInterface
         } catch (\InvalidArgumentException $exception) {
             if ($this->exceptionThrownByContainer($exception)) {
                 throw new SlimContainerException(
-                  sprintf('Container error while retrieving "%s"', $id),
-                  null,
-                  $exception
+                    sprintf('Container error while retrieving "%s"', $id),
+                    null,
+                    $exception
                 );
             } else {
                 throw $exception;
@@ -156,7 +156,7 @@ class UsersController implements ContainerInterface
      * @return bool
      */
     private function exceptionThrownByContainer(
-      \InvalidArgumentException $exception
+        \InvalidArgumentException $exception
     ) {
 
         $trace = $exception->getTrace()[0];

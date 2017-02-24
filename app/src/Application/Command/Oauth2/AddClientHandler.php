@@ -34,7 +34,7 @@ class AddClientHandler
     private $oauth_storage;
 
     public function __construct(
-      Pdo $oauth2_storage
+        Pdo $oauth2_storage
     ) {
 
         $this->oauth2_storage = $oauth2_storage;
@@ -48,17 +48,17 @@ class AddClientHandler
      * @throws UserAlreadyExistException when the user id is already exists
      */
     public function __invoke(
-      \SlimCounter\Application\Command\Oauth2\AddClientCommand $aCommand
+        \SlimCounter\Application\Command\Oauth2\AddClientCommand $aCommand
     ) {
 
         //return $this->user_repository->all();
         $this->oauth2_storage->setClientDetails(
-          $aCommand->client_id(),
-          $aCommand->client_secret(),
-          $aCommand->redirect_url(),
-          $aCommand->grant_types(),
-          $aCommand->scopes(),
-          $aCommand->user_id()
+            $aCommand->client_id(),
+            $aCommand->client_secret(),
+            $aCommand->redirect_url(),
+            $aCommand->grant_types(),
+            $aCommand->scopes(),
+            $aCommand->user_id()
         );
     }
 }

@@ -81,9 +81,9 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             $factory = new CounterFactory();
 
             $counter_build_service = new CounterBuildService(
-              $pimple['counter_repository'],
-              $factory,
-              $pimple['logger']
+                $pimple['counter_repository'],
+                $factory,
+                $pimple['logger']
             );
 
             return $counter_build_service;
@@ -97,9 +97,9 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         $pimple['CounterViewService'] = function ($pimple) {
 
             $CounterViewService = new CounterViewService(
-              new CounterOfIdHandler(
-                $pimple['counter_repository']
-              )
+                new CounterOfIdHandler(
+                    $pimple['counter_repository']
+                )
             );
 
             return $CounterViewService;
@@ -112,22 +112,22 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         $pimple['CounterViewUiService'] = function ($pimple) {
 
             $CounterViewUiService = new CounterViewService(
-              new CounterOfNameHandler(
-                $pimple['counter_repository']
-              )
+                new CounterOfNameHandler(
+                    $pimple['counter_repository']
+                )
             );
 
             return $CounterViewUiService;
         };
         $pimple['CounterIncrementValueService'] = $pimple->factory(function (
-          $pimple
+            $pimple
         ) {
 
             // first try without command bus dependency
             $CounterIncrementValueService = new CounterIncrementValueService(
-              new CounterIncrementValueHandler(
-                $pimple['counter_repository']
-              )
+                new CounterIncrementValueHandler(
+                    $pimple['counter_repository']
+                )
             );
 
             return $CounterIncrementValueService;
@@ -136,9 +136,9 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             // first try without command bus dependency
             $CounterRemoveService = new CounterRemoveService(
-              new CounterRemoveHandler(
-                $pimple['counter_repository']
-              )
+                new CounterRemoveHandler(
+                    $pimple['counter_repository']
+                )
             );
 
             return $CounterRemoveService;
@@ -154,11 +154,10 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             // first try without command bus dependency
             $CounterAddService = new CounterAddService(
-              new CounterAddHandler(
-                $pimple['counter_repository'],
-                $pimple['counter_build_service']
-              )
-
+                new CounterAddHandler(
+                    $pimple['counter_repository'],
+                    $pimple['counter_build_service']
+                )
             );
 
             return $CounterAddService;
@@ -169,11 +168,10 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             // first try without command bus dependency
             $CounterSetStatusService = new CounterSetStatusService(
-              new CounterSetStatusHandler(
-                $pimple['counter_repository'],
-                $pimple['counter_build_service']
-              )
-
+                new CounterSetStatusHandler(
+                    $pimple['counter_repository'],
+                    $pimple['counter_build_service']
+                )
             );
 
             return $CounterSetStatusService;
@@ -183,15 +181,13 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             // first try without command bus dependency
             $CounterResetValueService = new CounterResetValueService(
-              new CounterResetValueHandler(
-                $pimple['counter_repository'],
-                $pimple['counter_build_service']
-              )
-
+                new CounterResetValueHandler(
+                    $pimple['counter_repository'],
+                    $pimple['counter_build_service']
+                )
             );
 
             return $CounterResetValueService;
         });
-
     }
 }

@@ -50,8 +50,8 @@ class AdminUiController implements ContainerInterface
 
         // Render new counter form view
         return $this->renderer->render(
-          $response,
-          'admin/counter-form.html.twig'
+            $response,
+            'admin/counter-form.html.twig'
         );
     }
 
@@ -66,7 +66,7 @@ class AdminUiController implements ContainerInterface
     {
         try {
             $result = $this->CounterViewUiService->execute(
-              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($args['name'])
+                new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($args['name'])
             );
 
             $response->withJson($result);
@@ -79,9 +79,9 @@ class AdminUiController implements ContainerInterface
         }
 
         return $this->renderer->render(
-          $response,
-          'admin/view-counter.html.twig'
-          , $result->toArray()
+            $response,
+            'admin/view-counter.html.twig',
+            $result->toArray()
         );
 //
     }
@@ -110,13 +110,12 @@ class AdminUiController implements ContainerInterface
 
             $result = $this->CounterAddService
               ->execute(new \OpenCounter\Application\Command\Counter\CounterAddCommand(
-                $name,
-                $value,
-                $status,
-                $password
+                  $name,
+                  $value,
+                  $status,
+                  $password
               ));
             $code = 201;
-
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
             $code = 409;
@@ -127,8 +126,8 @@ class AdminUiController implements ContainerInterface
         // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-            'admin.counter.view',
-            ['name' => $name]
+              'admin.counter.view',
+              ['name' => $name]
           ));
 
         return $response->withRedirect((string)$uri);
@@ -152,8 +151,8 @@ class AdminUiController implements ContainerInterface
     {
         if (!$this->offsetExists($id)) {
             throw new ContainerValueNotFoundException(sprintf(
-              'Identifier "%s" is not defined.',
-              $id
+                'Identifier "%s" is not defined.',
+                $id
             ));
         }
         try {
@@ -161,9 +160,9 @@ class AdminUiController implements ContainerInterface
         } catch (\InvalidArgumentException $exception) {
             if ($this->exceptionThrownByContainer($exception)) {
                 throw new SlimContainerException(
-                  sprintf('Container error while retrieving "%s"', $id),
-                  null,
-                  $exception
+                    sprintf('Container error while retrieving "%s"', $id),
+                    null,
+                    $exception
                 );
             } else {
                 throw $exception;
@@ -180,7 +179,7 @@ class AdminUiController implements ContainerInterface
      * @return bool
      */
     private function exceptionThrownByContainer(
-      \InvalidArgumentException $exception
+        \InvalidArgumentException $exception
     ) {
         $trace = $exception->getTrace()[0];
 
