@@ -8,7 +8,7 @@
 
 namespace SlimCounter\Application\Service\Oauth2;
 
-use Ddd\Application\Service\ApplicationService;
+use OpenCounter\Application\Service\Counter\ApplicationService;
 use SlimCounter\Application\Command\Oauth2\AddClientHandler;
 
 class AddClientService implements ApplicationService

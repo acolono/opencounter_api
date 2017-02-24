@@ -72,7 +72,7 @@ class UsersController implements ContainerInterface
               new AddClientCommand(
                 $data['client_id'],
                 $data['client_secret'],
-                $data['redirect_url'],
+                $data['redirect_uri'],
                 $data['grant_types'],
                 $data['scopes'],
                 $data['user_id']

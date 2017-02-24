@@ -54,21 +54,21 @@
             <div class="canvas-holder">
                 <canvas id="chart-features" width="300" height="300"/>
             </div>
-            1 features failed of 10
+            0 features failed of 10
             features
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            1 scenarios failed of 10
+            0 scenarios failed of 10
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            1 steps failed of 42
+            0 steps failed of 47
         </div>
     </div>
     <hr>
@@ -337,7 +337,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4 feature" data-id="feature-10">
-                        <div class="card failed">
+                        <div class="card passed">
                             <div class="header">
                                 <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
                             </div>
@@ -351,11 +351,11 @@
                                 <div class="progress">
 
                                     <div class="progress-bar progress-bar-green" role="progressbar"
-                                         style="width: 66.666666666667%">
+                                         style="width: 100%">
                                         <span class="sr-only">40% Complete (success)</span>
                                     </div>
                                     <div class="progress-bar progress-bar-red" role="progressbar"
-                                         style="width: 33.333333333333%">
+                                         style="width: 0%">
                                         <span class="sr-only">40% Complete (success)</span>
                                     </div>
                                 </div>
@@ -432,7 +432,7 @@
                                                             &quot;onecounter&quot;
                                                             <br>
                                                             <p style="padding-left:2em ; color:black">| GET
-                                                                http://opencounter-slim-codenv-webserver:8080/api/counters/value/7b9f51f6-b599-42c8-96ac-c6d385563ce5
+                                                                http://opencounter-slim-codenv-webserver:8080/api/counters/value/e745844e-1b85-44bd-b3e5-83ba221876ed
                                                                 =&gt; 200:
                                                                 0</p>
                                                         </li>
@@ -440,7 +440,7 @@
                                                             <b>And</b> the value returned should be 0
                                                             <br>
                                                             <p style="padding-left:2em ; color:black">| GET
-                                                                http://opencounter-slim-codenv-webserver:8080/api/counters/value/7b9f51f6-b599-42c8-96ac-c6d385563ce5
+                                                                http://opencounter-slim-codenv-webserver:8080/api/counters/value/e745844e-1b85-44bd-b3e5-83ba221876ed
                                                                 =&gt; 200:
                                                                 0</p>
                                                         </li>
@@ -514,7 +514,7 @@
                                 <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| PATCH
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/84b69eda-dadd-4bee-8090-32ca9d0fa72f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/4bd4d774-f47e-4501-a531-bcb13bdeeef6
                                     =&gt; 201:
                                     null</p>
                             </li>
@@ -522,7 +522,7 @@
                                 <b>And</b> I get the value of the counter with Name &quot;onecounter&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/84b69eda-dadd-4bee-8090-32ca9d0fa72f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/4bd4d774-f47e-4501-a531-bcb13bdeeef6
                                     =&gt; 200:
                                     3</p>
                             </li>
@@ -530,7 +530,7 @@
                                 <b>Then</b> the value returned should be 3
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/84b69eda-dadd-4bee-8090-32ca9d0fa72f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/4bd4d774-f47e-4501-a531-bcb13bdeeef6
                                     =&gt; 200:
                                     3</p>
                             </li>
@@ -600,7 +600,7 @@
                                 <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/f1b6abe9-8073-4579-96a8-f7756e2f8363
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/44411fab-7fad-4dbc-ae77-716818db9d35
                                     =&gt; 200:
                                     11</p>
                             </li>
@@ -608,7 +608,7 @@
                                 <b>Then</b> the value returned should be 11
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/f1b6abe9-8073-4579-96a8-f7756e2f8363
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/44411fab-7fad-4dbc-ae77-716818db9d35
                                     =&gt; 200:
                                     11</p>
                             </li>
@@ -743,7 +743,7 @@
                                 <b>When</b> I reset the counter with Name &quot;excounter&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| PUT
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/6d827120-c359-4d8f-b1e4-66b146eb5b2f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/33089fbe-a542-439c-a33c-c2021a78601d
                                     =&gt; 200:
                                     null</p>
                             </li>
@@ -751,7 +751,7 @@
                                 <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/6d827120-c359-4d8f-b1e4-66b146eb5b2f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/33089fbe-a542-439c-a33c-c2021a78601d
                                     =&gt; 200:
                                     0</p>
                             </li>
@@ -759,7 +759,7 @@
                                 <b>Then</b> the value returned should be &quot;0&quot;
                                 <br>
                                 <p style="padding-left:2em ; color:black">| GET
-                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/6d827120-c359-4d8f-b1e4-66b146eb5b2f
+                                    http://opencounter-slim-codenv-webserver:8080/api/counters/value/33089fbe-a542-439c-a33c-c2021a78601d
                                     =&gt; 200:
                                     0</p>
                             </li>
@@ -936,7 +936,7 @@
         </div>
         <div class="feature" data-id="feature-10">
             <div class="col-sm-4">
-                <div class="card failed">
+                <div class="card passed">
                     <div class="header">
                         <h2>Feature: OAuth2 Token Grant ClientCredentials</h2>
                     </div>
@@ -950,11 +950,11 @@
                         <div class="progress">
 
                             <div class="progress-bar progress-bar-green" role="progressbar"
-                                 style="width: 66.666666666667%">
+                                 style="width: 100%">
                                 <span class="sr-only">40% Complete (success)</span>
                             </div>
                             <div class="progress-bar progress-bar-red" role="progressbar"
-                                 style="width: 33.333333333333%">
+                                 style="width: 0%">
                                 <span class="sr-only">40% Complete (success)</span>
                             </div>
                         </div>
@@ -1046,7 +1046,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-default failed">
+                <div class="panel panel-default passed">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion"
@@ -1078,26 +1078,22 @@
                             <li class="list-group-item alert alert-success">
                                 <b>And</b> I send a access token request
                             </li>
-                            <li class="list-group-item alert alert-danger">
+                            <li class="list-group-item alert alert-success">
                                 <b>Then</b> the response status code is 200
-                                <br>
-                                <p style="padding-left:2em ; color:gray">(HTTP code does not match 200 (actual: 400)
-
-                                    )</p>
                             </li>
-                            <li class="list-group-item alert alert-info">
+                            <li class="list-group-item alert alert-success">
                                 <b>And</b> the response is oauth2 format
                             </li>
-                            <li class="list-group-item alert alert-info">
+                            <li class="list-group-item alert alert-success">
                                 <b>And</b> the response has a &quot;access_token&quot; property
                             </li>
-                            <li class="list-group-item alert alert-info">
+                            <li class="list-group-item alert alert-success">
                                 <b>And</b> the response has a &quot;token_type&quot; property and it is equals &quot;Bearer&quot;
                             </li>
-                            <li class="list-group-item alert alert-info">
+                            <li class="list-group-item alert alert-success">
                                 <b>And</b> the response has a &quot;expires_in&quot; property and its type is numeric
                             </li>
-                            <li class="list-group-item alert alert-info">
+                            <li class="list-group-item alert alert-success">
                                 <b>And</b> the response has a &quot;scope&quot; property
                             </li>
                         </ul>
@@ -1116,13 +1112,13 @@
 <script type="text/javascript">
     var featureData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 9,
+            value: 10,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1131,13 +1127,13 @@
 
     var scenarioData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 9,
+            value: 10,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1146,13 +1142,13 @@
 
     var stepData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 41,
+            value: 47,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1184,7 +1180,7 @@
     $(function () {
         $('.collapse').collapse();
 
-        $('.filters').click();;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        $('.filters').click();;;;;;;;;
         {
             showOverview();
         }
