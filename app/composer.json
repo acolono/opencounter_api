@@ -15,7 +15,7 @@
 
     {
       "type": "vcs",
-      "url": "https://github.com/rosenstrauch/behat-oauth2-context.git"
+      "url": "git@github.com:rstgroup/behat-oauth2-context.git"
     },
     {
       "type": "vcs",
@@ -39,7 +39,7 @@
     "robmorgan/phinx": "^0.6.4",
     "slimcounter/default_theme": "dev-feature/patternlab",
     "tuupola/cors-middleware": "^0.5.2",
-    "rosenstrauch/opencounter_api_core": "dev-feature/counter_commands",
+    "rosenstrauch/opencounter_api_core": "dev-feature/swagger_commands",
     "vlucas/phpdotenv": "^2.4",
     "chadicus/slim-oauth2": "^3.1",
     "tuupola/slim-basic-auth": "^2.2",
@@ -54,7 +54,7 @@
     "emuse/behat-html-formatter": "0.1.*",
     "behat/mink": "^1.7",
     "behat/mink-goutte-driver": "^1.2",
-    "rstgroup/behat-oauth2-context": "dev-client_credentials",
+    "rstgroup/behat-oauth2-context": "^1.0",
     "behat/mink-extension": "^2.2"
   },
   "config": {

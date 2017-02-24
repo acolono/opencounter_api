@@ -9,7 +9,6 @@
 namespace spec\SlimCounter\Application\Command\Oauth2;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SlimCounter\Application\Command\Oauth2\AddClientCommand;
 
 class AddClientCommandSpec extends ObjectBehavior
@@ -22,8 +21,13 @@ class AddClientCommandSpec extends ObjectBehavior
         $scopes = 'read:counter write:counter';
         $grant_types = 'authorization_code';
         $user_id = 1;
-        $this->beConstructedWith($client_id, $client_secret, $redirect_url,
-          $scopes, $grant_types, $user_id);
+        $this->beConstructedWith(
+          $client_id,
+          $client_secret,
+          $redirect_url,
+          $grant_types,
+          $scopes,
+          $user_id);
         $this->shouldHaveType(AddClientCommand::class);
 
 // TODO: id should be generated at this point.

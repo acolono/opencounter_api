@@ -93,7 +93,7 @@ class UsersController implements ContainerInterface
 
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-            'admin.clients.index',
+            'admin.client.add',
             ['client' => (array)$result]
           ));
 

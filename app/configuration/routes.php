@@ -10,6 +10,9 @@ use Chadicus\Slim\OAuth2\Routes;
 
 $container = $app->getContainer();
 
+// TODO: swagger annotate oauth routes explicitly so people know what to post where
+// e.g. opencounter-slim-codenv-webserver:8080/authorize?response_type=token&realm=1&user_id=librarian&client_id=librarian&scope=read%3Acounters write%3Acounters&state=counter_auth
+// redirect url and user id need explaining http://172.25.0.5/o2c.html
 $app->map([
   'GET',
   'POST'
