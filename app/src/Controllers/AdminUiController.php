@@ -8,25 +8,15 @@
 
 namespace SlimCounter\Controllers;
 
-
 use Interop\Container\ContainerInterface;
-
 use OpenCounter\Domain\Model\Counter\CounterName;
-
 use OpenCounter\Domain\Model\Counter\CounterValue;
-use Slim\Exception\SlimException;
 use Slim\Http\Request;
 use Slim\Http\Response;
-
 
 class AdminUiController implements ContainerInterface
 {
     protected $ci;
-
-    private $logger;
-    private $counter_repository;
-    private $router;
-    private $counterBuildService;
 
     public function __construct(ContainerInterface $ci)
     {
@@ -38,9 +28,9 @@ class AdminUiController implements ContainerInterface
         $this->logger = $this->ci->get('logger');
         $this->storage = $this->ci->get('pdo');
         $this->CounterViewService = $this->ci->get('CounterViewService');
+        $this->CounterViewUiService = $this->ci->get('CounterViewUiService');
         $this->CounterAddService = $this->ci->get('CounterAddService');
     }
-
 
     /**
      * New Counter form
@@ -60,8 +50,8 @@ class AdminUiController implements ContainerInterface
 
         // Render new counter form view
         return $this->renderer->render(
-            $response,
-            'admin/counter-form.html.twig'
+          $response,
+          'admin/counter-form.html.twig'
         );
     }
 
@@ -75,7 +65,7 @@ class AdminUiController implements ContainerInterface
     public function viewCounter(Request $request, Response $response, $args)
     {
         try {
-            $result = $this->CounterViewService->execute(
+            $result = $this->CounterViewUiService->execute(
               new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($args['name'])
             );
 
@@ -84,11 +74,12 @@ class AdminUiController implements ContainerInterface
             $return = ['message' => $e->getMessage()];
             $code = 409;
             $response->write('resource not found');
+
             return $response->withStatus(404);
         }
 
         return $this->renderer->render(
-            $response,
+          $response,
           'admin/view-counter.html.twig'
           , $result->toArray()
         );
@@ -110,34 +101,36 @@ class AdminUiController implements ContainerInterface
         try {
             $data = $request->getParsedBody();
 
-            $name = new CounterName($data['name']);
-            $value = new CounterValue($data['value']);
+            $name = $data['name'];
+            $value = $data['value'];
             $status = 'active';
             $password = 'passwordplaceholder';
 
             // call Service that executes appropriate command with given parameters.
 
-            $code = 201;
-
             $result = $this->CounterAddService
               ->execute(new \OpenCounter\Application\Command\Counter\CounterAddCommand(
-                  $name,
-                  $value,
-                  $status,
-                  $password
+                $name,
+                $value,
+                $status,
+                $password
               ));
+            $code = 201;
+
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
             $code = 409;
         }
+
         // just redirect to counter list but try to redirect to newly created counter instead
         // TODO: try to redirect to appropriate fetch id url
         // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-              'admin.counter.view',
-              ['name' => $result['name']]
+            'admin.counter.view',
+            ['name' => $name]
           ));
+
         return $response->withRedirect((string)$uri);
     }
 
@@ -159,8 +152,8 @@ class AdminUiController implements ContainerInterface
     {
         if (!$this->offsetExists($id)) {
             throw new ContainerValueNotFoundException(sprintf(
-                'Identifier "%s" is not defined.',
-                $id
+              'Identifier "%s" is not defined.',
+              $id
             ));
         }
         try {
@@ -168,9 +161,9 @@ class AdminUiController implements ContainerInterface
         } catch (\InvalidArgumentException $exception) {
             if ($this->exceptionThrownByContainer($exception)) {
                 throw new SlimContainerException(
-                    sprintf('Container error while retrieving "%s"', $id),
-                    null,
-                    $exception
+                  sprintf('Container error while retrieving "%s"', $id),
+                  null,
+                  $exception
                 );
             } else {
                 throw $exception;
@@ -187,7 +180,7 @@ class AdminUiController implements ContainerInterface
      * @return bool
      */
     private function exceptionThrownByContainer(
-        \InvalidArgumentException $exception
+      \InvalidArgumentException $exception
     ) {
         $trace = $exception->getTrace()[0];
 

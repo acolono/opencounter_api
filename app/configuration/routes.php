@@ -10,20 +10,22 @@ use Chadicus\Slim\OAuth2\Routes;
 
 $container = $app->getContainer();
 
-
 $app->map([
   'GET',
   'POST'
-], Routes\Authorize::ROUTE, new Routes\Authorize($container['oauth2_server'], $container['authorization_views']))
+], Routes\Authorize::ROUTE, new Routes\Authorize($container['oauth2_server'],
+  $container['authorization_views']))
   ->setName('authorize');
-$app->post(Routes\Token::ROUTE, new Routes\Token($container->get('oauth2_server')))->setName('token');
+$app->post(Routes\Token::ROUTE,
+  new Routes\Token($container->get('oauth2_server')))->setName('token');
 $app->map([
   'GET',
   'POST'
-], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($container->get('authorization_views')))
+], Routes\ReceiveCode::ROUTE,
+  new Routes\ReceiveCode($container->get('authorization_views')))
   ->setName('receive-code');
-$app->post(Routes\Revoke::ROUTE, new Routes\Revoke($container->get('oauth2_server')))->setName('revoke');
-
+$app->post(Routes\Revoke::ROUTE,
+  new Routes\Revoke($container->get('oauth2_server')))->setName('revoke');
 
 /**
  * Admin Routes
@@ -31,30 +33,26 @@ $app->post(Routes\Revoke::ROUTE, new Routes\Revoke($container->get('oauth2_serve
  * protected via oauth
  */
 
-
 $app->group('/admin', function () {
     $this->get('/',
-        '\SlimCounter\Controllers\AdminUiController:index')
-        ->setName('admin.index');
+      '\SlimCounter\Controllers\AdminUiController:index')
+      ->setName('admin.index');
     // list of users
     $this->get('/clients',
       '\SlimCounter\Controllers\UsersController:clientsIndex')
       ->setName('admin.client.index');
 
     $this->get('/clients/add',
-        '\SlimCounter\Controllers\UsersController:addClientForm')
-        ->setName('admin.client.add');
+      '\SlimCounter\Controllers\UsersController:addClientForm')
+      ->setName('admin.client.add');
     // receives posts from  add oauth2_client form
     $this->post('/clients/new',
-        '\SlimCounter\Controllers\UsersController:newClient')
-        ->setName('admin.client.new');
-
-
-
+      '\SlimCounter\Controllers\UsersController:newClient')
+      ->setName('admin.client.new');
 
     // Get admin overview over counters
     $this->get('/counters',
-        '\SlimCounter\Controllers\AdminUiController:counter_index')
+      '\SlimCounter\Controllers\AdminUiController:counter_index')
       ->setName('admin.counter.index');
     // get new counter form
     $this->get('/content/add',
@@ -132,6 +130,7 @@ $app->get('/api', function ($request, $response, $args) {
       '../vendor/rosenstrauch/opencounter_api_core/src/'
     ]);
     header('Content-Type: application/json');
+
     return $response->withJson($swagger);
 });
 
@@ -142,19 +141,25 @@ $app->group('/api/counters', function () {
      */
     $this->get('/', '\SlimCounter\Controllers\CounterController:counterIndex');
 
+    $this->delete('/{id}',
+      '\SlimCounter\Controllers\CounterController:deleteCounter');
     //    TODO: what urls to use for incrementing and locking and geting value
-    $this->patch('/status[/{id}]', '\SlimCounter\Controllers\CounterController:setCounterStatus');
-    $this->patch('/value[/{id}]', '\SlimCounter\Controllers\CounterController:incrementCounter');
-    $this->get('/value[/{id}]', '\SlimCounter\Controllers\CounterController:getCount');
-    $this->get('/name[/{name}]', '\SlimCounter\Controllers\CounterController:getCounterByName');
-//    $this->get('/[{id}/value]', '\SlimCounter\Controllers\CounterController:getCount');
 
+    $this->patch('/status[/{id}]',
+      '\SlimCounter\Controllers\CounterController:setCounterStatus');
+    $this->patch('/value[/{id}]',
+      '\SlimCounter\Controllers\CounterController:incrementCounter');
+    $this->get('/value[/{id}]',
+      '\SlimCounter\Controllers\CounterController:getCount');
+    $this->get('/name[/{name}]',
+      '\SlimCounter\Controllers\CounterController:getCounterByName');
 
-    $this->post('/[{id}]', '\SlimCounter\Controllers\CounterController:addCounter');
-    $this->get('/{id}', '\SlimCounter\Controllers\CounterController:getCounter');
-    $this->delete('/[{id}]', '\SlimCounter\Controllers\CounterController:deleteCounter');
-    $this->put('/[{id}]', '\SlimCounter\Controllers\CounterController:setCounter');
-
+    $this->post('/[{id}]',
+      '\SlimCounter\Controllers\CounterController:addCounter');
+    $this->get('/{id}',
+      '\SlimCounter\Controllers\CounterController:getCounter');
+    $this->put('/[{id}]',
+      '\SlimCounter\Controllers\CounterController:setCounter');
 
 // TODO: do we have extra routes to use names in addition to generated ids?
 //    $this->get('/{name}/value',
@@ -178,11 +183,8 @@ $app->group('/api/counters', function () {
 //    $this->put('/{name}/{password}',
 //      '\SlimCounter\Controllers\CounterController:setCounter');
 
-
-
-
-
-})->add($container['authorization']->withRequiredScope(['write:counters read:counters']));
+})
+  ->add($container['authorization']->withRequiredScope(['write:counters read:counters']));
 
 // Fallback Route
-$app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');
+//$app->get('/[{name}]', '\SlimCounter\Controllers\DefaultController:index');

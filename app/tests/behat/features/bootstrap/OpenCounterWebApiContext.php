@@ -216,25 +216,12 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      */
     public function iGetTheIdOfTheCounterWithName($name)
     {
-        $this->counter_repository = $this->app->getContainer()
-          ->get('counter_repository');
-        $this->counter_build_service = $this->app->getContainer()
-          ->get('counter_build_service');
+        $this->CounterViewUiService = $this->app->getContainer()
+          ->get('CounterViewUiService');
+
         try {
-            // first try without command bus dependency
-            $CounterViewService = new \OpenCounter\Application\Service\Counter\CounterViewService(
-              new \OpenCounter\Application\Query\Counter\CounterOfNameHandler(
-                $this->counter_repository,
-                $this->counter_build_service
-              )
-
-            );
-
-            $counter = $CounterViewService->execute(
-              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery(
-                $name
-              )
-
+            $counter = $this->CounterViewUiService->execute(
+              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($name)
             );
 
         } catch (Exception $e) {
@@ -380,7 +367,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
         $this->printResponse();
-        $this->theResponseCodeShouldBe('201');
+        $this->theResponseCodeShouldBe('200');
     }
 
     /**
@@ -427,9 +414,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iRemoveTheCounterWithName($name)
     {
 
-// just a helper until we implemented an endpoint
+// just a helper until we implemented an endpoint, might lead to wrong errors when id doesnt exist
         $id = $this->iGetTheIdOfTheCounterWithName($name);
-
         $this->iRemoveTheCounterWithId($id);
 
     }
@@ -440,15 +426,20 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iRemoveTheCounterWithId($id)
     {
         $endpoint = '/api/counters/' . $id;
+        $this->iSetHeaderWithValue('Content-Type', 'application/json');
 
+        $this->accessHeader = 'Bearer ' . $this->accessToken;
+        $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
+
+        $this->iSetHeaderWithValue('Accept', 'application/json');
         $CounterArray = [
-          json_encode(['value' => 0, 'id' => $id])
+          json_encode(['value' => 0])
         ];
-        // [$rowLineNumber => [$val1, $val2, $val3]]
+//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('DELETE', $endpoint, $CounterStringNode);
         $this->printResponse();
-        $this->theResponseCodeShouldBe('201');
+//        $this->theResponseCodeShouldBe('200');
     }
 
     /**

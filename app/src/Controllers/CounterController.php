@@ -85,6 +85,10 @@ class CounterController
      * @var \OpenCounter\Application\Service\Counter\CounterResetValueService
      */
     private $CounterResetValueService;
+    /**
+     * @var \OpenCounter\Application\Service\Counter\CounterSetStatusService
+     */
+    private $CounterSetStatusService;
 
     /**
      * CounterController constructor.
@@ -364,7 +368,6 @@ class CounterController
 
             $increment = $data['value'];
 
-            // TODO: get the counter id by getting counter by name or do we trust the client to do that himself and know his ids before sending commands
 
             $result = $this->CounterIncrementValueService->execute(
               new CounterIncrementValueCommand(
@@ -448,7 +451,9 @@ class CounterController
       ResponseInterface $response,
       $args
     ) {
-
+        //we assume everything is going to fail
+        $result = 'an error has occurred';
+        $code = 400;
         try {
             $data = $request->getParsedBody();
 
@@ -611,7 +616,9 @@ class CounterController
       ResponseInterface $response,
       $args
     ) {
-
+        //we assume everything is going to fail
+        $return = ['message' => 'an error has occurred'];
+        $code = 400;
         try {
             $counter = $this->CounterViewService->execute(
               new CounterOfIdQuery($args['id'])
@@ -683,6 +690,8 @@ class CounterController
       ResponseInterface $response,
       $args
     ) {
+        //we assume everything is going to fail
+        $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
 
@@ -761,13 +770,16 @@ class CounterController
       ResponseInterface $response,
       $args
     ) {
-//
+        //we assume everything is going to fail
+        $return = ['message' => 'an error has occurred'];
+        $code = 400;
         try {
             $result = $this->CounterRemoveService->execute(
               new CounterRemoveCommand($args['id'])
             );
             $code = 201;
         } catch (\Exception $e) {
+            $code = 400;
 
             $result = $e->getMessage();
         }

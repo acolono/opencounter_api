@@ -104,7 +104,21 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             return $CounterViewService;
         };
+        /**
+         * Application service used to view a counter
+         * @param $container
+         * @return \OpenCounter\Application\Service\Counter\CounterViewService
+         */
+        $pimple['CounterViewUiService'] = function ($pimple) {
 
+            $CounterViewUiService = new CounterViewService(
+              new CounterOfNameHandler(
+                $pimple['counter_repository']
+              )
+            );
+
+            return $CounterViewUiService;
+        };
         $pimple['CounterIncrementValueService'] = $pimple->factory(function (
           $pimple
         ) {

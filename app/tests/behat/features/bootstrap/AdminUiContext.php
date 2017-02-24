@@ -91,7 +91,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         // get the counter we added to db and remember it so we can delete it later
         $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+        $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
         // if we have a counter mark it for cleanup after scenario
