@@ -1764,7 +1764,7 @@
             "source": {
                 "type": "git",
                 "url": "/mnt/DATA/06-TEAMProjects/ACOLONO/OPENCOUNTER_project/OPENCOUNTER_WORCLONES/opencounter_api_core",
-                "reference": "6341a8053bf05aabe43d5b91bedce0884b546257"
+                "reference": "c0ffecb1f42ee198836aa0621b7e691d8999c654"
             },
             "require": {
                 "monolog/monolog": "^1.17",
@@ -1791,7 +1791,7 @@
                 }
             },
             "description": "framework agnostic counter business logic",
-            "time": "2017-02-24 18:37:59"
+            "time": "2017-02-24 19:49:58"
         },
         {
             "name": "ruflin/elastica",

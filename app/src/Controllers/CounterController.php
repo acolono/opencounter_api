@@ -142,7 +142,7 @@ class CounterController
      * @SWG\Post(
      *   path = "/counters/{id}",
      *   operationId = "newCounter",
-     *   description = "Creates a new Counter. Duplicates are allowed",
+     *   description = "Creates a new Counter with name. Duplicates are allowed",
      *   summary = "create a new counter",
      *   produces ={"application/json"},
      *   tags ={"docs"},
@@ -281,7 +281,7 @@ class CounterController
      *     tags={"docs"},
      *     operationId="incrementCounter",
      *     summary="increment existing counter",
-     *     description="partially updates existing counter",
+     *     description="increments counter value",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
@@ -372,7 +372,7 @@ class CounterController
      *     tags={"docs"},
      *     operationId="setCounterStatus",
      *     summary="lock or unlock existing counter",
-     *     description="partially updates existing counter",
+     *     description="sets counter status to active or locked",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
@@ -635,7 +635,7 @@ class CounterController
      *     path="/counters/{id}",
      *     tags={"docs"},
      *     operationId="getCounter",
-     *     description="Returns a Counter if the user has access to the Counter",
+     *     description="Returns a Counter by id if the user has access to the Counter",
      *     summary="get entire counter",
      *     produces={
      *         "application/json",
@@ -729,7 +729,7 @@ class CounterController
      *     tags={"docs"},
      *     operationId="deleteCounter",
      *     summary="Delete counter",
-     *     description="delete a counter",
+     *     description="delete a counter by id",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
      *     @SWG\Parameter(
@@ -763,8 +763,7 @@ class CounterController
      *     ),
      *     @SWG\Response(
      *         response=200,
-     *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
+     *         description="counter deleted",
      *     ),
      *   security={{
      *     "api_key":{},
