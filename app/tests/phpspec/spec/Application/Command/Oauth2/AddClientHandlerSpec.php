@@ -31,12 +31,12 @@ class AddClientHandlerSpec extends ObjectBehavior
         Pdo $oauth2_storage
     )
     {
-        $addClientCommand->client_id()->shouldBeCalled()->willReturn('client_id');
-        $addClientCommand->client_secret()->shouldBeCalled()->willReturn('client_secret');
-        $addClientCommand->redirect_url()->shouldBeCalled()->willReturn('redirect_url');
-        $addClientCommand->grant_types()->shouldBeCalled()->willReturn('grant_types');
+        $addClientCommand->clientId()->shouldBeCalled()->willReturn('client_id');
+        $addClientCommand->clientSecret()->shouldBeCalled()->willReturn('client_secret');
+        $addClientCommand->redirectUrl()->shouldBeCalled()->willReturn('redirect_url');
+        $addClientCommand->grantTypes()->shouldBeCalled()->willReturn('grant_types');
         $addClientCommand->scopes()->shouldBeCalled()->willReturn('scopes');
-        $addClientCommand->user_id()->shouldBeCalled()->willReturn('user_id');
+        $addClientCommand->userId()->shouldBeCalled()->willReturn('user_id');
 
 
         $oauth2_storage->setClientDetails(

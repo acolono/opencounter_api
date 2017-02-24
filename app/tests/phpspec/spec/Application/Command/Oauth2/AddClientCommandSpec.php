@@ -32,11 +32,11 @@ class AddClientCommandSpec extends ObjectBehavior
 
 // TODO: id should be generated at this point.
 //        $this->id()->shouldNotBe(null);
-        $this->user_id()->shouldReturn(1);
-        $this->client_id()->shouldReturn(1);
-        $this->client_secret()->shouldReturn('testsecret');
-        $this->redirect_url()->shouldReturn('/redirect-url');
+        $this->userId()->shouldReturn(1);
+        $this->clientId()->shouldReturn(1);
+        $this->clientSecret()->shouldReturn('testsecret');
+        $this->redirectUrl()->shouldReturn('/redirect-url');
         $this->scopes()->shouldReturn('read:counter write:counter');
-        $this->grant_types()->shouldReturn('authorization_code');
+        $this->grantTypes()->shouldReturn('authorization_code');
     }
 }

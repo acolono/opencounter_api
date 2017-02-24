@@ -53,12 +53,12 @@ class AddClientHandler
 
         //return $this->user_repository->all();
         $this->oauth2_storage->setClientDetails(
-            $aCommand->client_id(),
-            $aCommand->client_secret(),
-            $aCommand->redirect_url(),
-            $aCommand->grant_types(),
+            $aCommand->clientId(),
+            $aCommand->clientSecret(),
+            $aCommand->redirectUrl(),
+            $aCommand->grantTypes(),
             $aCommand->scopes(),
-            $aCommand->user_id()
+            $aCommand->userId()
         );
     }
 }

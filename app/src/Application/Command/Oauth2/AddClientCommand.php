@@ -16,7 +16,7 @@ class AddClientCommand
      * @var string
      * @SWG\Property()
      */
-    private $user_id;
+    private $userId;
     /**
      * Client Id
      * @SWG\Property()
@@ -63,7 +63,7 @@ class AddClientCommand
         $user_id
     ) {
     
-        $this->user_id = $user_id;
+        $this->userId = $user_id;
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
         $this->redirect_url = $redirect_url;
@@ -74,15 +74,15 @@ class AddClientCommand
     /**
      * @return string
      */
-    public function user_id()
+    public function userId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**
      * @return string
      */
-    public function client_id()
+    public function clientId()
     {
         return $this->client_id;
     }
@@ -90,7 +90,7 @@ class AddClientCommand
     /**
      * @return string
      */
-    public function client_secret()
+    public function clientSecret()
     {
         return $this->client_secret;
     }
@@ -107,12 +107,12 @@ class AddClientCommand
      * @return string
 
      */
-    public function grant_types()
+    public function grantTypes()
     {
         return $this->grant_types;
     }
 
-    public function redirect_url()
+    public function redirectUrl()
     {
         return $this->redirect_url;
     }
