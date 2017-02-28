@@ -61,14 +61,14 @@
             <div class="canvas-holder">
                 <canvas id="chart-scenarios" width="300" height="300"/>
             </div>
-            2 scenarios failed of 10
+            1 scenarios failed of 10
             scenarios
         </div>
         <div class="col-sm-4">
             <div class="canvas-holder">
                 <canvas id="chart-steps" width="300" height="300"/>
             </div>
-            1 steps failed of 35
+            0 steps failed of 37
         </div>
     </div>
     <hr>
@@ -348,11 +348,11 @@ GET /counters/1/value</p>
                                                                                     <div class="progress">
 
                                                 <div class="progress-bar progress-bar-green" role="progressbar"
-                                                     style="width: 33.333333333333%">
+                                                     style="width: 66.666666666667%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                                 <div class="progress-bar progress-bar-red" role="progressbar"
-                                                     style="width: 66.666666666667%">
+                                                     style="width: 33.333333333333%">
                                                     <span class="sr-only">40% Complete (success)</span>
                                                 </div>
                                             </div>
@@ -424,13 +424,13 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/ac4e0698-6eeb-41dd-ad80-1bb3d894fb3a =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/de4f66a0-d199-419a-bdab-1e0e844d2eb2 =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 0
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/ac4e0698-6eeb-41dd-ad80-1bb3d894fb3a =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/de4f66a0-d199-419a-bdab-1e0e844d2eb2 =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -501,19 +501,19 @@ change state of counter (active, disabled, locked)</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PATCH http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 201:
+                                                    <p style="padding-left:2em ; color:black">| PATCH http://opencounter-slim-codenv-webserver:8080/api/counters/value/6537a65e-d27e-490d-9c2c-441045df77b7 =&gt; 201:
 null</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/6537a65e-d27e-490d-9c2c-441045df77b7 =&gt; 200:
 3</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 3
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/6537a65e-d27e-490d-9c2c-441045df77b7 =&gt; 200:
 3</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -579,13 +579,13 @@ GET /counters/1/value</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/e27d9ae0-4b87-4dce-9d82-a206462fd900 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/8c731d56-3516-4b17-897c-b18a3ebc44fd =&gt; 200:
 11</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 11
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/e27d9ae0-4b87-4dce-9d82-a206462fd900 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/8c731d56-3516-4b17-897c-b18a3ebc44fd =&gt; 200:
 11</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -716,19 +716,19 @@ given a Counter, it is possible to replace its value with 0.</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I reset the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/738b88b3-bc70-44b5-b067-1ea9e1eb477a =&gt; 200:
 null</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/738b88b3-bc70-44b5-b067-1ea9e1eb477a =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/738b88b3-bc70-44b5-b067-1ea9e1eb477a =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -915,11 +915,11 @@ GET /counters/1/value</p>
                                                                     <div class="progress">
 
                                         <div class="progress-bar progress-bar-green" role="progressbar"
-                                             style="width: 33.333333333333%">
+                                             style="width: 66.666666666667%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                         <div class="progress-bar progress-bar-red" role="progressbar"
-                                             style="width: 66.666666666667%">
+                                             style="width: 33.333333333333%">
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div>
@@ -927,7 +927,7 @@ GET /counters/1/value</p>
                         </div>
                     </div>
                     <div class="col-sm-8 details panel-group" role="tablist" aria-multiselectable="true">
-                                                    <div class="panel panel-default failed">
+                                                    <div class="panel panel-default passed">
                                 <div class="panel-heading" role="tab">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -955,17 +955,13 @@ GET /counters/1/value</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I send a access token request
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-danger">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the response status code is 400
-                                                                                                                                                                                                                                                        <br>
-                                                    <p style="padding-left:2em ; color:gray">(HTTP code does not match 400 (actual: 200)
-
- )</p>
-                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                                                                                                                                                </li>
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> the response has a &quot;error&quot; property and it is equals &quot;invalid_client&quot;
                                                                                                                                                                                                                                                                                                                                                 </li>
-                                                                                                                                                                                                                        <li class="list-group-item alert alert-info">
+                                                                                                                                                                                                                        <li class="list-group-item alert alert-success">
                                                 <b>And</b> the response has a &quot;error_description&quot; property
                                                                                                                                                                                                                                                                                                                                                 </li>
                                                                                                                                                                                                                 </ul>
@@ -1062,13 +1058,13 @@ GET /counters/1/value</p>
 
     var scenarioData = [
         {
-            value: 2,
+            value: 1,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 8,
+            value: 9,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"
@@ -1077,13 +1073,13 @@ GET /counters/1/value</p>
 
     var stepData = [
         {
-            value: 1,
+            value: 0,
             color: "#F7464A",
             highlight: "#FF5A5E",
             label: "Failed"
         },
         {
-            value: 34,
+            value: 37,
             color: "#00a65a",
             highlight: "#5AD3D1",
             label: "Passed"

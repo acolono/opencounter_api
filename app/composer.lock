@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "620e92d458fed1d0546626120436389a",
+    "content-hash": "3ee24c98ddd6b37c667d2ad13b8d0c7d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4625,16 +4625,16 @@
         },
         {
             "name": "rstgroup/behat-oauth2-context",
-            "version": "1.1.0",
+            "version": "dev-client_credentials",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rstgroup/behat-oauth2-context.git",
-                "reference": "f55c3edd255eb119162f92a55679ca33ff87db59"
+                "url": "https://github.com/rosenstrauch/behat-oauth2-context.git",
+                "reference": "a4cb3d10f8663c804a9ad1051472a36d14c3295c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rstgroup/behat-oauth2-context/zipball/f55c3edd255eb119162f92a55679ca33ff87db59",
-                "reference": "f55c3edd255eb119162f92a55679ca33ff87db59",
+                "url": "https://api.github.com/repos/rosenstrauch/behat-oauth2-context/zipball/a4cb3d10f8663c804a9ad1051472a36d14c3295c",
+                "reference": "a4cb3d10f8663c804a9ad1051472a36d14c3295c",
                 "shasum": ""
             },
             "require": {
@@ -4667,10 +4667,9 @@
             ],
             "description": "Behat Context for OAuth2",
             "support": {
-                "source": "https://github.com/rstgroup/behat-oauth2-context/tree/1.1.0",
-                "issues": "https://github.com/rstgroup/behat-oauth2-context/issues"
+                "source": "https://github.com/rosenstrauch/behat-oauth2-context/tree/client_credentials"
             },
-            "time": "2015-10-01T08:26:38+00:00"
+            "time": "2017-01-31T01:46:33+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5733,7 +5732,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "slim/slim": 20
+        "slim/slim": 20,
+        "rstgroup/behat-oauth2-context": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
