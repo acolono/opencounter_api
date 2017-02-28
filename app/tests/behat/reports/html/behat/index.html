@@ -424,13 +424,13 @@ I need to be able to create a new counter with a name and default value of '0'</
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> I can get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/5de5bc2d-169d-4272-b86a-93315c64d8b4 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/ac4e0698-6eeb-41dd-ad80-1bb3d894fb3a =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> the value returned should be 0
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/5de5bc2d-169d-4272-b86a-93315c64d8b4 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/ac4e0698-6eeb-41dd-ad80-1bb3d894fb3a =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -501,19 +501,19 @@ change state of counter (active, disabled, locked)</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I increment the value of the counter with name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PATCH http://opencounter-slim-codenv-webserver:8080/api/counters/value/c0079c53-f7c7-4c2b-9a95-42f494726347 =&gt; 201:
+                                                    <p style="padding-left:2em ; color:black">| PATCH http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 201:
 null</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c0079c53-f7c7-4c2b-9a95-42f494726347 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 200:
 3</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 3
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c0079c53-f7c7-4c2b-9a95-42f494726347 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/c074013d-bb79-483d-a4ff-6f8f3abeaa01 =&gt; 200:
 3</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -579,13 +579,13 @@ GET /counters/1/value</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I get the value of the counter with Name &quot;onecounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/6447e87e-25af-4de8-8e79-41d3d4186727 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/e27d9ae0-4b87-4dce-9d82-a206462fd900 =&gt; 200:
 11</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be 11
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/6447e87e-25af-4de8-8e79-41d3d4186727 =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/e27d9ae0-4b87-4dce-9d82-a206462fd900 =&gt; 200:
 11</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>
@@ -716,19 +716,19 @@ given a Counter, it is possible to replace its value with 0.</p>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>When</b> I reset the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/da960117-c8f8-4eb8-a67d-edb138bf4e9d =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| PUT http://opencounter-slim-codenv-webserver:8080/api/counters/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
 null</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>And</b> I get the value of the counter with Name &quot;excounter&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/da960117-c8f8-4eb8-a67d-edb138bf4e9d =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                         <li class="list-group-item alert alert-success">
                                                 <b>Then</b> the value returned should be &quot;0&quot;
                                                                                                                                                                                                                                                                                                         <br>
-                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/da960117-c8f8-4eb8-a67d-edb138bf4e9d =&gt; 200:
+                                                    <p style="padding-left:2em ; color:black">| GET http://opencounter-slim-codenv-webserver:8080/api/counters/value/89b2661b-30bf-4778-a070-3a4c0ca8c64e =&gt; 200:
 0</p>
                                                                                                                                             </li>
                                                                                                                                                                                                                 </ul>

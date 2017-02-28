@@ -5357,12 +5357,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "d6f5fde3b481004ea0674c96604466f919a93da1"
+                "reference": "5c3d4282901e93bcaeb347e9eb96312d2487bf7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/d6f5fde3b481004ea0674c96604466f919a93da1",
-                "reference": "d6f5fde3b481004ea0674c96604466f919a93da1",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/5c3d4282901e93bcaeb347e9eb96312d2487bf7e",
+                "reference": "5c3d4282901e93bcaeb347e9eb96312d2487bf7e",
                 "shasum": ""
             },
             "require": {
@@ -5419,7 +5419,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-28T15:52:13+00:00"
+            "time": "2017-02-28T22:49:08+00:00"
         },
         {
             "name": "symfony/dom-crawler",

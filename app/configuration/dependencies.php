@@ -163,7 +163,7 @@ $container['renderer'] = function ($container) {
       'debug' => true
     ]);
     $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_layouts', 'layouts');
+      ->addPath($settings['theme_path'] . 'source/_layouts');
     $renderer->getLoader()
       ->addPath($settings['theme_path'] . 'source/_patterns', 'patterns');
     $renderer->getLoader()
