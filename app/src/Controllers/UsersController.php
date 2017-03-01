@@ -84,12 +84,6 @@ class UsersController implements ContainerInterface
             throw $e;
 //            $form->addError(new FormError('There was an error, please get in touch with us'));
         }
-        // TODO: consider adding oauth_users along with local users.
-        //$this->storage->setUser($username, $password, $firstName = null, $lastName = null);
-
-        // TODO: provie a generated client id and secret to each user.
-
-        //$this->storage->setClientDetails($client_id, $client_secret, $redirect_uri, $grant_types, $scopes, $user_id);
 
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(

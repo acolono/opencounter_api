@@ -62,11 +62,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function aCounterWithAValueOfHasBeenSet($name, $value)
     {
-
-        // TODO: like this it will fail if none was set, but probably we want to use this to make sure one is set.
-        // TODO: currently still ignoring the value because we arent creating the counter
-        // so add the counter to db here?
-// lets create the counter here instead of assuming it exists
+        // lets create the counter here instead of assuming it exists
         $this->iSetACounterWithNameAndValue($name, $value);
 
     }
@@ -78,8 +74,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     {
 //      authenticate with basic auth
         $this->visitPath($this->baseUrl . '/admin/content/add');
-//        [$rowLineNumber => [$val1, $val2, $val3]]
-//        id|name|label|value|placeholder
+
         $fields = new \Behat\Gherkin\Node\TableNode(array(
           array('name', $name),
           array('status', 'active'),
@@ -125,11 +120,9 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function iSetACounterWithName($name)
     {
-//      TODO: authorize requests via basic auth.
 
         $this->visitPath($this->baseUrl . '/admin/content/add');
-//        [$rowLineNumber => [$val1, $val2, $val3]]
-//        id|name|label|value|placeholder
+
         $fields = new \Behat\Gherkin\Node\TableNode(array(
           array('name', $name),
           array('status', 'active'),
@@ -258,12 +251,12 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
           $serverParams, $body);
         $args = ['name' => $name, 'id' => $id, 'value' => 0];
-// now thest the build service just in case
+        // now test the build service just in case
         // cant test build service without request
         $counter = $this->app->getContainer()
           ->get('counter_build_service')
           ->execute($request, $args);
-// still need to use repository to save counter and add it to counters array for post scenario deletion
+        // use repository to save counter and add it to counters array for post scenario deletion
         $this->app->getContainer()->get('counter_repository')->save($counter);
         $this->counters[] = $counter;
 
