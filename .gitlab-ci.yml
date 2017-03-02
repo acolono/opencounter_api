@@ -61,6 +61,7 @@ build:dependencies:
     paths:
     - app/vendor/
     - app/bin/
+    - app/themes/
     expire_in: 1 week
 
 # Run Behat and Phpspec tests.
