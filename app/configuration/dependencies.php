@@ -157,7 +157,7 @@ $container['\SlimCounter\Controllers\CounterController'] = function ($container
 $container['renderer'] = function ($container) {
     $settings = $container->get('settings')['renderer'];
 
-    $renderer = new \Slim\Views\Twig($settings['theme_path'] . '/templates', [
+    $renderer = new \Slim\Views\Twig($settings['theme_path'] . 'templates', [
 //    'cache' => $settings['cache_path']
         // TODO: debug only according to single setting
       'debug' => true
