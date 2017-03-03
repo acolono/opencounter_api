@@ -75,10 +75,6 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
     {
         $environment = $scope->getEnvironment();
 
-        // $this->oauthContext = $environment->getContext('RstGroup\Behat\OAuth2\Context\OAuth2Context');
-
-        // TODO: add client credentials during tests
-        // $storage->setClientDetails('atestid', 'atestsecret', 'receive-code', 'password implicit authorization_code', 'read_counters write_counters', 'useridtest');
 
     }
 

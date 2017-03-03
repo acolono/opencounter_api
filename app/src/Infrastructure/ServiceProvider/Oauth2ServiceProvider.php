@@ -44,7 +44,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
         $pimple['authorization'] = $pimple->factory(function ($pimple) {
 
-// setup authorization middleware to protect routes
+            // setup authorization middleware to protect routes
             $authorization = new Middleware\Authorization(
                 $pimple['oauth2_server'],
                 $pimple
@@ -52,7 +52,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
             return $authorization;
         });
-//
 
         $pimple['authorization_views'] = function ($pimple) {
 
@@ -72,6 +71,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          * or uses valid  verification or invite token
          *
          * @param $container
+         *
          * @return \BenGorUser\CarlosBuenosvinosDddBridge\Application\Service\SignUp\SignUpUserService
          */
         $pimple['add_client_application_service'] = $pimple->factory(function (
@@ -94,6 +94,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          * but really just is needed to instanciate the oauth server
          *
          * @param $container
+         *
          * @return \OAuth2\Storage\Pdo
          */
         $pimple['oauth2_storage'] = function ($pimple) {
@@ -105,19 +106,19 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
         $pimple['oauth2_server'] = function ($pimple) {
 
-//Setup Auth
+            //Setup Auth
             $oauth2_server = new Server(
                 $pimple['oauth2_storage'],
                 [
-                  //    'access_lifetime' => 3600,
+                'access_lifetime' => 3600,
                 'allow_implicit' => true,
                 ],
                 [
 
-                //                    new \OAuth2\GrantType\UserCredentials($pimple['oauth2_storage']),
+                  //                    new \OAuth2\GrantType\UserCredentials($pimple['oauth2_storage']),
                 new \OAuth2\GrantType\ClientCredentials($pimple['oauth2_storage']),
-                //                new \OAuth2\GrantType\AuthorizationCode($pimple['oauth2_storage']),
-                //                    new \OAuth2\GrantType\RefreshToken($pimple['oauth2_storage']),
+                  //                new \OAuth2\GrantType\AuthorizationCode($pimple['oauth2_storage']),
+                  //                    new \OAuth2\GrantType\RefreshToken($pimple['oauth2_storage']),
                 ]
             );
 

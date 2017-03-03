@@ -65,14 +65,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // Initialize your context here
         $this->parameters = $parameters;
         $this->baseUrl = $parameters['base_url'];
-        // TODO: should we be getting them from the container here since we are kernel aware? probably
-//        $this->counter_factory = new \OpenCounter\Infrastructure\Factory\Counter\CounterFactory();
 
-        // TODO: why can we access app in our steps but not here in construct?
-//        $this->db = $this->app->getContainer()->get('pdo');
-//        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counters = [];
-//        $this->oauth_storage = $this->app->getContainer()->get('oauth_storage');
     }
 
     /** @BeforeScenario */
@@ -80,7 +74,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $environment = $scope->getEnvironment();
 
-        //$this->oauthContext = $environment->getContext('RstGroup\Behat\OAuth2\Context\OAuth2Context');
         // lets insert a valid access token before each scenario and remove after
         // set them from context parameters shouldnt be neccessary
         $access_token = 'abxc';
@@ -124,11 +117,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     /**
      * Utility since we dont set counters with ids via service layer
-     * This doenst clean up after itsself so we can test counter removal.
      *
-     * TODO: has been set doesnt need to use the webapi. if we want to use the webapi we use: i set a. consider using step from lower context
      * @Given a counter with id :id has been set
-     *
      */
 
     public function aCounterWithIdhasBeenSet($id)
@@ -162,7 +152,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // lets use the factory to create the counter here, but not bother with using the build Service
         // TODO we are not testing here just setting up a convinience function,
         // could use this directly from domaincontext actually but there we arent saving the counter
-        //$this->domainContext->aCounterWithIdhasBeenSet($id);
+        // $this->domainContext->aCounterWithIdhasBeenSet($id);
         // gotta make sure we got the factory or just create one
         $this->counter = $this->counter_factory->build(
           $this->counterId,
@@ -176,11 +166,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // mark for removal
         $this->counters[] = $this->counter;
 
-
-
-
-
-
     }
 
     /**
@@ -189,7 +174,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function theValueReturnedShouldBe($arg1)
     {
         $this->printResponse();
-
         $this->theResponseShouldContain($arg1);
     }
 
@@ -199,9 +183,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iIncrementTheValueOfTheCounterWithName($name)
     {
 
-// just a helper until we implemented an endpoint
+        // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
-       $this->iIncrementTheValueOfTheCounterWithId($id);
+        $this->iIncrementTheValueOfTheCounterWithId($id);
 
     }
 
@@ -246,7 +230,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterArray = [
           json_encode(['value' => '+1'])
         ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
@@ -259,7 +242,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iLockTheCounterWithName($name)
     {
 
-// just a helper until we implemented an endpoint
+        // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
         // TODO: do we need to get the id to do this or can we patch to the generic endpoint
         $this->iLockTheCounterWithId($id);
@@ -276,7 +259,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterArray = [
           json_encode(['id' => $id, 'value' => '1', 'status' => 'locked'])
         ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
@@ -311,14 +293,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     }
 
 
-//    /**
-//     * @When I get the Id of the counter with Name :arg1
-//     */
-//    public function iGetTheIdOfTheCounterWithName($arg1)
-//    {
-//        throw new PendingException();
-//    }
-
     /**
      * @When I get the value of the counter with ID :id
      */
@@ -346,7 +320,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         // since we dont have endpoints for counter name directly
         // lets for now resolve name to id internally
-
         // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
 
@@ -363,7 +336,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterArray = [
           json_encode(['value' => 0])
         ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PUT', $endpoint, $CounterStringNode);
         $this->printResponse();
@@ -414,7 +386,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iRemoveTheCounterWithName($name)
     {
 
-// just a helper until we implemented an endpoint, might lead to wrong errors when id doesnt exist
+        // just a helper until we implemented an endpoint, might lead to wrong errors when id doesnt exist
         $id = $this->iGetTheIdOfTheCounterWithName($name);
         $this->iRemoveTheCounterWithId($id);
 
@@ -435,11 +407,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterArray = [
           json_encode(['value' => 0])
         ];
-//      [$rowLineNumber => [$val1, $val2, $val3]]
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('DELETE', $endpoint, $CounterStringNode);
         $this->printResponse();
-//        $this->theResponseCodeShouldBe('200');
     }
 
     /**
@@ -536,9 +506,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
               $newCounterjsonString);
             $this->printResponse();
             $this->theResponseCodeShouldBe('201');
-
-
-
 
         } catch (Exception $e) {
             $error = ['message' => $e->getMessage()];

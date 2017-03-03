@@ -15,7 +15,7 @@
 
     {
       "type": "vcs",
-      "url": "git@github.com:rstgroup/behat-oauth2-context.git"
+      "url": "git@github.com:rosenstrauch/behat-oauth2-context.git"
     },
     {
       "type": "vcs",
@@ -23,7 +23,7 @@
     },
     {
       "type": "git",
-      "url": "git@git.acolono.net:open-counter/opencounter-theme.git"
+      "url": "https://github.com/acolono/opencounter_theme.git"
     }
 
   ],
@@ -54,7 +54,7 @@
     "emuse/behat-html-formatter": "0.1.*",
     "behat/mink": "^1.7",
     "behat/mink-goutte-driver": "^1.2",
-    "rstgroup/behat-oauth2-context": "^1.0",
+    "rstgroup/behat-oauth2-context": "dev-client_credentials",
     "behat/mink-extension": "^2.2"
   },
   "config": {
