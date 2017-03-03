@@ -55,7 +55,7 @@ gulp.task('serve', ['behat'], function() {
         server: "./app/tests/behat/reports/html/behat"
     });
 
-    gulp.watch('./app/public/*.php',  ['behat-watch']);
+    gulp.watch('./app/src/*.php',  ['behat-watch']);
 });
 
 release.register(gulp, { packages: ['package.json', './**/composer.json'] });

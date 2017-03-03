@@ -157,13 +157,13 @@ $container['\SlimCounter\Controllers\CounterController'] = function ($container
 $container['renderer'] = function ($container) {
     $settings = $container->get('settings')['renderer'];
 
-    $renderer = new \Slim\Views\Twig($settings['theme_path'] . '/templates', [
+    $renderer = new \Slim\Views\Twig($settings['theme_path'] . 'templates', [
 //    'cache' => $settings['cache_path']
         // TODO: debug only according to single setting
       'debug' => true
     ]);
     $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_layouts', 'layouts');
+      ->addPath($settings['theme_path'] . 'source/_layouts');
     $renderer->getLoader()
       ->addPath($settings['theme_path'] . 'source/_patterns', 'patterns');
     $renderer->getLoader()
