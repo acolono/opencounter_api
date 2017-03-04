@@ -109,7 +109,7 @@ test:
 release:changelog:
   stage: release
   only:
-    - master
+    - tags
   image: ruby:2.3
   script:
     # make sure we have the gem to generate changelog (runner should already have this in its path)
@@ -122,8 +122,7 @@ release:changelog:
     paths:
     - CHANGELOG.md
     expire_in: 1 week
-  except:
-    - tags
+
 
 pages:
   stage: release
@@ -133,7 +132,7 @@ pages:
   # we want to use cache to load installed composer dependency from build step
   # make sure this only happens on the master branch (for new releases)
   only:
-    - master
+    - tags
   before_script:
     # asking for docker info breaks phpcs stage so dont.
     #- docker info
@@ -144,8 +143,8 @@ pages:
     - docker-compose -f docker-compose.testing.yml pull
     # static swagger json for swaggercodegen or swaggereditor to consume
     - docker-compose -f docker-compose.testing.yml up -d
-    #- docker-compose -f docker-compose.testing.yml run opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
-    - docker exec opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/constants.php --output /var/www/opencounter-slim-codenv/public/swagger.json
+
+    - docker exec opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/bootstrap.php --output /var/www/opencounter-slim-codenv/public/swagger.json
     # we can install phpdocumentor in the php-fpm container because we already have composer installed there. consider having this preinstalled in the container or using an existing docker image specificly for running phpdoc
     # Previously we Installed phpdocumentor via composer/composer image
     #- docker run --rm -v $(pwd):/app composer/composer global require "phpdocumentor/phpdocumentor:2.*"
@@ -184,10 +183,10 @@ deploy:swagger:
  # we want to use cache to load swagger.json from pages step
   # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
-    - master
+    - tags
   script:
     # make sure we have phpdocs from releases stage
-    - ls ./docs
+    - ls ./app/public
     # generate client from swagger.json
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l html2 -o ./swagger-api/out/swagger/
     #- generate -i ./docs/swagger.json -o ./docs/swagger/
@@ -215,4 +214,4 @@ deploy:live:
   script:
     - echo "will be deployed in git post hook"
   only:
-    - master
+    - tags
