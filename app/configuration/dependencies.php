@@ -1,12 +1,14 @@
 <?php
 
 /**
- * @file
  * The dependencies system.
  *
  * Adding services to the container so we can pull them out when we need them.
  * for now this includes application services but those should move to another file eventually
+ *
+ * @file
  */
+
 
 $container = $app->getContainer();
 

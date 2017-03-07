@@ -103,12 +103,17 @@ class CounterController
     private $CounterSetStatusService;
 
     /**
-     * CounterController constructor.
-     *
-     * @param \Psr\Log\LoggerInterface                                 $logger
-     * @param \OpenCounter\Http\CounterBuildService                    $counterBuildService
-     * @param \OpenCounter\Infrastructure\Persistence\StorageInterface $counter_mapper
-     * @param \OpenCounter\Domain\Repository\CounterRepository         $counter_repository
+     * Counter Controller Constructor
+     * @param LoggerInterface $logger
+     * @param CounterBuildService $counterBuildService
+     * @param StorageInterface $counter_mapper
+     * @param CounterRepository $counter_repository
+     * @param CounterAddService $CounterAddService
+     * @param CounterRemoveService $CounterRemoveService
+     * @param CounterIncrementValueService $CounterIncrementValueService
+     * @param CounterViewService $CounterViewService
+     * @param CounterSetStatusService $CounterSetStatusService
+     * @param CounterResetValueService $CounterResetValueService
      */
 
     public function __construct(
@@ -361,12 +366,6 @@ class CounterController
     /**
      * Route for changing counter state
      *
-     * @param                                          $request
-     * @param                                          $response
-     * @param                                          $args
-     *
-     * @return mixed
-     *
      * @SWG\Patch(
      *     path="/counters/status/{id}",
      *     tags={"docs"},
@@ -423,7 +422,7 @@ class CounterController
      * @param \Psr\Http\Message\ResponseInterface      $response
      * @param                                          $args
      *
-     * @return \Psr\Http\Message\ResponseInterface|static
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function setCounterStatus(
         ServerRequestInterface $request,

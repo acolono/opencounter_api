@@ -14,10 +14,24 @@ use OpenCounter\Domain\Model\Counter\CounterValue;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+/**
+ * Class AdminUiController
+ * @package SlimCounter\Controllers
+ */
 class AdminUiController implements ContainerInterface
 {
+    /**
+     * Container
+     *
+     * @var ContainerInterface
+     */
     protected $ci;
 
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $ci
+     */
     public function __construct(ContainerInterface $ci)
     {
         $this->ci = $ci;
@@ -56,6 +70,8 @@ class AdminUiController implements ContainerInterface
     }
 
     /**
+     * viewCounter
+     *
      * @param Request $request
      * @param Response $response
      * @param $args

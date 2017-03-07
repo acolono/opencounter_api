@@ -1,15 +1,9 @@
 <?php
-
-/*
- * This file is part of the BenGorUser package.
+/**
+ * AddClientHandler
  *
- * (c) Beñat Espiña <benatespina@gmail.com>
- * (c) Gorka Laucirica <gorka.lauzirika@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * contains a class to handle AddClientCommands
  */
-
 namespace SlimCounter\Application\Command\Oauth2;
 
 use BenGorUser\User\Domain\Model\Exception\UserAlreadyExistException;
@@ -19,20 +13,24 @@ use SlimCounter\Application\Service\User\AddClientCommand;
 use SlimCounter\Application\Service\User\AddClientRequest;
 
 /**
- * With confirmation sign up user user command handler class.
- *
- * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
+ * Class AddClientHandler
+ * @package SlimCounter\Application\Command\Oauth2
  */
 class AddClientHandler
 {
     /**
-     * The user password encoder.
+     * Oauth Storage
      *
-     * @var UserPasswordEncoder
+     * @see http://bshaffer.github.io/oauth2-server-php-docs/overview/storage/
+     * @var
      */
     private $oauth_storage;
 
+    /**
+     * Constructor
+     *
+     * @param Pdo $oauth2_storage
+     */
     public function __construct(
         Pdo $oauth2_storage
     ) {

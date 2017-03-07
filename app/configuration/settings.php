@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * settings.php
+ *
+ * here we define settings.
+ */
 if (!defined('APP_ROOT')) {
     $spl = new SplFileInfo(__DIR__ . '/..');
     define("APP_ROOT", $spl->getRealPath());

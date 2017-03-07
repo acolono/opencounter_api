@@ -1,13 +1,15 @@
 <?php
 /**
- * @file
  * The routes registry.
  *
  * creating named routes and mapping them to controllers.
+ *
+ * @file
  */
 
 use Chadicus\Slim\OAuth2\Routes;
 
+// setup container
 $container = $app->getContainer();
 
 // TODO: swagger annotate oauth routes explicitly so people know what to post where
