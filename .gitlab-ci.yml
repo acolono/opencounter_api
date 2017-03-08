@@ -80,7 +80,7 @@ test:
   # start containers needed for testing
   - docker-compose -f docker-compose.testing.yml up -d
   # wait a bit for db
-  - sleep 7
+  - sleep 12
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php --environment testing
   # seed demo users into database so we can test auth layer more easily not required anymore
@@ -167,9 +167,7 @@ pages:
 # When we merge code into master branch
 # Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 
-# todo: swagger codegen https://github.com/swagger-api/swagger-codegen
-# evaluate https://hub.docker.com/r/jimschubert/swagger-codegen-cli/~/dockerfile/
-# And we want github or gitlab pages with the generated swagger documentation from swagger.json
+# Deploy Swagger Docs
 deploy:swagger:
   stage: deploy
   before_script:
@@ -181,7 +179,6 @@ deploy:swagger:
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
   - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
  # we want to use cache to load swagger.json from pages step
-  # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
     - tags
   script:
@@ -202,6 +199,10 @@ deploy:swagger:
     paths:
     - docs/swagger
     expire_in: 1 week
+
+# TODO: deploy behat results
+# TODO Deploy phpdoc
+# TODO: deploy Changelog
 
 deploy:live:
   stage: deploy
