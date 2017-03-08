@@ -1,5 +1,8 @@
 <?php
-// Application middleware
+/**
+ * Application middleware
+ * @see https://www.slimframework.com/docs/concepts/middleware.html
+ */
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
 

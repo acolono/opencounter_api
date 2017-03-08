@@ -42,22 +42,26 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
      * @var array
      */
     protected $provides = [
-      'counter_mapper',
-      'counter_repository',
-      'counter_build_service',
-      'CounterViewService',
-      'CounterIncrementValueService',
-      'CounterRemoveService',
-      'add_counter_application_service',
-      'CounterAddService',
-      'CounterResetValueService',
+        'counter_mapper',
+        'counter_repository',
+        'counter_build_service',
+        'CounterViewService',
+        'CounterIncrementValueService',
+        'CounterRemoveService',
+        'add_counter_application_service',
+        'CounterAddService',
+        'CounterResetValueService',
     ];
 
     /**
+     * Register()
+     *
      * This is where the magic happens, within the method you can
      * access the container and register or retrieve anything
      * that you need to, but remember, every alias registered
      * within this method must be declared in the `$provides` array.
+     *
+     * @param Container $pimple
      */
     public function register(Container $pimple)
     {

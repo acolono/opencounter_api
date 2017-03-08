@@ -12,21 +12,55 @@ use Interop\Container\ContainerInterface;
 
 use OpenCounter\Domain\Model\Counter\CounterName;
 
+use OpenCounter\Domain\Repository\CounterRepository;
+use OpenCounter\Http\CounterBuildService;
+use Psr\Log\LoggerInterface;
 use Slim\Exception\SlimException;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Router;
 
+/**
+ * Class DefaultController
+ * @package SlimCounter\Controllers
+ */
 class DefaultController implements ContainerInterface
 {
+    /**
+     * Container
+     *
+     * @var ContainerInterface
+     */
     protected $ci;
-
+    /**
+     * Logger
+     *
+     * @var LoggerInterface
+     */
     private $logger;
+    /**
+     * CounterRepository
+     *
+     * @var CounterRepository
+     */
     private $counter_repository;
+    /**
+     * router
+     *
+     * @var Router
+     */
     private $router;
+    /**
+     * CounterBuildService
+     *
+     * @var CounterBuildService
+     */
     private $counterBuildService;
 
     /**
+     * Constructor
      *
+     * @param ContainerInterface $ci
      */
     public function __construct(ContainerInterface $ci)
     {
@@ -37,6 +71,15 @@ class DefaultController implements ContainerInterface
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
     }
+
+    /**
+     * index()
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return mixed
+     */
 
     public function index(Request $request, Response $response, $args)
     {

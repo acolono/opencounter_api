@@ -80,7 +80,7 @@ test:
   # start containers needed for testing
   - docker-compose -f docker-compose.testing.yml up -d
   # wait a bit for db
-  - sleep 7
+  - sleep 12
   # setup database for testing environment
   - docker exec opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php --environment testing
   # seed demo users into database so we can test auth layer more easily not required anymore
@@ -126,11 +126,10 @@ release:changelog:
 
 pages:
   stage: release
-  # TODO: here we actually only want to use our own acolono/php-fpm image once we can get it from registry since we dont need a webserver or database. until then we still run the php-fpm via docker-compose. seems since we are linking containers in docker-compose.yml this will launch all containers even though we only need one.
+  # here we actually only want to use our own acolono/php-fpm image
+  # since we dont need a webserver or database.
   # see http://stackoverflow.com/questions/30233105/docker-compose-up-for-only-certain-containers
-#  image: acolono/php-fpm7:latest
-  # we want to use cache to load installed composer dependency from build step
-  # make sure this only happens on the master branch (for new releases)
+
   only:
     - tags
   before_script:
@@ -142,16 +141,9 @@ pages:
     # Fetch ready-built docker images from registry
     - docker-compose -f docker-compose.testing.yml pull
     # static swagger json for swaggercodegen or swaggereditor to consume
-    - docker-compose -f docker-compose.testing.yml up -d
-
-    - docker exec opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/bootstrap.php --output /var/www/opencounter-slim-codenv/public/swagger.json
-    # we can install phpdocumentor in the php-fpm container because we already have composer installed there. consider having this preinstalled in the container or using an existing docker image specificly for running phpdoc
-    # Previously we Installed phpdocumentor via composer/composer image
-    #- docker run --rm -v $(pwd):/app composer/composer global require "phpdocumentor/phpdocumentor:2.*"
-    # generate phpdocumentor html documentation
-    - docker exec opencounter-slim-codenv-php-fpm composer global require "phpdocumentor/phpdocumentor:2.*"
-    - docker exec opencounter-slim-codenv-php-fpm ls ~/.composer/vendor/bin
-    - docker exec opencounter-slim-codenv-php-fpm ~/.composer/vendor/bin/phpdoc -d ./src -t ./public/docs/slimcounter
+    - docker-compose -f docker-compose.testing.yml run opencounter-slim-codenv-php-fpm php ./bin/swagger public src configuration vendor/rosenstrauch/opencounter_api_core/src --bootstrap configuration/bootstrap.php --output /var/www/opencounter-slim-codenv/public/swagger.json
+    # phpdocumentor preinstalled in the container
+    - docker-compose -f docker-compose.testing.yml run opencounter-slim-codenv-php-fpm /usr/local/bin/phpdoc -d vendor/rosenstrauch/opencounter_api_core/src -d ./src -t ./public/docs/slimcounter --template="responsive-twig"
   after_script:
     # shouldnt be necessary but shutdown containers cleanly just in case
     - docker-compose -f docker-compose.testing.yml stop
@@ -164,12 +156,10 @@ pages:
     - app/public/swagger.json
     - app/public/docs/slimcounter
     expire_in: 1 week
-# When we merge code into master branch
-# Then we use swagger-codegen-cli generate something usefull from swagger.json created during "pages" job
 
-# todo: swagger codegen https://github.com/swagger-api/swagger-codegen
-# evaluate https://hub.docker.com/r/jimschubert/swagger-codegen-cli/~/dockerfile/
-# And we want github or gitlab pages with the generated swagger documentation from swagger.json
+# Deploy Swagger Docs
+# When we tag a new version.
+# Then we use swagger-codegen-cli generate something useful from swagger.json created during "pages" job
 deploy:swagger:
   stage: deploy
   before_script:
@@ -180,18 +170,12 @@ deploy:swagger:
   - which bash
   # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
   - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
- # we want to use cache to load swagger.json from pages step
-  # TODO: once swagger docs are generated as expected make sure this only happens on the master branch (for new releases)
   only:
     - tags
   script:
-    # make sure we have phpdocs from releases stage
-    - ls ./app/public
-    # generate client from swagger.json
+    # Generate Documentation from swagger.json from releases stage.
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l html2 -o ./swagger-api/out/swagger/
-    #- generate -i ./docs/swagger.json -o ./docs/swagger/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
-    #- rsync -ratlz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" ./docs artur.acolono.net:/web
     - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" docs/swagger $DEPLOY_USER@artur.acolono.net:/web
   environment:
     name: docs
@@ -202,6 +186,59 @@ deploy:swagger:
     paths:
     - docs/swagger
     expire_in: 1 week
+
+
+deploy:phpdoc:
+  stage: deploy
+  before_script:
+  # install ssh-agent
+  - 'which ssh-agent || (apk update && apk add bash rsync openssh)'
+  # run ssh-agent
+  - eval $(ssh-agent -s)
+  - which bash
+  # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+  - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+  only:
+    - tags
+  script:
+    - echo "Deploy phpdocs to https://ocdocs.artur.acolono.net/docs"
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/public/docs $DEPLOY_USER@artur.acolono.net:/web
+  environment:
+    name: docs
+    url: https://ocdocs.artur.acolono.net/
+  artifacts:
+    name: "$CI_BUILD_REF"
+    untracked: true
+    paths:
+    - docs/slimcounter
+    expire_in: 1 week
+
+deploy:behatreports:
+  stage: deploy
+  before_script:
+  # install ssh-agent
+  - 'which ssh-agent || (apk update && apk add bash rsync openssh)'
+  # run ssh-agent
+  - eval $(ssh-agent -s)
+  - which bash
+  # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+  - /bin/bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+  only:
+    - tags
+  script:
+    - ls ./app/tests/behat/reports/html
+    - echo "Deploy docs to https://ocdocs.artur.acolono.net/reports/slimcounter"
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/tests/behat/reports $DEPLOY_USER@artur.acolono.net:/web/reports/slimcounter
+  environment:
+    name: docs
+    url: https://ocdocs.artur.acolono.net/
+  artifacts:
+    name: "$CI_BUILD_REF"
+    untracked: true
+    paths:
+    - docs/slimcounter
+    expire_in: 1 week
+
 
 deploy:live:
   stage: deploy

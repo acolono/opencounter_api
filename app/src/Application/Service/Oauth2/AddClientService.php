@@ -11,19 +11,21 @@ namespace SlimCounter\Application\Service\Oauth2;
 use OpenCounter\Application\Service\Counter\ApplicationService;
 use SlimCounter\Application\Command\Oauth2\AddClientHandler;
 
+/**
+ * Class AddClientService
+ * @package SlimCounter\Application\Service\Oauth2
+ */
 class AddClientService implements ApplicationService
 {
     /**
-     * The command handler.
-     *
-     * @var WithConfirmationSignUpUserHandler
+     * CommandHandler
+     * @var
      */
     private $handler;
 
     /**
-     * Constructor.
-     *
-     * @param WithConfirmationSignUpUserHandler $aHandler The command handler
+     * Constructor
+     * @param AddClientHandler $aHandler
      */
     public function __construct(AddClientHandler $aHandler)
     {
@@ -31,7 +33,11 @@ class AddClientService implements ApplicationService
     }
 
     /**
+     * execute()
+     *
      * {@inheritdoc}
+     *
+     * @param null $request
      */
     public function execute($request = null)
     {
