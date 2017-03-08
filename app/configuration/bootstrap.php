@@ -1,7 +1,16 @@
 <?php
+/**
+ * Bootstrapping the app
+ *
+ * Before we setup the app load settings and setup autoloader
+ *
+ * @see settings.php
+ * @file
+ */
 
-
-// Setting a constant we will use later during swagger annotations
+/**
+ * Setting a constant we will use later during swagger annotations
+ */
 define("API_HOST", "opencounter-slim-codenv-webserver:8080");
 
 

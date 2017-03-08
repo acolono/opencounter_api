@@ -13,20 +13,60 @@
 namespace SlimCounter\Controllers;
 
 use Interop\Container\ContainerInterface;
+use OpenCounter\Domain\Repository\CounterRepository;
+use OpenCounter\Http\CounterBuildService;
+use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+use Slim\Router;
 use SlimCounter\Application\Command\Oauth2\AddClientCommand;
 
+/**
+ * Class UsersController
+ * @package SlimCounter\Controllers
+ */
 class UsersController implements ContainerInterface
 {
+    /**
+     * Dependency Container
+     *
+     * @var ContainerInterface
+     */
     protected $ci;
 
+    /**
+     * Logger
+     *
+     * @var LoggerInterface
+     */
     private $logger;
+
+    /**
+     * CounterRepository
+     *
+     * @var CounterRepository
+     */
     private $counter_repository;
+
+    /**
+     * Router
+     *
+     * @var Router
+     */
     private $router;
+    /**
+     * CounterBuildService
+     *
+     * @var CounterBuildService
+     */
     private $counterBuildService;
 
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $ci
+     */
     public function __construct(ContainerInterface $ci)
     {
         $this->ci = $ci;
@@ -40,6 +80,14 @@ class UsersController implements ContainerInterface
         $this->add_client_application_service = $this->ci->get('add_client_application_service');
     }
 
+    /**
+     * addClientForm()
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return mixed
+     */
     public function addClientForm(Request $request, Response $response, $args)
     {
         // logging
@@ -54,6 +102,15 @@ class UsersController implements ContainerInterface
         );
     }
 
+    /**
+     * newClient
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response|static
+     * @throws \Exception
+     */
     public function newClient(Request $request, Response $response, $args)
     {
 
@@ -94,6 +151,14 @@ class UsersController implements ContainerInterface
         return $response->withRedirect((string)$uri);
     }
 
+    /**
+     * User Index
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return mixed
+     */
     public function index(Request $request, Response $response, $args)
     {
         // log message

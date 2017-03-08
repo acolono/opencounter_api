@@ -1,5 +1,14 @@
 <?php
+/**
+ * index.php
+ *
+ * Single point of entry
+ *
+ */
 
+/**
+ * Include Bootstrap of app first
+ */
 include __DIR__ . '/../configuration/bootstrap.php';
 
 // Set up dependencies

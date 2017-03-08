@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Contains a contet to test admin ui
+ */
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -12,12 +14,17 @@ use OpenCounter\Domain\Model\Counter\CounterName;
 use OpenCounter\Domain\Model\Counter\CounterValue;
 use OpenCounter\Domain\Model\Counter\Counter;
 
+/**
+ * Class AdminUiContext
+ */
 class AdminUiContext extends MinkContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
+
     use App;
 
     /**
-     * AdminUiContext constructor.
+     * AdminUiContext Constructor
+     * @param $parameters
      */
     public function __construct($parameters)
     {
@@ -28,7 +35,12 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     }
 
     /**
+     * Clean db
+     *
+     * after each scenario
+     * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
      * @AfterScenario
+     *
      */
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {
