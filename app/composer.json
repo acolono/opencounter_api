@@ -1,7 +1,7 @@
 {
   "name": "acolono/slim-opencounter",
   "description": "A Slim Framework implementation of opencounter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "microframework",
     "rest",
