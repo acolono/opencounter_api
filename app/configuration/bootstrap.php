@@ -8,11 +8,6 @@
  * @file
  */
 
-/**
- * Setting a constant we will use later during swagger annotations
- */
-define("API_HOST", "opencounter-slim-codenv-webserver:8080");
-
 
 if (PHP_SAPI == 'cli-server') {
   // To help the built-in PHP dev server, check if the request was actually for
@@ -37,6 +32,12 @@ $dotenv->required('DB_HOST');
 $dotenv->required('MYSQL_DATABASE');
 $dotenv->required('MYSQL_USER');
 $dotenv->required('MYSQL_PASSWORD');
+
+
+/**
+ * Setting a constant we will use later during swagger annotations
+ */
+define("API_HOST", getenv('API_HOST'));
 
 
 // Instantiate the application with settings from file
