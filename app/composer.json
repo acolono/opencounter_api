@@ -1,7 +1,7 @@
 {
   "name": "acolono/slim-opencounter",
   "description": "A Slim Framework implementation of opencounter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "keywords": [
     "microframework",
     "rest",
@@ -34,7 +34,6 @@
     "slim/twig-view": "^2",
     "monolog/monolog": "^1.17",
     "zircote/swagger-php": "~2.0.7",
-    "raveren/kint": "^1.0",
     "ramsey/uuid": "^3.5",
     "robmorgan/phinx": "^0.6.4",
     "slimcounter/default_theme": "^1.0",
@@ -42,8 +41,7 @@
     "rosenstrauch/opencounter_api_core": "^0.2.4",
     "vlucas/phpdotenv": "^2.4",
     "chadicus/slim-oauth2": "^3.1",
-    "tuupola/slim-basic-auth": "^2.2",
-    "ruflin/elastica": "^5.0"
+    "tuupola/slim-basic-auth": "^2.2"
   },
   "require-dev": {
     "behat/behat": "^3",
