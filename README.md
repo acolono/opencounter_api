@@ -1,88 +1,95 @@
+[![build status](https://gitlab.acolono.net/open-counter/SlimCounter/badges/develop/build.svg)](https://gitlab.acolono.net/open-counter/SlimCounter/commits/develop)
+
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. you need a webserver and a database</a></li>
+<li><a href="#orgheadline1">1. Requirements</a></li>
 <li><a href="#orgheadline2">2. Usage</a></li>
-<li><a href="#orgheadline3">3. Contributing</a></li>
-<li><a href="#orgheadline4">4. more docs (assuming you are viewing this in the running codenv)</a></li>
 </ul>
 </div>
 </div>
 
 <img src="./img/opencounter-logo.png" alt="OpenCounter Logo" width="150">
-<img src="![img](//acolono.gitlab.net/opencounter_api/project/badges/master/build.svg)" alt="OpenCounter master Build status" width="150">
-<img src="![img](//acolono.gitlab.net/opencounter_api/project/badges/master/coverage.svg)" alt="OpenCounter master Coverage" width="150">
 
-<span class="underline">a minimal example for developers to demonstrate</span>
+<span class="underline">A minimal example for developers to demonstrate</span>
 
--   rest and api
--   to demonstrate iteration over incrementation
--   objectoriented
--   automated software testing (and test driven dev)
+-   REST and API
+-   Iteration over incrementation
+-   Object oriented
+-   Automated software testing (and test driven development)
 
 <span class="underline">A simple useful application/service/backend with usecases that lets the user:</span>
 
-1.  register a counter with a password
-2.  retrieve the counter value
-3.  change the value by incrementing it by 1 (providing the password)
+1.  Register a counter with a password
+2.  Retrieve the counter value
+3.  Change the value by incrementing it by 1 (providing the password)
 
-a counter has a:
+A counter has a:
 
--   name which can be changed
--   unique id
--   value
--   status (locked, disabled, active)
+-   Name which can be changed
+-   Unique ID
+-   Value
+-   Status (locked, disabled, active)
 
-# you need a webserver and a database<a id="orgheadline1"></a>
+# Requirements<a id="orgheadline1"></a>
 
-point webserver to ./public directory
+You need a webserver, Php7 and a database. Point the webserver to ./public directory.
 
 # Usage<a id="orgheadline2"></a>
 
+## Production
 <span class="underline">Use Composer to install dependencies</span>
 
-if you dont have composer installed on your host but have docker then you can use
+If you don't have composer installed on your host but have docker then you can use
 <https://github.com/RobLoach/docker-composer>
 
-    composer install
+    composer install --no-dev
 
 <span class="underline">Environment file</span>
 
-you need to create a .env file containing
+You need to create a .env file containing variables. (See example env.dev)
 
-    DISPLAY_ERRORS=1
-    LOG_LEVEL=debug
-    PRODUCTION=0
-
+ 
 <span class="underline">Create the Database</span>
 installed via [Phinx](https://phinx.org/)
 
-    # using codenv to run bin/phinx migrate
+    bin/phinx migrate -c phinx.php
+
+## Development
+<span class="underline">Install Dependencies</span>
+
+    composer install
+<span class="underline">Setup environment variables</span>
+
+    cp env.dev .env
+<span class="underline">Start Docker containers</span>
+
+    docker-compose -f docker-compose.dev.yml up
+
+
+<span class="underline">Setup Database</span>
+
     docker exec -t -i opencounter-slim-codenv-php-fpm php /var/www/opencounter-slim-codenv/bin/phinx migrate -c /var/www/opencounter-slim-codenv/phinx.php
 
-<span class="underline">Run Tests</span>
+<span class="underline">Run Tests with these commands</span>
 
-run tests with these commands
 
-    ```
-    $ bin/behat
-    $ bin/phpspec
-    ```
+```
+$ bin/run-tests.sh
+```
 
-probably you will want to use the continuous testing setup which automatically reruns the tests on filesave
-with immediate feedback in terminal and browser, for this you will need to run
+Probably you will want to use the continuous testing setup which automatically reruns the tests on filesave
+with immediate feedback in terminal and browser. For this you will need to run
 
     $ npm install
 
-if you dont have node/npm on your host but have docker running then you can use
+In case you dont have node/npm on your host but have docker running then you can use
 <https://serversforhackers.com/docker-for-gulp-build-tasks>
-(sorry, did put this together into a repo but couldnt share it yet and neither did the OP, feel free to pass me a link to something like this that is ready to use)
+(Sorry, put this together into a repo but couldn't share it yet and neither did the OP, feel free to pass me a link to something like this that is ready to use)
 
-this should allow you to run
+This should allow you to run
 
     $ gulp
 
-# Contributing<a id="orgheadline3"></a>
-
-To develop opencounter use [github:acolono/opencounter<sub>slim</sub><sub>codenv</sub>](https://github.com/acolono/opencounter_slim_codenv)
