@@ -1,5 +1,5 @@
 
-version: '2'
+version: '3'
 
 services:
   opencounter-slim-codenv-mysql:
@@ -11,24 +11,21 @@ services:
       - MYSQL_USER=testing
       - MYSQL_PASSWORD=testing
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-    extends:
-      file: common.yml
-      service: mysql
 
   opencounter-slim-codenv-webserver:
+    image: phpdockerio/nginx:latest
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     ports:
      - "8080:80"
-    links:
-      - opencounter-slim-codenv-php-fpm
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./app:/var/www/opencounter-slim-codenv
     depends_on:
       - opencounter-slim-codenv-php-fpm
-    extends:
-      file: common.yml
-      service: webserver
 
   opencounter-slim-codenv-php-fpm:
+    image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
     container_name: opencounter-slim-codenv-php-fpm
     environment:
       - MYSQL_ROOT_PASSWORD=testing
@@ -41,10 +38,6 @@ services:
     hostname: opencounter-slim-codenv-php-fpm
     volumes:
       - ./app:/var/www/opencounter-slim-codenv
-    links:
-      - opencounter-slim-codenv-mysql
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
     depends_on:
       - opencounter-slim-codenv-mysql
-    extends:
-      file: common.yml
-      service: php
