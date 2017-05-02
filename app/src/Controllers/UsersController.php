@@ -105,10 +105,11 @@ class UsersController implements ContainerInterface
     /**
      * newClient
      *
-     * @param Request $request
-     * @param Response $response
-     * @param $args
-     * @return Response|static
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return \Slim\Http\Response
      * @throws \Exception
      */
     public function newClient(Request $request, Response $response, $args)
@@ -121,9 +122,7 @@ class UsersController implements ContainerInterface
         $form_state = $request->getParsedBody();
 
         $data = $form_state;
-        // call an application service that will list registered users.
         try {
-//            $result = $this->ci->get('add_user_application_service')
             $result = $this->add_client_application_service;
             $result->execute(
                 new AddClientCommand(
@@ -163,6 +162,7 @@ class UsersController implements ContainerInterface
     {
         // log message
         $this->logger->info("user controller 'index' route");
+        // call an application service that will list registered users.
 
         // Render index view
         return $this->renderer->render($response, 'index.twig', $args);

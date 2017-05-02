@@ -13,6 +13,7 @@ use Pimple\ServiceProviderInterface;
 use Slim\Views;
 use SlimCounter\Application\Command\Oauth2\AddClientHandler;
 use SlimCounter\Application\Service\Oauth2\AddClientService;
+use SlimCounter\Infrastructure\Oauth2ClientStorage;
 
 /**
  * Class Oauth2ServiceProvider
@@ -73,14 +74,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             return $authorization_views;
         };
         /**
-         * Application service for signing up new users
-         *
-         * user signup triggers email verification
-         * or uses valid  verification or invite token
-         *
-         * @param $container
-         *
-         * @return \BenGorUser\CarlosBuenosvinosDddBridge\Application\Service\SignUp\SignUpUserService
+         * Application service for adding oauth clients
          */
         $pimple['add_client_application_service'] = $pimple->factory(function (
             $pimple
@@ -94,12 +88,26 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
             return $add_client_application_service;
         });
+        /**
+         * Application service for listing oauth clients
+         */
+        $pimple['listClientsService'] = $pimple->factory(function (
+          $pimple
+        ) {
+            // first try without command bus dependency
+            $listClientsService = new listClientsService(
+              new listClientsHandler(
+                $pimple['oauth2_storage']
+              )
+            );
 
+            return $listClientsService;
+        });
         /**
          * Oauth Storage
          *
          * can be used to interact with oauth2 data in database
-         * but really just is needed to instanciate the oauth server
+         * but really just is needed to instantiate the oauth server
          *
          * @param $container
          *
@@ -107,7 +115,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          */
         $pimple['oauth2_storage'] = function ($pimple) {
 
-            $oauth2_storage = new \OAuth2\Storage\Pdo($pimple['pdo']);
+            $oauth2_storage = new Oauth2ClientStorage($pimple['pdo']);
 
             return $oauth2_storage;
         };
