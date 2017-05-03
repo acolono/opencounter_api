@@ -8,8 +8,10 @@ use Prophecy\Argument;
 
 class listClientsQuerySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+
+    function it_creates_a_query()
     {
         $this->shouldHaveType(listClientsQuery::class);
+
     }
 }

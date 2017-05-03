@@ -7,7 +7,9 @@
  * Date: 8/6/16
  * Time: 11:46 AM
  *
- * TODO: consider routing all requests through a single method since ideally its always just a matter of calling the right service and returning the right template (or errorpage on exception)
+ * TODO: consider routing all requests through a single method since ideally
+ * its always just a matter of calling the right service and returning the
+ * right template (or errorpage on exception)
  */
 
 namespace SlimCounter\Controllers;
@@ -18,16 +20,18 @@ use OpenCounter\Http\CounterBuildService;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-
 use Slim\Router;
 use SlimCounter\Application\Command\Oauth2\AddClientCommand;
+use SlimCounter\Application\Query\listClientsQuery;
 
 /**
  * Class UsersController
+ *
  * @package SlimCounter\Controllers
  */
 class UsersController implements ContainerInterface
 {
+
     /**
      * Dependency Container
      *
@@ -55,6 +59,7 @@ class UsersController implements ContainerInterface
      * @var Router
      */
     private $router;
+
     /**
      * CounterBuildService
      *
@@ -76,6 +81,7 @@ class UsersController implements ContainerInterface
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
         $this->oauth2_storage = $this->ci->get('oauth2_storage');
+        $this->listClientsService = $this->ci->get('listClientsService');
 
         $this->add_client_application_service = $this->ci->get('add_client_application_service');
     }
@@ -83,9 +89,10 @@ class UsersController implements ContainerInterface
     /**
      * addClientForm()
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param $args
+     * @param          $args
+     *
      * @return mixed
      */
     public function addClientForm(Request $request, Response $response, $args)
@@ -97,8 +104,8 @@ class UsersController implements ContainerInterface
 
         // Render new counter form view
         return $this->renderer->render(
-            $response,
-            'admin/clients-form.html.twig'
+          $response,
+          'admin/clients-form.html.twig'
         );
     }
 
@@ -125,47 +132,62 @@ class UsersController implements ContainerInterface
         try {
             $result = $this->add_client_application_service;
             $result->execute(
-                new AddClientCommand(
-                    $data['client_id'],
-                    $data['client_secret'],
-                    $data['redirect_uri'],
-                    $data['grant_types'],
-                    $data['scopes'],
-                    $data['user_id']
-                )
+              new AddClientCommand(
+                $data['client_id'],
+                $data['client_secret'],
+                $data['redirect_uri'],
+                $data['grant_types'],
+                $data['scopes'],
+                $data['user_id']
+              )
             );
         } catch (ClientAlreadyExistsException $e) {
-//            $form->get('email')->addError(new FormError('Email is already registered by another user'));
+            //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
         } catch (\Exception $e) {
             throw $e;
-//            $form->addError(new FormError('There was an error, please get in touch with us'));
+            //            $form->addError(new FormError('There was an error, please get in touch with us'));
         }
 
         $uri = $request->getUri()
           ->withPath($this->router->pathFor(
-              'admin.client.add',
-              ['client' => (array)$result]
+            'admin.client.add',
+            ['client' => (array)$result]
           ));
 
         return $response->withRedirect((string)$uri);
     }
 
     /**
-     * User Index
+     * clientsIndex
      *
-     * @param Request $request
-     * @param Response $response
-     * @param $args
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
      * @return mixed
      */
-    public function index(Request $request, Response $response, $args)
+    public function clientsIndex(Request $request, Response $response, $args)
     {
         // log message
         $this->logger->info("user controller 'index' route");
         // call an application service that will list registered users.
 
+        try {
+            $query = $this->listClientsService;
+
+            $results = $query->execute(
+              new listClientsQuery()
+            );
+
+        } catch (NoClientsFoundException $e) {
+            //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
+        } catch (\Exception $e) {
+            throw $e;
+            //            $form->addError(new FormError('There was an error, please get in touch with us'));
+        }
         // Render index view
-        return $this->renderer->render($response, 'index.twig', $args);
+        return $this->renderer->render($response,
+          'clients/clients-index.html.twig', ['data' => $results]);
     }
 
 
@@ -178,8 +200,10 @@ class UsersController implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @throws ContainerValueNotFoundException  No entry was found for this identifier.
-     * @throws ContainerException               Error while retrieving the entry.
+     * @throws ContainerValueNotFoundException  No entry was found for this
+     *   identifier.
+     * @throws ContainerException               Error while retrieving the
+     *   entry.
      *
      * @return mixed Entry.
      */
@@ -187,8 +211,8 @@ class UsersController implements ContainerInterface
     {
         if (!$this->offsetExists($id)) {
             throw new ContainerValueNotFoundException(sprintf(
-                'Identifier "%s" is not defined.',
-                $id
+              'Identifier "%s" is not defined.',
+              $id
             ));
         }
         try {
@@ -196,9 +220,9 @@ class UsersController implements ContainerInterface
         } catch (\InvalidArgumentException $exception) {
             if ($this->exceptionThrownByContainer($exception)) {
                 throw new SlimContainerException(
-                    sprintf('Container error while retrieving "%s"', $id),
-                    null,
-                    $exception
+                  sprintf('Container error while retrieving "%s"', $id),
+                  null,
+                  $exception
                 );
             } else {
                 throw $exception;
@@ -207,15 +231,15 @@ class UsersController implements ContainerInterface
     }
 
     /**
-     * Tests whether an exception needs to be recast for compliance with Container-Interop.  This will be if the
-     * exception was thrown by Pimple.
+     * Tests whether an exception needs to be recast for compliance with
+     * Container-Interop.  This will be if the exception was thrown by Pimple.
      *
      * @param \InvalidArgumentException $exception
      *
      * @return bool
      */
     private function exceptionThrownByContainer(
-        \InvalidArgumentException $exception
+      \InvalidArgumentException $exception
     ) {
 
         $trace = $exception->getTrace()[0];
@@ -224,8 +248,8 @@ class UsersController implements ContainerInterface
     }
 
     /**
-     * Returns true if the container can return an entry for the given identifier.
-     * Returns false otherwise.
+     * Returns true if the container can return an entry for the given
+     * identifier. Returns false otherwise.
      *
      * @param string $id Identifier of the entry to look for.
      *
