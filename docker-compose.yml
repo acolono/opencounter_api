@@ -1,55 +1,47 @@
-
-version: '2'
-
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
 services:
-  opencounter-slim-codenv-mysql:
-    image: mysql:5.5
-    container_name: opencounter-slim-codenv-mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=docker
-      - MYSQL_DATABASE=development_db
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-    extends:
-      file: common.yml
-      service: mysql
 
-  opencounter-slim-codenv-webserver:
-    image: phpdockerio/nginx:latest
-    container_name: opencounter-slim-codenv-webserver
-    hostname: opencounter-slim-codenv-webserver
-    volumes:
-      - ./app:/var/www/opencounter-slim-codenv
-    ports:
-     - "8080:80"
-    links:
-      - opencounter-slim-codenv-php-fpm
-    depends_on:
-      - opencounter-slim-codenv-php-fpm
-    extends:
-      file: common.yml
-      service: webserver
+    mailhog:
+      image: phpdockerio/mailhog:latest
+      container_name: opencounter-slim-mailhog
+      ports:
+        - "8081:8025"
 
-  opencounter-slim-codenv-php-fpm:
-    image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
-    container_name: opencounter-slim-codenv-php-fpm
-    hostname: opencounter-slim-codenv-php-fpm
-    environment:
-      - DB_HOST=opencounter-slim-codenv-mysql
-      - MYSQL_DATABASE=development_db
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - API_HOST=opencounter-slim-codenv-webserver
-      - XDEBUG_CONFIG="idekey=PHPSTORM remote_enable=1 remote_mode=req remote_port=9000 remote_host=172.17.0.1 remote_connect_back=1 remote_autostart=1"
-      - PHP_IDE_CONFIG=serverName=opencounter-slim-codenv-webserver
-    volumes:
-      - ./app:/var/www/opencounter-slim-codenv
-    links:
-      - opencounter-slim-codenv-mysql
-    depends_on:
-      - opencounter-slim-codenv-mysql
-    extends:
-      file: common.yml
-      service: php
+    mysql:
+      image: mysql:5.7
+      container_name: opencounter-slim-mysql
+      working_dir: /application
+      environment:
+        - MYSQL_ROOT_PASSWORD=test
+        - MYSQL_DATABASE=test
+        - MYSQL_USER=test
+        - MYSQL_PASSWORD=test
+
+    webserver:
+      image: phpdockerio/nginx:latest
+      container_name: opencounter-slim-webserver
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8080:80"
+      links:
+       - php-fpm
+
+    php-fpm:
+      build:
+        context: .
+        dockerfile: phpdocker/php-fpm/Dockerfile
+      container_name: opencounter-slim-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+
+      links:
+        - mailhog
+        - mysql
