@@ -260,7 +260,8 @@ class CounterController
             $code = 409;
             $this->logger->info('exception ' . $e->getMessage());
         }
-        // note that even though the response is json encoded if requested as html you will get content type html showing the json.
+        // note that even though the response is json encoded if requested as
+        // html you will get content type html showing the json.
         $response->write(json_encode($result));
 
         return $response->withStatus($code);
@@ -621,7 +622,8 @@ class CounterController
         }
 
         $body = $response->getBody();
-        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
+        // slims request class gives some handy shortcuts.
+        // but we want to know how to write to responses with the basic psr7 interface
         $body->write(json_encode($result));
 
         return $response;
@@ -698,10 +700,6 @@ class CounterController
             $code = 409;
         }
 
-//        $body = $response->getBody();
-//        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
-//        $body->write(json_encode($result));
-// note that even though the response is json encoded if requested as html you will get content type html showing the json.
         $response->write(json_encode($result));
 
         return $response->withStatus($code);

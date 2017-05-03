@@ -68,13 +68,11 @@ class CounterControllerSpec extends ObjectBehavior
           $CounterIncrementValueService,
           $CounterViewService
         );
-
     }
 
     function it_is_initializable()
     {
         $this->shouldHaveType('SlimCounter\Controllers\CounterController');
-
     }
 
     function its_remove_method_deletes_counters(
@@ -82,8 +80,13 @@ class CounterControllerSpec extends ObjectBehavior
       ResponseInterface $response
     ) {
         // mock a counter we have
-        $object = new Counter(new CounterId('1'), new CounterName('demo'),
-          new CounterValue('1'), 'active', 'password');
+        $object = new Counter(
+          new CounterId('1'),
+          new CounterName('demo'),
+          new CounterValue('1'),
+          'active',
+          'password'
+        );
         $this->counter_repository->getCounterByName('demo')
           ->willReturn($object);
 

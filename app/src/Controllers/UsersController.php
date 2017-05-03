@@ -22,7 +22,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Router;
 use SlimCounter\Application\Command\Oauth2\AddClientCommand;
-use SlimCounter\Application\Query\listClientsQuery;
+use SlimCounter\Application\Query\ListClientsQuery;
 
 /**
  * Class UsersController
@@ -81,7 +81,7 @@ class UsersController implements ContainerInterface
         $this->router = $this->ci->get('router');
         $this->logger = $this->ci->get('logger');
         $this->oauth2_storage = $this->ci->get('oauth2_storage');
-        $this->listClientsService = $this->ci->get('listClientsService');
+        $this->ListClientsService = $this->ci->get('ListClientsService');
 
         $this->add_client_application_service = $this->ci->get('add_client_application_service');
     }
@@ -173,12 +173,11 @@ class UsersController implements ContainerInterface
         // call an application service that will list registered users.
 
         try {
-            $query = $this->listClientsService;
+            $query = $this->ListClientsService;
 
             $results = $query->execute(
-              new listClientsQuery()
+              new ListClientsQuery()
             );
-
         } catch (NoClientsFoundException $e) {
             //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
         } catch (\Exception $e) {
@@ -186,8 +185,11 @@ class UsersController implements ContainerInterface
             //            $form->addError(new FormError('There was an error, please get in touch with us'));
         }
         // Render index view
-        return $this->renderer->render($response,
-          'clients/clients-index.html.twig', ['data' => $results]);
+        return $this->renderer->render(
+          $response,
+          'clients/clients-index.html.twig',
+          ['data' => $results]
+        );
     }
 
 

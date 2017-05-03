@@ -14,9 +14,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Slim\Views;
 use SlimCounter\Application\Command\Oauth2\AddClientHandler;
-use SlimCounter\Application\Query\listClientsHandler;
+use SlimCounter\Application\Query\ListClientsHandler;
 use SlimCounter\Application\Service\Oauth2\AddClientService;
-use SlimCounter\Application\Service\Oauth2\listClientsService;
+use SlimCounter\Application\Service\Oauth2\ListClientsService;
 use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
 
 /**
@@ -39,7 +39,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
     protected $provides = [
       'oauth2_storage',
       'add_client_application_service',
-      'listClientsService',
+      'ListClientsService',
       'authorization',
       'authorization_views',
 
@@ -98,17 +98,17 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         /**
          * Application service for listing oauth clients
          */
-        $pimple['listClientsService'] = $pimple->factory(function (
+        $pimple['ListClientsService'] = $pimple->factory(function (
           $pimple
         ) {
             // first try without command bus dependency
-            $listClientsService = new listClientsService(
-              new listClientsHandler(
+            $ListClientsService = new ListClientsService(
+              new ListClientsHandler(
                 $pimple['oauth2_storage']
               )
             );
 
-            return $listClientsService;
+            return $ListClientsService;
         });
 
         /**

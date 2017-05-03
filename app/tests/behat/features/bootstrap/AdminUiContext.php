@@ -76,7 +76,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     {
         // lets create the counter here instead of assuming it exists
         $this->iSetACounterWithNameAndValue($name, $value);
-
     }
 
     /**
@@ -124,7 +123,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         if ($counter) {
             throw new \Exception('something is wrong, seems a counter is in the database');
         }
-
     }
 
     /**
@@ -196,7 +194,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         if (!$counter) {
             throw new \Exception('something is wrong, no counter by that name was found');
         }
-
     }
 
     /**
@@ -224,7 +221,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->visitPath($this->baseUrl . '/admin/counters/' . $name);
         $this->assertElementContainsText('h1', 'View Counter ' . $name);
         $this->assertElementOnPage('li.counter__value');
-
     }
 
     /**
@@ -260,8 +256,14 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $cookies = [];
         $serverParams = [];
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
-        $request = new \Slim\Http\Request('GET', $uri, $headers, $cookies,
-          $serverParams, $body);
+        $request = new \Slim\Http\Request(
+          'GET',
+          $uri,
+          $headers,
+          $cookies,
+          $serverParams,
+          $body
+        );
         $args = ['name' => $name, 'id' => $id, 'value' => 0];
         // now test the build service just in case
         // cant test build service without request
@@ -271,7 +273,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         // use repository to save counter and add it to counters array for post scenario deletion
         $this->app->getContainer()->get('counter_repository')->save($counter);
         $this->counters[] = $counter;
-
     }
 
     /**

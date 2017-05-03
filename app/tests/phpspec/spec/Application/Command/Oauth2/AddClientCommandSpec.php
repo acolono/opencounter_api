@@ -27,7 +27,8 @@ class AddClientCommandSpec extends ObjectBehavior
           $redirect_url,
           $grant_types,
           $scopes,
-          $user_id);
+          $user_id
+        );
         $this->shouldHaveType(AddClientCommand::class);
 
 // TODO: id should be generated at this point.

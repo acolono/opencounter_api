@@ -18,8 +18,10 @@ class Oauth2ClientRepository extends Pdo
 
     public function getAllClients()
     {
-        $stmt = $this->db->prepare(sprintf('SELECT * from %s',
-          $this->config['client_table']));
+        $stmt = $this->db->prepare(sprintf(
+          'SELECT * from %s',
+          $this->config['client_table']
+        ));
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);

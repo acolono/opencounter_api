@@ -50,8 +50,10 @@ class DeleteCounterServiceTest extends \PHPUnit_Framework_TestCase
     public function itShouldRemoveCounter()
     {
         $this->deleteCounterService->execute(
-          new DeleteCounterRequest($this->dummyCounter->id()->id(),
-            $this->dummyUser->id()->id())
+          new DeleteCounterRequest(
+            $this->dummyCounter->id()->id(),
+            $this->dummyUser->id()->id()
+          )
         );
 
         $this->assertNull($this->CounterRepository->ofId($this->dummyCounter->id()));

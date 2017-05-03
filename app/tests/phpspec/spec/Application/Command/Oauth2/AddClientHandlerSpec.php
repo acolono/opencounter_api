@@ -29,8 +29,8 @@ class AddClientHandlerSpec extends ObjectBehavior
     function it_creates_the_client(
         AddClientCommand $addClientCommand,
         Pdo $oauth2_storage
-    )
-    {
+    ) {
+    
         $addClientCommand->clientId()->shouldBeCalled()->willReturn('client_id');
         $addClientCommand->clientSecret()->shouldBeCalled()->willReturn('client_secret');
         $addClientCommand->redirectUrl()->shouldBeCalled()->willReturn('redirect_url');
@@ -52,6 +52,5 @@ class AddClientHandlerSpec extends ObjectBehavior
 
         // TODO: client factory?
         // look for existing clients?
-
     }
 }
