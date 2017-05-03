@@ -38,7 +38,7 @@ class Oauth2ClientRepository extends Pdo
 
         $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE client_id = :client_id',
           $this->config['client_table']));
-        $stmt->execute($client_id);
+        $stmt->execute(['client_id' => $client_id]);
 
     }
 }

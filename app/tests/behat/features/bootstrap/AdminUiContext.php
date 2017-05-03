@@ -263,7 +263,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->fillFields($fields);
         $this->pressButton('submit');
 
-        $this->oauth2Clients[] = $fields;
+        $this->oauth2Clients[] = $client_id;
 
     }
 
