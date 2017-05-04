@@ -29,28 +29,28 @@ class AddClientCommand
    * Client secret to use.
    *
    * @SWG\Property()
-   * @var
+   * @var string
    */
     private $client_secret;
   /**
    * Scopes to add.
    *
    * @SWG\Property(example="read:counters write:counters")
-   * @var
+   * @var string
    */
     private $scopes;
   /**
    * Grant types to allow.
    *
    * @SWG\Property(example="implicit client_credentials authorization_code")
-   * @var
+   * @var string
    */
     private $grant_types;
   /**
    * Url to redirect to.
    *
    * @SWG\Property()
-   * @var
+   * @var string
    */
     private $redirect_url;
 

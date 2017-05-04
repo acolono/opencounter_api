@@ -5,7 +5,9 @@ namespace SlimCounter\Application\Query;
 use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
 
 /**
+ * Class ListClientsHandler
  *
+ * @package SlimCounter\Application\Query
  */
 class ListClientsHandler
 {

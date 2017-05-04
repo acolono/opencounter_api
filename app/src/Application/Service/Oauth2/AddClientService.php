@@ -15,7 +15,7 @@ class AddClientService implements ApplicationService
   /**
    * CommandHandler.
    *
-   * @var
+   * @var object
    */
     private $handler;
 

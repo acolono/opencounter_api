@@ -5,7 +5,9 @@ namespace SlimCounter\Application\Service\Oauth2;
 use SlimCounter\Application\Query\ListClientsHandler;
 
 /**
+ * Class ListClientsService
  *
+ * @package SlimCounter\Application\Service\Oauth2
  */
 class ListClientsService
 {
@@ -15,7 +17,6 @@ class ListClientsService
    *
    * @var \SlimCounter\Application\Query\ListClientsHandler
    */
-
     private $handler;
 
   /**

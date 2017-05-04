@@ -15,7 +15,7 @@ class AddClientHandler
    * Oauth Storage.
    *
    * @see http://bshaffer.github.io/oauth2-server-php-docs/overview/storage/
-   * @var
+   * @var object
    */
     private $oauth_storage;
 
