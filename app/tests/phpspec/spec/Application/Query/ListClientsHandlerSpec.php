@@ -5,12 +5,12 @@ namespace spec\SlimCounter\Application\Query;
 use PhpSpec\ObjectBehavior;
 use SlimCounter\Application\Query\ListClientsHandler;
 use SlimCounter\Application\Query\ListClientsQuery;
-use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
+use SlimCounter\Infrastructure\Persistence\Oauth2Repository;
 
 class ListClientsHandlerSpec extends ObjectBehavior
 {
 
-    public function let(Oauth2ClientRepository $oauth2_storage)
+    public function let(Oauth2Repository $oauth2_storage)
     {
         $this->beConstructedWith($oauth2_storage);
     }
@@ -22,7 +22,7 @@ class ListClientsHandlerSpec extends ObjectBehavior
 
     public function it_lists_all_clients_it_finds(
         ListClientsQuery $query,
-        Oauth2ClientRepository $oauth2_storage
+        Oauth2Repository $oauth2_storage
     ) {
         $client_ids_array = ['array', 'of', 'client', 'ids'];
 

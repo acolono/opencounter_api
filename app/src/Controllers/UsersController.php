@@ -141,15 +141,16 @@ class UsersController implements ContainerInterface
         return $response->withRedirect((string) $uri);
     }
 
-  /**
-   * ClientsIndex.
-   *
-   * @param \Slim\Http\Request $request
-   * @param \Slim\Http\Response $response
-   * @param $args
-   *
-   * @return mixed
-   */
+    /**
+     * ClientsIndex.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function clientsIndex(Request $request, Response $response, $args)
     {
         // Log message.
@@ -162,10 +163,9 @@ class UsersController implements ContainerInterface
                 new ListClientsQuery()
             );
         } catch (NoClientsFoundException $e) {
-            // $form->get('email')->addError(new FormError('Email is already registered by another user'));.
+            $results = 'no results found';
         } catch (\Exception $e) {
             throw $e;
-            // $form->addError(new FormError('There was an error, please get in touch with us'));.
         }
         // Render index view.
         return $this->renderer->render(

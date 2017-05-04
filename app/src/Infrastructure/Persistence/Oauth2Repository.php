@@ -5,13 +5,13 @@ namespace SlimCounter\Infrastructure\Persistence;
 use OAuth2\Storage\Pdo;
 
 /**
- * Class Oauth2ClientRepository
+ * Class Oauth2Repository
  *
  * {@inheritdoc}
  *
  * @package SlimCounter\Infrastructure\Persistence
  */
-class Oauth2ClientRepository extends Pdo
+class Oauth2Repository extends Pdo
 {
 
     // TODO: dont store anything in plain text

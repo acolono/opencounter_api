@@ -2,7 +2,7 @@
 
 namespace SlimCounter\Application\Query;
 
-use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
+use SlimCounter\Infrastructure\Persistence\Oauth2Repository;
 
 /**
  * Class ListClientsHandler
@@ -17,10 +17,10 @@ class ListClientsHandler
     /**
      * ListClientsHandler constructor.
      *
-     * @param \SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository $oauth2ClientRepository
+     * @param \SlimCounter\Infrastructure\Persistence\Oauth2Repository $oauth2ClientRepository
      */
     public function __construct(
-        Oauth2ClientRepository $oauth2ClientRepository
+        Oauth2Repository $oauth2ClientRepository
     ) {
         $this->oauth2ClientRepository = $oauth2ClientRepository;
     }

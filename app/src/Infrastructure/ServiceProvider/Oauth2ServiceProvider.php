@@ -11,7 +11,7 @@ use SlimCounter\Application\Command\Oauth2\AddClientHandler;
 use SlimCounter\Application\Query\ListClientsHandler;
 use SlimCounter\Application\Service\Oauth2\AddClientService;
 use SlimCounter\Application\Service\Oauth2\ListClientsService;
-use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
+use SlimCounter\Infrastructure\Persistence\Oauth2Repository;
 use Views\PhpRenderer;
 
 /**
@@ -113,10 +113,10 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          *
          * @param $pimple
          *
-         * @return \SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository
+         * @return \SlimCounter\Infrastructure\Persistence\Oauth2Repository
          */
         $pimple['oauth2_storage'] = function ($pimple) {
-            $oauth2_storage = new Oauth2ClientRepository($pimple['pdo']);
+            $oauth2_storage = new Oauth2Repository($pimple['pdo']);
             return $oauth2_storage;
         };
         /**
