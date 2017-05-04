@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-  "content-hash": "cc7f261b4b99bb81077a40d8fbfbf692",
+  "content-hash": "ec3df4a915f673d9e154671a712e257e",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4539,16 +4539,16 @@
         },
         {
             "name": "rstgroup/behat-oauth2-context",
-            "version": "dev-client_credentials",
+          "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rosenstrauch/behat-oauth2-context.git",
-                "reference": "a4cb3d10f8663c804a9ad1051472a36d14c3295c"
+              "url": "https://github.com/rstgroup/behat-oauth2-context.git",
+              "reference": "f55c3edd255eb119162f92a55679ca33ff87db59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rosenstrauch/behat-oauth2-context/zipball/a4cb3d10f8663c804a9ad1051472a36d14c3295c",
-                "reference": "a4cb3d10f8663c804a9ad1051472a36d14c3295c",
+              "url": "https://api.github.com/repos/rstgroup/behat-oauth2-context/zipball/f55c3edd255eb119162f92a55679ca33ff87db59",
+              "reference": "f55c3edd255eb119162f92a55679ca33ff87db59",
                 "shasum": ""
             },
             "require": {
@@ -4581,9 +4581,10 @@
             ],
             "description": "Behat Context for OAuth2",
             "support": {
-                "source": "https://github.com/rosenstrauch/behat-oauth2-context/tree/client_credentials"
+              "source": "https://github.com/rstgroup/behat-oauth2-context/tree/1.1.0",
+              "issues": "https://github.com/rstgroup/behat-oauth2-context/issues"
             },
-            "time": "2017-01-31T01:46:33+00:00"
+          "time": "2015-10-01T08:26:38+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4748,23 +4749,23 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "dev-master",
+          "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "144fedf9aa8e3f1c52199f3634eb699cb59741d9"
+              "reference": "5795ffe5dc5b02460c3e34222fee8cbe245d8fac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/144fedf9aa8e3f1c52199f3634eb699cb59741d9",
-                "reference": "144fedf9aa8e3f1c52199f3634eb699cb59741d9",
+              "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/5795ffe5dc5b02460c3e34222fee8cbe245d8fac",
+              "reference": "5795ffe5dc5b02460c3e34222fee8cbe245d8fac",
                 "shasum": ""
             },
             "require": {
-              "php": "^7.0"
+              "php": "^5.6 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.0"
+              "phpunit/phpunit": "^5.0"
             },
             "type": "library",
             "extra": {
@@ -4794,7 +4795,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-03-07T12:59:58+00:00"
+          "time": "2016-11-26T07:53:53+00:00"
         },
         {
             "name": "sebastian/exporter",
