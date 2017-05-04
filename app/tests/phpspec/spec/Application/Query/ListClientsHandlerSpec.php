@@ -21,8 +21,8 @@ class ListClientsHandlerSpec extends ObjectBehavior
     }
 
     public function it_lists_all_clients_it_finds(
-      ListClientsQuery $query,
-      Oauth2ClientRepository $oauth2_storage
+        ListClientsQuery $query,
+        Oauth2ClientRepository $oauth2_storage
     ) {
         $client_ids_array = ['array', 'of', 'client', 'ids'];
 

@@ -25,8 +25,8 @@ class Oauth2ClientRepository extends Pdo
     public function getAllClients()
     {
         $stmt = $this->db->prepare(sprintf(
-          'SELECT * from %s',
-          $this->config['client_table']
+            'SELECT * from %s',
+            $this->config['client_table']
         ));
         $stmt->execute();
 
@@ -36,9 +36,10 @@ class Oauth2ClientRepository extends Pdo
     public function deleteClientById($client_id)
     {
 
-        $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE client_id = :client_id',
-          $this->config['client_table']));
+        $stmt = $this->db->prepare(sprintf(
+            'DELETE FROM %s WHERE client_id = :client_id',
+            $this->config['client_table']
+        ));
         $stmt->execute(['client_id' => $client_id]);
-
     }
 }

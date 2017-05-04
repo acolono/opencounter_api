@@ -1,23 +1,9 @@
 <?php
-/**
- * UsersController
- *
- * Created by PhpStorm.
- * User: rosenstrauch
- * Date: 8/6/16
- * Time: 11:46 AM
- *
- * TODO: consider routing all requests through a single method since ideally
- * its always just a matter of calling the right service and returning the
- * right template (or errorpage on exception)
- */
 
 namespace SlimCounter\Controllers;
 
 use Interop\Container\ContainerInterface;
-use OpenCounter\Domain\Repository\CounterRepository;
 use OpenCounter\Http\CounterBuildService;
-use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Router;
@@ -25,53 +11,53 @@ use SlimCounter\Application\Command\Oauth2\AddClientCommand;
 use SlimCounter\Application\Query\ListClientsQuery;
 
 /**
- * Class UsersController
+ * Class UsersController.
  *
  * @package SlimCounter\Controllers
  */
 class UsersController implements ContainerInterface
 {
 
-    /**
-     * Dependency Container
-     *
-     * @var ContainerInterface
-     */
+  /**
+   * Dependency Container.
+   *
+   * @var \Interop\Container\ContainerInterface
+   */
     protected $ci;
 
-    /**
-     * Logger
-     *
-     * @var LoggerInterface
-     */
+  /**
+   * Logger.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
     private $logger;
 
-    /**
-     * CounterRepository
-     *
-     * @var CounterRepository
-     */
+  /**
+   * CounterRepository.
+   *
+   * @var \OpenCounter\Domain\Repository\CounterRepository
+   */
     private $counter_repository;
 
-    /**
-     * Router
-     *
-     * @var Router
-     */
+  /**
+   * Router.
+   *
+   * @var \Slim\Router
+   */
     private $router;
 
-    /**
-     * CounterBuildService
-     *
-     * @var CounterBuildService
-     */
+  /**
+   * CounterBuildService.
+   *
+   * @var \OpenCounter\Http\CounterBuildService
+   */
     private $counterBuildService;
 
-    /**
-     * Constructor
-     *
-     * @param ContainerInterface $ci
-     */
+  /**
+   * Constructor.
+   *
+   * @param \Interop\Container\ContainerInterface $ci
+   */
     public function __construct(ContainerInterface $ci)
     {
         $this->ci = $ci;
@@ -86,46 +72,44 @@ class UsersController implements ContainerInterface
         $this->add_client_application_service = $this->ci->get('add_client_application_service');
     }
 
-    /**
-     * addClientForm()
-     *
-     * @param Request  $request
-     * @param Response $response
-     * @param          $args
-     *
-     * @return mixed
-     */
+  /**
+   * AddClientForm()
+   *
+   * @param \Slim\Http\Request $request
+   * @param \Slim\Http\Response $response
+   * @param $args
+   *
+   * @return mixed
+   */
     public function addClientForm(Request $request, Response $response, $args)
     {
-        // logging
+        // Logging.
         $this->logger->info("admincontroller 'newUserForm' route");
 
-        // TODO: just call an application service to fill the response
-
-        // Render new counter form view
+        // TODO: just call an application service to fill the response.
+        // Render new counter form view.
         return $this->renderer->render(
             $response,
             'admin/clients-form.html.twig'
         );
     }
 
-    /**
-     * newClient
-     *
-     * @param \Slim\Http\Request  $request
-     * @param \Slim\Http\Response $response
-     * @param                     $args
-     *
-     * @return \Slim\Http\Response
-     * @throws \Exception
-     */
+  /**
+   * NewClient.
+   *
+   * @param \Slim\Http\Request $request
+   * @param \Slim\Http\Response $response
+   * @param $args
+   *
+   * @return \Slim\Http\Response
+   *
+   * @throws \Exception
+   */
     public function newClient(Request $request, Response $response, $args)
     {
 
-        // TODO: just call an application service to fill the response
-
-        // get at form data
-
+        // TODO: just call an application service to fill the response.
+        // Get at form data.
         $form_state = $request->getParsedBody();
 
         $data = $form_state;
@@ -142,36 +126,35 @@ class UsersController implements ContainerInterface
                 )
             );
         } catch (ClientAlreadyExistsException $e) {
-            //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
+            // $form->get('email')->addError(new FormError('Email is already registered by another user'));.
         } catch (\Exception $e) {
             throw $e;
-            //            $form->addError(new FormError('There was an error, please get in touch with us'));
+            // $form->addError(new FormError('There was an error, please get in touch with us'));.
         }
 
         $uri = $request->getUri()
-          ->withPath($this->router->pathFor(
-              'admin.client.add',
-              ['client' => (array)$result]
-          ));
+        ->withPath($this->router->pathFor(
+            'admin.client.add',
+            ['client' => (array) $result]
+        ));
 
-        return $response->withRedirect((string)$uri);
+        return $response->withRedirect((string) $uri);
     }
 
-    /**
-     * clientsIndex
-     *
-     * @param \Slim\Http\Request  $request
-     * @param \Slim\Http\Response $response
-     * @param                     $args
-     *
-     * @return mixed
-     */
+  /**
+   * ClientsIndex.
+   *
+   * @param \Slim\Http\Request $request
+   * @param \Slim\Http\Response $response
+   * @param $args
+   *
+   * @return mixed
+   */
     public function clientsIndex(Request $request, Response $response, $args)
     {
-        // log message
+        // Log message.
         $this->logger->info("user controller 'index' route");
-        // call an application service that will list registered users.
-
+        // Call an application service that will list registered users.
         try {
             $query = $this->ListClientsService;
 
@@ -179,12 +162,12 @@ class UsersController implements ContainerInterface
                 new ListClientsQuery()
             );
         } catch (NoClientsFoundException $e) {
-            //            $form->get('email')->addError(new FormError('Email is already registered by another user'));
+            // $form->get('email')->addError(new FormError('Email is already registered by another user'));.
         } catch (\Exception $e) {
             throw $e;
-            //            $form->addError(new FormError('There was an error, please get in touch with us'));
+            // $form->addError(new FormError('There was an error, please get in touch with us'));.
         }
-        // Render index view
+        // Render index view.
         return $this->renderer->render(
             $response,
             'clients/clients-index.html.twig',
@@ -192,23 +175,23 @@ class UsersController implements ContainerInterface
         );
     }
 
+  /********************************************************************************
+   * Methods to satisfy Interop\Container\ContainerInterface
+   *******************************************************************************/
 
-    /********************************************************************************
-     * Methods to satisfy Interop\Container\ContainerInterface
-     *******************************************************************************/
-
-    /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param string $id Identifier of the entry to look for.
-     *
-     * @throws ContainerValueNotFoundException  No entry was found for this
-     *   identifier.
-     * @throws ContainerException               Error while retrieving the
-     *   entry.
-     *
-     * @return mixed Entry.
-     */
+  /**
+   * Finds an entry of the container by its identifier and returns it.
+   *
+   * @param string $id
+   *   Identifier of the entry to look for.
+   *
+   * @throws ContainerValueNotFoundException  No entry was found for this
+   *   identifier.
+   * @throws ContainerException               Error while retrieving the
+   *   entry.
+   *
+   * @return mixed Entry.
+   */
     public function get($id)
     {
         if (!$this->offsetExists($id)) {
@@ -232,14 +215,14 @@ class UsersController implements ContainerInterface
         }
     }
 
-    /**
-     * Tests whether an exception needs to be recast for compliance with
-     * Container-Interop.  This will be if the exception was thrown by Pimple.
-     *
-     * @param \InvalidArgumentException $exception
-     *
-     * @return bool
-     */
+  /**
+   * Tests whether an exception needs to be recast for compliance with
+   * Container-Interop.  This will be if the exception was thrown by Pimple.
+   *
+   * @param \InvalidArgumentException $exception
+   *
+   * @return bool
+   */
     private function exceptionThrownByContainer(
         \InvalidArgumentException $exception
     ) {
@@ -249,14 +232,15 @@ class UsersController implements ContainerInterface
         return $trace['class'] === PimpleContainer::class && $trace['function'] === 'offsetGet';
     }
 
-    /**
-     * Returns true if the container can return an entry for the given
-     * identifier. Returns false otherwise.
-     *
-     * @param string $id Identifier of the entry to look for.
-     *
-     * @return boolean
-     */
+  /**
+   * Returns true if the container can return an entry for the given
+   * identifier. Returns false otherwise.
+   *
+   * @param string $id
+   *   Identifier of the entry to look for.
+   *
+   * @return bool
+   */
     public function has($id)
     {
         return $this->offsetExists($id);

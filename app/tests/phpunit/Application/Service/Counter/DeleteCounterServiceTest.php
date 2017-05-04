@@ -20,7 +20,7 @@ class DeleteCounterServiceTest extends \PHPUnit_Framework_TestCase
         $this->setupCounterRepository();
 
         $this->deleteCounterService = new CounterRemoveService(
-          $this->CounterRepository
+            $this->CounterRepository
         );
     }
 
@@ -40,7 +40,7 @@ class DeleteCounterServiceTest extends \PHPUnit_Framework_TestCase
     public function removingNonExistingCounterThrowsException()
     {
         $this->deleteCounterService->execute(
-          new CounterRemoveCommand('non-existent')
+            new CounterRemoveCommand('non-existent')
         );
     }
 
@@ -50,10 +50,10 @@ class DeleteCounterServiceTest extends \PHPUnit_Framework_TestCase
     public function itShouldRemoveCounter()
     {
         $this->deleteCounterService->execute(
-          new DeleteCounterRequest(
-            $this->dummyCounter->id()->id(),
-            $this->dummyUser->id()->id()
-          )
+            new DeleteCounterRequest(
+                $this->dummyCounter->id()->id(),
+                $this->dummyUser->id()->id()
+            )
         );
 
         $this->assertNull($this->CounterRepository->ofId($this->dummyCounter->id()));

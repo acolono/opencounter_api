@@ -228,12 +228,12 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $serverParams = [];
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
         $request = new \Slim\Http\Request(
-          'GET',
-          $uri,
-          $headers,
-          $cookies,
-          $serverParams,
-          $body
+            'GET',
+            $uri,
+            $headers,
+            $cookies,
+            $serverParams,
+            $body
         );
         $args = ['name' => $name, 'id' => $id, 'value' => 0];
         // now test the build service just in case
@@ -264,7 +264,6 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->pressButton('submit');
 
         $this->oauth2Clients[] = $client_id;
-
     }
 
     /**
@@ -273,6 +272,5 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     public function iLookAtTheListOfClients()
     {
         $this->visitPath($this->baseUrl . '/admin/clients');
-
     }
 }

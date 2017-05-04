@@ -1,9 +1,5 @@
 <?php
-/**
- * OpenCounterServiceProvider.
- *
- * a way to inject counter services into the container so they can be used in the app.
- */
+
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
 use OpenCounter\Application\Command\Counter\CounterAddHandler;
@@ -27,42 +23,43 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class OpenCounterServiceProvider
+ * Class OpenCounterServiceProvider.
+ *
  * @package OpenCounter\Infrastructure\ServiceProvider
  */
 class SlimCounterServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * The provides array is a way to let the container
-     * know that a service is provided by this service
-     * provider. Every service that is registered via
-     * this service provider must have an alias added
-     * to this array or it will be ignored.
-     *
-     * @var array
-     */
+  /**
+   * The provides array is a way to let the container
+   * know that a service is provided by this service
+   * provider. Every service that is registered via
+   * this service provider must have an alias added
+   * to this array or it will be ignored.
+   *
+   * @var array
+   */
     protected $provides = [
-        'counter_mapper',
-        'counter_repository',
-        'counter_build_service',
-        'CounterViewService',
-        'CounterIncrementValueService',
-        'CounterRemoveService',
-        'add_counter_application_service',
-        'CounterAddService',
-        'CounterResetValueService',
+    'counter_mapper',
+    'counter_repository',
+    'counter_build_service',
+    'CounterViewService',
+    'CounterIncrementValueService',
+    'CounterRemoveService',
+    'add_counter_application_service',
+    'CounterAddService',
+    'CounterResetValueService',
     ];
 
-    /**
-     * Register()
-     *
-     * This is where the magic happens, within the method you can
-     * access the container and register or retrieve anything
-     * that you need to, but remember, every alias registered
-     * within this method must be declared in the `$provides` array.
-     *
-     * @param Container $pimple
-     */
+  /**
+   * Register()
+   *
+   * This is where the magic happens, within the method you can
+   * access the container and register or retrieve anything
+   * that you need to, but remember, every alias registered
+   * within this method must be declared in the `$provides` array.
+   *
+   * @param \Pimple\Container $pimple
+   */
     public function register(Container $pimple)
     {
         $pimple['counter_mapper'] = function ($pimple) {

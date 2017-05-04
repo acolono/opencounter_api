@@ -22,8 +22,8 @@ class ListClientsServiceSpec extends ObjectBehavior
     }
 
     function it_executes(
-      ListClientsHandler $handler,
-      ListClientsQuery $aQuery
+        ListClientsHandler $handler,
+        ListClientsQuery $aQuery
     ) {
         $handler->__invoke($aQuery)->shouldBeCalled();
 
