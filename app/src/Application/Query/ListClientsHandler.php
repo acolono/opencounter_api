@@ -12,18 +12,24 @@ class ListClientsHandler
 
     protected $oauth2ClientRepository;
 
-  /**
-   *
-   */
+    /**
+     * ListClientsHandler constructor.
+     *
+     * @param \SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository $oauth2ClientRepository
+     */
     public function __construct(
         Oauth2ClientRepository $oauth2ClientRepository
     ) {
         $this->oauth2ClientRepository = $oauth2ClientRepository;
     }
 
-  /**
-   *
-   */
+    /**
+     * Invoke Query to list clients.
+     *
+     * @param \SlimCounter\Application\Query\ListClientsQuery $aQuery
+     *
+     * @return array
+     */
     public function __invoke(ListClientsQuery $aQuery)
     {
         try {

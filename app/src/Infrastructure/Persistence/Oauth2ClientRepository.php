@@ -1,15 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rosenstrauch
- * Date: 5/3/17
- * Time: 12:45 AM
- */
 
 namespace SlimCounter\Infrastructure\Persistence;
 
 use OAuth2\Storage\Pdo;
 
+/**
+ * Class Oauth2ClientRepository
+ *
+ * {@inheritdoc}
+ *
+ * @package SlimCounter\Infrastructure\Persistence
+ */
 class Oauth2ClientRepository extends Pdo
 {
 
@@ -33,6 +34,11 @@ class Oauth2ClientRepository extends Pdo
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Delete
+     *
+     * @param $client_id
+     */
     public function deleteClientById($client_id)
     {
 

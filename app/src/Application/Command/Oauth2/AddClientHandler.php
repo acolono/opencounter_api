@@ -31,14 +31,11 @@ class AddClientHandler
         $this->oauth2_storage = $oauth2_storage;
     }
 
-  /**
-   * Handles the given command.
-   *
-   * @param WithConfirmationSignUpUserCommand $aCommand
-   *   The command.
-   *
-   * @throws UserAlreadyExistException when the user id is already exists
-   */
+    /**
+     * Handles the given command.
+     *
+     * @param \SlimCounter\Application\Command\Oauth2\AddClientCommand $aCommand
+     */
     public function __invoke(
         AddClientCommand $aCommand
     ) {

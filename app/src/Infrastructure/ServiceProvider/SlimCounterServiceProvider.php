@@ -29,43 +29,58 @@ use Pimple\ServiceProviderInterface;
  */
 class SlimCounterServiceProvider implements ServiceProviderInterface
 {
-  /**
-   * The provides array is a way to let the container
-   * know that a service is provided by this service
-   * provider. Every service that is registered via
-   * this service provider must have an alias added
-   * to this array or it will be ignored.
-   *
-   * @var array
-   */
+
+    /**
+     * The provides array is a way to let the container
+     * know that a service is provided by this service
+     * provider. Every service that is registered via
+     * this service provider must have an alias added
+     * to this array or it will be ignored.
+     *
+     * @var array
+     */
     protected $provides = [
-    'counter_mapper',
-    'counter_repository',
-    'counter_build_service',
-    'CounterViewService',
-    'CounterIncrementValueService',
-    'CounterRemoveService',
-    'add_counter_application_service',
-    'CounterAddService',
-    'CounterResetValueService',
+        'counter_mapper',
+        'counter_repository',
+        'counter_build_service',
+        'CounterViewService',
+        'CounterIncrementValueService',
+        'CounterRemoveService',
+        'add_counter_application_service',
+        'CounterAddService',
+        'CounterResetValueService',
     ];
 
-  /**
-   * Register()
-   *
-   * This is where the magic happens, within the method you can
-   * access the container and register or retrieve anything
-   * that you need to, but remember, every alias registered
-   * within this method must be declared in the `$provides` array.
-   *
-   * @param \Pimple\Container $pimple
-   */
+    /**
+     * Register()
+     *
+     * This is where the magic happens, within the method you can
+     * access the container and register or retrieve anything
+     * that you need to, but remember, every alias registered
+     * within this method must be declared in the `$provides` array.
+     *
+     * @param \Pimple\Container $pimple
+     */
     public function register(Container $pimple)
     {
+        /**
+         * Sql Manager.
+         *
+         * @param $pimple
+         *
+         * @return \OpenCounter\Infrastructure\Persistence\Sql\SqlManager
+         */
         $pimple['counter_mapper'] = function ($pimple) {
             $counter_mapper = new SqlManager($pimple['pdo']);
             return $counter_mapper;
         };
+        /**
+         * counter_repository
+         *
+         * @param $pimple
+         *
+         * @return \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository
+         */
 
         $pimple['counter_repository'] = function ($pimple) {
             $counter_mapper = $pimple['counter_mapper'];
@@ -74,6 +89,9 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             return $counter_repository;
         };
 
+        /**
+         * counter_build_service
+         */
         $pimple['counter_build_service'] = $pimple->factory(function ($pimple) {
 
             $factory = new CounterFactory();
@@ -88,9 +106,9 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         });
 
         /**
-         * Application service used to view a counter
+         * Application service used to view a counter.
          *
-         * @param $container
+         * @param $pimple
          *
          * @return \OpenCounter\Application\Service\Counter\CounterViewService
          */
@@ -103,10 +121,11 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             return $CounterViewService;
         };
+
         /**
-         * Application service used to view a counter
+         * Application service used to view a counter.
          *
-         * @param $container
+         * @param $pimple
          *
          * @return \OpenCounter\Application\Service\Counter\CounterViewService
          */
@@ -118,6 +137,10 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             );
             return $CounterViewUiService;
         };
+
+        /**
+         * CounterIncrementValueService.
+         */
         $pimple['CounterIncrementValueService'] = $pimple->factory(function (
             $pimple
         ) {
@@ -128,6 +151,10 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             );
             return $CounterIncrementValueService;
         });
+
+        /**
+         * Application service used to Remove Counters
+         */
         $pimple['CounterRemoveService'] = $pimple->factory(function ($pimple) {
             $CounterRemoveService = new CounterRemoveService(
                 new CounterRemoveHandler(
@@ -136,6 +163,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             );
             return $CounterRemoveService;
         });
+
         /**
          * Application service used to create new counters
          *
@@ -143,7 +171,6 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
          *
          * @return \OpenCounter\Application\Service\Counter\CounterAddService
          */
-
         $pimple['CounterAddService'] = $pimple->factory(function ($pimple) {
             $CounterAddService = new CounterAddService(
                 new CounterAddHandler(
@@ -153,11 +180,12 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             );
             return $CounterAddService;
         });
+
         /**
          * Application service used to Lock and unlock
          */
-
-        $pimple['CounterSetStatusService'] = $pimple->factory(function ($pimple) {
+        $pimple['CounterSetStatusService'] = $pimple->factory(function ($pimple
+        ) {
             $CounterSetStatusService = new CounterSetStatusService(
                 new CounterSetStatusHandler(
                     $pimple['counter_repository'],
@@ -170,8 +198,8 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
         /**
          * Application service used to Reset counters
          */
-
-        $pimple['CounterResetValueService'] = $pimple->factory(function ($pimple) {
+        $pimple['CounterResetValueService'] = $pimple->factory(function ($pimple
+        ) {
             $CounterResetValueService = new CounterResetValueService(
                 new CounterResetValueHandler(
                     $pimple['counter_repository'],

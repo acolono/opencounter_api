@@ -2,9 +2,8 @@
 
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
-use OAuth2\GrantType\ClientCredentials;
-use Views\PhpRenderer;
 use Middleware\Authorization;
+use OAuth2\GrantType\ClientCredentials;
 use OAuth2\Server;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -13,6 +12,7 @@ use SlimCounter\Application\Query\ListClientsHandler;
 use SlimCounter\Application\Service\Oauth2\AddClientService;
 use SlimCounter\Application\Service\Oauth2\ListClientsService;
 use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
+use Views\PhpRenderer;
 
 /**
  * Class Oauth2ServiceProvider.
@@ -22,34 +22,34 @@ use SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository;
 class Oauth2ServiceProvider implements ServiceProviderInterface
 {
 
-  /**
-   * The provides array is a way to let the container
-   * know that a service is provided by this service
-   * provider. Every service that is registered via
-   * this service provider must have an alias added
-   * to this array or it will be ignored.
-   *
-   * @var array
-   */
+    /**
+     * The provides array is a way to let the container
+     * know that a service is provided by this service
+     * provider. Every service that is registered via
+     * this service provider must have an alias added
+     * to this array or it will be ignored.
+     *
+     * @var array
+     */
     protected $provides = [
-    'oauth2_storage',
-    'add_client_application_service',
-    'ListClientsService',
-    'authorization',
-    'authorization_views',
+        'oauth2_storage',
+        'add_client_application_service',
+        'ListClientsService',
+        'authorization',
+        'authorization_views',
 
     ];
 
-  /**
-   * Register()
-   *
-   * This is where the magic happens, within the method you can
-   * access the container and register or retrieve anything
-   * that you need to, but remember, every alias registered
-   * within this method must be declared in the `$provides` array.
-   *
-   * @param \Pimple\Container $pimple
-   */
+    /**
+     * Register()
+     *
+     * This is where the magic happens, within the method you can
+     * access the container and register or retrieve anything
+     * that you need to, but remember, every alias registered
+     * within this method must be declared in the `$provides` array.
+     *
+     * @param \Pimple\Container $pimple
+     */
     public function register(Container $pimple)
     {
 
@@ -111,15 +111,21 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          * can be used to interact with oauth2 data in database
          * but really just is needed to instantiate the oauth server
          *
-         * @param $container
+         * @param $pimple
          *
-         * @return \OAuth2\Storage\Pdo
+         * @return \SlimCounter\Infrastructure\Persistence\Oauth2ClientRepository
          */
         $pimple['oauth2_storage'] = function ($pimple) {
             $oauth2_storage = new Oauth2ClientRepository($pimple['pdo']);
             return $oauth2_storage;
         };
-
+        /**
+         * Oauth2_server.
+         *
+         * @param $pimple
+         *
+         * @return \OAuth2\Server
+         */
         $pimple['oauth2_server'] = function ($pimple) {
 
             // Setup Auth.

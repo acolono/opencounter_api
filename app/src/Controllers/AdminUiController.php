@@ -2,9 +2,9 @@
 
 namespace SlimCounter\Controllers;
 
+use Interop\Container\ContainerInterface;
 use OpenCounter\Application\Command\Counter\CounterAddCommand;
 use OpenCounter\Application\Query\Counter\CounterOfNameQuery;
-use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -15,18 +15,19 @@ use Slim\Http\Response;
  */
 class AdminUiController implements ContainerInterface
 {
-  /**
-   * Container.
-   *
-   * @var \Interop\Container\ContainerInterface
-   */
+
+    /**
+     * Container.
+     *
+     * @var \Interop\Container\ContainerInterface
+     */
     protected $ci;
 
-  /**
-   * Constructor.
-   *
-   * @param \Interop\Container\ContainerInterface $ci
-   */
+    /**
+     * Constructor.
+     *
+     * @param \Interop\Container\ContainerInterface $ci
+     */
     public function __construct(ContainerInterface $ci)
     {
         $this->ci = $ci;
@@ -41,18 +42,18 @@ class AdminUiController implements ContainerInterface
         $this->CounterAddService = $this->ci->get('CounterAddService');
     }
 
-  /**
-   * New Counter form.
-   *
-   * Basic form which submits to a different route.
-   * currently just for adding not for editing.
-   *
-   * @param \Slim\Http\Request $request
-   * @param \Slim\Http\Response $response
-   * @param $args
-   *
-   * @return mixed
-   */
+    /**
+     * New Counter form.
+     *
+     * Basic form which submits to a different route.
+     * currently just for adding not for editing.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return mixed
+     */
     public function newCounterForm(Request $request, Response $response, $args)
     {
         // Logging.
@@ -65,15 +66,15 @@ class AdminUiController implements ContainerInterface
         );
     }
 
-  /**
-   * ViewCounter.
-   *
-   * @param \Slim\Http\Request $request
-   * @param \Slim\Http\Response $response
-   * @param $args
-   *
-   * @return static
-   */
+    /**
+     * ViewCounter.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return mixed
+     */
     public function viewCounter(Request $request, Response $response, $args)
     {
         try {
@@ -97,15 +98,15 @@ class AdminUiController implements ContainerInterface
         );
     }
 
-  /**
-   * Add Counter Route is called by New Counter Form.
-   *
-   * @param \Slim\Http\Request $request
-   * @param \Slim\Http\Response $response
-   * @param $args
-   *
-   * @return \Slim\Http\Response
-   */
+    /**
+     * Add Counter Route is called by New Counter Form.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return \Slim\Http\Response
+     */
     public function addCounter(Request $request, Response $response, $args)
     {
 
@@ -119,12 +120,12 @@ class AdminUiController implements ContainerInterface
 
             // Call Service that executes appropriate command with given parameters.
             $result = $this->CounterAddService
-            ->execute(new CounterAddCommand(
-                $name,
-                $value,
-                $status,
-                $password
-            ));
+                ->execute(new CounterAddCommand(
+                    $name,
+                    $value,
+                    $status,
+                    $password
+                ));
             $code = 201;
         } catch (\Exception $e) {
             $return = ['message' => $e->getMessage()];
@@ -135,29 +136,31 @@ class AdminUiController implements ContainerInterface
         // TODO: try to redirect to appropriate fetch id url
         // http://discourse.slimframework.com/t/using-response-withredirect-with-route-name-rather-than-url/212
         $uri = $request->getUri()
-        ->withPath($this->router->pathFor(
-            'admin.counter.view',
-            ['name' => $name]
-        ));
+            ->withPath($this->router->pathFor(
+                'admin.counter.view',
+                ['name' => $name]
+            ));
 
-        return $response->withRedirect((string) $uri);
+        return $response->withRedirect((string)$uri);
     }
 
-  /********************************************************************************
-   * Methods to satisfy Interop\Container\ContainerInterface
-   *******************************************************************************/
+    /********************************************************************************
+     * Methods to satisfy Interop\Container\ContainerInterface
+     *******************************************************************************/
 
-  /**
-   * Finds an entry of the container by its identifier and returns it.
-   *
-   * @param string $id
-   *   Identifier of the entry to look for.
-   *
-   * @throws ContainerValueNotFoundException  No entry was found for this identifier.
-   * @throws ContainerException               Error while retrieving the entry.
-   *
-   * @return mixed Entry.
-   */
+    /**
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param string $id
+     *   Identifier of the entry to look for.
+     *
+     * @throws ContainerValueNotFoundException  No entry was found for this
+     *   identifier.
+     * @throws ContainerException               Error while retrieving the
+     *   entry.
+     *
+     * @return mixed Entry.
+     */
     public function get($id)
     {
         if (!$this->offsetExists($id)) {
@@ -181,14 +184,14 @@ class AdminUiController implements ContainerInterface
         }
     }
 
-  /**
-   * Tests whether an exception needs to be recast for compliance with Container-Interop.  This will be if the
-   * exception was thrown by Pimple.
-   *
-   * @param \InvalidArgumentException $exception
-   *
-   * @return bool
-   */
+    /**
+     * Tests whether an exception needs to be recast for compliance with
+     * Container-Interop.  This will be if the exception was thrown by Pimple.
+     *
+     * @param \InvalidArgumentException $exception
+     *
+     * @return bool
+     */
     private function exceptionThrownByContainer(
         \InvalidArgumentException $exception
     ) {
@@ -197,15 +200,15 @@ class AdminUiController implements ContainerInterface
         return $trace['class'] === PimpleContainer::class && $trace['function'] === 'offsetGet';
     }
 
-  /**
-   * Returns true if the container can return an entry for the given identifier.
-   * Returns false otherwise.
-   *
-   * @param string $id
-   *   Identifier of the entry to look for.
-   *
-   * @return bool
-   */
+    /**
+     * Returns true if the container can return an entry for the given
+     * identifier. Returns false otherwise.
+     *
+     * @param string $id
+     *   Identifier of the entry to look for.
+     *
+     * @return bool
+     */
     public function has($id)
     {
         return $this->offsetExists($id);

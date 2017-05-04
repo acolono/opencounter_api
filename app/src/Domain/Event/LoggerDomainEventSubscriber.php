@@ -6,8 +6,8 @@ use Ddd\Domain\DomainEventSubscriber;
 use Elastica\Client;
 use JMS\Serializer\SerializerBuilder;
 use Monolog\Handler\ElasticSearchHandler;
-use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Monolog\Processor\MemoryPeakUsageProcessor;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\WebProcessor;
@@ -19,32 +19,33 @@ use Monolog\Processor\WebProcessor;
  */
 class LoggerDomainEventSubscriber implements DomainEventSubscriber
 {
-  /**
-   * Logger.
-   *
-   * @var \Monolog\Logger
-   */
+
+    /**
+     * Logger.
+     *
+     * @var \Monolog\Logger
+     */
     private $logger;
 
-  /**
-   * Serializer.
-   *
-   * @var \JMS\Serializer\Serializer
-   */
+    /**
+     * Serializer.
+     *
+     * @var \JMS\Serializer\Serializer
+     */
     private $serializer;
 
-  /**
-   * Constructor.
-   */
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->logger = new Logger('main');
         $this->logger->pushHandler(new StreamHandler('/tmp/app.log'));
 
-        $options = array(
-        'index' => 'last_wishes_logs',
-        'type' => 'log_entry',
-        );
+        $options = [
+            'index' => 'last_wishes_logs',
+            'type' => 'log_entry',
+        ];
 
         $this->logger->pushHandler(new ElasticSearchHandler(
             new Client(),
@@ -57,11 +58,11 @@ class LoggerDomainEventSubscriber implements DomainEventSubscriber
         $this->serializer = SerializerBuilder::create()->build();
     }
 
-  /**
-   * Handle.
-   *
-   * @param $aDomainEvent
-   */
+    /**
+     * Handle.
+     *
+     * @param $aDomainEvent
+     */
     public function handle($aDomainEvent)
     {
         $domainEventInArray = json_decode($this->serializer->serialize(
@@ -81,13 +82,13 @@ class LoggerDomainEventSubscriber implements DomainEventSubscriber
         }
     }
 
-  /**
-   * IsSubscribedTo.
-   *
-   * @param $aDomainEvent
-   *
-   * @return bool
-   */
+    /**
+     * IsSubscribedTo.
+     *
+     * @param $aDomainEvent
+     *
+     * @return bool
+     */
     public function isSubscribedTo($aDomainEvent)
     {
         return true;
