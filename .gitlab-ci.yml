@@ -22,10 +22,10 @@ variables:
 # Make sure our source code adheres to coding standards.
 build:phpcs:
   stage: build
-  image: zaporylie/docker-drupal-utils
+  image: texthtml/phpcs
   script:
     - phpcs --version
-    - phpcs --error-severity=1 --warning-severity=8 --report=full --standard=PSR2 /app/src/
+    - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
 
 build:dependencies:
   stage: build
