@@ -7,12 +7,12 @@ use OAuth2\GrantType\ClientCredentials;
 use OAuth2\Server;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Slim\Views\PhpRenderer;
 use SlimCounter\Application\Command\Oauth2\AddClientHandler;
 use SlimCounter\Application\Query\ListClientsHandler;
 use SlimCounter\Application\Service\Oauth2\AddClientService;
 use SlimCounter\Application\Service\Oauth2\ListClientsService;
 use SlimCounter\Infrastructure\Persistence\Oauth2Repository;
-use Views\PhpRenderer;
 
 /**
  * Class Oauth2ServiceProvider.
