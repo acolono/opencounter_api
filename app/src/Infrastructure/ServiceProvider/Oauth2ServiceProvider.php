@@ -2,7 +2,7 @@
 
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
-use Middleware\Authorization;
+use Chadicus\Slim\OAuth2\Middleware\Authorization;
 use OAuth2\GrantType\ClientCredentials;
 use OAuth2\Server;
 use Pimple\Container;
