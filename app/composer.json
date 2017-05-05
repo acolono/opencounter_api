@@ -15,11 +15,11 @@
 
     {
       "type": "vcs",
-      "url": "https://github.com/acolono/opencounter_core.git"
+      "url": "git@github.com:rstgroup/behat-oauth2-context.git"
     },
     {
       "type": "vcs",
-      "url": "git@github.com:rstgroup/behat-oauth2-context.git"
+      "url": "https://github.com/acolono/opencounter_core.git"
     },
     {
       "type": "git",

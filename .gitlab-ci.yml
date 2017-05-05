@@ -22,7 +22,7 @@ variables:
 # Make sure our source code adheres to coding standards.
 build:phpcs:
   stage: build
-  image: denisura/phpcs
+  image: texthtml/phpcs
   script:
     - phpcs --version
     - phpcs --standard=psr2 --error-severity=1 --warning-severity=8 --report=full app/src
