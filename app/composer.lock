@@ -2026,11 +2026,11 @@
         },
         {
             "name": "slimcounter/default_theme",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acolono/opencounter_theme.git",
-                "reference": "fc5c7441371f795341f221332f78f1ca257fa06a"
+                "reference": "8903421afb420100422618b2b8c7f9c626d6150e"
             },
             "require": {
                 "aleksip/plugin-data-transform": "^1.1",
@@ -2078,7 +2078,7 @@
                 ]
             },
             "description": "Standard Edition of Pattern Lab for Twig theme for opencounter",
-            "time": "2017-02-28T16:43:38+00:00"
+            "time": "2017-05-06T02:32:12+00:00"
         },
         {
             "name": "symfony/config",
