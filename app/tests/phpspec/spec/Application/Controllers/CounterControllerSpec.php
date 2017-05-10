@@ -49,41 +49,44 @@ class CounterControllerSpec extends ObjectBehavior
     private $CounterViewService;
 
     function let(
-      LoggerInterface $logger,
-      CounterBuildService $counterBuildService,
-      StorageInterface $counter_mapper,
-      CounterRepository $counter_repository,
-      CounterAddService $CounterAddService,
-      CounterRemoveService $CounterRemoveService,
-      CounterIncrementValueService $CounterIncrementValueService,
-      CounterViewService $CounterViewService
+        LoggerInterface $logger,
+        CounterBuildService $counterBuildService,
+        StorageInterface $counter_mapper,
+        CounterRepository $counter_repository,
+        CounterAddService $CounterAddService,
+        CounterRemoveService $CounterRemoveService,
+        CounterIncrementValueService $CounterIncrementValueService,
+        CounterViewService $CounterViewService
     ) {
         $this->beConstructedWith(
-          $logger,
-          $counterBuildService,
-          $counter_mapper,
-          $counter_repository,
-          $CounterAddService,
-          $CounterRemoveService,
-          $CounterIncrementValueService,
-          $CounterViewService
+            $logger,
+            $counterBuildService,
+            $counter_mapper,
+            $counter_repository,
+            $CounterAddService,
+            $CounterRemoveService,
+            $CounterIncrementValueService,
+            $CounterViewService
         );
-
     }
 
     function it_is_initializable()
     {
         $this->shouldHaveType('SlimCounter\Controllers\CounterController');
-
     }
 
     function its_remove_method_deletes_counters(
-      ServerRequestInterface $request,
-      ResponseInterface $response
+        ServerRequestInterface $request,
+        ResponseInterface $response
     ) {
         // mock a counter we have
-        $object = new Counter(new CounterId('1'), new CounterName('demo'),
-          new CounterValue('1'), 'active', 'password');
+        $object = new Counter(
+            new CounterId('1'),
+            new CounterName('demo'),
+            new CounterValue('1'),
+            'active',
+            'password'
+        );
         $this->counter_repository->getCounterByName('demo')
           ->willReturn($object);
 

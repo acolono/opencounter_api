@@ -85,8 +85,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         $this->app->getContainer()
           ->get('oauth2_storage')
-          ->setAccessToken($access_token, $client_id, $user_id, $expires,
-            $scope);
+          ->setAccessToken(
+              $access_token,
+              $client_id,
+              $user_id,
+              $expires,
+              $scope
+          );
         $this->accessToken = $access_token;
     }
 
@@ -112,7 +117,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
                 $this->counterRepository->remove($counter);
             }
         }
-
     }
 
     /**
@@ -125,8 +129,11 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     {
         $name = 'testname';
         $value = "1";
-        $this->aCounterWithIdAndAValueOfWasAddedToTheCollection($name, $id,
-          $value);
+        $this->aCounterWithIdAndAValueOfWasAddedToTheCollection(
+            $name,
+            $id,
+            $value
+        );
     }
 
     /**
@@ -138,9 +145,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
      * @Given a counter :name with ID :id and a value of :value was added to the collection
      */
     public function aCounterWithIdAndAValueOfWasAddedToTheCollection(
-      $name,
-      $id,
-      $value
+        $name,
+        $id,
+        $value
     ) {
         $this->counterName = new CounterName($name);
         $this->counterId = new CounterId($id);
@@ -155,17 +162,17 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // $this->domainContext->aCounterWithIdhasBeenSet($id);
         // gotta make sure we got the factory or just create one
         $this->counter = $this->counter_factory->build(
-          $this->counterId,
-          $this->counterName,
-          $this->counterValue,
-          'active',
-          'passwordplaceholder');
+            $this->counterId,
+            $this->counterName,
+            $this->counterValue,
+            'active',
+            'passwordplaceholder'
+        );
 
         $this->counter_repository->save($this->counter);
 
         // mark for removal
         $this->counters[] = $this->counter;
-
     }
 
     /**
@@ -186,7 +193,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // just a helper until we implemented an endpoint
         $id = $this->iGetTheIdOfTheCounterWithName($name);
         $this->iIncrementTheValueOfTheCounterWithId($id);
-
     }
 
     /**
@@ -205,9 +211,8 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         try {
             $counter = $this->CounterViewUiService->execute(
-              new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($name)
+                new \OpenCounter\Application\Query\Counter\CounterOfNameQuery($name)
             );
-
         } catch (Exception $e) {
             $error = ['message' => $e->getMessage()];
 
@@ -217,7 +222,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         if (isset($counter)) {
             return $counter->getId();
         }
-
     }
 
     /**
@@ -233,7 +237,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $CounterStringNode = new PyStringNode($CounterArray, 1);
         $this->iSendARequestWithBody('PATCH', $endpoint, $CounterStringNode);
         $this->printResponse();
-
     }
 
     /**
@@ -246,7 +249,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $id = $this->iGetTheIdOfTheCounterWithName($name);
         // TODO: do we need to get the id to do this or can we patch to the generic endpoint
         $this->iLockTheCounterWithId($id);
-
     }
 
     /**
@@ -301,7 +303,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
         $this->iSendARequest('GET', 'api/counters/value/' . $id);
         $this->printResponse();
-
     }
 
     /**
@@ -377,7 +378,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         if ($counter) {
             throw new \Exception('something is wrong, seems a counter is in the database');
         }
-
     }
 
     /**
@@ -389,7 +389,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         // just a helper until we implemented an endpoint, might lead to wrong errors when id doesnt exist
         $id = $this->iGetTheIdOfTheCounterWithName($name);
         $this->iRemoveTheCounterWithId($id);
-
     }
 
     /**
@@ -420,9 +419,9 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         $id = '1111111';
         $value = 1111111;
         $this->aCounterWithIdAndAValueOfWasAddedToTheCollection(
-          $name,
-          $id,
-          $value
+            $name,
+            $id,
+            $value
         );
     }
 
@@ -432,7 +431,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function aCounterHasBeenSet($name)
     {
         $this->aCounterWithValueOfWasAddedToTheCollection($name, 0);
-
     }
 
     /**
@@ -473,7 +471,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
-
     }
 
     /**
@@ -486,7 +483,6 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
     public function iSetACounterWithName($name)
     {
         try {
-
             $endpoint = '/api/counters/';
             // send a POST request to the endpoint with the counter values in the body
             $newCounterArray = [
@@ -502,11 +498,13 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
             $this->iSetHeaderWithValue('Authorization', $this->accessHeader);
 
             $this->iSetHeaderWithValue('Accept', 'application/json');
-            $this->iSendARequestWithBody('POST', $endpoint,
-              $newCounterjsonString);
+            $this->iSendARequestWithBody(
+                'POST',
+                $endpoint,
+                $newCounterjsonString
+            );
             $this->printResponse();
             $this->theResponseCodeShouldBe('201');
-
         } catch (Exception $e) {
             $error = ['message' => $e->getMessage()];
 
@@ -519,7 +517,5 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
         if ($counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
-
     }
-
 }

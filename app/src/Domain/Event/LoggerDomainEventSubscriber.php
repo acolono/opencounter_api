@@ -1,53 +1,51 @@
 <?php
-/**
- * LoggerDomainEventSubscriber.php
- *
- * Listens to domain events and logs them.
- */
+
 namespace SlimCounter\Domain\Event;
 
 use Ddd\Domain\DomainEventSubscriber;
 use Elastica\Client;
 use JMS\Serializer\SerializerBuilder;
 use Monolog\Handler\ElasticSearchHandler;
-use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Monolog\Processor\MemoryPeakUsageProcessor;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\WebProcessor;
 
 /**
- * Class LoggerDomainEventSubscriber
+ * Class LoggerDomainEventSubscriber.
+ *
  * @package SlimCounter\Domain\Event
  */
 class LoggerDomainEventSubscriber implements DomainEventSubscriber
 {
+
     /**
-     * Logger
+     * Logger.
      *
-     * @var Logger
+     * @var \Monolog\Logger
      */
     private $logger;
 
     /**
-     * Serializer
+     * Serializer.
      *
      * @var \JMS\Serializer\Serializer
      */
     private $serializer;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->logger = new Logger('main');
         $this->logger->pushHandler(new StreamHandler('/tmp/app.log'));
 
-        $options = array(
+        $options = [
             'index' => 'last_wishes_logs',
             'type' => 'log_entry',
-        );
+        ];
 
         $this->logger->pushHandler(new ElasticSearchHandler(
             new Client(),
@@ -61,7 +59,7 @@ class LoggerDomainEventSubscriber implements DomainEventSubscriber
     }
 
     /**
-     * handle
+     * Handle.
      *
      * @param $aDomainEvent
      */
@@ -76,8 +74,8 @@ class LoggerDomainEventSubscriber implements DomainEventSubscriber
             $this->logger->addInfo(
                 get_class($aDomainEvent),
                 $domainEventInArray + [
-                    'name' => get_class($aDomainEvent),
-                    'occurred_on' => $aDomainEvent->occurredOn(),
+                'name' => get_class($aDomainEvent),
+                'occurred_on' => $aDomainEvent->occurredOn(),
                 ]
             );
         } catch (\Exception $e) {
@@ -85,9 +83,10 @@ class LoggerDomainEventSubscriber implements DomainEventSubscriber
     }
 
     /**
-     * isSubscribedTo
+     * IsSubscribedTo.
      *
      * @param $aDomainEvent
+     *
      * @return bool
      */
     public function isSubscribedTo($aDomainEvent)

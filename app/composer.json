@@ -1,7 +1,7 @@
 {
   "name": "acolono/slim-opencounter",
   "description": "A Slim Framework implementation of opencounter",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "keywords": [
     "microframework",
     "rest",
@@ -15,7 +15,7 @@
 
     {
       "type": "vcs",
-      "url": "git@github.com:rosenstrauch/behat-oauth2-context.git"
+      "url": "git@github.com:rstgroup/behat-oauth2-context.git"
     },
     {
       "type": "vcs",
@@ -52,7 +52,7 @@
     "emuse/behat-html-formatter": "0.1.*",
     "behat/mink": "^1.7",
     "behat/mink-goutte-driver": "^1.2",
-    "rstgroup/behat-oauth2-context": "dev-client_credentials",
+    "rstgroup/behat-oauth2-context": "1.1.0",
     "behat/mink-extension": "^2.2"
   },
   "config": {

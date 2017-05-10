@@ -15,6 +15,7 @@ PHPUNIT_RETURN_CODE=$?
 # PHPSpec tests
 docker exec opencounter-slim-codenv-php-fpm /var/www/opencounter-slim-codenv/bin/phpspec run --format=pretty --config /var/www/opencounter-slim-codenv/tests/phpspec/phpspec.yml -v
 PHPSPEC_RETURN_CODE=$?
+
 # Behat default suite tests (default)
 docker exec opencounter-slim-codenv-php-fpm php -dxdebug.remote_autostart=1 -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_connect_back=1 -dxdebug.remote_host=172.17.0.1 /var/www/opencounter-slim-codenv/bin/behat --config /var/www/opencounter-slim-codenv/behat.yml;
 BEHAT_DEFAULT_RETURN_CODE=$?

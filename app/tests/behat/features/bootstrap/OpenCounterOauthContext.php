@@ -67,15 +67,12 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
         // Initialize your context here
         $this->parameters = $parameters;
         $this->baseUrl = $parameters['base_url'];
-
     }
 
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
         $environment = $scope->getEnvironment();
-
-
     }
 
     /**
@@ -83,8 +80,10 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
      */
     public function iCreateOauthRequest()
     {
-        $this->iSetHeaderWithValue('Content-Type',
-          'application/x-www-form-urlencoded');
+        $this->iSetHeaderWithValue(
+            'Content-Type',
+            'application/x-www-form-urlencoded'
+        );
         $this->iSetHeaderWithValue('Accept', 'application/json');
     }
 
@@ -106,8 +105,10 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
     public function iSendAAccessTokenRequest()
     {
         $url = $this->parameters['token_url'];
-        $this->response = $this->getPostResponseFromUrl($url,
-          $this->requestBody);
+        $this->response = $this->getPostResponseFromUrl(
+            $url,
+            $this->requestBody
+        );
         $this->printResponse();
     }
 
@@ -120,11 +121,13 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
     protected function getPostResponseFromUrl($url, $body)
     {
 
-        $this->request = $this->client->createRequest('POST', $url,
-          ['body' => $body, 'verify' => false, 'exceptions' => false]);
+        $this->request = $this->client->createRequest(
+            'POST',
+            $url,
+            ['body' => $body, 'verify' => false, 'exceptions' => false]
+        );
 
         return $this->response = $this->client->send($this->request);
-
     }
 
     /**
@@ -139,16 +142,20 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
      * @Then the response has a :propertyName property and it is equals :propertyValue
      */
     public function theResponseHasAPropertyAndItIsEquals(
-      $propertyName,
-      $propertyValue
+        $propertyName,
+        $propertyValue
     ) {
         $value = $this->theResponseHasAProperty($propertyName);
 
         if ($value == $propertyValue) {
             return;
         }
-        throw new \Exception(sprintf("Given %s value is not %s\n\n %s",
-          $propertyName, $propertyValue, $this->echoLastResponse()));
+        throw new \Exception(sprintf(
+            "Given %s value is not %s\n\n %s",
+            $propertyName,
+            $propertyValue,
+            $this->echoLastResponse()
+        ));
     }
 
     /**
@@ -167,8 +174,11 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
         try {
             return $this->getPropertyValue($propertyName);
         } catch (\LogicException $e) {
-            throw new \Exception(sprintf("Property %s is not set!\n\n %s",
-              $propertyName, $this->echoLastResponse()));
+            throw new \Exception(sprintf(
+                "Property %s is not set!\n\n %s",
+                $propertyName,
+                $this->echoLastResponse()
+            ));
         }
     }
 
@@ -191,8 +201,10 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
     protected function getValue($propertyName, $data)
     {
         if (empty($data)) {
-            throw new \Exception(sprintf("Response was not set %s",
-              var_export($data, true)));
+            throw new \Exception(sprintf(
+                "Response was not set %s",
+                var_export($data, true)
+            ));
         }
         if (is_array($data) && array_key_exists($propertyName, $data)) {
             $data = $data[$propertyName];
@@ -228,9 +240,12 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
             $given = $this->response->getHeader($name);
 
             if ($given != $value) {
-
-                throw new \Exception(sprintf("Header %s should be %s, %s given",
-                  $name, $value, $given));
+                throw new \Exception(sprintf(
+                    "Header %s should be %s, %s given",
+                    $name,
+                    $value,
+                    $given
+                ));
             }
         }
     }
@@ -239,8 +254,8 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
      * @Then the response has a :propertyName property and its type is :typeString
      */
     public function theResponseHasAPropertyAndItsTypeIsNumeric(
-      $propertyName,
-      $typeString
+        $propertyName,
+        $typeString
     ) {
         $value = $this->theResponseHasAProperty($propertyName);
 
@@ -259,8 +274,12 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
                     break;
                 }
             default:
-                throw new \Exception(sprintf("Property %s is not of the correct type: %s!\n\n %s",
-                  $propertyName, $typeString, $this->echoLastResponse()));
+                throw new \Exception(sprintf(
+                    "Property %s is not of the correct type: %s!\n\n %s",
+                    $propertyName,
+                    $typeString,
+                    $this->echoLastResponse()
+                ));
         }
     }
 
@@ -275,15 +294,20 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
         $url = $this->parameters['token_url'];
         $body_as_string = new PyStringNode($this->requestBody, 1);
 
-        $this->response = $this->iSendARequestWithBody('POST', $url,
-          $body_as_string);
+        $this->response = $this->iSendARequestWithBody(
+            'POST',
+            $url,
+            $body_as_string
+        );
 
 //      $response = $this->getPostResponseFromUrl($url, $parameters);
         $data = json_decode($this->response->getBody(true), true);
 
         if (!isset($data['refresh_token'])) {
-            throw new \Exception(sprintf("Error refresh token. Response: %s",
-              $this->response->getBody(true)));
+            throw new \Exception(sprintf(
+                "Error refresh token. Response: %s",
+                $this->response->getBody(true)
+            ));
         }
         $this->refreshToken = $data['refresh_token'];
     }
@@ -304,6 +328,5 @@ class OpenCounterOauthContext extends WebApiContext implements Context, SnippetA
     {
         $this->requestBody['client_id'] = $this->parameters['oauth2']['client_id'];
         $this->requestBody['client_secret'] = $this->parameters['oauth2']['client_secret'];
-
     }
 }

@@ -1,17 +1,5 @@
 <?php
 
-/**
- * CounterController
- *
- * Contains Methods that receive requests, try to interact with counter objects
- * and counter repository and return a response.
- * this is achieved by individual application services we inject via the constructor
- * each method writes to log during every step. this is in the process of being replaced by domain-event-aware logger.
- * validation happens in the counter objects where exceptions are thrown
- * exceptions are currently caught here in the controller and translated to appropriate error codes and error messages
- * the controller figures out what the request wants, pulls together everything and hands back an appropriate response.
- */
-
 namespace SlimCounter\Controllers;
 
 use OpenCounter\Application\Command\Counter\CounterAddCommand;
@@ -34,7 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class CounterController
+ * Class CounterController.
  *
  * @package SlimCounter\Api
  */
@@ -42,80 +30,82 @@ class CounterController
 {
 
     /**
-     * A Logger
+     * A Logger.
      *
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
 
     /**
-     * CounterRepository
+     * CounterRepository.
      *
      * @var \OpenCounter\Domain\Repository\CounterRepository
      */
     private $counter_repository;
 
     /**
-     * CounterBuildService
+     * CounterBuildService.
      *
      * @var \OpenCounter\Http\CounterBuildService
      */
     private $counterBuildService;
 
     /**
-     * CounterRemoveService
+     * CounterRemoveService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterRemoveService
      */
     private $CounterRemoveService;
 
     /**
-     * CounterAddService
+     * CounterAddService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterAddService
      */
     private $CounterAddService;
 
     /**
-     * CounterIncrementValueService
+     * CounterIncrementValueService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterIncrementValueService
-     *
      */
     private $CounterIncrementValueService;
+
     /**
-     * CounterViewService
+     * CounterViewService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterViewService
      */
     private $CounterViewService;
+
     /**
-     * CounterResetValueService
+     * CounterResetValueService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterResetValueService
      */
     private $CounterResetValueService;
+
     /**
-     * CounterSetStatusService
+     * CounterSetStatusService.
      *
      * @var \OpenCounter\Application\Service\Counter\CounterSetStatusService
      */
     private $CounterSetStatusService;
 
     /**
-     * Counter Controller Constructor
-     * @param LoggerInterface $logger
-     * @param CounterBuildService $counterBuildService
-     * @param StorageInterface $counter_mapper
-     * @param CounterRepository $counter_repository
-     * @param CounterAddService $CounterAddService
-     * @param CounterRemoveService $CounterRemoveService
-     * @param CounterIncrementValueService $CounterIncrementValueService
-     * @param CounterViewService $CounterViewService
-     * @param CounterSetStatusService $CounterSetStatusService
-     * @param CounterResetValueService $CounterResetValueService
+     * Counter Controller Constructor.
+     *
+     * @param \Psr\Log\LoggerInterface                                              $logger
+     * @param \OpenCounter\Application\Service\Counter\CounterBuildService          $counterBuildService
+     * @param \OpenCounter\Infrastructure\Persistence\StorageInterface              $counter_mapper
+     * @param \OpenCounter\Domain\Repository\CounterRepository                      $counter_repository
+     * @param \OpenCounter\Application\Service\Counter\CounterAddService            $CounterAddService
+     * @param \OpenCounter\Application\Service\Counter\CounterRemoveService         $CounterRemoveService
+     * @param \OpenCounter\Application\Service\Counter\CounterIncrementValueService $CounterIncrementValueService
+     * @param \OpenCounter\Application\Service\Counter\CounterViewService           $CounterViewService
+     * @param \OpenCounter\Application\Service\Counter\CounterSetStatusService      $CounterSetStatusService
+     * @param \OpenCounter\Application\Service\Counter\CounterResetValueService     $CounterResetValueService
      */
-
     public function __construct(
         LoggerInterface $logger,
         CounterBuildService $counterBuildService,
@@ -147,15 +137,13 @@ class CounterController
      * @SWG\Post(
      *   path = "/counters/{id}",
      *   operationId = "newCounter",
-     *   description = "Creates a new Counter with name. Duplicates are allowed",
-     *   summary = "create a new counter",
-     *   produces ={"application/json"},
-     *   tags ={"docs"},
-     *   produces ={"application/json"},
-     *   security ={{
+     *   description = "Creates a new Counter with name. Duplicates are
+     *     allowed", summary = "create a new counter", produces
+     *     ={"application/json"}, tags ={"docs"}, produces
+     *     ={"application/json"}, security ={{
      *     "counter_auth": {"write:counters", "read:counters"},
      *   }},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to create",
      *      in="path",
@@ -163,29 +151,29 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *   @SWG\Schema(ref = "#/definitions/CounterAddCommand")
+     * @SWG\Schema(ref = "#/definitions/CounterAddCommand")
      *     ),
-     *   @SWG\Parameter(
+     * @SWG\Parameter(
      *   name = "counter",
      *   in = "body",
      *   description = "Counter to add",
      *   required = true,
-     *   @SWG\Schema(ref = "#/definitions/counterInput"),
+     * @SWG\Schema(ref = "#/definitions/counterInput"),
      *   ),
-     *   @SWG\Response(
+     * @SWG\Response(
      *   response = 200,
      *   description = "counter response",
-     *   @SWG\Schema(ref = "#/definitions/Counter")
+     * @SWG\Schema(ref = "#/definitions/Counter")
      *   ),
-     *   @SWG\Response(
+     * @SWG\Response(
      *   response = "default",
      *   description = "unexpected error",
-     *   @SWG\Schema(ref = "#/definitions/errorModel")
+     * @SWG\Schema(ref = "#/definitions/errorModel")
      *   ),
-     *   @SWG\Response(
+     * @SWG\Response(
      *   response = "409",
      *   description = "Counter name is taken error",
-     *   @SWG\Schema(ref = "#/definitions/AlreadyExistsErrorModel")
+     * @SWG\Schema(ref = "#/definitions/AlreadyExistsErrorModel")
      *   )
      *
      * )
@@ -193,22 +181,23 @@ class CounterController
      *
      *
      *
-     * this input definition needs to go somewhere else. e.g the command interface
+     * this input definition needs to go somewhere else. e.g the command
+     *     interface
      *
      * @SWG\Definition(
      *     definition = "counterInput",
      *     allOf ={
-     *       @SWG\Schema(
-     *         @SWG\Property(
+     * @SWG\Schema(
+     * @SWG\Property(
      *           property = "value",
      *           type = "integer",
      *           format = "int64"
      *         ),
-     *         @SWG\Property(
+     * @SWG\Property(
      *           property = "name",
      *           type = "string"
      *         ),
-     *         @SWG\Property(
+     * @SWG\Property(
      *           property = "status",
      *           type = "string",
      *           default="active"
@@ -222,18 +211,16 @@ class CounterController
      * @param $args
      *
      * @return mixed
-     *
-     *
      */
     public function addCounter(
         ServerRequestInterface $request,
         ResponseInterface $response,
         $args
     ) {
-        // assume everything will fail
+        // Assume everything will fail.
         $code = 400;
         try {
-            // get at data we need from server request object to build our request
+            // Get at data we need from server request object to build our request.
             $data = $request->getParsedBody();
 
             $name = $data['name'];
@@ -242,8 +229,7 @@ class CounterController
             $password = 'passwordplaceholder';
             $id = (isset($args['id'])) ? $args['id'] : null;
 
-            // call Service that executes appropriate command with given parameters.
-
+            // Call Service that executes appropriate command with given parameters.
             $result = $this->CounterAddService->execute(
                 new CounterAddCommand(
                     $name,
@@ -260,7 +246,8 @@ class CounterController
             $code = 409;
             $this->logger->info('exception ' . $e->getMessage());
         }
-        // note that even though the response is json encoded if requested as html you will get content type html showing the json.
+        // Note that even though the response is json encoded if requested as
+        // html you will get content type html showing the json.
         $response->write(json_encode($result));
 
         return $response->withStatus($code);
@@ -269,7 +256,7 @@ class CounterController
     /**
      * Change Counter value Route.
      *
-     * incrementCounter
+     * IncrementCounter.
      *
      * try to increment a counter. will fail if counter is locked or not found.
      * if successful returns updated counter object in response
@@ -289,7 +276,7 @@ class CounterController
      *     description="increments counter value",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to increment",
      *      in="path",
@@ -297,30 +284,30 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
+     * @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *       name="increment",
      *       description="increment to change by",
      *       in="body",
-     *       @SWG\Schema(ref="#/definitions/CounterValue"),
+     * @SWG\Schema(ref="#/definitions/CounterValue"),
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=200,
      *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
+     * @SWG\Schema(ref="#/definitions/Counter")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -334,7 +321,7 @@ class CounterController
         $args
     ) {
 
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $result = 'an error has occurred';
         $code = 400;
 
@@ -343,7 +330,7 @@ class CounterController
 
             $increment = $data['value'];
 
-            $result = $this->CounterIncrementValueService->execute(
+            $this->CounterIncrementValueService->execute(
                 new CounterIncrementValueCommand(
                     $args['id'],
                     $increment
@@ -364,7 +351,7 @@ class CounterController
     }
 
     /**
-     * Route for changing counter state
+     * Route for changing counter state.
      *
      * @SWG\Patch(
      *     path="/counters/status/{id}",
@@ -374,7 +361,7 @@ class CounterController
      *     description="sets counter status to active or locked",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to lock or unlock",
      *      in="path",
@@ -382,32 +369,32 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
+     * @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *       name="status",
      *       description="status to change to",
      *       type="string",
      *       in="body",
      *       default="locked",
-     *       @SWG\Schema(ref="#/definitions/CounterSetStatusCommand")
+     * @SWG\Schema(ref="#/definitions/CounterSetStatusCommand")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=201,
      *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
+     * @SWG\Schema(ref="#/definitions/Counter")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -429,23 +416,20 @@ class CounterController
         ResponseInterface $response,
         $args
     ) {
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $result = 'an error has occurred';
         $code = 400;
         try {
             $data = $request->getParsedBody();
 
-//            $counterName = $data['name'];
+            // $counterName = $data['name'];.
             $counterStatus = $data['status'];
-            $result = $this->CounterSetStatusService->execute(
+            $this->CounterSetStatusService->execute(
                 new CounterSetStatusCommand(
                     $args['id'],
                     $counterStatus
                 )
             );
-//            $this->CounterViewService->execute(
-//              new CounterOfIdQuery($args['id'])
-//            );
 
             $code = 201;
         } catch (\Exception $e) {
@@ -461,7 +445,7 @@ class CounterController
     }
 
     /**
-     * Set Counter Route
+     * Set Counter Route.
      *
      * @SWG\Put(
      *     path="/counters/{id}",
@@ -471,15 +455,15 @@ class CounterController
      *     description="Reset a counter's value to 0",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *       name="id",
      *       description="counter id to reset",
      *       type="string",
      *       in="body",
      *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *       @SWG\Schema(ref="#/definitions/CounterResetValueCommand")
+     * @SWG\Schema(ref="#/definitions/CounterResetValueCommand")
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to lock or unlock",
      *      in="path",
@@ -487,24 +471,24 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref = "#/definitions/CounterResetValueCommand")
+     * @SWG\Schema(ref = "#/definitions/CounterResetValueCommand")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=200,
      *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
+     * @SWG\Schema(ref="#/definitions/Counter")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -524,7 +508,7 @@ class CounterController
         ResponseInterface $response,
         $args
     ) {
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $return = ['message' => 'an error has occurred'];
         $code = 400;
 
@@ -532,13 +516,8 @@ class CounterController
             // Get at data we need from server request object
             // to build our command and query.
             $data = $request->getParsedBody();
-//
-//            // try getting the right counter first so we know which one to increment
-//            $counter = $this->CounterViewService->execute(
-//              new CounterOfIdQuery()
-//            );
 
-            $return = $this->CounterResetValueService->execute(
+            $this->CounterResetValueService->execute(
                 new CounterResetValueCommand($args['id'])
             );
             $code = 201;
@@ -548,28 +527,27 @@ class CounterController
         }
 
         $body = $response->getBody();
-        // now how can we allow slim response to write to body like this? and how to handle mimetypes
-
+        // Now how can we allow slim response to write to body like this? and how to handle mimetypes.
         $body->write(json_encode($return, JSON_UNESCAPED_SLASHES));
 
         return $response;
     }
 
     /**
-     * Get Value only Route
+     * Get Value only Route.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface      $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
+     *
      * @SWG\Get(
      *     path="/counters/value/{id}",
      *     tags={"docs"},
-     *     description="Returns a Counters value if the user has access to the Counter",
-     *     summary="read value from counter",
-     *     operationId="getCount",
-     *     @SWG\Parameter(
+     *     description="Returns a Counters value if the user has access to the
+     *     Counter", summary="read value from counter", operationId="getCount",
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to get",
      *      in="path",
@@ -577,7 +555,7 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
+     * @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
      *     ),
      *     produces={
      *         "application/json",
@@ -585,15 +563,15 @@ class CounterController
      *         "text/html",
      *         "text/xml"
      *     },
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=200,
      *         description="counter value response",
-     *         @SWG\Schema(ref="#/definitions/CounterValue")
+     * @SWG\Schema(ref="#/definitions/CounterValue")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response="default",
      *         description="unexpected error",
-     *         @SWG\Schema(ref="#/definitions/errorModel")
+     * @SWG\Schema(ref="#/definitions/errorModel")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -606,7 +584,7 @@ class CounterController
         ResponseInterface $response,
         $args
     ) {
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
@@ -621,7 +599,8 @@ class CounterController
         }
 
         $body = $response->getBody();
-        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
+        // Slims request class gives some handy shortcuts.
+        // but we want to know how to write to responses with the basic psr7 interface.
         $body->write(json_encode($result));
 
         return $response;
@@ -634,15 +613,14 @@ class CounterController
      *     path="/counters/{id}",
      *     tags={"docs"},
      *     operationId="getCounter",
-     *     description="Returns a Counter by id if the user has access to the Counter",
-     *     summary="get entire counter",
-     *     produces={
+     *     description="Returns a Counter by id if the user has access to the
+     *     Counter", summary="get entire counter", produces={
      *         "application/json",
      *         "application/xml",
      *         "text/html",
      *         "text/xml"
      *     },
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to Delete",
      *      in="path",
@@ -650,22 +628,22 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
+     * @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=200,
      *         description="counter response",
-     *         @SWG\Schema(ref="#/definitions/Counter")
+     * @SWG\Schema(ref="#/definitions/Counter")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response="default",
      *         description="unexpected error",
-     *         @SWG\Schema(ref="#/definitions/errorModel")
+     * @SWG\Schema(ref="#/definitions/errorModel")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=404,
      *         description="counter not found error",
-     *         @SWG\Schema(ref="#/definitions/NotFoundErrorModel")
+     * @SWG\Schema(ref="#/definitions/NotFoundErrorModel")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -684,7 +662,7 @@ class CounterController
         ResponseInterface $response,
         $args
     ) {
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
@@ -698,22 +676,18 @@ class CounterController
             $code = 409;
         }
 
-//        $body = $response->getBody();
-//        // slims request class gives some handy shortcuts. but we want to know how to write to responses with the basic psr7 interface
-//        $body->write(json_encode($result));
-// note that even though the response is json encoded if requested as html you will get content type html showing the json.
         $response->write(json_encode($result));
 
         return $response->withStatus($code);
     }
 
     /**
-     * Delete Counter Route
+     * Delete Counter Route.
      *
-     * supposedly the name of the counter to be deleted is in the request body.
+     * Supposedly the name of the counter to be deleted is in the request body.
      * so create a counter remove request with the name.
      * pass it to the counter removal service.
-     * return a response with either an json formatted error
+     * return a response with either an json formatted error.
      *
      * TODO:  (see content negotiation on how to serve e.g. xml instead)
      *
@@ -731,14 +705,14 @@ class CounterController
      *     description="delete a counter by id",
      *     consumes={"application/json", "application/xml"},
      *     produces={"application/xml", "application/json"},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *         name="body",
      *         in="body",
      *         description="Counter to be removed",
      *         required=true,
-     *      @SWG\Schema(ref="#/definitions/CounterRemoveCommand")
+     * @SWG\Schema(ref="#/definitions/CounterRemoveCommand")
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to Delete",
      *      in="path",
@@ -746,21 +720,21 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     *      @SWG\Schema(ref="#/definitions/CounterRemoveCommand")
+     * @SWG\Schema(ref="#/definitions/CounterRemoveCommand")
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     *     @SWG\Response(
+     * @SWG\Response(
      *         response=200,
      *         description="counter deleted",
      *     ),
@@ -769,21 +743,19 @@ class CounterController
      *         "counter_auth": {"write:counters", "read:counters"},
      *   }}
      * )
-     *
      */
     public function deleteCounter(
         ServerRequestInterface $request,
         ResponseInterface $response,
         $args
     ) {
-        //we assume everything is going to fail
+        // We assume everything is going to fail.
         $return = ['message' => 'an error has occurred'];
         $code = 400;
         try {
-            $result = $this->CounterRemoveService->execute(
-                new CounterRemoveCommand($args['id'])
-            );
+            $this->CounterRemoveService->execute(new CounterRemoveCommand($args['id']));
             $code = 201;
+            $result = 'received remove command';
         } catch (\Exception $e) {
             $code = 400;
 
@@ -797,11 +769,10 @@ class CounterController
     }
 
     /**
-     * allAction.
+     * AllAction.
      *
      * @return array
      */
-
     public function allAction()
     {
         $counters = $this->get('counter_repository')->findAll();

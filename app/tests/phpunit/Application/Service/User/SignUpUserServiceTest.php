@@ -22,8 +22,8 @@ class SignUpUserServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->userRepository = new InMemoryUserRepository();
         $this->signInUserService = new SignUpUserService(
-          $this->userRepository,
-          new UserDtoDataTransformer()
+            $this->userRepository,
+            new UserDtoDataTransformer()
         );
     }
 
@@ -52,7 +52,7 @@ class SignUpUserServiceTest extends \PHPUnit_Framework_TestCase
         $user = $this->executeSignIn();
 
         $this->assertNotNull(
-          $this->userRepository->ofId(new UserId($user['id']))
+            $this->userRepository->ofId(new UserId($user['id']))
         );
     }
 }

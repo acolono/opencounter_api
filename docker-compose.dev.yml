@@ -1,5 +1,4 @@
-
-version: '2'
+version: '3.2'
 
 services:
   opencounter-slim-codenv-mysql:
@@ -11,22 +10,21 @@ services:
       - MYSQL_USER=docker
       - MYSQL_PASSWORD=docker
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-    extends:
-      file: common.yml
-      service: mysql
 
   opencounter-slim-codenv-webserver:
+    image: phpdockerio/nginx:latest
     container_name: opencounter-slim-codenv-webserver
     hostname: opencounter-slim-codenv-webserver
     ports:
      - "8080:80"
-    links:
+    depends_on:
      - opencounter-slim-codenv-php-fpm
-    extends:
-      file: common.yml
-      service: webserver
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./app:/var/www/opencounter-slim-codenv
 
   opencounter-slim-codenv-php-fpm:
+    image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
     container_name: opencounter-slim-codenv-php-fpm
     hostname: opencounter-slim-codenv-php-fpm
     environment:
@@ -42,14 +40,10 @@ services:
 #      - MAILCATCHER_PORT_1025_TCP_ADDR=1025
     volumes:
       - ./app:/var/www/opencounter-slim-codenv
-    links:
-      - opencounter-slim-codenv-mysql
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
     depends_on:
       - opencounter-slim-codenv-mysql
       - mailhog
-    extends:
-      file: common.yml
-      service: php
 
 
   swaggerui:
@@ -87,7 +81,7 @@ services:
 #    image: schickling/mailcatcher
 #    ports:
 #      - 1080:1080
-#    links:
+#    depends_on:
 #      - opencounter-slim-codenv-php-fpm
 
   mailhog:
