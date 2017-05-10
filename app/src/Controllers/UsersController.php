@@ -90,7 +90,7 @@ class UsersController implements ContainerInterface
         // Render new counter form view.
         return $this->renderer->render(
             $response,
-            'admin/clients-form.html.twig'
+            'clients/clients-form.html.twig'
         );
     }
 

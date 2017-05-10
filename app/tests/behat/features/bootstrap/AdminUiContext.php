@@ -98,7 +98,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->visitPath($this->baseUrl . '/admin/content/add');
 
         $fields = new \Behat\Gherkin\Node\TableNode([
-          ['name', $name],
+          ['slug', $name],
           ['status', 'active'],
           ['value', $value],
         ]);
@@ -107,7 +107,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
 
         // get the counter we added to db and remember it so we can delete it later
         $this->db = $this->app->getContainer()->get('pdo');
-        $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
+        $this->sqlManager = new \OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
         $this->counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
@@ -145,7 +145,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $this->visitPath($this->baseUrl . '/admin/content/add');
 
         $fields = new \Behat\Gherkin\Node\TableNode([
-          ['name', $name],
+          ['slug', $name],
           ['status', 'active'],
           ['value', 0],
         ]);
@@ -169,7 +169,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function theValueReturnedShouldBe($value)
     {
-        $this->assertElementContainsText('li.counter__value', $value);
+        $this->assertElementContainsText('.counter__value', $value);
     }
 
     /**
@@ -207,7 +207,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
 
         $this->visitPath($this->baseUrl . '/admin/counters/' . $name);
         $this->assertElementContainsText('h1', 'View Counter ' . $name);
-        $this->assertElementOnPage('li.counter__value');
+        $this->assertElementOnPage('.counter__value');
     }
 
     /**

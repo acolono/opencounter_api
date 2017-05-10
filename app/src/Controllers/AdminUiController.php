@@ -93,7 +93,7 @@ class AdminUiController implements ContainerInterface
 
         return $this->renderer->render(
             $response,
-            'admin/view-counter.html.twig',
+            'admin/counter-view.html.twig',
             $result->toArray()
         );
     }
@@ -113,7 +113,7 @@ class AdminUiController implements ContainerInterface
         try {
             $data = $request->getParsedBody();
 
-            $name = $data['name'];
+            $name = $data['slug'];
             $value = $data['value'];
             $status = 'active';
             $password = 'passwordplaceholder';
