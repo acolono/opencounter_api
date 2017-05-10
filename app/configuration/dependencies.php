@@ -4,11 +4,11 @@
  * The dependencies system.
  *
  * Adding services to the container so we can pull them out when we need them.
- * for now this includes application services but those should move to another file eventually
+ * for now this includes application services but those should move to another
+ * file eventually
  *
  * @file
  */
-
 
 $container = $app->getContainer();
 
@@ -25,7 +25,7 @@ $container = $app->getContainer();
 $container['pdo'] = function ($container) {
     $db = $container->get('settings')['db'];
     $pdo = new PDO("mysql:host=" . $db['host'] . ";dbname=" . $db['dbname'],
-      $db['user'], $db['pass']);
+        $db['user'], $db['pass']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
@@ -133,22 +133,23 @@ $container->register(new \SlimCounter\Infrastructure\ServiceProvider\SlimCounter
  * instead we explicitly load required services from container into constructor.
  *
  * @param $container
+ *
  * @return \SlimCounter\Controllers\CounterController
  */
 $container['\SlimCounter\Controllers\CounterController'] = function ($container
 ) {
 
     $CounterController = new \SlimCounter\Controllers\CounterController(
-      $container['logger'],
-      $container['counter_build_service'],
-      $container['counter_mapper'],
-      $container['counter_repository'],
-      $container['CounterAddService'],
-      $container['CounterRemoveService'],
-      $container['CounterIncrementValueService'],
-      $container['CounterViewService'],
-      $container['CounterSetStatusService'],
-      $container['CounterResetValueService']
+        $container['logger'],
+        $container['counter_build_service'],
+        $container['counter_mapper'],
+        $container['counter_repository'],
+        $container['CounterAddService'],
+        $container['CounterRemoveService'],
+        $container['CounterIncrementValueService'],
+        $container['CounterViewService'],
+        $container['CounterSetStatusService'],
+        $container['CounterResetValueService']
 
     );
 
@@ -160,23 +161,25 @@ $container['renderer'] = function ($container) {
     $settings = $container->get('settings')['renderer'];
 
     $renderer = new \Slim\Views\Twig($settings['theme_path'] . 'templates', [
-//    'cache' => $settings['cache_path']
+        //    'cache' => $settings['cache_path']
         // TODO: debug only according to single setting
-      'debug' => true
+        'debug' => true,
     ]);
-    $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_layouts');
-    $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_patterns', 'patterns');
-    $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_patterns/02-elements',
+    $twigLoader = $renderer->getLoader();
+    $twigLoader->addPath($settings['theme_path'] . 'source/_layouts');
+    $twigLoader->addPath($settings['theme_path'] . 'source/_macros');
+    $twigLoader->addPath($settings['theme_path'] . 'source/_patterns',
+        'patterns');
+    $twigLoader->addPath($settings['theme_path'] . 'source/_patterns/02-elements',
         'elements');
-    $renderer->getLoader()
-      ->addPath($settings['theme_path'] . 'source/_patterns/00-atoms', 'atoms');
+    $twigLoader->addPath($settings['theme_path'] . 'source/_patterns/05-layouts',
+        'regions');
+    $twigLoader->addPath($settings['theme_path'] . 'source/_patterns/00-atoms',
+        'atoms');
 
     $renderer->addExtension(new \Slim\Views\TwigExtension(
-      $container['router'],
-      $container['request']->getUri()
+        $container['router'],
+        $container['request']->getUri()
     ));
     $renderer->addExtension(new Twig_Extension_Debug());
 
@@ -198,7 +201,7 @@ $container['logger'] = function ($container) {
     $logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor($settings['level']));
 
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['logger_path'],
-      Monolog\Logger::DEBUG));
+        Monolog\Logger::DEBUG));
 
     return $logger;
 };

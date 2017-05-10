@@ -71,21 +71,19 @@ default:
               base_url: http://opencounter-slim-codenv-webserver:8080
         # could also add application service context for things not possible directly via webapi that we still need to test.
         #- OpenCounter\Behat\Context\ApplicationServices\Context
-      filters:
-#        tags: "@web"
-#        role: "apiuser"
 
     adminui:
-      paths: [ %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters ]
-      paths: [ %paths.base%/features/Users ]
+      paths:
+        - %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters
+        - %paths.base%/tests/behat/features/Users
       contexts:
         - AdminUiContext:
             parameters:
-            # TODO: get this from dotenv?
+            # TODO: get Admin Credentials from dotenv?
               base_url: http://admin:admin@opencounter-slim-codenv-webserver:8080
       filters:
-#        tags: "@adminui"
         role: "admin"
+
     oauth:
       paths:
 #        - %paths.base%/vendor/rstgroup/behat-oauth2-context/features

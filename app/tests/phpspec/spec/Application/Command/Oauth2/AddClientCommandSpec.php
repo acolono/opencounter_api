@@ -22,12 +22,13 @@ class AddClientCommandSpec extends ObjectBehavior
         $grant_types = 'authorization_code';
         $user_id = 1;
         $this->beConstructedWith(
-          $client_id,
-          $client_secret,
-          $redirect_url,
-          $grant_types,
-          $scopes,
-          $user_id);
+            $client_id,
+            $client_secret,
+            $redirect_url,
+            $grant_types,
+            $scopes,
+            $user_id
+        );
         $this->shouldHaveType(AddClientCommand::class);
 
 // TODO: id should be generated at this point.
