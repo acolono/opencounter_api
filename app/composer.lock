@@ -2026,11 +2026,11 @@
         },
         {
             "name": "slimcounter/default_theme",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acolono/opencounter_theme.git",
-                "reference": "8903421afb420100422618b2b8c7f9c626d6150e"
+                "reference": "2434e6979d657e47170853edb98600dc5f846060"
             },
             "require": {
                 "aleksip/plugin-data-transform": "^1.1",
@@ -2078,7 +2078,7 @@
                 ]
             },
             "description": "Standard Edition of Pattern Lab for Twig theme for opencounter",
-            "time": "2017-05-06T02:32:12+00:00"
+            "time": "2017-05-10T04:38:14+00:00"
         },
         {
             "name": "symfony/config",
@@ -4497,12 +4497,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053"
+                "reference": "ec953894782a0366a5533677c68972eea848d848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/62785ae604c8d69725d693eb370e1d67e94c4053",
-                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/ec953894782a0366a5533677c68972eea848d848",
+                "reference": "ec953894782a0366a5533677c68972eea848d848",
                 "shasum": ""
             },
             "require": {
@@ -4535,7 +4535,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2017-03-25T12:08:31+00:00"
+            "time": "2017-05-08T18:49:20+00:00"
         },
         {
             "name": "rstgroup/behat-oauth2-context",
@@ -5271,12 +5271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "bc79d2fcc32497a93cbddcaf3adace132a5d3396"
+                "reference": "aa8e45df409b442d76fbf565247a0a12a893f127"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/bc79d2fcc32497a93cbddcaf3adace132a5d3396",
-                "reference": "bc79d2fcc32497a93cbddcaf3adace132a5d3396",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/aa8e45df409b442d76fbf565247a0a12a893f127",
+                "reference": "aa8e45df409b442d76fbf565247a0a12a893f127",
                 "shasum": ""
             },
             "require": {
@@ -5333,7 +5333,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-05-05T15:28:37+00:00"
+            "time": "2017-05-09T09:53:08+00:00"
         },
         {
             "name": "symfony/dom-crawler",
