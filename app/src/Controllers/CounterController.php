@@ -137,13 +137,14 @@ class CounterController
      * @SWG\Post(
      *   path = "/counters/{id}",
      *   operationId = "newCounter",
-     *   description = "Creates a new Counter with name. Duplicates are
-     *     allowed", summary = "create a new counter", produces
-     *     ={"application/json"}, tags ={"docs"}, produces
-     *     ={"application/json"}, security ={{
+     *   description = "Creates a new Counter with name. Duplicates are allowed",
+     *   summary = "create a new counter",
+     *   produces ={"application/json"},
+     *   tags ={"docs"},
+     *   security ={{
      *     "counter_auth": {"write:counters", "read:counters"},
      *   }},
-     * @SWG\Parameter(
+     *   @SWG\Parameter(
      *      parameter="id",
      *      description="id of counter to create",
      *      in="path",
@@ -151,66 +152,38 @@ class CounterController
      *      required=false,
      *      type="string",
      *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     * @SWG\Schema(ref = "#/definitions/CounterAddCommand")
-     *     ),
-     * @SWG\Parameter(
-     *   name = "counter",
-     *   in = "body",
-     *   description = "Counter to add",
-     *   required = true,
-     * @SWG\Schema(ref = "#/definitions/counterInput"),
+     *      @SWG\Schema(ref = "#/definitions/CounterAddCommand")
      *   ),
-     * @SWG\Response(
-     *   response = 200,
-     *   description = "counter response",
-     * @SWG\Schema(ref = "#/definitions/Counter")
+     *   @SWG\Parameter(
+     *     name = "counter",
+     *     in = "body",
+     *     description = "Counter to add",
+     *     required = true,
+     *     @SWG\Schema(ref = "#/definitions/counterInput"),
      *   ),
-     * @SWG\Response(
-     *   response = "default",
-     *   description = "unexpected error",
-     * @SWG\Schema(ref = "#/definitions/errorModel")
+     *   @SWG\Response(
+     *     response = 200,
+     *     description = "counter response",
+     *     @SWG\Schema(ref = "#/definitions/Counter")
      *   ),
-     * @SWG\Response(
-     *   response = "409",
-     *   description = "Counter name is taken error",
-     * @SWG\Schema(ref = "#/definitions/AlreadyExistsErrorModel")
+     *   @SWG\Response(
+     *     response = "default",
+     *     description = "unexpected error",
+     *     @SWG\Schema(ref = "#/definitions/errorModel")
+     *   ),
+     *   @SWG\Response(
+     *     response = "409",
+     *     description = "Counter name is taken error",
+     *     @SWG\Schema(ref = "#/definitions/AlreadyExistsErrorModel")
      *   )
      *
      * )
      *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param                                          $args
      *
-     *
-     *
-     * this input definition needs to go somewhere else. e.g the command
-     *     interface
-     *
-     * @SWG\Definition(
-     *     definition = "counterInput",
-     *     allOf ={
-     * @SWG\Schema(
-     * @SWG\Property(
-     *           property = "value",
-     *           type = "integer",
-     *           format = "int64"
-     *         ),
-     * @SWG\Property(
-     *           property = "name",
-     *           type = "string"
-     *         ),
-     * @SWG\Property(
-     *           property = "status",
-     *           type = "string",
-     *           default="active"
-     *         )
-     *       )
-     *     }
-     *   )
-     *
-     * @param $request
-     * @param $response
-     * @param $args
-     *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface      $response
      */
     public function addCounter(
         ServerRequestInterface $request,
@@ -256,7 +229,7 @@ class CounterController
     /**
      * Change Counter value Route.
      *
-     * IncrementCounter.
+     * Increment Counter via patch request.
      *
      * try to increment a counter. will fail if counter is locked or not found.
      * if successful returns updated counter object in response
@@ -274,45 +247,47 @@ class CounterController
      *     operationId="incrementCounter",
      *     summary="increment existing counter",
      *     description="increments counter value",
-     *     consumes={"application/json", "application/xml"},
+     *     consumes={
+     *       "application/x-www-form-urlencoded"
+     *     },
      *     produces={"application/xml", "application/json"},
-     * @SWG\Parameter(
-     *      parameter="id",
-     *      description="id of counter to increment",
-     *      in="path",
-     *      name="id",
-     *      required=false,
-     *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     * @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
+     *     @SWG\Parameter(
+     *       parameter="id",
+     *       description="id of counter to increment",
+     *       in="path",
+     *       name="id",
+     *       required=true,
+     *       type="string",
+     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
      *     ),
-     * @SWG\Parameter(
-     *       name="increment",
+     *     @SWG\Parameter(
+     *       name="value",
      *       description="increment to change by",
      *       in="body",
-     * @SWG\Schema(ref="#/definitions/CounterValue"),
+     *       @SWG\Schema(ref="#/definitions/CounterValue"),
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=200,
      *         description="counter response",
-     * @SWG\Schema(ref="#/definitions/Counter")
+     *         @SWG\Schema(ref="#/definitions/Counter")
      *     ),
-     *   security={{
+     *     security={{
      *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
+     *     "counter_auth": {"write:counters", "read:counters"},
+     *     }}
      * )
      */
     public function incrementCounter(
@@ -326,9 +301,11 @@ class CounterController
         $code = 400;
 
         try {
-            $data = $request->getParsedBody();
 
-            $increment = $data['value'];
+            $data = $request->getParsedBody();
+            $default_increment = 1;
+
+            $increment = isset($data['value']) ? $data['value'] : $default_increment;
 
             $this->CounterIncrementValueService->execute(
                 new CounterIncrementValueCommand(
@@ -336,6 +313,7 @@ class CounterController
                     $increment
                 )
             );
+            $result = 'incremented';
 
             $code = 201;
         } catch (\Exception $e) {
@@ -359,47 +337,54 @@ class CounterController
      *     operationId="setCounterStatus",
      *     summary="lock or unlock existing counter",
      *     description="sets counter status to active or locked",
-     *     consumes={"application/json", "application/xml"},
+     *     consumes={
+     *       "application/json",
+     *       "application/xml",
+     *       "application/x-www-form-urlencoded"
+     *     },
      *     produces={"application/xml", "application/json"},
-     * @SWG\Parameter(
-     *      parameter="id",
-     *      description="id of counter to lock or unlock",
-     *      in="path",
-     *      name="id",
-     *      required=false,
-     *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
-     * @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
+     *     @SWG\Parameter(
+     *       parameter="id",
+     *       description="id of counter to lock or unlock",
+     *       in="path",
+     *       name="id",
+     *       required=false,
+     *       type="string",
+     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
      *     ),
-     * @SWG\Parameter(
+     *     @SWG\Parameter(
      *       name="status",
      *       description="status to change to",
      *       type="string",
      *       in="body",
      *       default="locked",
-     * @SWG\Schema(ref="#/definitions/CounterSetStatusCommand")
+     *       @SWG\Schema(ref="#/definitions/CounterSetStatusCommand")
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=400,
      *         description="Invalid ID supplied",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=404,
      *         description="Counter not found",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=405,
      *         description="Validation exception",
      *     ),
-     * @SWG\Response(
+     *     @SWG\Response(
      *         response=201,
      *         description="counter response",
-     * @SWG\Schema(ref="#/definitions/Counter")
+     *     @SWG\Schema(ref="#/definitions/Counter")
      *     ),
-     *   security={{
-     *     "api_key":{},
-     *         "counter_auth": {"write:counters", "read:counters"},
-     *   }}
+     *     security={{
+     *       "api_key":{},
+     *       "counter_auth": {
+     *         "write:counters",
+     *         "read:counters"
+     *       },
+     *     }}
      * )
      * setCounterStatus
      *
@@ -520,6 +505,8 @@ class CounterController
             $this->CounterResetValueService->execute(
                 new CounterResetValueCommand($args['id'])
             );
+            $return = ['message' => 'counter reset'];
+
             $code = 201;
         } catch (\Exception $e) {
             $return = $e->getMessage();
@@ -549,12 +536,10 @@ class CounterController
      *     Counter", summary="read value from counter", operationId="getCount",
      * @SWG\Parameter(
      *      parameter="id",
-     *      description="id of counter to get",
-     *      in="path",
-     *      name="id",
-     *      required=false,
-     *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      description="id of counter to get it is required to pass this as
+     *     part of the url to declare which counter we are intending to get the
+     *     count for.", in="path", name="id", required=true, type="string",
+     *     default="1ff4debe-6160-4201-93d1-568d5a50a886",
      * @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
      *     ),
      *     produces={

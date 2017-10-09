@@ -21,14 +21,17 @@ $app->map([
 ], Routes\Authorize::ROUTE, new Routes\Authorize($container['oauth2_server'],
   $container['authorization_views']))
   ->setName('authorize');
+
 $app->post(Routes\Token::ROUTE,
   new Routes\Token($container->get('oauth2_server')))->setName('token');
+
 $app->map([
   'GET',
   'POST'
 ], Routes\ReceiveCode::ROUTE,
   new Routes\ReceiveCode($container->get('authorization_views')))
   ->setName('receive-code');
+
 $app->post(Routes\Revoke::ROUTE,
   new Routes\Revoke($container->get('oauth2_server')))->setName('revoke');
 
@@ -82,48 +85,69 @@ $app->group('/admin', function () {
  * @see https://github.com/zircote/swagger-php#usage-from-php
  *
  * @SWG\Swagger(
- *  basePath="/api",
- *  host=API_HOST,
- *  schemes={"http"},
- *    produces={"application/json"},
- *    consumes={"application/json"},
- *    @SWG\Info(
- *      version="1.1.0",
- *      title="Swagger Open counter",
- *      description="A sample API that uses a counter as an example to demonstrate practices patterns and principles",
- *      termsOfService="http://acolono.com/terms/",
- *      @SWG\Contact(name="Acolono API Team"),
- *      @SWG\License(name="MIT")
- *    ),
- *    @SWG\SecurityScheme(
- *      securityDefinition="api_key",
- *      type="apiKey",
- *      in="header",
- *      name="api_key"
- *    ),
- *    @SWG\SecurityScheme(
- *      securityDefinition="counter_auth",
- *      type="oauth2",
- *      authorizationUrl="http://opencounter-slim-codenv-webserver:8080/authorize",
- *      flow="implicit",
- *      scopes={
- *            "read:counters": "read your counters",
- *            "write:counters": "modify counters in your account"
- *        }
- *    ),
- *    @SWG\Definition(
- *      definition="errorModel",
- *      required={"code", "message"},
- *        @SWG\Property(
- *          property="code",
- *          type="integer",
- *          format="int32"
- *        ),
- *        @SWG\Property(
- *          property="message",
- *          type="string"
+ *   basePath="/api",
+ *   host=API_HOST,
+ *   schemes={"http"},
+ *   produces={"application/json"},
+ *   consumes={"application/json"},
+ *   @SWG\Info(
+ *     version="1.1.0",
+ *     title="Swagger Open counter",
+ *     description="A sample API that uses a counter as an example to demonstrate practices patterns and principles",
+ *     termsOfService="http://acolono.com/terms/",
+ *     @SWG\Contact(name="Acolono API Team"),
+ *     @SWG\License(name="MIT")
+ *   ),
+ *   @SWG\SecurityScheme(
+ *     securityDefinition="api_key",
+ *     type="apiKey",
+ *     in="header",
+ *     name="api_key"
+ *   ),
+ *   @SWG\SecurityScheme(
+ *     securityDefinition="counter_auth",
+ *     type="oauth2",
+ *     authorizationUrl="http://opencounter-slim-codenv-webserver:8080/authorize",
+ *     flow="implicit",
+ *     scopes={
+ *       "read:counters": "read your counters",
+ *       "write:counters": "modify counters in your account"
+ *     }
+ *   ),
+ *   @SWG\Definition(
+ *     definition="errorModel",
+ *     required={"code", "message"},
+ *     @SWG\Property(
+ *       property="code",
+ *       type="integer",
+ *       format="int32"
+ *     ),
+ *     @SWG\Property(
+ *       property="message",
+ *       type="string"
+ *     )
+ *   )
+ *   @SWG\Definition(
+ *     definition = "counterInput",
+ *     allOf ={
+ *       @SWG\Schema(
+ *         @SWG\Property(
+ *           property = "value",
+ *           type = "integer",
+ *           format = "int64"
+ *          ),
+ *          @SWG\Property(
+ *            property = "name",
+ *            type = "string"
+ *          ),
+ *          @SWG\Property(
+ *            property = "status",
+ *            type = "string",
+ *            default="active"
+ *          )
  *        )
- *    )
+ *      }
+ *   )
  * )
  */
 
@@ -166,7 +190,8 @@ $app->group('/api/counters', function () {
       '\SlimCounter\Controllers\CounterController:getCounter')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
     $this->put('/[{id}]',
       '\SlimCounter\Controllers\CounterController:setCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
-
+    $this->patch('/[{id}]',
+      '\SlimCounter\Controllers\CounterController:incrementCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
 });
 
 // Fallback Route

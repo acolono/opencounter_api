@@ -3,6 +3,7 @@
 namespace SlimCounter\Infrastructure\ServiceProvider;
 
 use Chadicus\Slim\OAuth2\Middleware\Authorization;
+use OAuth2\GrantType\AuthorizationCode;
 use OAuth2\GrantType\ClientCredentials;
 use OAuth2\Server;
 use Pimple\Container;
@@ -37,7 +38,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         'ListClientsService',
         'authorization',
         'authorization_views',
-
+        'oauth2_server',
     ];
 
     /**
@@ -117,6 +118,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          */
         $pimple['oauth2_storage'] = function ($pimple) {
             $oauth2_storage = new Oauth2Repository($pimple['pdo']);
+
             return $oauth2_storage;
         };
         /**
@@ -132,11 +134,11 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             $oauth2_server = new Server(
                 $pimple['oauth2_storage'],
                 [
-                'access_lifetime' => 3600,
-                'allow_implicit' => true,
+                    'access_lifetime' => 3600,
+                    'allow_implicit' => true,
                 ],
                 [
-                new ClientCredentials($pimple['oauth2_storage']),
+                    new ClientCredentials($pimple['oauth2_storage']),
                 ]
             );
 
