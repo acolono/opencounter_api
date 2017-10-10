@@ -1,7 +1,7 @@
 {
   "name": "acolono/slim-opencounter",
   "description": "A Slim Framework implementation of opencounter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "microframework",
     "rest",
@@ -29,7 +29,7 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "slim/slim": "3.x-dev",
+    "slim/slim": "^3",
     "slim/php-view": "^2.0",
     "slim/twig-view": "^2",
     "monolog/monolog": "^1.17",
