@@ -2,11 +2,13 @@
 /*
  * Contains a contet to test admin ui
  */
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\MinkExtension\Context\MinkContext;
 use OpenCounter\Domain\Model\Counter\CounterName;
+use OpenCounter\Infrastructure\Factory\Counter\CounterFactory;
+use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository;
 use Pavlakis\Slim\Behat\Context\App;
 use Pavlakis\Slim\Behat\Context\KernelAwareContext;
 
@@ -17,6 +19,10 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
 {
 
     use App;
+    use \OpenCounter\ContextUtilities;
+
+
+    private $counters;
 
     /**
      * AdminUiContext Constructor
@@ -28,31 +34,43 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         // Initialize your context here
         $this->parameters = $parameters;
         $this->baseUrl = $parameters['base_url'];
-        $this->counters = [];
         $this->oauth2Clients = [];
+
     }
 
     /**
-     * Clean db
+     * connect to db before scenario using the trait.
      *
-     * after each scenario
+     * @BeforeScenario
+     *
+     */
+    public function connectDB(\Behat\Behat\Hook\Scope\BeforeScenarioScope $scope
+    ) {
+        $this->db = $this->app->getContainer()->get('pdo');
+        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+        $this->counter_factory = new CounterFactory();
+        $this->counter_repository = $this->app->getContainer()
+          ->get('counter_repository');
+
+    }
+
+    /**
+     * Clean db after each scenario
      *
      * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
      *
      * @AfterScenario
-     *
      */
     public function cleanDB(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
     {
-
-        $this->db = $this->app->getContainer()->get('pdo');
-        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
+        echo 'after scenario tasks';
 
-
-        if (isset($this->counters) && is_array($this->counters) && !(empty($this->counters))) {
+        if ($this->counters) {
             echo 'removing testing counters';
+
+            print_r($this->counters);
 
             // foreach $created_counters as counter delete counter
             foreach ($this->counters as $counter) {
@@ -124,8 +142,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     {
 
         // get the counter we added to db and remember it so we can delete it later
-        $this->db = $this->app->getContainer()->get('pdo');
-        $this->sqlManager = $this->app->getContainer()->get('counter_mapper');
+
         $this->counterRepository = $this->app->getContainer()
           ->get('counter_repository');
         $counter = $this->counterRepository->getCounterByName(new CounterName($name));
@@ -155,7 +172,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         // get the counter we added to db and remember it so we can delete it later
         $this->db = $this->app->getContainer()->get('pdo');
         $this->sqlManager = new OpenCounter\Infrastructure\Persistence\Sql\SqlManager($this->db);
-        $counterRepository = new \OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository($this->sqlManager);
+        $counterRepository = new SqlCounterRepository($this->sqlManager);
 
         $this->counterName = new CounterName($name);
         // if we have a counter mark it for cleanup after scenario
@@ -185,7 +202,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         if ($counter = $counter = $this->counterRepository->getCounterByName($this->counterName)) {
             $this->counters[] = $counter;
         }
-        // if we get a counter something is wrong
+        // if we dont get a counter something is wrong
         if (!$counter) {
             throw new \Exception('something is wrong, no counter by that name was found');
         }
@@ -228,12 +245,12 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
         $serverParams = [];
         $body = new \Slim\Http\Body(fopen('php://temp', 'r+'));
         $request = new \Slim\Http\Request(
-            'GET',
-            $uri,
-            $headers,
-            $cookies,
-            $serverParams,
-            $body
+          'GET',
+          $uri,
+          $headers,
+          $cookies,
+          $serverParams,
+          $body
         );
         $args = ['name' => $name, 'id' => $id, 'value' => 0];
         // now test the build service just in case
@@ -273,4 +290,37 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     {
         $this->visitPath($this->baseUrl . '/admin/clients');
     }
+
+
+    //    /**
+    //     * Save counter and add it to counters array for post scenario deletion
+    //     */
+    //    public function addRandomCounter()
+    //    {
+    //        $args = ['name' => uniqid(), 'id' => uniqid(), 'value' => rand(0, 100)];
+    //        $counter = $this->app->getContainer()
+    //          ->get('counter_build_service')
+    //          ->execute($request, $args);
+    //        $this->app->getContainer()->get('counter_repository')->save($counter);
+    //        $this->counters[] = $counter;
+    //    }
+
+
+    /**
+     * @When I list all counters
+     */
+    public function iListAllCounters()
+    {
+        $this->visitPath($this->baseUrl . '/admin/counters');
+    }
+
+    /**
+     * @Then I should see :numberof counters
+     */
+    public function iShouldSeeCounters($numberof)
+    {
+        $this->assertNumElements($numberof, 'tbody tr');
+    }
+
+
 }
