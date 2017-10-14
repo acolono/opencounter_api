@@ -231,6 +231,5 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
 
             return $CountersListService;
         });
-
     }
 }
