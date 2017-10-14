@@ -162,7 +162,6 @@ class AdminUiController implements ContainerInterface
         // Call an application service that will list registered users.
         try {
             $results = $this->CountersListService->execute();
-
         } catch (NoCountersFoundException $e) {
             $results = 'no results found';
         } catch (\Exception $e) {
