@@ -222,7 +222,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
          */
         $pimple['CountersListService'] = $pimple->factory(function ($pimple
         ) {
-            $CounterSetStatusService = new CountersListService(
+            $CountersListService = new CountersListService(
                 new CountersListHandler(
                     $pimple['counter_repository'],
                     $pimple['counter_build_service']
