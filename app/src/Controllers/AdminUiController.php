@@ -5,6 +5,7 @@ namespace SlimCounter\Controllers;
 use Interop\Container\ContainerInterface;
 use OpenCounter\Application\Command\Counter\CounterAddCommand;
 use OpenCounter\Application\Query\Counter\CounterOfNameQuery;
+use OpenCounter\Application\Query\Counter\CountersListQuery;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -40,6 +41,7 @@ class AdminUiController implements ContainerInterface
         $this->CounterViewService = $this->ci->get('CounterViewService');
         $this->CounterViewUiService = $this->ci->get('CounterViewUiService');
         $this->CounterAddService = $this->ci->get('CounterAddService');
+      $this->CountersListService = $this->ci->get('CountersListService');
     }
 
     /**
@@ -160,17 +162,15 @@ class AdminUiController implements ContainerInterface
         $this->logger->info("counter controller 'index' route");
         // Call an application service that will list registered users.
         try {
-            $query = $this->ListCountersService;
+          $results = $this->CountersListService->execute();
 
-            $results = $query->execute(
-                new ListCountersQuery()
-            );
         } catch (NoCountersFoundException $e) {
             $results = 'no results found';
         } catch (\Exception $e) {
             throw $e;
         }
-        // Render index view.
+
+      // Render index view.
         return $this->renderer->render(
             $response,
             'admin/index.twig',
