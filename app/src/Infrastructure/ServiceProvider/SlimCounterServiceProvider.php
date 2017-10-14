@@ -9,6 +9,7 @@ use OpenCounter\Application\Command\Counter\CounterResetValueHandler;
 use OpenCounter\Application\Command\Counter\CounterSetStatusHandler;
 use OpenCounter\Application\Query\Counter\CounterOfIdHandler;
 use OpenCounter\Application\Query\Counter\CounterOfNameHandler;
+use OpenCounter\Application\Query\Counter\CountersListService;
 use OpenCounter\Application\Service\Counter\CounterAddService;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
@@ -16,6 +17,7 @@ use OpenCounter\Application\Service\Counter\CounterRemoveService;
 use OpenCounter\Application\Service\Counter\CounterResetValueService;
 use OpenCounter\Application\Service\Counter\CounterSetStatusService;
 use OpenCounter\Application\Service\Counter\CounterViewService;
+use OpenCounter\Application\Service\Counter\CountersListService;
 use OpenCounter\Infrastructure\Factory\Counter\CounterFactory;
 use OpenCounter\Infrastructure\Persistence\Sql\Repository\Counter\SqlCounterRepository;
 use OpenCounter\Infrastructure\Persistence\Sql\SqlManager;
@@ -208,5 +210,21 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
             );
             return $CounterResetValueService;
         });
+
+
+        /**
+         * Application service used to List Counters
+         */
+        $pimple['CountersListService'] = $pimple->factory(function ($pimple
+        ) {
+            $CounterSetStatusService = new CountersListService(
+                new CountersListHandler(
+                    $pimple['counter_repository'],
+                    $pimple['counter_build_service']
+                )
+            );
+            return $CountersListService;
+        });
+
     }
 }

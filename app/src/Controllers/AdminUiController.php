@@ -144,6 +144,39 @@ class AdminUiController implements ContainerInterface
         return $response->withRedirect((string)$uri);
     }
 
+    /**
+     * countersIndex.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function countersIndex(Request $request, Response $response, $args)
+    {
+        // Log message.
+        $this->logger->info("counter controller 'index' route");
+        // Call an application service that will list registered users.
+        try {
+            $query = $this->ListCountersService;
+
+            $results = $query->execute(
+                new ListCountersQuery()
+            );
+        } catch (NoCountersFoundException $e) {
+            $results = 'no results found';
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        // Render index view.
+        return $this->renderer->render(
+            $response,
+            'admin/index.twig',
+            ['data' => $results]
+        );
+    }
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface
      *******************************************************************************/
