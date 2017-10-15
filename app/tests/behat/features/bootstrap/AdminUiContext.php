@@ -22,7 +22,7 @@ class AdminUiContext extends MinkContext implements Context, SnippetAcceptingCon
     use \OpenCounter\ContextUtilities;
 
 
-    private $counters;
+    public $counters;
 
     /**
      * AdminUiContext Constructor

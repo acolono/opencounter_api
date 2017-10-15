@@ -67,7 +67,7 @@ class OpenCounterWebApiContext extends WebApiContext implements Context, Snippet
 
     private $oauthContext;
 
-    private $counters;
+    public $counters;
 
     private $counterRepository;
 
