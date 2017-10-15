@@ -75,7 +75,7 @@ default:
     adminui:
       paths:
         - %paths.base%/vendor/rosenstrauch/opencounter_api_core/descriptions/behat/features/Counters
-        - %paths.base%/tests/behat/features/Users
+        - %paths.base%/tests/behat/features/Consumers
       contexts:
         - AdminUiContext:
             parameters:

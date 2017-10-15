@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "65b473e40d599bdbf8f57a5859568e4d",
+    "content-hash": "5a5bda81f86b6eab156b094bb75562e1",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2429,16 +2429,16 @@
         },
         {
             "name": "rosenstrauch/opencounter_api_core",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acolono/opencounter_core.git",
-                "reference": "280a8d150a0ce5a18f1db713774d4348c3795c44"
+                "reference": "d82dec68748f515fde6482289d89524c38605272"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acolono/opencounter_core/zipball/280a8d150a0ce5a18f1db713774d4348c3795c44",
-                "reference": "280a8d150a0ce5a18f1db713774d4348c3795c44",
+                "url": "https://api.github.com/repos/acolono/opencounter_core/zipball/d82dec68748f515fde6482289d89524c38605272",
+                "reference": "d82dec68748f515fde6482289d89524c38605272",
                 "shasum": ""
             },
             "require": {
@@ -2472,10 +2472,10 @@
             ],
             "description": "framework agnostic counter business logic",
             "support": {
-                "source": "https://github.com/acolono/opencounter_core/tree/0.3.0",
+                "source": "https://github.com/acolono/opencounter_core/tree/0.3.1",
                 "issues": "https://github.com/acolono/opencounter_core/issues"
             },
-            "time": "2017-03-26T15:03:59+00:00"
+            "time": "2017-10-15T01:12:50+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3251,11 +3251,11 @@
         },
         {
             "name": "slimcounter/default_theme",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acolono/opencounter_theme.git",
-                "reference": "27ef054950db9279a07d89ce957d033c37c1e2e8"
+                "reference": "65e81240dac2f5f5837b788456ff46e43ed980a6"
             },
             "require": {
                 "aleksip/plugin-data-transform": "^1.1",
@@ -3303,7 +3303,7 @@
                 ]
             },
             "description": "Standard Edition of Pattern Lab for Twig theme for opencounter",
-            "time": "2017-10-01T20:41:44+00:00"
+            "time": "2017-10-14T23:42:43+00:00"
         },
         {
             "name": "symfony/config",

@@ -40,6 +40,7 @@ class AdminUiController implements ContainerInterface
         $this->CounterViewService = $this->ci->get('CounterViewService');
         $this->CounterViewUiService = $this->ci->get('CounterViewUiService');
         $this->CounterAddService = $this->ci->get('CounterAddService');
+        $this->CountersListService = $this->ci->get('CountersListService');
     }
 
     /**
@@ -48,7 +49,7 @@ class AdminUiController implements ContainerInterface
      * Basic form which submits to a different route.
      * currently just for adding not for editing.
      *
-     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param                     $args
      *
@@ -69,7 +70,7 @@ class AdminUiController implements ContainerInterface
     /**
      * ViewCounter.
      *
-     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param                     $args
      *
@@ -101,7 +102,7 @@ class AdminUiController implements ContainerInterface
     /**
      * Add Counter Route is called by New Counter Form.
      *
-     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param                     $args
      *
@@ -144,6 +145,36 @@ class AdminUiController implements ContainerInterface
         return $response->withRedirect((string)$uri);
     }
 
+    /**
+     * countersIndex.
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param                     $args
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function countersIndex(Request $request, Response $response, $args)
+    {
+        // Log message.
+        $this->logger->info("counter controller 'index' route");
+        // Call an application service that will list registered users.
+        try {
+            $results = $this->CountersListService->execute();
+        } catch (NoCountersFoundException $e) {
+            $results = 'no results found';
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        // Render index view.
+        return $this->renderer->render(
+            $response,
+            'admin/index.twig',
+            ['data' => $results]
+        );
+    }
     /********************************************************************************
      * Methods to satisfy Interop\Container\ContainerInterface
      *******************************************************************************/
