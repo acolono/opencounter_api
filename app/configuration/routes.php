@@ -57,7 +57,7 @@ $app->group('/admin', function () {
 
     // Get admin overview over counters
     $this->get('/counters',
-      '\SlimCounter\Controllers\AdminUiController:counter_index')
+      '\SlimCounter\Controllers\AdminUiController:countersIndex')
       ->setName('admin.counter.index');
     // get new counter form
     $this->get('/content/add',

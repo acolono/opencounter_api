@@ -9,6 +9,8 @@ use OpenCounter\Application\Command\Counter\CounterResetValueHandler;
 use OpenCounter\Application\Command\Counter\CounterSetStatusHandler;
 use OpenCounter\Application\Query\Counter\CounterOfIdHandler;
 use OpenCounter\Application\Query\Counter\CounterOfNameHandler;
+use OpenCounter\Application\Query\Counter\CountersListHandler;
+use OpenCounter\Application\Service\Counter\CountersListService;
 use OpenCounter\Application\Service\Counter\CounterAddService;
 use OpenCounter\Application\Service\Counter\CounterBuildService;
 use OpenCounter\Application\Service\Counter\CounterIncrementValueService;
@@ -72,6 +74,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
          */
         $pimple['counter_mapper'] = function ($pimple) {
             $counter_mapper = new SqlManager($pimple['pdo']);
+
             return $counter_mapper;
         };
         /**
@@ -135,6 +138,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_repository']
                 )
             );
+
             return $CounterViewUiService;
         };
 
@@ -149,6 +153,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_repository']
                 )
             );
+
             return $CounterIncrementValueService;
         });
 
@@ -161,6 +166,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_repository']
                 )
             );
+
             return $CounterRemoveService;
         });
 
@@ -178,6 +184,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_build_service']
                 )
             );
+
             return $CounterAddService;
         });
 
@@ -192,6 +199,7 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_build_service']
                 )
             );
+
             return $CounterSetStatusService;
         });
 
@@ -206,7 +214,23 @@ class SlimCounterServiceProvider implements ServiceProviderInterface
                     $pimple['counter_build_service']
                 )
             );
+
             return $CounterResetValueService;
+        });
+
+        /**
+         * Application service used to List Counters
+         */
+        $pimple['CountersListService'] = $pimple->factory(function ($pimple
+        ) {
+            $CountersListService = new CountersListService(
+                new CountersListHandler(
+                    $pimple['counter_repository'],
+                    $pimple['counter_build_service']
+                )
+            );
+
+            return $CountersListService;
         });
     }
 }
