@@ -95,16 +95,16 @@ class CounterController
     /**
      * Counter Controller Constructor.
      *
-     * @param \Psr\Log\LoggerInterface                                              $logger
-     * @param \OpenCounter\Application\Service\Counter\CounterBuildService          $counterBuildService
-     * @param \OpenCounter\Infrastructure\Persistence\StorageInterface              $counter_mapper
-     * @param \OpenCounter\Domain\Repository\CounterRepository                      $counter_repository
-     * @param \OpenCounter\Application\Service\Counter\CounterAddService            $CounterAddService
-     * @param \OpenCounter\Application\Service\Counter\CounterRemoveService         $CounterRemoveService
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \OpenCounter\Application\Service\Counter\CounterBuildService $counterBuildService
+     * @param \OpenCounter\Infrastructure\Persistence\StorageInterface $counter_mapper
+     * @param \OpenCounter\Domain\Repository\CounterRepository $counter_repository
+     * @param \OpenCounter\Application\Service\Counter\CounterAddService $CounterAddService
+     * @param \OpenCounter\Application\Service\Counter\CounterRemoveService $CounterRemoveService
      * @param \OpenCounter\Application\Service\Counter\CounterIncrementValueService $CounterIncrementValueService
-     * @param \OpenCounter\Application\Service\Counter\CounterViewService           $CounterViewService
-     * @param \OpenCounter\Application\Service\Counter\CounterSetStatusService      $CounterSetStatusService
-     * @param \OpenCounter\Application\Service\Counter\CounterResetValueService     $CounterResetValueService
+     * @param \OpenCounter\Application\Service\Counter\CounterViewService $CounterViewService
+     * @param \OpenCounter\Application\Service\Counter\CounterSetStatusService $CounterSetStatusService
+     * @param \OpenCounter\Application\Service\Counter\CounterResetValueService $CounterResetValueService
      */
     public function __construct(
         LoggerInterface $logger,
@@ -171,13 +171,41 @@ class CounterController
      *     description = "unexpected error",
      *     @SWG\Schema(ref = "#/definitions/errorModel")
      *   ),
-     *   @SWG\Response(
-     *     response = "409",
-     *     description = "Counter name is taken error",
-     *     @SWG\Schema(ref = "#/definitions/AlreadyExistsErrorModel")
+     * @SWG\Response(
+     *   response = "409",
+     *   description = "Counter name is taken error",
+     * @SWG\Schema(ref = "#/definitions/CounterAlreadyExistsException")
      *   )
      *
      * )
+     *
+     *
+     *
+     *
+     * this input definition needs to go somewhere else. e.g the command
+     *     interface
+     *
+     * @SWG\Definition(
+     *     definition = "counterInput",
+     *     allOf ={
+     * @SWG\Schema(
+     * @SWG\Property(
+     *           property = "value",
+     *           type = "integer",
+     *           format = "int64"
+     *         ),
+     * @SWG\Property(
+     *           property = "name",
+     *           type = "string"
+     *         ),
+     * @SWG\Property(
+     *           property = "status",
+     *           type = "string",
+     *           default="active"
+     *         )
+     *       )
+     *     }
+     *   )
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface      $response
@@ -236,7 +264,7 @@ class CounterController
      * counter name passed as part of args array
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface      $response
@@ -391,7 +419,7 @@ class CounterController
      * counter name from args, set counter status from request body
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -483,7 +511,7 @@ class CounterController
      * setCounter
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -524,7 +552,7 @@ class CounterController
      * Get Value only Route.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -538,8 +566,12 @@ class CounterController
      *      parameter="id",
      *      description="id of counter to get it is required to pass this as
      *     part of the url to declare which counter we are intending to get the
-     *     count for.", in="path", name="id", required=true, type="string",
-     *     default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *     count for.",
+     *      in="path",
+     *      name="id",
+     *      required=true,
+     *      type="string",
+     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
      * @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
      *     ),
      *     produces={
@@ -628,7 +660,7 @@ class CounterController
      * @SWG\Response(
      *         response=404,
      *         description="counter not found error",
-     * @SWG\Schema(ref="#/definitions/NotFoundErrorModel")
+     * @SWG\Schema(ref="#/definitions/CounterNotFoundException")
      *     ),
      *   security={{
      *     "api_key":{},
@@ -637,7 +669,7 @@ class CounterController
      * )
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -677,7 +709,7 @@ class CounterController
      * TODO:  (see content negotiation on how to serve e.g. xml instead)
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface
