@@ -175,7 +175,7 @@ deploy:swagger:
     - tags
   script:
     # Generate Documentation from swagger.json from releases stage.
-    - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/swagger-api/out -v /builds/open-counter/SlimCounter/app/public/:/swagger-api/json jimschubert/swagger-codegen-cli generate -i /swagger-api/json/swagger.json -l html2 -o ./swagger-api/out/swagger/
+    - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/local swaggerapi/swagger-codegen-cli generate -i /local/json/swagger.json -l html -o /local/out/html/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
     - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" docs/swagger $DEPLOY_USER@artur.acolono.net:/web
   environment:

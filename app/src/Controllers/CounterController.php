@@ -151,7 +151,7 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      default="",
      *      @SWG\Schema(ref = "#/definitions/CounterAddCommand")
      *   ),
      *   @SWG\Parameter(
@@ -286,7 +286,7 @@ class CounterController
      *       name="id",
      *       required=true,
      *       type="string",
-     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       default="",
      *       @SWG\Schema(ref = "#/definitions/CounterIncrementValueCommand")
      *     ),
      *     @SWG\Parameter(
@@ -376,7 +376,7 @@ class CounterController
      *       name="id",
      *       required=false,
      *       type="string",
-     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       default="",
      *       @SWG\Schema(ref = "#/definitions/CounterSetStatusCommand")
      *     ),
      *     @SWG\Parameter(
@@ -471,7 +471,7 @@ class CounterController
      *       description="counter id to reset",
      *       type="string",
      *       in="body",
-     *       default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *       default="",
      * @SWG\Schema(ref="#/definitions/CounterResetValueCommand")
      *     ),
      * @SWG\Parameter(
@@ -481,7 +481,7 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      default="",
      * @SWG\Schema(ref = "#/definitions/CounterResetValueCommand")
      *     ),
      * @SWG\Response(
@@ -569,7 +569,7 @@ class CounterController
      *      name="id",
      *      required=true,
      *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      default="",
      * @SWG\Schema(ref = "#/definitions/CounterOfIdQuery")
      *     ),
      *     produces={
@@ -642,7 +642,7 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      default="",
      * @SWG\Schema(ref="#/definitions/CounterOfIdQuery")
      *     ),
      * @SWG\Response(
@@ -734,7 +734,7 @@ class CounterController
      *      name="id",
      *      required=false,
      *      type="string",
-     *      default="1ff4debe-6160-4201-93d1-568d5a50a886",
+     *      default="",
      * @SWG\Schema(ref="#/definitions/CounterRemoveCommand")
      *     ),
      * @SWG\Response(

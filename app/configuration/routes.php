@@ -127,27 +127,6 @@ $app->group('/admin', function () {
  *       type="string"
  *     )
  *   )
- *   @SWG\Definition(
- *     definition = "counterInput",
- *     allOf ={
- *       @SWG\Schema(
- *         @SWG\Property(
- *           property = "value",
- *           type = "integer",
- *           format = "int64"
- *          ),
- *          @SWG\Property(
- *            property = "name",
- *            type = "string"
- *          ),
- *          @SWG\Property(
- *            property = "status",
- *            type = "string",
- *            default="active"
- *          )
- *        )
- *      }
- *   )
  * )
  */
 
