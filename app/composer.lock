@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a5bda81f86b6eab156b094bb75562e1",
+  "content-hash": "813a4dbbb8ee49372d454ee8efa7d68f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1005,33 +1005,35 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102"
+              "reference": "66a912abc3ee48ef4fb5a506457fb33b0a6ac9ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8e6e04167378abf1ddb4d3522d8755c5fd90d102",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102",
+              "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/66a912abc3ee48ef4fb5a506457fb33b0a6ac9ea",
+              "reference": "66a912abc3ee48ef4fb5a506457fb33b0a6ac9ea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "doctrine/collections": "1.*",
+              "doctrine/collections": "^1.0",
                 "phpunit/phpunit": "~4.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "DeepCopy\\": "src/DeepCopy/"
-                }
+                },
+              "files": [
+                "src/DeepCopy/deep_copy.php"
+              ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Create deep copies (clones) of your objects",
-            "homepage": "https://github.com/myclabs/DeepCopy",
             "keywords": [
                 "clone",
                 "copy",
@@ -1039,7 +1041,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-04-12T18:52:22+00:00"
+          "time": "2017-10-15T18:29:05+00:00"
         },
         {
             "name": "neomerx/cors-psr7",
@@ -3251,11 +3253,11 @@
         },
         {
             "name": "slimcounter/default_theme",
-            "version": "1.0.7",
+          "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acolono/opencounter_theme.git",
-                "reference": "65e81240dac2f5f5837b788456ff46e43ed980a6"
+              "reference": "2279b609a16a0bcd8be6942510027728b002266c"
             },
             "require": {
                 "aleksip/plugin-data-transform": "^1.1",
@@ -3303,7 +3305,7 @@
                 ]
             },
             "description": "Standard Edition of Pattern Lab for Twig theme for opencounter",
-            "time": "2017-10-14T23:42:43+00:00"
+          "time": "2017-10-15T19:31:05+00:00"
         },
         {
             "name": "symfony/config",
@@ -3373,12 +3375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "2ea46ac0f2e5557108e3d40490703aad4e140ecb"
+              "reference": "0b3c68603ca452d69d713ca5551b5a8799d938f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/2ea46ac0f2e5557108e3d40490703aad4e140ecb",
-                "reference": "2ea46ac0f2e5557108e3d40490703aad4e140ecb",
+              "url": "https://api.github.com/repos/symfony/console/zipball/0b3c68603ca452d69d713ca5551b5a8799d938f1",
+              "reference": "0b3c68603ca452d69d713ca5551b5a8799d938f1",
                 "shasum": ""
             },
             "require": {
@@ -3434,7 +3436,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-10T17:53:03+00:00"
+          "time": "2017-10-15T12:36:44+00:00"
         },
         {
             "name": "symfony/debug",
