@@ -137,9 +137,9 @@ class CounterController
      * @SWG\Post(
      *   path = "/counters/{id}",
      *   operationId = "newCounter",
-     *   description = "Creates a new Counter with name. Duplicates are allowed",
+     *   description = "Creates a new Counter with name.",
      *   summary = "create a new counter",
-     *   produces ={"application/json"},
+     *   produces = {"application/json"},
      *   tags ={"docs"},
      *   security ={{
      *     "counter_auth": {"write:counters", "read:counters"},
@@ -208,7 +208,7 @@ class CounterController
      *   )
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                          $args
      *
      * @return \Psr\Http\Message\ResponseInterface      $response
@@ -327,9 +327,7 @@ class CounterController
         // We assume everything is going to fail.
         $result = 'an error has occurred';
         $code = 400;
-
         try {
-
             $data = $request->getParsedBody();
             $default_increment = 1;
 
