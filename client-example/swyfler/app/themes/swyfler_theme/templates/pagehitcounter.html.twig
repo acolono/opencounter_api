@@ -1,0 +1,19 @@
+{% extends "@patterns/05-layouts/00-default.twig" %}
+
+{% block content %}
+
+
+    hello {{ message }}
+
+    your visit was counted
+    {{ counted }}
+
+
+    {% if results %}
+
+        there have been
+
+        {{ results }} visits
+
+    {% endif %}
+{% endblock %}

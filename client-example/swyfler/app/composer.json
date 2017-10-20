@@ -1,0 +1,22 @@
+{
+  "name": "rosenstrauch/slimcounter-php-client-example",
+  "repositories": [{
+      "url": "git@github.com:rosenstrauch/oauth2-drupal.git",
+      "type": "vcs"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/acolono/opencounter_theme.git"
+    }
+  ],
+  "require": {
+    "chrishemmings/oauth2-drupal": "dev-simple_oauth",
+    "slimcounter/default_theme": "^1.0",
+    "jl6m/swagger-lite": "^0.1.0"
+  },
+  "authors": [{
+    "name": "rosenstrauch",
+    "email": "Rosenstrauch@2318810.no-reply.drupal.org"
+  }]
+
+}
