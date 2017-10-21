@@ -1,0 +1,14 @@
+{
+  "name": "opencounterclient-example",
+  "version": "1.2.0",
+  "description": "php client for opencounter api",
+  "main": "index.js",
+  "repository": "https://gitlab.com/rosenstrauch/opencounterclient-example",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp#4.0"
+  },
+  "scripts": {
+    "build": "gulp"
+  }
+}

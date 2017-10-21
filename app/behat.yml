@@ -52,8 +52,8 @@ default:
         # we load the helper context for oauth during webapi tests
         - RstGroup\Behat\OAuth2\Context\OAuth2Context:
             parameters:
-              token_url: http://opencounter-slim-codenv-webserver/token
-              authorize_url: http://opencounter-slim-codenv-webserver/authorize
+              token_url: http://localhost:8080/oauth/token
+              authorize_url: http://localhost:8080/oauth/authorize
               oauth2:
                   client_id: librarian
                   client_secret: secret
@@ -68,7 +68,7 @@ default:
               guzzle_parameters: #configuration for guzzle http client
         - OpenCounterWebApiContext:
             parameters:
-              base_url: http://opencounter-slim-codenv-webserver:8080
+              base_url: http://localhost:8080
         # could also add application service context for things not possible directly via webapi that we still need to test.
         #- OpenCounter\Behat\Context\ApplicationServices\Context
 
@@ -94,8 +94,8 @@ default:
         - RstGroup\Behat\OAuth2\Context\OAuth2Context:
             parameters:
               base_url: http://opencounter-slim-codenv-webserver:8080
-              token_url: http://opencounter-slim-codenv-webserver/token
-              authorize_url: http://opencounter-slim-codenv-webserver/authorize
+              token_url: http://opencounter-slim-codenv-webserver/oauth/token
+              authorize_url: http://opencounter-slim-codenv-webserver/oauth/authorize
               oauth2:
                 client_id: librarian
                 client_secret: secret

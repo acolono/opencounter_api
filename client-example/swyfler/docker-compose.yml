@@ -1,0 +1,24 @@
+version: '3.2'
+services:
+  clientweb:
+    build:
+      context: ./
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/usr/share/nginx/html:ro
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+        - clientphp
+    environment:
+      - APP_API_HOST=web
+      - APP_LOG_FILE=/application.log
+
+  clientphp:
+    hostname: clientphp
+    build:
+      context: ./
+      dockerfile: docker/php-fpm/Dockerfile
+    volumes:
+      - ./app/:/app:ro

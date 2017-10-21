@@ -1,0 +1,17 @@
+{% extends "@patterns/05-layouts/00-default.twig" %}
+
+{% block content %}
+
+
+    hello {{ message }}
+
+    your visit has
+    {{ counted }}
+    the page hit counter
+
+    {% if value %}
+        there have been
+        {% include "@elements/21-counter/counter.twig" %}
+        visits
+    {% endif %}
+{% endblock %}

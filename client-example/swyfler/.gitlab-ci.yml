@@ -1,0 +1,119 @@
+stages:
+- setup
+- build
+- deploy
+
+# composer install dependencies
+build-composer:
+  stage: setup
+  image: edbizarro/gitlab-ci-pipeline-php:latest
+  script:
+    - cd app && composer install --no-dev --prefer-dist --no-interaction
+  artifacts:
+    name: "$CI_BUILD_REF"
+    untracked: true
+    paths:
+      - app/vendor
+      - app/themes
+    expire_in: 1 week
+
+build-npm:
+  stage: build
+  image: node:latest
+  cache:
+    paths:
+     - node_modules/
+  before_script:
+    - npm install -g gulp-cli
+    - npm install
+  script:
+    - npm run build
+  artifacts:
+      name: "$CI_BUILD_REF"
+      untracked: true
+      paths:
+        - app/public
+        - app/themes
+      expire_in: 1 week
+
+
+stage:
+  stage: deploy
+  image: nilportugues/ansistrano
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    - echo "$DEPLOY_KEY" > ~/.ssh/remote_key
+    - ssh-add -L
+    - chmod 600 ~/.ssh/remote_key
+    - ssh-add ~/.ssh/remote_key
+  script:
+    - cd deploy/playbook
+    - ansible-playbook -i hosts.yml deploy.yml --extra-vars "ansible_host=${DEPLOY_TARGET_HOST} ansible_user=${DEPLOY_TARGET_USER} ansistrano_deploy_to=${ANSIBLE_STAGE_PATH}"
+  environment:
+    name: stage
+    url: ${STAGE_URL}
+  variables:
+    ansible_ssh_private_key_file: ~/.ssh/remote_key
+    DEPLOY_TARGET_PATH: ${ANSIBLE_STAGE_PATH}
+    ansible_user: ${DEPLOY_TARGET_USER}
+    ansible_host: ${DEPLOY_TARGET_HOST}
+    ansistrano_deploy_to: ${ANSIBLE_STAGE_PATH}
+  only:
+    - develop
+
+
+production:
+  stage: deploy
+  image: nilportugues/ansistrano
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are suspectible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # In order to properly check the server's host key, assuming you created the
+    # SSH_SERVER_HOSTKEYS variable previously, uncomment the following two lines
+    # instead.
+    # - mkdir -p ~/.ssh
+    # - '[[ -f /.dockerenv ]] && echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts'
+    - echo "$DEPLOY_KEY" > ~/.ssh/remote_key
+    - ssh-add -L
+    - chmod 600 ~/.ssh/remote_key
+    - ssh-add ~/.ssh/remote_key
+  script:
+    - cd deploy/playbook
+    - ansible-playbook -i hosts.yml deploy.yml --extra-vars "ansible_host=${DEPLOY_TARGET_HOST} ansible_user=${DEPLOY_TARGET_USER} ansistrano_deploy_to=${ANSIBLE_PROD_PATH}"
+  environment:
+    name: production
+    url: ${PROD_URL}
+  variables:
+    ansible_ssh_private_key_file: ~/.ssh/remote_key
+    DEPLOY_TARGET_PATH: ${ANSIBLE_PROD_PATH}
+    ansible_user: ${DEPLOY_TARGET_USER}
+    ansible_host: ${DEPLOY_TARGET_HOST}
+    ansistrano_deploy_to: ${ANSIBLE_PROD_PATH}
+  only:
+    - master

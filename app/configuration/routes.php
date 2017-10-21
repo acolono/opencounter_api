@@ -12,29 +12,33 @@ use Chadicus\Slim\OAuth2\Routes;
 // setup container
 $container = $app->getContainer();
 
+
+
+$app->group('/oauth', function () {
+
 // TODO: swagger annotate oauth routes explicitly so people know what to post where
 // e.g. opencounter-slim-codenv-webserver:8080/authorize?response_type=token&realm=1&user_id=librarian&client_id=librarian&scope=read%3Acounters write%3Acounters&state=counter_auth
 // redirect url and user id need explaining http://172.25.0.5/o2c.html
-$app->map([
+$this->map([
   'GET',
   'POST'
-], Routes\Authorize::ROUTE, new Routes\Authorize($container['oauth2_server'],
-  $container['authorization_views']))
+], Routes\Authorize::ROUTE, new Routes\Authorize($this->getContainer()->get('oauth2_server'),
+  $this->getContainer()->get('authorization_views')))
   ->setName('authorize');
 
-$app->post(Routes\Token::ROUTE,
-  new Routes\Token($container->get('oauth2_server')))->setName('token');
+$this->post(Routes\Token::ROUTE,
+  new Routes\Token($this->getContainer()->get('oauth2_server')))->setName('token');
 
-$app->map([
+$this->map([
   'GET',
   'POST'
 ], Routes\ReceiveCode::ROUTE,
-  new Routes\ReceiveCode($container->get('authorization_views')))
+  new Routes\ReceiveCode($this->getContainer()->get('authorization_views')))
   ->setName('receive-code');
 
-$app->post(Routes\Revoke::ROUTE,
-  new Routes\Revoke($container->get('oauth2_server')))->setName('revoke');
-
+$this->post(Routes\Revoke::ROUTE,
+  new Routes\Revoke($this->getContainer()->get('oauth2_server')))->setName('revoke');
+});
 /**
  * Admin Routes
  *
@@ -91,7 +95,7 @@ $app->group('/admin', function () {
  *   produces={"application/json"},
  *   consumes={"application/json"},
  *   @SWG\Info(
- *     version="1.1.4",
+ *     version="1.2.0",
  *     title="Swagger Open counter",
  *     description="A sample API that uses a counter as an example to demonstrate practices patterns and principles",
  *     termsOfService="http://acolono.com/terms/",
@@ -169,7 +173,7 @@ $app->group('/api/counters', function () {
       '\SlimCounter\Controllers\CounterController:getCounter')->add($this->getContainer()['authorization']->withRequiredScope(['read:counters']));
     $this->put('/[{id}]',
       '\SlimCounter\Controllers\CounterController:setCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
-    $this->patch('/[{id}]',
+    $this->patch('/{id}',
       '\SlimCounter\Controllers\CounterController:incrementCounter')->add($this->getContainer()['authorization']->withRequiredScope(['write:counters read:counters']));
 });
 

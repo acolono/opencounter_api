@@ -1,0 +1,29 @@
+{% extends "@patterns/05-layouts/00-default.twig" %}
+
+{% block content %}
+
+
+    hello {{ message }}
+
+    site config found: {{ is_configured }}
+
+    code in url {{ code_requested }}
+
+
+    {% if code_requested %}
+
+
+        <div class="get-code">
+
+            <form method="post" >
+                <input type="submit" name="submit" value="Submit" />
+            </form>
+
+
+        </div>
+    {% endif %}
+
+
+there have been
+    {{ results }} visits
+ {% endblock %}

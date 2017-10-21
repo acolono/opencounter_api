@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+## use as part of ci process to create a dist artifact
+##
+
+# Abort if anything fails
+set -e
+
+#-------------------------- Settings --------------------------------
+PROJECT_ROOT=$(pwd)
+
+DIST_DIRECTORY=dist
+DIST_CLONE_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/tmp"
+DIST_BUILD_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/client-build-artifact"
+BUILD_REPO=$CLIENT_DIST_REPO
+
+#-------------------------- END: Settings --------------------------------
+
+#-------------------------- Functions --------------------------------
+
+function setup_ssh_key() {
+
+  ssh-keyscan gitlab.acolono.net >> ~/.ssh/known_hosts
+
+}
+function prepare_build_folder() {
+    mkdir $DIST_BUILD_PATH/
+}
+
+
+function prepare_build_repo() {
+set -e
+# We want to fail at each command, to stop execution
+echo "cloning from ${BUILD_REPO}"
+REMOTE_BRANCH_COUNT="$(git ls-remote $BUILD_REPO refs/heads/$CI_BUILD_REF_NAME | wc -l)"
+echo $REMOTE_BRANCH_COUNT
+if [[ $REMOTE_BRANCH_COUNT == 1 ]]; then
+  git clone $BUILD_REPO --single-branch -b $CI_BUILD_REF_NAME $DIST_CLONE_PATH
+  echo "clone path:"
+  ls $DIST_CLONE_PATH/
+  echo "build path"
+  ls $DIST_BUILD_PATH/
+  mv $DIST_CLONE_PATH/.git/ $DIST_BUILD_PATH/
+else
+  cd $DIST_BUILD_PATH
+  git init
+  git remote add origin $BUILD_REPO
+  git checkout -b $CI_BUILD_REF_NAME
+  cd ..
+fi
+#  rmdir $DIST_CLONE_PATH
+}
+
+function place_build_artifacts() {
+  cd $PROJECT_ROOT
+  ls $DIST_BUILD_PATH/ -al
+  rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
+
+}
+function fail_on_error () {
+
+
+if [[ $? != 0 ]]; then
+    echo ${msg} && false;
+    exit 2
+fi
+}
+
+#-------------------------- END: Functions --------------------------------
+
+#echo "Trying to push tags, abort if this is just a tag commit."
+#pass_tag_to_build_repo
+
+setup_ssh_key
+# if remote branch already exists, check it out, otherwise init a new repo and push it to remote
+prepare_build_folder
+fail_on_error
+prepare_build_repo
+fail_on_error
+place_build_artifacts
+fail_on_error
+cd $DIST_BUILD_PATH
+

@@ -314,6 +314,7 @@ class CounterController
      *     ),
      *     security={{
      *     "api_key":{},
+     *     "oauth2":{},
      *     "counter_auth": {"write:counters", "read:counters"},
      *     }}
      * )
@@ -618,7 +619,8 @@ class CounterController
         // but we want to know how to write to responses with the basic psr7 interface.
         $body->write(json_encode($result));
 
-        return $response;
+
+        return $response->withStatus($code);
     }
 
     /**
@@ -629,7 +631,9 @@ class CounterController
      *     tags={"docs"},
      *     operationId="getCounter",
      *     description="Returns a Counter by id if the user has access to the
-     *     Counter", summary="get entire counter", produces={
+     *     Counter",
+     *     summary="get entire counter",
+     *     produces={
      *         "application/json",
      *         "application/xml",
      *         "text/html",
