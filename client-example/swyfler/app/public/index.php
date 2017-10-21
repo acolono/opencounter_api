@@ -19,14 +19,14 @@ $twig = new Twig_Environment($loader, array('debug' => true, 'cache' => false));
 $loader->addPath(__DIR__ . '/../themes/swyfler_theme/templates');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_layouts');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_patterns',
-  'patterns');
+    'patterns');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_macros');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_patterns/02-elements',
-  'elements');
+    'elements');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_patterns/05-layouts',
-  'regions');
+    'regions');
 $loader->addPath(__DIR__ . '/../themes/default_theme/source/_patterns/00-atoms',
-  'atoms');
+    'atoms');
 
 // Hard settings not changable from inside the application used to instanciate the application with.
 require __DIR__ . '/../config/settings.php';
@@ -106,7 +106,7 @@ function CountHit($client, $config)
 {
     $response = $client->patch('counters/value/{id}', [
 
-      'id' => $config['counterId'],
+        'id' => $config['counterId'],
     ]);
     return $response;
 }
@@ -115,7 +115,7 @@ function GetTotalHits($client, $config)
 {
 
     $response = $client->get('/counters/value/{id}', [
-      'id' => $config['counterId'],
+        'id' => $config['counterId'],
     ]);
     return $response;
 }
@@ -128,12 +128,12 @@ if (isset($accessToken)) {
 
 
     $client = new SwaggerClient([
-      'scheme' => 'http',
-      'swagger' => $config['apiHost'],
-      'headers' =>
-        [
-          'Authorization' => "Bearer {$accessToken->getToken()}"
-        ]
+        'scheme' => 'http',
+        'swagger' => $config['apiHost'],
+        'headers' =>
+            [
+                'Authorization' => "Bearer {$accessToken->getToken()}"
+            ]
     ]);
 
 
@@ -165,10 +165,10 @@ if (isset($accessToken)) {
 
 // display template with variable passed to it
     $prepared_render_array = [
-      'is_configured' => (isset($config) ? true : false),
-      'code_requested' => (isset($_GET['code']) ? true : ' no code'),
-      'value' => $result_to_show,
-      'counted' => (isset($countHitResult) ? $countHitResult : ' notcounted'),
+        'is_configured' => (isset($config) ? true : false),
+        'code_requested' => (isset($_GET['code']) ? true : ' no code'),
+        'value' => $result_to_show,
+        'counted' => (isset($countHitResult) ? $countHitResult : ' notcounted'),
     ];
 
 
@@ -182,9 +182,9 @@ if (isset($accessToken)) {
 
 // display template with variable passed to it
     $prepared_render_array = array(
-      'is_configured' => (isset($config) ? true : false),
-      'code_requested' => (isset($_GET['code']) ? true : ' no code'),
-      'results' => (isset($allHitsResult) ?: ' noresults'),
+        'is_configured' => (isset($config) ? true : false),
+        'code_requested' => (isset($_GET['code']) ? true : ' no code'),
+        'results' => (isset($allHitsResult) ?: ' noresults'),
     );
 
 

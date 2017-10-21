@@ -17,6 +17,44 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:$CI_BUILD_REF_SLUG
   CONTAINER_RELEASE_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:latest
+  BUILD_CLIENT_REPO: git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git
+  PROJECT_ROOT: ${CI_PROJECT_DIR}
+
+build:client:
+  stage: build
+  image: edbizarro/gitlab-ci-pipeline-php:latest
+  script:
+    - cd client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
+    - chmod +x ci-scripts/build_dist
+    - ci-scripts/build_client_dist
+  only:
+    - master
+    - develop
+  artifacts:
+      name: "$CI_BUILD_REF"
+      untracked: true
+      paths:
+        - dist/client-build-artifact
+      expire_in: 1 week
+
+
+# get the built distribution artifacts without devtools to a place from where deployment will fetch it.
+distribute:client:
+  stage: deploy
+  only:
+    - master
+    - develop
+  # as alternative see https://github.com/KEY-TEC/drupal-8-keytec-demo-target
+  image: ilyasemenov/gitlab-ci-git-push
+  environment: dist_storage
+  script:
+    - cd dist/client-build-artifact
+    - git config --global user.email "gracer@gitlab.com"
+    - git config --global user.name "grace the Builder"
+    - git add --all
+    - git commit -am"buildserver commit $CI_BUILD_REF"
+    - git-push $BUILD_REPO $CI_BUILD_REF_NAME
+
 
 # phpcodesniffer
 # Make sure our source code adheres to coding standards.

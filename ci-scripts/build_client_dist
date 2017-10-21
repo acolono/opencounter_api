@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+## use as part of ci process to create a dist artifact
+##
+
+# Abort if anything fails
+set -e
+
+#-------------------------- Settings --------------------------------
+PROJECT_ROOT=$(pwd)
+
+DOCROOT_PATH="${PROJECT_ROOT}/${DOCROOT}"
+SITEDIR_PATH="${DOCROOT_PATH}/sites/${SITE_DIRECTORY}"
+
+DIST_DIRECTORY=dist
+DIST_CLONE_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/tmp"
+DIST_BUILD_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/client-build-artifact"
+BUILD_REPO="git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git"
+
+#-------------------------- END: Settings --------------------------------
+#-------------------------- Helper functions -----------------------------
+
+
+# Load the colors.
+source $PROJECT_ROOT/.docksal/utils/helper-colors.sh
+
+# Load the helpers.
+source $PROJECT_ROOT/.docksal/utils/helper-functions.sh
+
+
+
+#-------------------------- END: Helper ------------------------------
+#-------------------------- Functions --------------------------------
+
+function setup_ssh_key() {
+
+  # TODO: skip on multiple runs
+  mkdir -p ~/.ssh
+  echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  chmod 600 ~/.ssh/id_rsa
+  ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+
+}
+function prepare_build_folder() {
+    mkdir $DIST_BUILD_PATH/
+}
+
+
+function prepare_build_repo() {
+set -e # We want to fail at each command, to stop execution
+REMOTE_BRANCH_COUNT="$(git ls-remote $BUILD_REPO refs/heads/$CI_BUILD_REF_NAME | wc -l)"
+echo $REMOTE_BRANCH_COUNT
+if [[ $REMOTE_BRANCH_COUNT == 1 ]]; then
+  git clone $BUILD_REPO --single-branch -b $CI_BUILD_REF_NAME $DIST_CLONE_PATH
+  echo "clone path:"
+  ls $DIST_CLONE_PATH/
+  echo "build path"
+  ls $DIST_BUILD_PATH/
+  mv $DIST_CLONE_PATH/.git/ $DIST_BUILD_PATH/
+else
+  cd $DIST_BUILD_PATH
+  git init
+  git remote add origin $BUILD_REPO
+  git checkout -b $CI_BUILD_REF_NAME
+  cd ..
+fi
+#  rmdir $DIST_CLONE_PATH
+}
+
+function place_build_artifacts() {
+  cd $PROJECT_ROOT
+  ls $DIST_BUILD_PATH/ -al
+  rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
+  find $DIST_BUILD_PATH/web/ -type d -name .git -exec rm -rf {} \;
+  find $DIST_BUILD_PATH/web/ -name .gitignore -exec rm {} \;
+  find $DIST_BUILD_PATH/vendor/ -type d -name .git -exec rm -rf {} \;
+  find $DIST_BUILD_PATH/vendor/ -name .gitignore -exec rm {} \;
+}
+
+#-------------------------- END: Functions --------------------------------
+
+#echo "Trying to push tags, abort if this is just a tag commit."
+#pass_tag_to_build_repo
+
+setup_ssh_key
+# set the git config, does not necessarily need to happen here
+set_git_credentials
+
+# if remote branch already exists, check it out, otherwise init a new repo and push it to remote
+prepare_build_folder
+prepare_build_repo
+place_build_artifacts
+cd $DIST_BUILD_PATH
