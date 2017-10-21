@@ -95,7 +95,7 @@ $app->group('/admin', function () {
  *   produces={"application/json"},
  *   consumes={"application/json"},
  *   @SWG\Info(
- *     version="1.1.4",
+ *     version="1.2.0",
  *     title="Swagger Open counter",
  *     description="A sample API that uses a counter as an example to demonstrate practices patterns and principles",
  *     termsOfService="http://acolono.com/terms/",
