@@ -17,18 +17,7 @@ DIST_BUILD_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/client-build-artifact"
 BUILD_REPO="git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git"
 
 #-------------------------- END: Settings --------------------------------
-#-------------------------- Helper functions -----------------------------
 
-
-# Load the colors.
-source $PROJECT_ROOT/.docksal/utils/helper-colors.sh
-
-# Load the helpers.
-source $PROJECT_ROOT/.docksal/utils/helper-functions.sh
-
-
-
-#-------------------------- END: Helper ------------------------------
 #-------------------------- Functions --------------------------------
 
 function setup_ssh_key() {
@@ -66,10 +55,8 @@ function place_build_artifacts() {
   cd $PROJECT_ROOT
   ls $DIST_BUILD_PATH/ -al
   rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
-  find $DIST_BUILD_PATH/web/ -type d -name .git -exec rm -rf {} \;
-  find $DIST_BUILD_PATH/web/ -name .gitignore -exec rm {} \;
-  find $DIST_BUILD_PATH/vendor/ -type d -name .git -exec rm -rf {} \;
-  find $DIST_BUILD_PATH/vendor/ -name .gitignore -exec rm {} \;
+  find $DIST_BUILD_PATH/ -type d -name .git -exec rm -rf {} \;
+  find $DIST_BUILD_PATH/ -name .gitignore -exec rm {} \;
 }
 
 #-------------------------- END: Functions --------------------------------
