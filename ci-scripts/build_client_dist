@@ -8,9 +8,6 @@ set -e
 #-------------------------- Settings --------------------------------
 PROJECT_ROOT=$(pwd)
 
-DOCROOT_PATH="${PROJECT_ROOT}/${DOCROOT}"
-SITEDIR_PATH="${DOCROOT_PATH}/sites/${SITE_DIRECTORY}"
-
 DIST_DIRECTORY=dist
 DIST_CLONE_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/tmp"
 DIST_BUILD_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/client-build-artifact"
@@ -59,6 +56,7 @@ function place_build_artifacts() {
 }
 function fail_on_error () {
 
+
 if [[ $? != 0 ]]; then
     echo ${msg} && false;
     exit 2
@@ -73,8 +71,10 @@ fi
 setup_ssh_key
 # if remote branch already exists, check it out, otherwise init a new repo and push it to remote
 prepare_build_folder
+fail_on_error
 prepare_build_repo
+fail_on_error
 place_build_artifacts
+fail_on_error
 cd $DIST_BUILD_PATH
 
-fail_on_error

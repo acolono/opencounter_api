@@ -33,8 +33,9 @@ build:client:
 
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    # disable strict host key checking for deployment
     - mkdir -p ~/.ssh
-
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - cd $PROJECT_ROOT/client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
     - sudo chmod +x $PROJECT_ROOT/ci-scripts/build_client_dist
@@ -55,7 +56,9 @@ distribute:client:
     - develop
   # as alternative see https://github.com/KEY-TEC/drupal-8-keytec-demo-target
   image: ilyasemenov/gitlab-ci-git-push
-  environment: dist_storage
+  environment:
+    name: client_dist
+    url: https://gitlab.acolono.net/open-counter/opencounter-swyfler
   before_script:
     # Install ssh-agent if not already installed, it is required by Docker.
     # (change apt-get to yum if you use a CentOS-based image)
@@ -66,10 +69,13 @@ distribute:client:
 
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    # disable strict host key checking for deployment
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - cd dist/client-build-artifact
-    - git config --global user.email "gracer@gitlab.com"
-    - git config --global user.name "grace the Builder"
+    - git config --global user.email "bob@gitlab.acolono.net"
+    - git config --global user.name "Bob the Builder"
     - git add --all
     - git commit -am"buildserver commit $CI_BUILD_REF"
     - git-push $BUILD_CLIENT_REPO $CI_BUILD_REF_NAME
