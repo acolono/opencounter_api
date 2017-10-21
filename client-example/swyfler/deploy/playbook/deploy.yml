@@ -1,0 +1,11 @@
+---
+- name: Deploy swyfler
+  hosts: all
+  vars:
+    ansistrano_deploy_from: "{{ playbook_dir }}/../../app/"
+    ansistrano_keep_releases: 3
+    ansistrano_deploy_via: rsync
+    ansistrano_shared_files:
+      - config/settings.php
+  roles:
+    - { role: carlosbuenosvinos.ansistrano-deploy }
