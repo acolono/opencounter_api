@@ -20,6 +20,14 @@ variables:
   BUILD_CLIENT_REPO: ${CLIENT_DIST_REPO}
   PROJECT_ROOT: ${CI_PROJECT_DIR}
 
+before_script:
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
 build:client:
   stage: build
   image: edbizarro/gitlab-ci-pipeline-php:latest

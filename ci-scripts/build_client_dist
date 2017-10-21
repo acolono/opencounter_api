@@ -28,7 +28,8 @@ function prepare_build_folder() {
 
 
 function prepare_build_repo() {
-set -e # We want to fail at each command, to stop execution
+set -e
+# We want to fail at each command, to stop execution
 REMOTE_BRANCH_COUNT="$(git ls-remote $BUILD_REPO refs/heads/$CI_BUILD_REF_NAME | wc -l)"
 echo $REMOTE_BRANCH_COUNT
 if [[ $REMOTE_BRANCH_COUNT == 1 ]]; then
