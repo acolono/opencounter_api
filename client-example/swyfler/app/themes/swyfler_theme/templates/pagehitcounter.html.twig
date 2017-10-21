@@ -5,15 +5,13 @@
 
     hello {{ message }}
 
-    your visit was counted
+    your visit has
     {{ counted }}
+    the page hit counter
 
-
-    {% if results %}
-
+    {% if value %}
         there have been
-
-        {{ results }} visits
-
+        {% include "@elements/21-counter/counter.twig" %}
+        visits
     {% endif %}
 {% endblock %}

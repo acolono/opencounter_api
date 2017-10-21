@@ -160,15 +160,14 @@ if (isset($accessToken)) {
     $results_to_show = 'not sure';
 
     if (isset($allHitsResult)) {
-        $results_to_show = $allHitsResult;
+        $result_to_show = $allHitsResult;
     }
 
 // display template with variable passed to it
     $prepared_render_array = [
       'is_configured' => (isset($config) ? true : false),
       'code_requested' => (isset($_GET['code']) ? true : ' no code'),
-//  'message' => $message,
-      'results' => $results_to_show,
+      'value' => $result_to_show,
       'counted' => (isset($countHitResult) ? $countHitResult : ' notcounted'),
     ];
 
@@ -185,7 +184,6 @@ if (isset($accessToken)) {
     $prepared_render_array = array(
       'is_configured' => (isset($config) ? true : false),
       'code_requested' => (isset($_GET['code']) ? true : ' no code'),
-//  'message' => $message,
       'results' => (isset($allHitsResult) ?: ' noresults'),
     );
 

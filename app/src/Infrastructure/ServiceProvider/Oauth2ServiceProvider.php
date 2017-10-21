@@ -33,12 +33,12 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
      * @var array
      */
     protected $provides = [
-        'oauth2_storage',
-        'add_client_application_service',
-        'ListClientsService',
-        'authorization',
-        'authorization_views',
-        'oauth2_server',
+      'oauth2_storage',
+      'add_client_application_service',
+      'ListClientsService',
+      'authorization',
+      'authorization_views',
+      'oauth2_server',
     ];
 
     /**
@@ -58,8 +58,8 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
             // Setup authorization middleware to protect routes.
             $authorization = new Authorization(
-                $pimple['oauth2_server'],
-                $pimple
+              $pimple['oauth2_server'],
+              $pimple
             );
 
             return $authorization;
@@ -79,13 +79,13 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          * Application service for adding oauth clients
          */
         $pimple['add_client_application_service'] = $pimple->factory(function (
-            $pimple
+          $pimple
         ) {
             // First try without command bus dependency.
             $add_client_application_service = new AddClientService(
-                new AddClientHandler(
-                    $pimple['oauth2_storage']
-                )
+              new AddClientHandler(
+                $pimple['oauth2_storage']
+              )
             );
 
             return $add_client_application_service;
@@ -94,13 +94,13 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
          * Application service for listing oauth clients
          */
         $pimple['ListClientsService'] = $pimple->factory(function (
-            $pimple
+          $pimple
         ) {
             // First try without command bus dependency.
             $ListClientsService = new ListClientsService(
-                new ListClientsHandler(
-                    $pimple['oauth2_storage']
-                )
+              new ListClientsHandler(
+                $pimple['oauth2_storage']
+              )
             );
 
             return $ListClientsService;
@@ -132,14 +132,15 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
             // Setup Auth.
             $oauth2_server = new Server(
-                $pimple['oauth2_storage'],
-                [
-                    'access_lifetime' => 3600,
-                    'allow_implicit' => true,
-                ],
-                [
-                    new ClientCredentials($pimple['oauth2_storage']),
-                ]
+              $pimple['oauth2_storage'],
+              [
+                'access_lifetime' => 3600,
+                'allow_implicit' => true,
+              ],
+              [
+                new ClientCredentials($pimple['oauth2_storage']),
+                new AuthorizationCode($pimple['oauth2_storage']),
+              ]
             );
 
             return $oauth2_server;
