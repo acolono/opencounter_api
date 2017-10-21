@@ -17,7 +17,7 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:$CI_BUILD_REF_SLUG
   CONTAINER_RELEASE_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:latest
-  BUILD_CLIENT_REPO: git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git
+  BUILD_CLIENT_REPO: ${CLIENT_DIST_REPO}
   PROJECT_ROOT: ${CI_PROJECT_DIR}
 
 build:client:
@@ -72,7 +72,7 @@ distribute:client:
     - git config --global user.name "grace the Builder"
     - git add --all
     - git commit -am"buildserver commit $CI_BUILD_REF"
-    - git-push $BUILD_REPO $CI_BUILD_REF_NAME
+    - git-push $BUILD_CLIENT_REPO $CI_BUILD_REF_NAME
 
 
 # phpcodesniffer
