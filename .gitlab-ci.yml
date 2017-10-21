@@ -33,12 +33,10 @@ build:client:
 
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
-
-
   script:
-    - cd client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
-    - chmod +x ci-scripts/build_dist
-    - ci-scripts/build_client_dist
+    - cd $PROJECT_ROOT/client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
+    - chmod +x $PROJECT_ROOT/ci-scripts/build_dist
+    - cd $PROJECT_ROOT && ci-scripts/build_client_dist
   only:
     - master
     - develop
