@@ -33,11 +33,7 @@ source $PROJECT_ROOT/.docksal/utils/helper-functions.sh
 
 function setup_ssh_key() {
 
-  # TODO: skip on multiple runs
-  mkdir -p ~/.ssh
-  echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-  chmod 600 ~/.ssh/id_rsa
-  ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+  ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
 
 }
 function prepare_build_folder() {

@@ -23,6 +23,18 @@ variables:
 build:client:
   stage: build
   image: edbizarro/gitlab-ci-pipeline-php:latest
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+
   script:
     - cd client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
     - chmod +x ci-scripts/build_dist
@@ -47,6 +59,16 @@ distribute:client:
   # as alternative see https://github.com/KEY-TEC/drupal-8-keytec-demo-target
   image: ilyasemenov/gitlab-ci-git-push
   environment: dist_storage
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
     - cd dist/client-build-artifact
     - git config --global user.email "gracer@gitlab.com"
