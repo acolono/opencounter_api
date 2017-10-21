@@ -22,7 +22,7 @@ BUILD_REPO="${CLIENT_DIST_REPO}"
 
 function setup_ssh_key() {
 
-  ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  ssh-keyscan gitlab.acolono.net >> ~/.ssh/known_hosts
 
 }
 function prepare_build_folder() {
@@ -57,6 +57,13 @@ function place_build_artifacts() {
   rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
 
 }
+function fail_on_error () {
+
+if [[ $? != 0 ]]; then
+    echo ${msg} && false;
+    exit 2
+fi
+}
 
 #-------------------------- END: Functions --------------------------------
 
@@ -69,3 +76,5 @@ prepare_build_folder
 prepare_build_repo
 place_build_artifacts
 cd $DIST_BUILD_PATH
+
+fail_on_error
