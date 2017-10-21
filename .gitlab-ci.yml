@@ -35,7 +35,7 @@ build:client:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
     - cd $PROJECT_ROOT/client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
-    - chmod +x $PROJECT_ROOT/ci-scripts/build_client_dist
+    - sudo chmod +x $PROJECT_ROOT/ci-scripts/build_client_dist
     - cd $PROJECT_ROOT && ci-scripts/build_client_dist
   artifacts:
       name: "$CI_BUILD_REF"
