@@ -14,30 +14,15 @@ SITEDIR_PATH="${DOCROOT_PATH}/sites/${SITE_DIRECTORY}"
 DIST_DIRECTORY=dist
 DIST_CLONE_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/tmp"
 DIST_BUILD_PATH="${PROJECT_ROOT}/${DIST_DIRECTORY}/client-build-artifact"
-BUILD_REPO="git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git"
+BUILD_REPO="${CLIENT_DIST_REPO}"
 
 #-------------------------- END: Settings --------------------------------
-#-------------------------- Helper functions -----------------------------
 
-
-# Load the colors.
-source $PROJECT_ROOT/.docksal/utils/helper-colors.sh
-
-# Load the helpers.
-source $PROJECT_ROOT/.docksal/utils/helper-functions.sh
-
-
-
-#-------------------------- END: Helper ------------------------------
 #-------------------------- Functions --------------------------------
 
 function setup_ssh_key() {
 
-  # TODO: skip on multiple runs
-  mkdir -p ~/.ssh
-  echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-  chmod 600 ~/.ssh/id_rsa
-  ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+  ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
 
 }
 function prepare_build_folder() {
@@ -70,10 +55,7 @@ function place_build_artifacts() {
   cd $PROJECT_ROOT
   ls $DIST_BUILD_PATH/ -al
   rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
-  find $DIST_BUILD_PATH/web/ -type d -name .git -exec rm -rf {} \;
-  find $DIST_BUILD_PATH/web/ -name .gitignore -exec rm {} \;
-  find $DIST_BUILD_PATH/vendor/ -type d -name .git -exec rm -rf {} \;
-  find $DIST_BUILD_PATH/vendor/ -name .gitignore -exec rm {} \;
+
 }
 
 #-------------------------- END: Functions --------------------------------
@@ -82,9 +64,6 @@ function place_build_artifacts() {
 #pass_tag_to_build_repo
 
 setup_ssh_key
-# set the git config, does not necessarily need to happen here
-set_git_credentials
-
 # if remote branch already exists, check it out, otherwise init a new repo and push it to remote
 prepare_build_folder
 prepare_build_repo

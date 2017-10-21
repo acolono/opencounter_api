@@ -17,19 +17,28 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:$CI_BUILD_REF_SLUG
   CONTAINER_RELEASE_IMAGE: registry.acolono.net:444/rosenstrauch/php-fpm:latest
-  BUILD_CLIENT_REPO: git@gitlab.com:rosenstrauch/opencounter_client_swiphler.git
+  BUILD_CLIENT_REPO: ${CLIENT_DIST_REPO}
   PROJECT_ROOT: ${CI_PROJECT_DIR}
 
 build:client:
   stage: build
   image: edbizarro/gitlab-ci-pipeline-php:latest
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+
   script:
-    - cd client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
-    - chmod +x ci-scripts/build_dist
-    - ci-scripts/build_client_dist
-  only:
-    - master
-    - develop
+    - cd $PROJECT_ROOT/client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
+    - sudo chmod +x $PROJECT_ROOT/ci-scripts/build_client_dist
+    - cd $PROJECT_ROOT && ci-scripts/build_client_dist
   artifacts:
       name: "$CI_BUILD_REF"
       untracked: true
@@ -47,13 +56,23 @@ distribute:client:
   # as alternative see https://github.com/KEY-TEC/drupal-8-keytec-demo-target
   image: ilyasemenov/gitlab-ci-git-push
   environment: dist_storage
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
     - cd dist/client-build-artifact
     - git config --global user.email "gracer@gitlab.com"
     - git config --global user.name "grace the Builder"
     - git add --all
     - git commit -am"buildserver commit $CI_BUILD_REF"
-    - git-push $BUILD_REPO $CI_BUILD_REF_NAME
+    - git-push $BUILD_CLIENT_REPO $CI_BUILD_REF_NAME
 
 
 # phpcodesniffer
