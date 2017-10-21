@@ -65,9 +65,6 @@ function place_build_artifacts() {
 #pass_tag_to_build_repo
 
 setup_ssh_key
-# set the git config, does not necessarily need to happen here
-set_git_credentials
-
 # if remote branch already exists, check it out, otherwise init a new repo and push it to remote
 prepare_build_folder
 prepare_build_repo
