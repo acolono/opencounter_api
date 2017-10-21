@@ -74,6 +74,28 @@ services:
      - PMA_HOST=database
     ports:
      - "8181:80"
+
+
+  swyflerphp:
+    hostname: swyflerphp
+    build:
+      context: ./client-example/swyfler
+      dockerfile: /php-fpm/Dockerfile
+    #image: phpdockerio/php7-fpm:latest
+    volumes:
+      - ./:/app:ro
+
+  swyfler:
+    hostname: swyfler
+    image: phpdockerio/nginx:latest
+    volumes:
+      # Project root volume
+      - ./client-example/swyfler:/usr/share/nginx/html:ro
+      - ./client-example/swyfler/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - swyflerphp
+    ports:
+      - "8123:8123"
   #######################################
   # Mailcatcher
   #######################################

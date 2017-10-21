@@ -139,6 +139,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
                 ],
                 [
                     new ClientCredentials($pimple['oauth2_storage']),
+                    new AuthorizationCode($pimple['oauth2_storage']),
                 ]
             );
 

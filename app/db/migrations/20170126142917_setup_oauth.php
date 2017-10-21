@@ -33,7 +33,7 @@ class SetupOauth extends AbstractMigration
       $oauth_clients = $this->table('oauth_clients', array('id' => false, 'primary_key' => array('client_id')));
       $oauth_clients
         ->addColumn('client_id', 'string', ['limit' => 40, 'comment' => 'A unique client identifier'])
-        ->addColumn('user_id', 'string', ['limit' => 40, 'comment' => 'OAUTH_USERS.USER_ID'])
+        ->addColumn('user_id', 'string', ['limit' => 40, 'null' => true, 'comment' => 'OAUTH_USERS.USER_ID'])
         ->addColumn('grant_types', 'string', ['limit' => 80, 'comment' => 'Space-delimited list of permitted grant types'])
         ->addColumn('client_secret', 'string', ['limit' => 40, 'comment' => 'Used to secure Client Credentials Grant'])
         ->addColumn('scope', 'string', ['limit' => 40, 'comment' => 'Space-delimited list of permitted scopes'])
@@ -45,7 +45,7 @@ class SetupOauth extends AbstractMigration
       $oauth_access_tokens
         ->addColumn('access_token', 'string', ['limit' => 80, 'comment' => 'System generated access token'])
         ->addColumn('client_id', 'string', ['limit' => 80, 'comment' => 'OAUTH_CLIENTS.CLIENT_ID'])
-        ->addColumn('user_id', 'string', ['limit' => 80, 'comment' => 'OAUTH_USERS.USER_ID'])
+        ->addColumn('user_id', 'string', ['limit' => 80, 'null' => true, 'comment' => 'OAUTH_USERS.USER_ID'])
         ->addColumn('expires', 'timestamp', ['limit' => 80, 'null' => false,  'comment' => 'When the token becomes invalid'])
         ->addColumn('scope', 'string', ['limit' => 80,  'comment' => 'Space-delimited list of scopes token can access'])
         ->create();
@@ -67,7 +67,7 @@ class SetupOauth extends AbstractMigration
       $oauth_refresh_tokens
         ->addColumn('refresh_token', 'string', ['limit' => 40, 'comment' => 'System generated refresh token'])
         ->addColumn('client_id', 'string', ['limit' => 40, 'comment' => 'OAUTH_CLIENTS.CLIENT_ID'])
-        ->addColumn('user_id', 'string', ['limit' => 40, 'comment' => 'OAUTH_USERS.USER_ID'])
+        ->addColumn('user_id', 'string', ['limit' => 40, 'null' => true, 'comment' => 'OAUTH_USERS.USER_ID'])
         ->addColumn('expires', 'timestamp', ['limit' => 40, 'null' => false, 'comment' => 'When the token becomes invalid'])
         ->addColumn('scope', 'string', ['limit' => 50, 'comment' => 'Space-delimited list scopes token can access'])
 
@@ -87,7 +87,7 @@ class SetupOauth extends AbstractMigration
       $oauth_authorization_codes
         ->addColumn('authorization_code', 'string', ['limit' => 40, 'null' => false, 'comment' =>  'System generated authorization code'])
         ->addColumn('client_id', 'string', ['limit' => 40, 'comment' => 'A unique client identifier'])
-        ->addColumn('user_id', 'string', ['limit' => 40, 'comment' => 'OAUTH_USERS.USER_ID'])
+        ->addColumn('user_id', 'string', ['limit' => 40, 'null' => true, 'comment' => 'OAUTH_USERS.USER_ID'])
         ->addColumn('scope', 'string', ['limit' => 40, 'comment' => 'Space-delimited list of permitted scopes'])
         ->addColumn('redirect_uri', 'string', ['limit' => 50, 'comment' => 'Redirect URI used for Authorization Grant'])
         ->addColumn('id_token', 'string', ['limit' => 50, 'comment' => 'JSON web token used for OpenID Connect'])
