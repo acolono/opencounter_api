@@ -55,8 +55,7 @@ function place_build_artifacts() {
   cd $PROJECT_ROOT
   ls $DIST_BUILD_PATH/ -al
   rsync -r --verbose --exclude '*.git' $PROJECT_ROOT/client-example/swyfler $DIST_BUILD_PATH/
-  find $DIST_BUILD_PATH/app/vendor -type d -name .git -exec rm -rf {} \;
-  find $DIST_BUILD_PATH/app/vendor -name .gitignore -exec rm {} \;
+
 }
 
 #-------------------------- END: Functions --------------------------------
