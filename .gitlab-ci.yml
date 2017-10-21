@@ -37,9 +37,6 @@ build:client:
     - cd $PROJECT_ROOT/client-example/swyfler/app && composer install --no-dev --prefer-dist --no-interaction
     - chmod +x $PROJECT_ROOT/ci-scripts/build_dist
     - cd $PROJECT_ROOT && ci-scripts/build_client_dist
-  only:
-    - master
-    - develop
   artifacts:
       name: "$CI_BUILD_REF"
       untracked: true
