@@ -11,31 +11,9 @@ return
         ],
         'environments' =>
             [
-                'default_database' => 'development',
+                'default_database' => 'connection',
                 'default_migration_table' => 'phinxlog',
-                'development'      =>
-                    [
-                        'adapter' => 'mysql',
-                        'host' => (string) getenv('DB_HOST'),
-                        'name' => (string) getenv('MYSQL_DATABASE'),
-                        'user' => (string) getenv('MYSQL_USER'),
-                        'pass' => (string) getenv('MYSQL_PASSWORD'),
-                        'port' => 3306,
-                        'charset' => 'utf8',
-                        'collation' => 'utf8_unicode_ci',
-                    ],
-                'testing' =>
-                    [
-                        'adapter' => 'mysql',
-                        'host' => (string) getenv('DB_HOST'),
-                        'name' => (string) getenv('MYSQL_DATABASE'),
-                        'user' => (string) getenv('MYSQL_USER'),
-                        'pass' => (string) getenv('MYSQL_PASSWORD'),
-                        'port' => 3306,
-                        'charset' => 'utf8',
-                        'collation' => 'utf8_unicode_ci',
-                    ],
-                'production' =>
+                'connection'      =>
                     [
                         'adapter' => 'mysql',
                         'host' => (string) getenv('DB_HOST'),
