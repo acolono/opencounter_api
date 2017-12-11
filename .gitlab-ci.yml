@@ -5,7 +5,7 @@
 # https://gitlab.com/gitlab-com/support-forum/issues/950#note_15025732
 image: tmaier/docker-compose:17.03
 services:
-  - docker:dind
+  - docker:17.09-dind
 
 # define different pipelines for our jobs
 stages:
