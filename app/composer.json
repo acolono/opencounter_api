@@ -1,7 +1,7 @@
 {
   "name": "acolono/slim-opencounter",
   "description": "A Slim Framework implementation of opencounter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "keywords": [
     "microframework",
     "rest",
@@ -36,7 +36,7 @@
     "zircote/swagger-php": "~2.0.7",
     "ramsey/uuid": "^3.5",
     "robmorgan/phinx": "^0.6.4",
-    "slimcounter/default_theme": "^1.0",
+    "acolono/opencounter_theme": "^1.1.0",
     "tuupola/cors-middleware": "^0.5.2",
     "rosenstrauch/opencounter_api_core": "^0.3",
     "vlucas/phpdotenv": "^2.4",

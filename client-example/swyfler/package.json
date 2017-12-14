@@ -1,6 +1,6 @@
 {
   "name": "opencounterclient-example",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "php client for opencounter api",
   "main": "index.js",
   "repository": "https://gitlab.com/rosenstrauch/opencounterclient-example",
