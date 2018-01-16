@@ -33,9 +33,7 @@ services:
        - php-fpm
 
     php-fpm:
-      build:
-        context: .
-        dockerfile: phpdocker/php-fpm/Dockerfile
+      image: registry.acolono.net:444/rosenstrauch/php-fpm:latest
       container_name: opencounter-slim-php-fpm
       working_dir: /application
       volumes:
