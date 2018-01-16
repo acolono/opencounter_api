@@ -80,7 +80,7 @@ services:
     hostname: swyflerphp
     build:
       context: ./client-example/swyfler
-      dockerfile: /php-fpm/Dockerfile
+      dockerfile: /docker/php-fpm/Dockerfile
     #image: phpdockerio/php7-fpm:latest
     volumes:
       - ./:/app:ro
