@@ -188,7 +188,7 @@ deploy:swagger:
     # Generate Documentation from swagger.json from releases stage.
     - docker run -v /builds/open-counter/SlimCounter/docs/swagger/:/local swaggerapi/swagger-codegen-cli generate -i /local/json/swagger.json -l html -o /local/out/html/
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/"
-    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" docs/swagger $DEPLOY_USER@artur.acolono.net:/web
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" docs/swagger $DEPLOY_USER@artur.acolono.net:web/slimcounter_swagger_reports
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
@@ -214,7 +214,7 @@ deploy:phpdoc:
     - tags
   script:
     - echo "Deploy phpdocs to https://ocdocs.artur.acolono.net/docs"
-    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/public/docs $DEPLOY_USER@artur.acolono.net:/web
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/public/docs $DEPLOY_USER@artur.acolono.net:web/slimcounter_phpdoc_reports
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
@@ -240,7 +240,7 @@ deploy:behatreports:
   script:
     - ls ./app/tests/behat/reports/html
     - echo "Deploy docs to https://ocdocs.artur.acolono.net/reports/slimcounter"
-    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/tests/behat/reports $DEPLOY_USER@artur.acolono.net:/web/reports/slimcounter
+    - rsync -avuz --rsh="ssh -o StrictHostKeyChecking=no -l $DEPLOY_USER" app/tests/behat/reports $DEPLOY_USER@artur.acolono.net:/web/slimcounter_behat_reports
   environment:
     name: docs
     url: https://ocdocs.artur.acolono.net/
