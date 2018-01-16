@@ -11,7 +11,7 @@
   ],
   "require": {
     "chrishemmings/oauth2-drupal": "dev-simple_oauth",
-    "slimcounter/default_theme": "^1.0",
+    "acolono/opencounter_theme": "^1.1.0",
     "jl6m/swagger-lite": "^0.1.0"
   },
   "authors": [{

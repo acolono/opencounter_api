@@ -17,7 +17,7 @@ return [
 
       // Renderer settings
     'renderer' => [
-      'theme_path' => APP_ROOT . '/themes/default_theme/',
+      'theme_path' => APP_ROOT . '/themes/opencounter_theme/',
       'cache_path' => APP_ROOT . '/cache/',
 
     ],
